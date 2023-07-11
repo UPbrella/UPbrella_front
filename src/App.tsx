@@ -1,20 +1,25 @@
-import { ROUTES } from "@/routes/router";
+import MainLayout from "@/components/templates/common/MainLayout";
 import { Route, Routes } from "react-router-dom";
+import { NOT_LAYOUT_ROUTES } from "./routes/notLayoutRouter";
+import { LAYOUT_ROUTES } from "@/routes/layoutRouter";
 
 function App() {
   return (
     <div>
-      {/* Global Header */}
-
-      {/* Route */}
       <Routes>
         {/* Not Found Page */}
 
-        {ROUTES.map((route) => {
+        {/* Route */}
+        <Route element={<MainLayout />}>
+          {LAYOUT_ROUTES.map((route) => {
+            return <Route key={route.name} path={route.path} element={<route.component />} />;
+          })}
+        </Route>
+
+        {NOT_LAYOUT_ROUTES.map((route) => {
           return <Route key={route.name} path={route.path} element={<route.component />} />;
         })}
       </Routes>
-      {/* Global footer */}
     </div>
   );
 }
