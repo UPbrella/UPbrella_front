@@ -1,6 +1,6 @@
 import React from "react";
 import { Story } from "@storybook/react";
-import ImgSwiper from "./";
+import ImgSwiper from "src/components/organisms/ImgSwiper/index";
 
 export default {
   title: "organisms/ImgSwiper",
