@@ -4,7 +4,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
 import "swiper/css/navigation";
-import "src/components/organisms/ImgSwiper/styles.css";
+import "@/components/organisms/ImgSwiper/styles.css";
 
 export default function ImgSwiper() {
   return (
