@@ -6,7 +6,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "@/components/organisms/ImgSwiper/styles.css";
 
-export default function ImgSwiper() {
+const ImgSwiper = () => {
   return (
     <Swiper
       className="w-440 h-280 rounded-20"
@@ -27,4 +27,6 @@ export default function ImgSwiper() {
       <SwiperSlide>Slide 4</SwiperSlide>
     </Swiper>
   );
-}
+};
+
+export default ImgSwiper;
