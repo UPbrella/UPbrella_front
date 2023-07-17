@@ -14,6 +14,7 @@ const ImgSwiper = () => {
       spaceBetween={10}
       slidesPerView={1}
       navigation
+      loop
       scrollbar={{ draggable: true }}
     >
       <SwiperSlide>
