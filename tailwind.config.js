@@ -8,7 +8,8 @@ export default {
     extend: {
       width: px0_1000,
       height: px0_1000,
-      borderRadius: px0_100,
+      borderRadius: px0_1000,
+      fontSize: px0_100,
       colors: {
         "main-color": "#E86F52",
         "sub-color": "#FEF4F2",
