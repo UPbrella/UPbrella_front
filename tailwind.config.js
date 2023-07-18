@@ -12,6 +12,7 @@ export default {
       colors: {
         "main-color": "#E86F52",
         "sub-color": "#FEF4F2",
+        gray: "#666666",
       },
     },
   },
