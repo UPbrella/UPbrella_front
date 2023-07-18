@@ -28,6 +28,7 @@ export default {
         "gray-200": "#EEEEEE",
         "gray-100": "#F8F8FA",
         red: "#FF0000",
+        white: "#FFFFFF",
       },
     },
   },
