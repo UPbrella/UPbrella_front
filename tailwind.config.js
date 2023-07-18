@@ -11,8 +11,8 @@ export default {
       borderRadius: px0_1000,
       fontSize: px0_100,
       colors: {
-        "main-color": "#E86F52",
-        "sub-color": "#FEF4F2",
+        "primary-200": "#FEF4F2",
+        "primary-500": "#E86F52",
         "gray-300": "#DDDDDD",
         "gray-600": "#666666",
         "gray-700": "#333333",
