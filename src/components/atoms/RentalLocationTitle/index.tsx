@@ -1,4 +1,7 @@
-import { TRentalLocationTitle } from "@/types/label/RentalLocationTitleTypes";
+export type TRentalLocationTitle = {
+  title: string;
+  category: string[];
+};
 
 const RentalLocationTitle = ({ title, category }: TRentalLocationTitle) => {
   return (

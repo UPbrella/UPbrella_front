@@ -1,6 +1,5 @@
 import { Meta, Story } from "@storybook/react";
-import RentalLocationBtn from "@/components/atoms/RentalLocationBtn/index";
-import { TRentalLocationBtn } from "@/types/btn/RentalLocationBtnTypes";
+import RentalLocationBtn, { TRentalLocationBtn } from "@/components/atoms/RentalLocationBtn/index";
 
 export default {
   title: "Example/RentalLocationBtn",

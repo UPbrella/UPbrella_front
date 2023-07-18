@@ -1,7 +1,6 @@
 import { Meta, Story } from "@storybook/react";
 
-import { TRentalLocationTitle } from "@/types/label/RentalLocationTitleTypes";
-import RentalLocationTitle from ".";
+import RentalLocationTitle, { TRentalLocationTitle } from ".";
 
 export default {
   title: "Example/RentalLocationTitle",

@@ -1,5 +1,8 @@
-import { TRentalLocationBtn } from "@/types/btn/RentalLocationBtnTypes";
 import { useState } from "react";
+
+export type TRentalLocationBtn = {
+  text: string[];
+};
 
 const RentalLocationBtn = ({ text }: TRentalLocationBtn) => {
   const [activeIndex, setActiveIndex] = useState(0);
