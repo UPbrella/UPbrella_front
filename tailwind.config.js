@@ -13,7 +13,9 @@ export default {
       colors: {
         "main-color": "#E86F52",
         "sub-color": "#FEF4F2",
-        gray: "#666666",
+        "gray-300": "#DDDDDD",
+        "gray-600": "#666666",
+        "gray-700": "#333333",
       },
     },
   },
