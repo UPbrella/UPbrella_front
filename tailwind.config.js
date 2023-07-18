@@ -9,6 +9,10 @@ export default {
       width: px0_1000,
       height: px0_1000,
       borderRadius: px0_100,
+      fontSize: px0_1000,
+      lineHeight: px0_100,
+      padding: px0_100,
+      margin: px0_100,
       colors: {
         "main-color": "#E86F52",
         "sub-color": "#FEF4F2",
