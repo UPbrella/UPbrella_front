@@ -10,28 +10,12 @@ export default {
       height: px0_1000,
       borderRadius: px0_1000,
       fontSize: px0_100,
-      lineHeight: px0_100,
-      padding: px0_100,
-      margin: px0_100,
       colors: {
-        "main-color": "#E86F52",
-        "sub-color": "#FEF4F2",
-        "primary-700": "#E05938",
-        "primary-600": "#E86546",
-
-        "primary-400": "#FCE7E3",
-        "primary-300": "#FCEDEA",
-
-        "primary-100": "#FFFCFC",
-        black: "#111111",
-
-        "gray-500": "#999999",
-        "gray-400": "#CCCCCC",
-
-        "gray-200": "#EEEEEE",
-        "gray-100": "#F8F8FA",
-        red: "#FF0000",
-        white: "#FFFFFF",
+        "primary-200": "#FEF4F2",
+        "primary-500": "#E86F52",
+        "gray-300": "#DDDDDD",
+        "gray-600": "#666666",
+        "gray-700": "#333333",
       },
     },
   },
