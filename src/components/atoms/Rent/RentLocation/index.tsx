@@ -1,3 +1,5 @@
+import React from "react";
+
 export type RentLocationProps = {
   label: string;
   isTitle: boolean;
