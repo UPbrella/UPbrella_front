@@ -12,11 +12,12 @@ const Template: StoryFn<typeof RentBasic> = (args: RentBasicProps) => <RentBasic
 export const No = Template.bind({});
 No.args = {
   label: "우산번호",
-  placeholder: "",
+  isRequired: false,
 };
 
 export const Condition = Template.bind({});
 Condition.args = {
   label: "상태신고",
   placeholder: "우산이나 대여 환경에 문제가 있다면 작성해주세요!",
+  isRequired: true,
 };
