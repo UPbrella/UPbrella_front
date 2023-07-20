@@ -1,4 +1,4 @@
-import { Meta, Story } from "@storybook/react";
+import { Meta, StoryFn } from "@storybook/react";
 import RentalLocationBtn, { TRentalLocationBtn } from "@/components/atoms/RentalLocationBtn/index";
 
 export default {
@@ -7,7 +7,7 @@ export default {
   tags: ["autodocs"],
 } as Meta;
 
-const Template: Story<TRentalLocationBtn> = (args) => <RentalLocationBtn {...args} />;
+const Template: StoryFn<TRentalLocationBtn> = (args) => <RentalLocationBtn {...args} />;
 
 export const Default = Template.bind({});
 Default.args = { text: ["신촌", "연희동"] };
