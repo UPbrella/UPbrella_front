@@ -45,39 +45,18 @@ export const StoreTableColumns = Object.keys(Store.STORE_ENUM).map((key) => {
 
 // api -> 테이블 형식으로 포맷팅 함수
 export const getStoreTableData = (storesRes: TStoreDetail[]): TStoreTable[] => {
-  return storesRes.map(
-    ({
-      activateStatus,
-      address,
-      businessHours,
-      classification,
-      contactNumber,
-      coordinate,
-      imageUrls,
-      instagramId,
-      name,
-      umbrellaLocation,
-    }) => {
-      return {
-        activateStatus,
-        address,
-        businessHours,
-        classification,
-        contactNumber,
-        coordinate,
-        instagramId,
-        name,
-        umbrellaLocation,
-        naverMapLink: `https://map.naver.com/v5/search/${address}?c=15,0,0,0,dh`,
-        images: imageUrls.map((e) => {
-          const parts = e.split("com/");
-          if (parts.length >= 2) {
-            const imageName = parts[1].split(".jpg")[0];
-            return `com/${imageName}.jpg`;
-          }
-          return "";
-        }),
-      };
-    }
-  );
+  return storesRes.map((e) => {
+    return {
+      ...e,
+      naverMapLink: `https://map.naver.com/v5/search/${e.address}?c=15,0,0,0,dh`,
+      images: e.imageUrls.map((e) => {
+        const parts = e.split("com/");
+        if (parts.length >= 2) {
+          const imageName = parts[1].split(".jpg")[0];
+          return `com/${imageName}.jpg`;
+        }
+        return "";
+      }),
+    };
+  });
 };
