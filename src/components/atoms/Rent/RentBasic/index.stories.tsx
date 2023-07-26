@@ -9,15 +9,18 @@ export default {
 
 const Template: StoryFn<typeof RentBasic> = (args: RentBasicProps) => <RentBasic {...args} />;
 
+// 이름, 전화번호, 우산번호는 자동으로 입력되는 값이라 placeholder 작성하지 않았습니다.
+export const Name = Template.bind({});
+Name.args = {
+  label: "이름",
+};
+
+export const Phone = Template.bind({});
+Phone.args = {
+  label: "전화번호",
+};
+
 export const No = Template.bind({});
 No.args = {
   label: "우산번호",
-  isRequired: false,
-};
-
-export const Condition = Template.bind({});
-Condition.args = {
-  label: "상태신고",
-  placeholder: "우산이나 대여 환경에 문제가 있다면 작성해주세요!",
-  isRequired: true,
 };
