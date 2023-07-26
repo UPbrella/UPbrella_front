@@ -3,7 +3,7 @@ import Logo from "@/assets/main_logo.svg";
 
 const MobileHeader = () => {
   return (
-    <div className="flex items-center justify-center max-w-640px mx-auto">
+    <div className="flex items-center justify-center max-w-2xl mx-20">
       <div className="absolute left-5">
         <MenuIcon style={{ width: "28px", height: "28px" }} />
       </div>
