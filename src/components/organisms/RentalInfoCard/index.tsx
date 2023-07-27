@@ -2,6 +2,11 @@ import NaverDirectionBtn from "@/components/atoms/NaverDirectionBtn";
 import RentalLocationTitle from "@/components/atoms/RentalLocationTitle";
 import StoreDetailMockData from "@/mocks/StoreDetail";
 import UmbrellaSharpIcon from "@mui/icons-material/UmbrellaSharp";
+import AccessTimeSharpIcon from "@mui/icons-material/AccessTimeSharp";
+import CallOutlinedIcon from "@mui/icons-material/CallOutlined";
+import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
+import WavingHandOutlinedIcon from "@mui/icons-material/WavingHandOutlined";
+import InstagramIcon from "@mui/icons-material/Instagram";
 import React from "react";
 
 type LabelWrapperProps = {
@@ -29,18 +34,15 @@ const RentalInfoCard = () => {
       <UmbrellaSharpIcon className="text-gray-400 mr-16" />,
       `대여가능 우산 ${firstData.umbrellaCount} 개`
     ),
-    LabelWithIcon(<UmbrellaSharpIcon className="text-gray-400 mr-16" />, firstData.businessHours),
-    LabelWithIcon(<UmbrellaSharpIcon className="text-gray-400 mr-16" />, firstData.contactNumber),
+    LabelWithIcon(<AccessTimeSharpIcon className="text-gray-400 mr-16" />, firstData.businessHours),
+    LabelWithIcon(<CallOutlinedIcon className="text-gray-400 mr-16" />, firstData.contactNumber),
+    LabelWithIcon(<InstagramIcon className="text-gray-400 mr-16" />, `@${firstData.instagramId}`),
     LabelWithIcon(
-      <UmbrellaSharpIcon className="text-gray-400 mr-16" />,
-      `@${firstData.instagramId}`
-    ),
-    LabelWithIcon(
-      <UmbrellaSharpIcon className="text-gray-400 mr-16" />,
+      <PlaceOutlinedIcon className="text-gray-400 mr-16" />,
       `@${firstData.storeLocation}`
     ),
     LabelWithIcon(<div className="text-primary-500 ml-40">{firstData.umbrellaLocation}</div>),
-    LabelWithIcon(<UmbrellaSharpIcon className="text-gray-400 mr-16" />, firstData.content),
+    LabelWithIcon(<WavingHandOutlinedIcon className="text-gray-400 mr-16" />, firstData.content),
   ];
 
   return (
