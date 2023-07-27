@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-export type TRentalLocationBtn = {
+export type TLocationClassificationBtn = {
   text: string[];
 };
 
-const RentalLocationBtn = ({ text }: TRentalLocationBtn) => {
+const LocationClassificationBtn = ({ text }: TLocationClassificationBtn) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const handleClick = (index: number) => {
     setActiveIndex(index);
@@ -18,7 +18,7 @@ const RentalLocationBtn = ({ text }: TRentalLocationBtn) => {
             activeIndex === index
               ? "text-primary-500 border-primary-500"
               : "text-gray-700 border-gray-300"
-          } font-semibold px-4 py-2 mr-2 rounded-999 border text-15`}
+          } font-semibold px-16 py-8 mr-8 rounded-999 border text-15`}
           onClick={() => handleClick(index)}
         >
           {item}
@@ -28,4 +28,4 @@ const RentalLocationBtn = ({ text }: TRentalLocationBtn) => {
   );
 };
 
-export default RentalLocationBtn;
+export default LocationClassificationBtn;
