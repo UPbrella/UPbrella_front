@@ -14,7 +14,7 @@ type LabelWrapperProps = {
 };
 
 const LabelWrapper: React.FC<LabelWrapperProps> = ({ children }) => {
-  return <div className="mb-18 text-gray-700">{children}</div>;
+  return <div className="mt-18 text-gray-700">{children}</div>;
 };
 
 const LabelWithIcon = (icon?: React.ReactNode, content?: React.ReactNode) => {
@@ -41,14 +41,14 @@ const RentalInfoCard = () => {
       <PlaceOutlinedIcon className="text-gray-400 mr-16" />,
       `@${firstData.storeLocation}`
     ),
-    LabelWithIcon(<div className="text-primary-500 ml-40">{firstData.umbrellaLocation}</div>),
+    <div className="text-primary-500 ml-40">{firstData.umbrellaLocation}</div>,
     LabelWithIcon(<WavingHandOutlinedIcon className="text-gray-400 mr-16" />, firstData.content),
   ];
 
   return (
     <div className="border-gray-200 border w-400 h-600 rounded-20 px-24 pt-32">
       <RentalLocationTitle title={firstData.name} category={firstData.category} />
-      <div className="py-24">
+      <div className="pt-24 pb-6">
         <NaverDirectionBtn />
       </div>
       {labels}
