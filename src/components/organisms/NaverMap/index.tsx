@@ -1,17 +1,22 @@
-import React, { useEffect } from "react";
-import webMarker from "@/assets/web-marker.svg"; // SVG 파일을 import
+import React, { useEffect, useRef } from "react";
+import webMarker from "@/assets/web-marker.svg";
 
 const NaverMap = () => {
+  const mapRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
     const initMap = () => {
-      const map = new naver.maps.Map("map", {
+      if (!mapRef.current) return;
+
+      const map = new naver.maps.Map(mapRef.current, {
         center: new naver.maps.LatLng(37.56085742773332, 126.93548935431897),
         zoom: 17,
       });
 
       const markerPosition = new naver.maps.LatLng(37.56085742773332, 126.93548935431897);
 
-      const marker = new naver.maps.Marker({
+      // 마커 추가
+      new naver.maps.Marker({
         position: markerPosition,
         map: map,
         icon: {
@@ -19,21 +24,21 @@ const NaverMap = () => {
         },
       });
 
-      // 마커 아래에 라벨을 표시할 DOM 요소 생성
       const labelDiv = document.createElement("div");
-      labelDiv.innerHTML = "연세대학교 신촌캠퍼스 공학원"; // 라벨 텍스트 설정
-      labelDiv.style.color = "#333333"; // 글자 색상 설정
+      labelDiv.innerHTML = "연세대학교 신촌캠퍼스 공학원";
+      labelDiv.style.color = "#333333";
       labelDiv.style.fontSize = "14px";
       labelDiv.style.fontWeight = "600";
 
-      // 라벨의 크기를 구한 뒤 중심점을 계산하여 anchor 값으로 설정
       const labelSize = new naver.maps.Size(labelDiv.offsetWidth, labelDiv.offsetHeight);
-      const labelMarker = new naver.maps.Marker({
+
+      // 라벨 추가
+      new naver.maps.Marker({
         position: markerPosition,
         map: map,
         icon: {
           content: labelDiv,
-          anchor: new naver.maps.Point(labelSize.width + 50, labelSize.height - 42), // 라벨의 중심점을 마커의 위치에 맞게 조정
+          anchor: new naver.maps.Point(labelSize.width + 50, labelSize.height - 42),
         },
       });
     };
@@ -61,10 +66,9 @@ const NaverMap = () => {
 
   return (
     <>
-      {/* tailwind test */}
       <div className="flex">
         <header className="text-xl font-bold">지도 페이지</header>
-        <div id="map" style={mapStyle}></div>
+        <div id="map" ref={mapRef} style={mapStyle}></div>
       </div>
     </>
   );

@@ -19,5 +19,7 @@ module.exports = {
   plugins: [],
   rules: {
     "no-console": "error",
+    "@typescript-eslint/no-unused-vars": "off",
+    // 네이버 지도 api 사용으로 불가피하게 해당 규칙을 끔
   },
 };
