@@ -1,5 +1,4 @@
 import { Meta, StoryFn } from "@storybook/react";
-
 import RentalLocationTitle, { TRentalLocationTitle } from ".";
 
 export default {
