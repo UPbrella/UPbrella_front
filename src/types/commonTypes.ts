@@ -12,5 +12,5 @@ export type TTableColumn<T> = {
   id: T;
   label: string;
   align: "left" | "right" | "center";
-  formatFn?: (param: string | boolean | string[]) => ReactNode;
+  formatFn?: (param: number | string | boolean | string[]) => ReactNode;
 };
