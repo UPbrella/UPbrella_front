@@ -3,7 +3,7 @@ import instagram from "@/assets/instagram.svg";
 
 const CardFooterSns = () => {
   return (
-    <div className="flex items-center gap-x-3">
+    <div className="flex items-center gap-x-3 pt-16">
       <div className="text-gray-500 text-sm">FOLLOW US</div>
       <div className="bg-kakao rounded-99 w-40 h-40 flex justify-center items-center">
         <img alt="message" src={message} />
