@@ -1,6 +1,5 @@
 export type RentBasicProps = {
   label: string;
-  placeholder?: string;
 };
 
 const RentBasic = ({ label, placeholder }: RentBasicProps) => {
@@ -10,7 +9,6 @@ const RentBasic = ({ label, placeholder }: RentBasicProps) => {
       <input
         className="w-full h-48 mt-4 rounded-8 p-12 gap-2.5 text-15 text-gray-500 leading-22 placeholder-gray-300 bg-gray-100"
         type="text"
-        placeholder={placeholder}
       />
     </div>
   );

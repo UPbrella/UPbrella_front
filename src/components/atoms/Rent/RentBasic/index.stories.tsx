@@ -9,7 +9,6 @@ export default {
 
 const Template: StoryFn<typeof RentBasic> = (args: RentBasicProps) => <RentBasic {...args} />;
 
-// 이름, 전화번호, 우산번호는 자동으로 입력되는 값이라 placeholder 작성하지 않았습니다.
 export const Name = Template.bind({});
 Name.args = {
   label: "이름",
