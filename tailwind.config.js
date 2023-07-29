@@ -31,6 +31,7 @@ export default {
         "gray-100": "#F8F8FA",
         red: "#FF0000",
         white: "#FFFFFF",
+        kakao: "#FEE500",
       },
     },
   },
