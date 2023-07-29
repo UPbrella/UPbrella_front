@@ -6,14 +6,19 @@ const NaverMap = () => {
 
   useEffect(() => {
     const initMap = () => {
+      if (!window.naver || !window.naver.maps) {
+        // console.error("네이버 지도 API가 로드되지 않았습니다.");
+        return;
+      }
+
       if (!mapRef.current) return;
 
-      const map = new naver.maps.Map(mapRef.current, {
-        center: new naver.maps.LatLng(37.56085742773332, 126.93548935431897),
+      const markerPosition = new naver.maps.LatLng(37.56085742773332, 126.93548935431897);
+
+      const map = new window.naver.maps.Map(mapRef.current, {
+        center: markerPosition,
         zoom: 17,
       });
-
-      const markerPosition = new naver.maps.LatLng(37.56085742773332, 126.93548935431897);
 
       // 마커 추가
       new naver.maps.Marker({
@@ -43,9 +48,11 @@ const NaverMap = () => {
       });
     };
 
-    // 네이버 지도 API 로드 후 initMap 함수 호출
+    // 네이버 지도 API 로드
     const script = document.createElement("script");
-    script.src = "https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=o6zrrodz08";
+    script.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${
+      import.meta.env.VITE_NAVER_MAP_API_CLIENT_ID
+    }`;
     script.async = true;
     document.head.appendChild(script);
 
@@ -56,6 +63,7 @@ const NaverMap = () => {
     return () => {
       document.head.removeChild(script);
     };
+    initMap();
   }, []);
 
   const mapStyle = {
@@ -67,7 +75,6 @@ const NaverMap = () => {
   return (
     <>
       <div className="flex">
-        <header className="text-xl font-bold">지도 페이지</header>
         <div id="map" ref={mapRef} style={mapStyle}></div>
       </div>
     </>

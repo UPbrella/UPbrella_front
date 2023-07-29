@@ -9,11 +9,11 @@ import WavingHandOutlinedIcon from "@mui/icons-material/WavingHandOutlined";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import React from "react";
 
-type LabelWrapperProps = {
+type TProps = {
   children: React.ReactNode;
 };
 
-const LabelWrapper: React.FC<LabelWrapperProps> = ({ children }) => {
+const LabelWrapper = ({ children }: TProps) => {
   return <div className="mt-18 text-gray-700">{children}</div>;
 };
 

@@ -13,7 +13,7 @@ const LocationClassificationBtn = ({ text }: TLocationClassificationBtn) => {
     <div>
       {text.map((item, index) => (
         <button
-          key={index}
+          key={item}
           className={`${
             activeIndex === index
               ? "text-primary-500 border-primary-500"
