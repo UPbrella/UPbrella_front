@@ -1,5 +1,6 @@
-import StoreFormWrapper from "@/components/pages/admin/store/StoreFormWrapper";
+import StoreFormWrapper from "@/components/pages/admin/store/UI/StoreFormWrapper";
 import useModalStatus from "@/hooks/custom/useModalStatus";
+import DaumPostcode from "react-daum-postcode";
 import { TStoreDetail } from "@/types/admin/StoreTypes";
 import {
   Button,
@@ -11,7 +12,6 @@ import {
   TextField,
   TextareaAutosize,
 } from "@mui/material";
-import DaumPostcode from "react-daum-postcode";
 
 type TProps = {
   storeData: TStoreDetail;
@@ -185,6 +185,7 @@ const StoreModalBody = ({ storeData, onChangeStoreData }: TProps) => {
           name="classification"
           onChange={onChangeStoreData}
         >
+          {/* 변경 예정 */}
           <MenuItem value={10}>Ten</MenuItem>
           <MenuItem value={20}>Twenty</MenuItem>
           <MenuItem value={30}>Thirty</MenuItem>
@@ -199,6 +200,7 @@ const StoreModalBody = ({ storeData, onChangeStoreData }: TProps) => {
           name="subClassification"
           onChange={onChangeStoreData}
         >
+          {/* 변경 예정 */}
           <MenuItem value={10}>Ten</MenuItem>
           <MenuItem value={20}>Twenty</MenuItem>
           <MenuItem value={30}>Thirty</MenuItem>
