@@ -1,13 +1,13 @@
-import RentBasic from "./index";
-import { RentBasicProps } from "./index";
+import FormBasic from "./index";
+import { FormBasicProps } from "./index";
 import { Meta, StoryFn } from "@storybook/react";
 
 export default {
-  title: "atoms/Rent/RentBasic",
-  component: RentBasic,
-} as Meta<typeof RentBasic>;
+  title: "atoms/Form/FormBasic",
+  component: FormBasic,
+} as Meta<typeof FormBasic>;
 
-const Template: StoryFn<typeof RentBasic> = (args: RentBasicProps) => <RentBasic {...args} />;
+const Template: StoryFn<typeof FormBasic> = (args: FormBasicProps) => <FormBasic {...args} />;
 
 export const Name = Template.bind({});
 Name.args = {

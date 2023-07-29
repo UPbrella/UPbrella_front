@@ -1,11 +1,11 @@
 import React from "react";
 
-export type RentLocationProps = {
+export type FormLocationProps = {
   label: string;
   isTitle?: boolean;
 };
 
-const RentLocation = ({ label, isTitle }: RentLocationProps) => {
+const FormLocation = ({ label, isTitle }: FormLocationProps) => {
   const ratioWidth = isTitle ? "30%" : "70%";
 
   return (
@@ -20,4 +20,4 @@ const RentLocation = ({ label, isTitle }: RentLocationProps) => {
   );
 };
 
-export default RentLocation;
+export default FormLocation;

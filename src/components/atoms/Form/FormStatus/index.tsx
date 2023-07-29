@@ -1,11 +1,11 @@
 import { useRef, useEffect, useState, ChangeEvent } from "react";
 
-export type RentStatusProps = {
+export type FormStatusProps = {
   label: string;
   placeholder?: string;
 };
 
-const RentStatus = ({ label, placeholder }: RentStatusProps) => {
+const FormStatus = ({ label, placeholder }: FormStatusProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [isWriting, setIsWriting] = useState(false);
 
@@ -48,4 +48,4 @@ const RentStatus = ({ label, placeholder }: RentStatusProps) => {
   );
 };
 
-export default RentStatus;
+export default FormStatus;
