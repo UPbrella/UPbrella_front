@@ -2,26 +2,20 @@ import React from "react";
 
 export type RentLocationProps = {
   label: string;
-  isTitle: boolean;
-  location: string;
+  isTitle?: boolean;
 };
 
-const RentLocation = ({ label, isTitle, location }: RentLocationProps) => {
-  const width = isTitle ? "96px" : "216px";
-
-  // TODO 미리 입력받고 값이 정해져있는 경우엔 디자인 수정이 필요할듯함
+const RentLocation = ({ label, isTitle }: RentLocationProps) => {
+  const ratioWidth = isTitle ? "30%" : "70%";
 
   return (
-    <div className="flex-col w-330 p-5">
+    <div className="flex-col p-5 mb-32" style={{ width: ratioWidth }}>
       <div className="flex items-center mb-4 text-gray-700 text-15 leading-22 font-normal mr-4">
         {label}
       </div>
-      <input
-        className="w-full h-48 mt-4 rounded-lg border border-gray-300 p-12 text-15 text-gray-700 leading-22 font-normal placeholder-gray-300"
-        type="text"
-        placeholder={location}
-        style={{ width }}
-      />
+      <div className="h-48 mt-4 rounded-8 p-12 text-15 text-gray-500 leading-22 placeholder-gray-300 bg-gray-100">
+        TODO
+      </div>
     </div>
   );
 };
