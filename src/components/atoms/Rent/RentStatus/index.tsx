@@ -7,7 +7,7 @@ export type RentStatusProps = {
 
 const RentStatus = ({ label, placeholder }: RentStatusProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const [writing, setWriting] = useState(false);
+  const [isWriting, setIsWriting] = useState(false);
 
   useEffect(() => {
     // 컴포넌트가 마운트될 때마다 textarea의 높이를 자동으로 설정
@@ -25,11 +25,11 @@ const RentStatus = ({ label, placeholder }: RentStatusProps) => {
     }
 
     const { value } = event.target;
-    setWriting(value !== "");
+    setIsWriting(!!value.leangth);
   };
 
-  const borderColor = writing ? "gray-600" : "gray-300";
-  const textColor = writing ? "black" : "gray-400";
+  const borderColor = isWriting ? "gray-600" : "gray-300";
+  const textColor = isWriting ? "black" : "gray-400";
 
   return (
     <div className="flex-col w-330 p-5">
