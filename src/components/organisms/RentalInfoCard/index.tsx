@@ -46,7 +46,7 @@ const RentalInfoCard = () => {
   ];
 
   return (
-    <div className="border-gray-200 border w-400 h-600 rounded-20 px-24 pt-32">
+    <div className="border-gray-200 border w-400 h-600 rounded-20 px-24 pt-32 mt-16">
       <RentalLocationTitle title={firstData.name} category={firstData.category} />
       <div className="pt-24 pb-6">
         <NaverDirectionBtn />

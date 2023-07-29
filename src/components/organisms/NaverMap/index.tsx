@@ -67,14 +67,14 @@ const NaverMap = () => {
   }, []);
 
   const mapStyle = {
-    width: "896px",
+    width: "936px",
     height: "896px",
     borderRadius: "20px",
   };
 
   return (
     <>
-      <div className="flex">
+      <div className="flex ml-24">
         <div id="map" ref={mapRef} style={mapStyle}></div>
       </div>
     </>
