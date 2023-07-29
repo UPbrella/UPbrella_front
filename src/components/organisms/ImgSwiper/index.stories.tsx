@@ -1,4 +1,4 @@
-import { Story } from "@storybook/react";
+import { StoryFn } from "@storybook/react";
 import ImgSwiper from "@/components/organisms/ImgSwiper/index";
 
 export default {
@@ -6,7 +6,7 @@ export default {
   component: ImgSwiper,
 };
 
-const Template: Story = (args) => <ImgSwiper {...args} />;
+const Template: StoryFn = (args) => <ImgSwiper {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {};

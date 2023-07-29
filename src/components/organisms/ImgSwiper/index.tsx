@@ -9,7 +9,7 @@ import "@/components/organisms/ImgSwiper/styles.css";
 const ImgSwiper = () => {
   return (
     <Swiper
-      className="w-440 h-280 rounded-20"
+      className="w-400 h-280 rounded-20"
       modules={[Navigation, Pagination, Scrollbar, A11y]}
       spaceBetween={10}
       slidesPerView={1}
