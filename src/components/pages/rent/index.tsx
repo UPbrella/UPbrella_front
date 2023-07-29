@@ -4,7 +4,7 @@ import RentStatus from "@/components/atoms/Rent/RentStatus";
 import RentButton from "@/components/atoms/Rent/RentButton";
 import RentLocationMolecules from "@/components/molecules/RentLocationMolecules";
 
-const RentTemplate = () => {
+const RentPage = () => {
   return (
     <div className="flex-col max-w-2xl">
       <MobileHeader />
@@ -21,4 +21,4 @@ const RentTemplate = () => {
   );
 };
 
-export default RentTemplate;
+export default RentPage;
