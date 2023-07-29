@@ -25,14 +25,14 @@ const RentStatus = ({ label, placeholder }: RentStatusProps) => {
     }
 
     const { value } = event.target;
-    setIsWriting(!!value.leangth);
+    setIsWriting(Boolean(value));
   };
 
   const borderColor = isWriting ? "gray-600" : "gray-300";
   const textColor = isWriting ? "black" : "gray-400";
 
   return (
-    <div className="flex-col w-330 p-5">
+    <div className="flex-col max-w-2xl p-5 mb-32">
       <div className="flex items-center mb-4 text-gray-700 text-15 leading-22 font-normal">
         {label}
         <div className="ml-4 text-gray-500 text-12 font-normal">(선택)</div>
