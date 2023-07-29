@@ -14,7 +14,7 @@ const RentLocation = ({ label, isTitle }: RentLocationProps) => {
         {label}
       </div>
       <div className="h-48 mt-4 rounded-8 p-12 text-15 text-gray-500 leading-22 placeholder-gray-300 bg-gray-100">
-        신촌
+        TODO
       </div>
     </div>
   );
