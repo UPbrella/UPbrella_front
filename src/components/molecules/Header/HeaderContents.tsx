@@ -6,7 +6,7 @@ export const HeaderContents = () => {
   return (
     <>
       <AppBar color="default">
-        <Container maxWidth="xl">
+        <Container disableGutters maxWidth="lg" className="px-40">
           <Toolbar disableGutters>
             <Link to={"/"}>
               <HeaderLogo />

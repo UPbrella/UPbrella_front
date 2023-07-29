@@ -18,7 +18,7 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <div>
+      <div className="max-w-[1440px] px-40 mx-auto">
         <Routes>
           {/* Not Found Page */}
 

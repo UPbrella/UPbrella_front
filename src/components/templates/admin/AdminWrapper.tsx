@@ -7,7 +7,7 @@ type TProps = {
 
 const AdminWrapper = ({ children }: TProps) => {
   return (
-    <div className="flex max-w-[1500px] mx-auto px-[30px]">
+    <div className="flex">
       {/* 어드민 메뉴 */}
       <AdminMenu />
 
