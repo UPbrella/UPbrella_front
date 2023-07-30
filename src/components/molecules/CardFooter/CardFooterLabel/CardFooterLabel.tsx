@@ -1,5 +1,3 @@
-import React from "react";
-
 const CardFooterLabel = () => {
   return (
     <div className="flex gap-6 text-sm text-gray-700">

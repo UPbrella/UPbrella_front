@@ -1,12 +1,8 @@
 import { TRoute } from "@/types/commonTypes";
 import HomeMainPage from "@/components/pages/home/HomeMainPage";
 import RentHistoryPage from "@/components/pages/admin/RentHistoryPage";
-// <<<<<<< HEAD
-// import StoreManagePage from "@/components/pages/admin/StoreManagePage";
 import RentalLocationPage from "@/components/pages/RentalLocation/RentalLocationPage";
-// =======
 import StoreManagePage from "@/components/pages/admin/store/StoreManagePage";
-// >>>>>>> f5e72423d614d5b5ff293e4896b2d3995835ce4d
 
 /**
  * Header, footer의 layout이 필요한 페이지

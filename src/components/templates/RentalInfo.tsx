@@ -4,7 +4,7 @@ import RentalInfoCard from "../organisms/RentalInfoCard";
 
 export default function RentalInfo() {
   return (
-    <div className="flex-col ㅎ메">
+    <div className="flex-col">
       <ImgSwiper />
       <RentalInfoCard />
     </div>
