@@ -1,3 +1,7 @@
+.swiper {
+  margin-left: 0;
+}
+
 .swiper-button-next::after,
 .swiper-button-prev::after {
   display: none;

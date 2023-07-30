@@ -1,6 +1,7 @@
 import { TRoute } from "@/types/commonTypes";
 import HomeMainPage from "@/components/pages/home/HomeMainPage";
 import RentHistoryPage from "@/components/pages/admin/RentHistoryPage";
+import RentalLocationPage from "@/components/pages/RentalLocation/RentalLocationPage";
 import StoreManagePage from "@/components/pages/admin/store/StoreManagePage";
 
 /**
@@ -22,5 +23,10 @@ export const LAYOUT_ROUTES: TRoute[] = [
     name: "어드민 협업 지점 관리 페이지",
     path: "/admin/stores",
     component: StoreManagePage,
+  },
+  {
+    name: "대여소 위치 페이지",
+    path: "/rentalLocation",
+    component: RentalLocationPage,
   },
 ];
