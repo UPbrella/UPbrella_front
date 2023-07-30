@@ -1,8 +1,8 @@
-export type RentBasicProps = {
+export type FormBasicProps = {
   label: string;
 };
 
-const RentBasic = ({ label }: RentBasicProps) => {
+const FormBasic = ({ label }: FormBasicProps) => {
   return (
     <div className="flex-col max-w-2xl p-5 mb-32">
       <div className="flex items-center mb-4 text-gray-700 text-15 leading-22 mr-4">{label}</div>
@@ -13,4 +13,4 @@ const RentBasic = ({ label }: RentBasicProps) => {
   );
 };
 
-export default RentBasic;
+export default FormBasic;
