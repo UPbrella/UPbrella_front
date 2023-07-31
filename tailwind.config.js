@@ -32,6 +32,7 @@ export default {
         red: "#FF0000",
         white: "#FFFFFF",
         kakao: "#FEE500",
+        kakaoblack: "#000000",
       },
     },
   },
