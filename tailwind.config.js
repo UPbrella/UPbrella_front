@@ -6,6 +6,7 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      maxWidth: px0_1000,
       width: px0_1000,
       height: px0_1000,
       borderRadius: px0_1000,
