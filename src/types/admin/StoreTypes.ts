@@ -1,21 +1,40 @@
-// api 데이터
+// admin 협업지점
+
+import { TDayOfWeek } from "@/types/commonTypes";
+
+// admin 협업지점 조회(전체 조회, 이미 생성된)
 export type TStoreDetail = {
-  id?: number;
+  id: number;
   name: string;
   category: string;
-  // classification, subClassification 은 객체 형식으로 변경될 예정
-  classification: string; // "신촌"
-  subClassification: string; // "~동"
+  classification: TClassification; // "신촌"
+  subClassification: TSubClassification; // "~동"
   activateStatus: boolean; // 활성화 여부
   address: string;
+  addressDetail: string;
+  thumbnail: string; // 썸네일
   umbrellaLocation: string;
-  businessHours: string; // "09:00 ~ 18:00";
+  businessHour: string; // 뭐지
   contactNumber?: string; // "010-0000-0000";
   instagramId?: string; // "upbrella";
-  latitude: number | string;
-  longitude: number | string;
-  imageUrls: string[]; // src url]
+  latitude: number | null;
+  longitude: number | null;
   content: string;
+  imageUrls: TStoreImage[];
+  businessHours: TStoreBusinessHours[]; // "09:00 ~ 18:00";
+};
+
+// api response
+export type TStoreAllRes = { stores: TStoreDetail[] };
+
+// api request
+export type TStoreParams = Omit<
+  TStoreDetail,
+  "id" | "classification" | "subClassification" | "thumbnail" | "imageUrls"
+> & {
+  classificationId: number | null;
+  subClassificationId: number | null;
+  password: string;
 };
 
 // 표에서 확인할 데이터
@@ -25,3 +44,30 @@ export type TStoreTable = TStoreDetail & {
 };
 
 export type TStoreTableKey = keyof TStoreTable;
+
+// 지역 태그 (대분류)
+export type TClassification = {
+  id: number;
+  type: "classification";
+  name: string;
+  latitude: number;
+  longitude: number;
+};
+
+// 지역 태그 (소분류)
+export type TSubClassification = {
+  id: number;
+  type: "subClassification";
+  name: string;
+};
+
+export type TStoreImage = {
+  id: number;
+  imagesUrl: string;
+};
+
+export type TStoreBusinessHours = {
+  date: TDayOfWeek;
+  openAt: string;
+  closeAt: string;
+};
