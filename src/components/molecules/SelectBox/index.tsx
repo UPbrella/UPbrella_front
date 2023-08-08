@@ -1,7 +1,7 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 type TMenuItem = {
-  label: string | number;
+  label: string;
   value: string | number;
 };
 
