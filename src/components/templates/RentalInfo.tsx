@@ -1,6 +1,5 @@
-import React from "react";
-import ImgSwiper from "../organisms/ImgSwiper";
-import RentalInfoCard from "../organisms/RentalInfoCard";
+import ImgSwiper from "@/components/organisms/ImgSwiper/index";
+import RentalInfoCard from "@/components/organisms/RentalInfoCard/index";
 
 export default function RentalInfo() {
   return (
