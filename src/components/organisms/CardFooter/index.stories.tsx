@@ -1,13 +1,13 @@
 import { Meta, StoryFn } from "@storybook/react";
-import CardFooter from ".";
+import Footer from ".";
 
 export default {
   title: "organisms/CardFooter",
-  component: CardFooter,
+  component: Footer,
   tags: ["autodocs"],
 } as Meta;
 
-const Template: StoryFn = () => <CardFooter />;
+const Template: StoryFn = () => <Footer />;
 
 export const Default = Template.bind({});
 Default.args = {};

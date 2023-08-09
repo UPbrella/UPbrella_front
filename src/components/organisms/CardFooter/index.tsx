@@ -1,11 +1,11 @@
-import CardFooterLabel from "@/components/molecules/CardFooter/CardFooterLabel/CardFooterLabel";
-import CardFooterSns from "@/components/molecules/CardFooter/CardFooterSNS/CardFooterSns";
+import FooterLabel from "@/components/molecules/Footer/FooterLabel";
+import FooterSns from "@/components/molecules/Footer/FooterSNS";
 
 const CardFooter = () => {
   return (
-    <div>
-      <CardFooterLabel />
-      <CardFooterSns />
+    <div className="mt-44 mb-54">
+      <FooterLabel />
+      <FooterSns />
     </div>
   );
 };
