@@ -7,12 +7,12 @@ type TProps = {
 
 const AdminWrapper = ({ children }: TProps) => {
   return (
-    <div className="flex">
-      {/* 어드민 메뉴 */}
+    <div className="">
+      {/* TODO: 어드민 메뉴 > 탭 형식으로 변경 고려 */}
       <AdminMenu />
 
       {/* 페이지 별 컨텐츠 */}
-      <div className="flex-1 mt-[16px] mx-[16px] ">{children}</div>
+      <div className="flex-1 mt-[16px]]">{children}</div>
     </div>
   );
 };

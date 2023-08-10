@@ -1,29 +1,77 @@
 import StoreFormWrapper from "@/components/pages/admin/store/UI/StoreFormWrapper";
 import useModalStatus from "@/hooks/custom/useModalStatus";
 import DaumPostcode from "react-daum-postcode";
-import { TStoreDetail } from "@/types/admin/StoreTypes";
+import { TStoreBusinessHours, TStoreParams } from "@/types/admin/StoreTypes";
 import {
   Button,
   FormControlLabel,
-  MenuItem,
   Radio,
   RadioGroup,
-  Select,
   TextField,
   TextareaAutosize,
+  Typography,
 } from "@mui/material";
+import SelectBox from "@/components/molecules/SelectBox";
+import { useState } from "react";
+import { createSelectItems } from "@/utils/selectBox";
+import { DAY_OF_WEEK } from "@/constants/Date";
+import { getFilterBusinessTime } from "@/components/pages/admin/store/helper";
+import { TDayOfWeek } from "@/types/commonTypes";
 
 type TProps = {
-  storeData: TStoreDetail;
-  onChangeStoreData: (e: { target: { name: string; value: string | number } }) => void;
+  storeData: TStoreParams;
+  onChangeStoreData: (e: {
+    target: { name: string; value: string | number | null | TStoreBusinessHours[] };
+  }) => void;
 };
 
-const StoreModalBody = ({ storeData, onChangeStoreData }: TProps) => {
+const StoreModalContents = ({ storeData, onChangeStoreData }: TProps) => {
   const {
     isOpen: isOpenAddress,
     handleOpen: handleOpenAddress,
     handleClose: handleCloseAddress,
   } = useModalStatus();
+
+  const [dayInputState, setDayInputState] = useState<TStoreBusinessHours>({
+    date: "MONDAY",
+    openAt: "11:00",
+    closeAt: "20:00",
+  });
+
+  const onChangeDayInput = (name: string, value: string | number | null) => {
+    if (name === "openAt" || name === "closeAt") {
+      const _value = getFilterBusinessTime(dayInputState[name], value as string);
+      if (_value === undefined) return;
+
+      setDayInputState((prev) => ({
+        ...prev,
+        [name]: _value,
+      }));
+      return;
+    }
+
+    setDayInputState((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const onClickHourAdd = () => {
+    const foundData = storeData.businessHours.find((e) => e.date === dayInputState.date);
+    if (foundData) return;
+
+    onChangeStoreData({
+      target: { name: "businessHours", value: [...storeData.businessHours, dayInputState] },
+    });
+  };
+
+  const onClickHourRemove = (date: TDayOfWeek) => {
+    const filterData = storeData.businessHours.filter((e) => e.date !== date);
+
+    onChangeStoreData({
+      target: { name: "businessHours", value: filterData },
+    });
+  };
 
   /* 협업지점 관련 내용 입력 폼 */
   return (
@@ -48,38 +96,72 @@ const StoreModalBody = ({ storeData, onChangeStoreData }: TProps) => {
         />
       </StoreFormWrapper>
 
-      {/* 영업 시간 */}
-      <StoreFormWrapper label="영업 시간" isRequired>
-        <TextField
-          placeholder="10:00 ~ 18:00"
-          value={storeData.businessHours}
-          name="businessHours"
-          onChange={onChangeStoreData}
-        />
-      </StoreFormWrapper>
-
-      {/* 연락처 */}
-      <StoreFormWrapper label="연락처">
-        <div className="flex gap-2 items-center">
-          <TextField
-            placeholder="010-0000-0000"
-            value={storeData.contactNumber}
-            name="contactNumber"
-            onChange={onChangeStoreData}
+      {/* TODO: 위치 태그 api 로 받아와서 dropdown 선택 */}
+      {/* 대여소 위치 내 지역 태그 */}
+      <StoreFormWrapper label="대여소 위치 내 지역 태그" isRequired>
+        <div>
+          <SelectBox
+            label="대분류" // 명칭 미정
+            value={storeData.classificationId ?? ""}
+            name="classificationId"
+            onChange={(name, value) => onChangeStoreData({ target: { name, value } })}
+            menuItems={[]}
           />
         </div>
       </StoreFormWrapper>
 
-      {/* 인스타그램 계정 */}
-      <StoreFormWrapper label="인스타그램 계정">
-        <div className="flex gap-2 items-center">
-          @
-          <TextField
-            placeholder="upbrella"
-            value={storeData.instagramId}
-            name="instagramId"
-            onChange={onChangeStoreData}
+      {/* 협업지점 소개페이지 내 지역 태그 */}
+      <StoreFormWrapper label="협업지점 소개페이지 내 지역 태그" isRequired>
+        <div>
+          <SelectBox
+            label="소분류" // 명칭 미정
+            value={storeData.subClassificationId ?? ""}
+            name="subClassificationId"
+            onChange={(name, value) => onChangeStoreData({ target: { name, value } })}
+            menuItems={[]}
           />
+        </div>
+      </StoreFormWrapper>
+
+      {/* 영업 시간 */}
+      <StoreFormWrapper label="영업 시간" isRequired>
+        <div>
+          <div className="flex items-center gap-4 w-[600px]">
+            <SelectBox
+              label="요일"
+              value={dayInputState.date}
+              name="date"
+              onChange={onChangeDayInput}
+              menuItems={createSelectItems(DAY_OF_WEEK)}
+            />
+            {/* TODO: openAt < closeAt 검증 필요 */}
+            <TextField
+              placeholder="10:00"
+              value={dayInputState.openAt}
+              name="openAt"
+              onChange={({ target: { name, value } }) => onChangeDayInput(name, value)}
+            />
+            ~
+            <TextField
+              placeholder="18:00"
+              value={dayInputState.closeAt}
+              name="closeAt"
+              onChange={({ target: { name, value } }) => onChangeDayInput(name, value)}
+            />
+            <Button onClick={onClickHourAdd}>추가</Button>
+          </div>
+          <div className="mt-6">
+            {storeData.businessHours.map(({ date, openAt, closeAt }) => {
+              return (
+                <Typography align="right" variant="subtitle1" key={date}>
+                  {`${DAY_OF_WEEK[date]} ${openAt} ~ ${closeAt}`}{" "}
+                  <Button color="error" onClick={() => onClickHourRemove(date)}>
+                    X
+                  </Button>
+                </Typography>
+              );
+            })}
+          </div>
         </div>
       </StoreFormWrapper>
 
@@ -117,8 +199,9 @@ const StoreModalBody = ({ storeData, onChangeStoreData }: TProps) => {
           {/* detail address 필요? */}
           <TextField
             placeholder="상세 주소를 입력해주세요."
-            // name="name"
-            // onChange={onChangeStoreData}
+            name="addressDetail"
+            value={storeData.addressDetail}
+            onChange={onChangeStoreData}
           />
         </div>
       </StoreFormWrapper>
@@ -130,6 +213,44 @@ const StoreModalBody = ({ storeData, onChangeStoreData }: TProps) => {
             placeholder="upbrella"
             value={storeData.umbrellaLocation}
             name="umbrellaLocation"
+            onChange={onChangeStoreData}
+          />
+        </div>
+      </StoreFormWrapper>
+
+      {/* 북마커 활성화 여부 */}
+      <StoreFormWrapper label="북마커 활성화 여부" isRequired>
+        <RadioGroup
+          defaultValue="NO"
+          value={storeData.activateStatus}
+          name="activateStatus"
+          onChange={onChangeStoreData}
+        >
+          <FormControlLabel value={true} control={<Radio />} label="YES" />
+          <FormControlLabel value={false} control={<Radio />} label="NO" />
+        </RadioGroup>
+      </StoreFormWrapper>
+
+      {/* 연락처 */}
+      <StoreFormWrapper label="연락처">
+        <div className="flex gap-2 items-center">
+          <TextField
+            placeholder="숫자만 입력해주세요."
+            value={storeData.contactNumber}
+            name="contactNumber"
+            onChange={onChangeStoreData}
+          />
+        </div>
+      </StoreFormWrapper>
+
+      {/* 인스타그램 계정 */}
+      <StoreFormWrapper label="인스타그램 계정">
+        <div className="flex gap-2 items-center">
+          @
+          <TextField
+            placeholder="upbrella"
+            value={storeData.instagramId}
+            name="instagramId"
             onChange={onChangeStoreData}
           />
         </div>
@@ -153,7 +274,7 @@ const StoreModalBody = ({ storeData, onChangeStoreData }: TProps) => {
       </StoreFormWrapper>
 
       {/* 이미지 업로드 */}
-      <StoreFormWrapper label="이미지 업로드">
+      {/* <StoreFormWrapper label="이미지 업로드">
         <div className="flex gap-2 items-center">
           <TextField
             placeholder="upbrella"
@@ -162,52 +283,9 @@ const StoreModalBody = ({ storeData, onChangeStoreData }: TProps) => {
             value={storeData.imageUrls}
           />
         </div>
-      </StoreFormWrapper>
-
-      {/* 북마커 활성화 여부 */}
-      <StoreFormWrapper label="북마커 활성화 여부">
-        <RadioGroup
-          defaultValue="NO"
-          value={storeData.activateStatus}
-          name="activateStatus"
-          onChange={onChangeStoreData}
-        >
-          <FormControlLabel value={true} control={<Radio />} label="YES" />
-          <FormControlLabel value={false} control={<Radio />} label="NO" />
-        </RadioGroup>
-      </StoreFormWrapper>
-
-      {/* 대여소 위치 내 지역 태그 */}
-      <StoreFormWrapper label="대여소 위치 내 지역 태그">
-        <Select
-          value={storeData.classification}
-          style={{ width: "200px" }}
-          name="classification"
-          onChange={onChangeStoreData}
-        >
-          {/* 변경 예정 */}
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
-        </Select>
-      </StoreFormWrapper>
-
-      {/* 협업지점 소개페이지 내 지역 태그 */}
-      <StoreFormWrapper label="협업지점 소개페이지 내 지역 태그">
-        <Select
-          value={storeData.subClassification}
-          style={{ width: "200px" }}
-          name="subClassification"
-          onChange={onChangeStoreData}
-        >
-          {/* 변경 예정 */}
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
-        </Select>
-      </StoreFormWrapper>
+      </StoreFormWrapper> */}
     </div>
   );
 };
 
-export default StoreModalBody;
+export default StoreModalContents;
