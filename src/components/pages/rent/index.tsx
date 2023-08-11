@@ -9,7 +9,7 @@ import RentModalAccount from "@/components/atoms/Form/RentModalAccount";
 import RentModalFinish from "@/components/atoms/Form/RentModalFinish";
 
 const RentPage = () => {
-  // const [isRent, setIsRent] = useState<boolean>(false);
+  const [isRent, setIsRent] = useState(false);
   const { isOpen, handleOpen, handleClose } = useModalStatus(); // 보증금 입금 안내 모달
 
   const [isModal, setIsModal] = useState(false); // 자물쇠 비밀번호 안내 모달
@@ -20,8 +20,7 @@ const RentPage = () => {
     <div className="flex-col max-w-2xl">
       <MobileHeader />
       <div className="mt-20 text-24 font-semibold leading-32 text-black">
-        {/* {isRent ? "우산을 빌렸어요!" : "우산을 빌릴까요?"} */}
-        우산을 빌릴까요?
+        {isRent ? "우산을 빌렸어요!" : "우산을 빌릴까요?"}
       </div>
       <div className="mt-16 mb-32 max-w-2xl border border-gray-200 rounded-12 p-16">
         <ul className="list-disc text-8 ml-16">
@@ -43,7 +42,7 @@ const RentPage = () => {
       <FormButton label="대여하기" handleOpen={handleOpen} />
 
       {isOpen && <RentModalAccount handleClose={handleClose} modalOpen={modalOpen} />}
-      {isModal && <RentModalFinish modalClose={modalClose} />}
+      {isModal && <RentModalFinish modalClose={modalClose} setIsRent={setIsRent} />}
     </div>
   );
 };
