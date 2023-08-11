@@ -1,8 +1,14 @@
 export type RentModalFinishProps = {
   modalClose: () => void;
+  setIsRent: (value: boolean) => void;
 };
 
-const RentModalFinish = ({ modalClose }: RentModalFinishProps) => {
+const RentModalFinish = ({ modalClose, setIsRent }: RentModalFinishProps) => {
+  const handleFinish = () => {
+    setIsRent(true);
+    modalClose();
+  };
+
   return (
     <div className="max-w-2xl fixed top-0 left-0 bottom-0 right-0 bg-black bg-opacity-10 z-50 flex justify-center items-center">
       <div className="w-380 h-246 bg-white mx-20 rounded-8 flex justify-center items-center">
@@ -27,7 +33,7 @@ const RentModalFinish = ({ modalClose }: RentModalFinishProps) => {
               <div className="flex mt-16">
                 <div
                   className="w-full border font-semibold leading-24 mr-8 rounded-8 text-white py-12 text-center bg-primary-500 cursor-pointer"
-                  onClick={modalClose}
+                  onClick={handleFinish}
                 >
                   확인
                 </div>
