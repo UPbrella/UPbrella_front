@@ -35,8 +35,8 @@ const StoreAddressInput = ({ storeData, onChangeStoreData, setStoreData }: TProp
     if (!mapElement.current || !naver) return;
 
     const _location = new naver.maps.LatLng(
-      storeData.longitude ?? DEFAULT_COORDINATE.lat,
-      storeData.latitude ?? DEFAULT_COORDINATE.lng
+      storeData.latitude ?? DEFAULT_COORDINATE.lat,
+      storeData.longitude ?? DEFAULT_COORDINATE.lng
     );
 
     const mapOptions: naver.maps.MapOptions = {
