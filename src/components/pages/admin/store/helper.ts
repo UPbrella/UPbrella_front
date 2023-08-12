@@ -1,6 +1,9 @@
+import { DEFAULT_COORDINATE } from "@/components/pages/admin/store/UI/StoreAddressInput";
 import {
   TStoreDetail,
   TStoreParams,
+  TClassification,
+  TClassificationParams,
   TSubClassification,
   TSubClassificationParams,
 } from "@/types/admin/StoreTypes";
@@ -111,4 +114,18 @@ export const subClassificationTagInitializer = (
   return {
     name: "",
   } satisfies TSubClassificationParams;
+};
+
+// 대분류 state 설정
+export const ClassificationTagInitializer = (res?: TClassification): TClassificationParams => {
+  if (res) {
+    const { latitude, longitude, name } = res;
+    return { latitude, longitude, name } satisfies TClassificationParams;
+  }
+
+  return {
+    latitude: DEFAULT_COORDINATE.lat,
+    longitude: DEFAULT_COORDINATE.lng,
+    name: "",
+  } satisfies TClassificationParams;
 };
