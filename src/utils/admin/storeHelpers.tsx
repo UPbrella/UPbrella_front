@@ -1,7 +1,14 @@
 import Store from "@/constants/Store";
-import { TStoreDetail, TStoreTable, TStoreTableKey } from "@/types/admin/StoreTypes";
+import { DAY_OF_WEEK } from "@/constants/Date";
 import { TTableColumn } from "@/types/commonTypes";
-import { Link } from "@mui/material";
+import {
+  TClassification,
+  TStoreBusinessHours,
+  TStoreDetail,
+  TStoreTable,
+  TStoreTableKey,
+  TSubClassification,
+} from "@/types/admin/StoreTypes";
 
 // 협업지점 테이블 Column 생성
 export const StoreTableColumns = Object.keys(Store.STORE_ENUM).map((key) => {
@@ -10,30 +17,50 @@ export const StoreTableColumns = Object.keys(Store.STORE_ENUM).map((key) => {
   // format 함수
   let formatFn;
 
-  // 활성 true일 때 Y, false 면 N
-  if (_key === "activateStatus") {
-    formatFn = (status: boolean) => (status ? "Y" : "N");
+  switch (_key) {
+    case "activateStatus":
+      formatFn = (status: boolean) => (status ? "Y" : "N");
+      break;
+    case "businessHours":
+      formatFn = (hours: TStoreBusinessHours[]) => (
+        <>
+          {hours.map(({ date, openAt, closeAt }) => (
+            <div key={date}>{`${DAY_OF_WEEK[date]} : ${openAt} ~ ${closeAt}`}</div>
+          ))}
+        </>
+      );
+      break;
+    case "classification":
+      formatFn = (value: TClassification) => {
+        return <>{value.name}</>;
+      };
+      break;
+    case "subClassification":
+      formatFn = (value: TSubClassification) => {
+        return <>{value.name}</>;
+      };
+      break;
   }
 
   // 지도 링크
-  if (_key === "naverMapLink") {
-    formatFn = (link: string) => (
-      <Link target="_blank" rel="noopener" href={link}>
-        링크
-      </Link>
-    );
-  }
+  // if (_key === "naverMapLink") {
+  //   formatFn = (link: string) => (
+  //     <Link target="_blank" rel="noopener" href={link}>
+  //       링크
+  //     </Link>
+  //   );
+  // }
 
   // 이미지 현재는 텍스트만 return
-  if (_key === "images") {
-    formatFn = (imgStrList: string[]) => (
-      <div>
-        {imgStrList.map((e) => (
-          <div key={e}>{e}</div>
-        ))}
-      </div>
-    );
-  }
+  // if (_key === "images") {
+  //   formatFn = (imgStrList: string[]) => (
+  //     <div>
+  //       {imgStrList.map((e) => (
+  //         <div key={e}>{e}</div>
+  //       ))}
+  //     </div>
+  //   );
+  // }
 
   return {
     id: _key,
@@ -48,14 +75,10 @@ export const getStoreTableData = (storesRes: TStoreDetail[]): TStoreTable[] => {
   return storesRes.map((e) => {
     return {
       ...e,
+      // TODO: 네이버 주소랑, 이미지 테이블에서 조회할 때, 어떻게 할지 고민
       naverMapLink: `https://map.naver.com/v5/search/${e.address}?c=15,0,0,0,dh`,
       images: e.imageUrls.map((e) => {
-        const parts = e.split("com/");
-        if (parts.length >= 2) {
-          const imageName = parts[1].split(".jpg")[0];
-          return `com/${imageName}.jpg`;
-        }
-        return "";
+        return e.imagesUrl;
       }),
     };
   });

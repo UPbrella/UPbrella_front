@@ -5,5 +5,6 @@ export const useGetStores = () => {
   return useQuery({
     queryKey: ["stores"],
     queryFn: () => getStores(),
+    select: (res) => res.data.stores,
   });
 };
