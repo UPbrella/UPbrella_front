@@ -1,6 +1,5 @@
+import { getStores, getClassifications, getSubClassifications } from "@/api/storeApi";
 import { useQuery } from "react-query";
-import { getClassifications, getStores } from "@/api/storeApi";
-
 export const useGetStores = () => {
   return useQuery({
     queryKey: ["stores"],
@@ -14,5 +13,13 @@ export const useGetClassifications = () => {
     queryKey: ["classifications"],
     queryFn: () => getClassifications(),
     select: (res) => res.data.classifications,
+  });
+};
+
+export const useGetSubClassifications = () => {
+  return useQuery({
+    queryKey: ["subClassifications"],
+    queryFn: () => getSubClassifications(),
+    select: (res) => res.data.subClassifications,
   });
 };

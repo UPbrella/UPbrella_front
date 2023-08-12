@@ -54,19 +54,6 @@ export type TClassification = {
   longitude: number | null;
 };
 
-// api response
-export type TClassificationAllRes = { classifications: TClassification[] };
-
-// api request
-export type TClassificationParams = Omit<TClassification, "id" | "type">;
-
-// 지역 태그 (소분류)
-export type TSubClassification = {
-  id: number;
-  type: "subClassification";
-  name: string;
-};
-
 export type TStoreImage = {
   id: number;
   imagesUrl: string;
@@ -77,3 +64,22 @@ export type TStoreBusinessHours = {
   openAt: string;
   closeAt: string;
 };
+
+// api response
+export type TClassificationAllRes = { classifications: TClassification[] };
+
+// api request
+export type TClassificationParams = Omit<TClassification, "id" | "type">;
+
+// 지역 태그 (소분류)
+export type TSubClassification = {
+  id: number;
+  type: "SUB_CLASSIFICATION";
+  name: string;
+};
+
+// sub-class api response
+export type TSubClassificationAllRes = { subClassifications: TSubClassification[] };
+
+// sub-class api request
+export type TSubClassificationParams = Omit<TSubClassification, "id" | "type">;
