@@ -102,20 +102,6 @@ export const getFilterBusinessTime = (prevInput: string, currInput: string) => {
   return currInput;
 };
 
-// 소분류 state 설정
-export const subClassificationTagInitializer = (
-  res?: TSubClassification
-): TSubClassificationParams => {
-  if (res) {
-    const { name } = res;
-    return { name } satisfies TSubClassificationParams;
-  }
-
-  return {
-    name: "",
-  } satisfies TSubClassificationParams;
-};
-
 // 대분류 state 설정
 export const ClassificationTagInitializer = (res?: TClassification): TClassificationParams => {
   if (res) {
@@ -128,4 +114,18 @@ export const ClassificationTagInitializer = (res?: TClassification): TClassifica
     longitude: DEFAULT_COORDINATE.lng,
     name: "",
   } satisfies TClassificationParams;
+};
+
+// 소분류 state 설정
+export const subClassificationTagInitializer = (
+  res?: TSubClassification
+): TSubClassificationParams => {
+  if (res) {
+    const { name } = res;
+    return { name } satisfies TSubClassificationParams;
+  }
+
+  return {
+    name: "",
+  } satisfies TSubClassificationParams;
 };

@@ -1,19 +1,19 @@
 import { $axios } from "@/lib/axios";
 import {
   TStoreAllRes,
-  TSubClassificationAllRes,
-  TSubClassificationParams,
   TClassificationAllRes,
   TClassificationParams,
+  TSubClassificationAllRes,
+  TSubClassificationParams,
 } from "@/types/admin/StoreTypes";
 import { TApiResponse } from "@/types/commonTypes";
 
 const API = {
   ADMIN_STORES: () => `/stores`,
-  ADMIN_SUBCLASSIFICATIONS: (id?: number) =>
-    id ? `/stores/subClassifications/${id}` : "/stores/subClassifications",
   ADMIN_CLASSIFICATIONS: (id?: number) =>
     id ? `/stores/classifications/${id}` : "/stores/classifications/",
+  ADMIN_SUBCLASSIFICATIONS: (id?: number) =>
+    id ? `/stores/subClassifications/${id}` : "/stores/subClassifications",
 } as const;
 
 // 협업지점 전체 조회

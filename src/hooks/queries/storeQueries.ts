@@ -9,18 +9,18 @@ export const useGetStores = () => {
   });
 };
 
-export const useGetSubClassifications = () => {
-  return useQuery({
-    queryKey: ["subClassifications"],
-    queryFn: () => getSubClassifications(),
-    select: (res) => res.data.subClassifications,
-  });
-};
-
 export const useGetClassifications = () => {
   return useQuery({
     queryKey: ["classifications"],
     queryFn: () => getClassifications(),
     select: (res) => res.data.classifications,
+  });
+};
+
+export const useGetSubClassifications = () => {
+  return useQuery({
+    queryKey: ["subClassifications"],
+    queryFn: () => getSubClassifications(),
+    select: (res) => res.data.subClassifications,
   });
 };
