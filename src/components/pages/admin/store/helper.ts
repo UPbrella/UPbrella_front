@@ -1,4 +1,9 @@
-import { TStoreDetail, TStoreParams } from "@/types/admin/StoreTypes";
+import {
+  TStoreDetail,
+  TStoreParams,
+  TSubClassification,
+  TSubClassificationParams,
+} from "@/types/admin/StoreTypes";
 
 // 협업지점 추가 시, 초기값 설정
 export const storeInitializer = (res?: TStoreDetail): TStoreParams => {
@@ -92,4 +97,18 @@ export const getFilterBusinessTime = (prevInput: string, currInput: string) => {
     if (prevInput) return `${currInput.slice(0, 2)}:${currInput.slice(2)}`;
   }
   return currInput;
+};
+
+// 소분류 state 설정
+export const subClassificationTagInitializer = (
+  res?: TSubClassification
+): TSubClassificationParams => {
+  if (res) {
+    const { name } = res;
+    return { name } satisfies TSubClassificationParams;
+  }
+
+  return {
+    name: "",
+  } satisfies TSubClassificationParams;
 };
