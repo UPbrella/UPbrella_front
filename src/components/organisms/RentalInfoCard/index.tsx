@@ -39,7 +39,7 @@ const RentalInfoCard = () => {
     LabelWithIcon(<InstagramIcon className="text-gray-400 mr-16" />, `@${firstData.instagramId}`),
     LabelWithIcon(
       <PlaceOutlinedIcon className="text-gray-400 mr-16" />,
-      `@${firstData.storeLocation}`
+      `${firstData.storeLocation}`
     ),
     <div className="text-primary-500 ml-40">{firstData.umbrellaLocation}</div>,
     LabelWithIcon(<WavingHandOutlinedIcon className="text-gray-400 mr-16" />, firstData.content),
