@@ -7,6 +7,7 @@ import { useState } from "react";
 import useModalStatus from "@/hooks/custom/useModalStatus";
 import RentModalAccount from "@/components/atoms/Form/RentModalAccount";
 import RentModalFinish from "@/components/atoms/Form/RentModalFinish";
+import FormModal from "@/components/molecules/FormModal";
 
 const RentPage = () => {
   const [isRent, setIsRent] = useState(false);
@@ -41,8 +42,16 @@ const RentPage = () => {
       <FormStatus label="상태신고" placeholder="우산이나 대여 환경에 문제가 있다면 작성해주세요!" />
       <FormButton label="대여하기" handleOpen={handleOpen} />
 
-      {isOpen && <RentModalAccount handleClose={handleClose} modalOpen={modalOpen} />}
-      {isModal && <RentModalFinish modalClose={modalClose} setIsRent={setIsRent} />}
+      {isOpen && (
+        <FormModal height="286">
+          <RentModalAccount handleClose={handleClose} modalOpen={modalOpen} />
+        </FormModal>
+      )}
+      {isModal && (
+        <FormModal height="266">
+          <RentModalFinish modalClose={modalClose} setIsRent={setIsRent} />
+        </FormModal>
+      )}
     </div>
   );
 };
