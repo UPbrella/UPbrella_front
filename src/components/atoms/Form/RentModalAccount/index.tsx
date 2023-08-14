@@ -1,12 +1,15 @@
 export type RentModalAccountProps = {
-  handleClose: () => void;
-  modalOpen: () => void;
+  handleCloseDepositModal: () => void;
+  handleOpenLockPwModal: () => void;
 };
 
-const RentModalAccount = ({ handleClose, modalOpen }: RentModalAccountProps) => {
+const RentModalAccount = ({
+  handleCloseDepositModal,
+  handleOpenLockPwModal,
+}: RentModalAccountProps) => {
   const copyAccountToClipboard = () => {
-    handleClose();
-    modalOpen();
+    handleCloseDepositModal(); // (1) 보증금 입금 안내 모달 close
+    handleOpenLockPwModal(); // (2) 자물쇠 비밀번호 안내 모달 open
     navigator.clipboard.writeText(account);
   };
 
@@ -38,7 +41,7 @@ const RentModalAccount = ({ handleClose, modalOpen }: RentModalAccountProps) => 
       <div className="flex mt-16">
         <div
           className="w-80 border border-gray-300 mr-8 rounded-8 text-gray-700 py-12 text-center"
-          onClick={handleClose}
+          onClick={handleCloseDepositModal}
         >
           취소
         </div>
