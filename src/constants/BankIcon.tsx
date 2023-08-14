@@ -30,7 +30,7 @@ export const BankIcon = {
   IBK기업: <img src={IbkIcon} alt="IBK기업 아이콘" />,
   하나: <img src={HanaIcon} alt="하나 아이콘" />,
   새마을: <img src={MgIcon} alt="새마을 아이콘" />,
-  부산: <img src={BusanIcon} alt="부산 아이콘" />,
+  부산: <img src={BßusanIcon} alt="부산 아이콘" />,
   대구: <img src={DaeguIcon} alt="대구 아이콘" />,
   케이뱅크: <img src={KbankIcon} alt="케이뱅크 아이콘" />,
   신협: <img src={Shinhyubcon} alt="신협 아이콘" />,
