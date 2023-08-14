@@ -11,17 +11,7 @@ const Template: StoryFn<typeof SignUpFormInputBankName> = (args: SignUpFormInput
   <SignUpFormInputBankName {...args} />
 );
 
-export const Name = Template.bind({});
-Name.args = {
-  label: "이름 입력",
-};
-
-export const PhoneNumber = Template.bind({});
-PhoneNumber.args = {
-  label: "010-1234-5678",
-};
-
 export const RefundAccount = Template.bind({});
 RefundAccount.args = {
-  label: "계좌번호",
+  label: "은행명",
 };
