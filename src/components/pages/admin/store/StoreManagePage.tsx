@@ -1,8 +1,7 @@
 import { Divider } from "@mui/material";
 import AdminWrapper from "@/components/templates/admin/AdminWrapper";
 import StoreList from "@/components/pages/admin/store/UI/StoreList";
-// import LocationMapTagList from "@/components/pages/admin/store/UI/LocationMapTagList";
-// import LocationCategoryTagList from "@/components/pages/admin/store/UI/LocationCategoryTagList";
+import ClassificationTagList from "@/components/pages/admin/store/UI/ClassificationTagList";
 
 // 어드민 > 협업지점 관리 페이지 (+ 위치 태그 관리)
 const StoreManagePage = () => {
@@ -13,11 +12,11 @@ const StoreManagePage = () => {
         <StoreList />
         <Divider />
 
-        {/* 대분류 위치 태그 */}
-        {/* <LocationMapTagList /> */}
-        {/* <Divider /> */}
+        {/* 대여소 위치 태그 - 대분류 태그 */}
+        <ClassificationTagList />
+        <Divider />
 
-        {/* 소분류 위치 태그 */}
+        {/* 지점 소개 위치 태그 - 소분류 태그 */}
         {/* <LocationCategoryTagList /> */}
       </div>
     </AdminWrapper>

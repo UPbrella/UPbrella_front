@@ -1,4 +1,10 @@
-import { TStoreDetail, TStoreParams } from "@/types/admin/StoreTypes";
+import { DEFAULT_COORDINATE } from "@/components/pages/admin/store/UI/StoreAddressInput";
+import {
+  TClassification,
+  TClassificationParams,
+  TStoreDetail,
+  TStoreParams,
+} from "@/types/admin/StoreTypes";
 
 // 협업지점 추가 시, 초기값 설정
 export const storeInitializer = (res?: TStoreDetail): TStoreParams => {
@@ -92,4 +98,18 @@ export const getFilterBusinessTime = (prevInput: string, currInput: string) => {
     if (prevInput) return `${currInput.slice(0, 2)}:${currInput.slice(2)}`;
   }
   return currInput;
+};
+
+// 대분류 state 설정
+export const ClassificationTagInitializer = (res?: TClassification): TClassificationParams => {
+  if (res) {
+    const { latitude, longitude, name } = res;
+    return { latitude, longitude, name } satisfies TClassificationParams;
+  }
+
+  return {
+    latitude: DEFAULT_COORDINATE.lat,
+    longitude: DEFAULT_COORDINATE.lng,
+    name: "",
+  } satisfies TClassificationParams;
 };
