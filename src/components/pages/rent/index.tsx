@@ -4,18 +4,23 @@ import FormStatus from "@/components/atoms/Form/FormStatus";
 import FormButton from "@/components/atoms/Form/FormButton";
 import FormLocationMolecules from "@/components/molecules/FormLocationMolecules";
 import { useState } from "react";
-import useModalStatus from "@/hooks/custom/useModalStatus";
 import RentModalAccount from "@/components/atoms/Form/RentModalAccount";
 import RentModalFinish from "@/components/atoms/Form/RentModalFinish";
 import FormModal from "@/components/molecules/FormModal";
 
 const RentPage = () => {
+  // 대여 전(false), 대여 후(true)
   const [isRent, setIsRent] = useState(false);
-  const { isOpen, handleOpen, handleClose } = useModalStatus(); // 보증금 입금 안내 모달
 
-  const [isModal, setIsModal] = useState(false); // 자물쇠 비밀번호 안내 모달
-  const modalOpen = () => setIsModal(true);
-  const modalClose = () => setIsModal(false);
+  // 보증금 입금 안내 모달
+  const [isOpenDepositModal, setIsOpenDepositModal] = useState(false); // 자물쇠 비밀번호 안내 모달
+  const handleOpenDepositModal = () => setIsOpenDepositModal(true);
+  const handleCloseDepositModal = () => setIsOpenDepositModal(false);
+
+  // 자물쇠 비밀번호 안내 모달
+  const [isOpenLockPwModal, setIsOpenLockPwModal] = useState(false); // 자물쇠 비밀번호 안내 모달
+  const handleOpenLockPwModal = () => setIsOpenLockPwModal(true);
+  const handleCloseLockPwModal = () => setIsOpenLockPwModal(false);
 
   return (
     <div className="flex-col max-w-2xl">
@@ -40,16 +45,19 @@ const RentPage = () => {
       <FormLocationMolecules label="대여지점" />
       <FormBasic label="우산번호" />
       <FormStatus label="상태신고" placeholder="우산이나 대여 환경에 문제가 있다면 작성해주세요!" />
-      <FormButton label="대여하기" handleOpen={handleOpen} />
+      <FormButton label="대여하기" handleOpen={handleOpenDepositModal} />
 
-      {isOpen && (
+      {isOpenDepositModal && (
         <FormModal height="286">
-          <RentModalAccount handleClose={handleClose} modalOpen={modalOpen} />
+          <RentModalAccount
+            handleCloseDepositModal={handleCloseDepositModal}
+            handleOpenLockPwModal={handleOpenLockPwModal}
+          />
         </FormModal>
       )}
-      {isModal && (
+      {isOpenLockPwModal && (
         <FormModal height="266">
-          <RentModalFinish modalClose={modalClose} setIsRent={setIsRent} />
+          <RentModalFinish handleCloseLockPwModal={handleCloseLockPwModal} setIsRent={setIsRent} />
         </FormModal>
       )}
     </div>
