@@ -12,6 +12,6 @@ const LoginRedirect = () => {
     return res.data;
   };
 
-  return;
+  return <div>Loading</div>;
 };
 export default LoginRedirect;
