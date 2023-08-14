@@ -1,7 +1,7 @@
 import message from "@/assets/message.svg";
 import instagram from "@/assets/instagram.svg";
 
-const CardFooterSns = () => {
+const FooterSns = () => {
   return (
     <div className="flex items-center gap-x-3 pt-16">
       <div className="text-gray-500 text-sm">FOLLOW US</div>
@@ -14,4 +14,4 @@ const CardFooterSns = () => {
     </div>
   );
 };
-export default CardFooterSns;
+export default FooterSns;

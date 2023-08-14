@@ -1,13 +1,13 @@
 import FooterLabel from "@/components/molecules/Footer/FooterLabel";
 import FooterSns from "@/components/molecules/Footer/FooterSNS";
 
-const CardFooter = () => {
+const Footer = () => {
   return (
-    <div className="mt-44 mb-54">
+    <div className="flex justify-between bg-white px-40 py-20">
       <FooterLabel />
       <FooterSns />
     </div>
   );
 };
 
-export default CardFooter;
+export default Footer;

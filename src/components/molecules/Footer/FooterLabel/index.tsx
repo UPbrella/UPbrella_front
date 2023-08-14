@@ -1,4 +1,4 @@
-const CardFooterLabel = () => {
+const FooterLabel = () => {
   return (
     <div className="flex gap-6 text-sm text-gray-700">
       <button>이용약관</button>
@@ -7,4 +7,4 @@ const CardFooterLabel = () => {
     </div>
   );
 };
-export default CardFooterLabel;
+export default FooterLabel;
