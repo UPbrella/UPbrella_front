@@ -1,6 +1,9 @@
 # Build stage
 FROM node:18 AS build
 
+# root 에 app 폴더를 생성
+RUN mkdir /app
+
 WORKDIR /app
 
 # Copy package.json and package-lock.json
@@ -25,7 +28,7 @@ COPY --from=build /app/build /usr/share/nginx/html
 RUN rm /etc/nginx/conf.d/default.conf
 
 # custom 설정파일을 컨테이너 내부로 복사한다.
-COPY nginx/nginx.conf /etc/nginx/conf.d
+COPY ./nginx/nginx.conf /etc/nginx/conf.d
 
 # Expose port 80
 EXPOSE 80
