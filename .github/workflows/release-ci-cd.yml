@@ -2,7 +2,7 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ "release", "feat/#160-front-aws-pipeline" ]
+    branches: [ "release", "refs/heads/feat-160-front-aws-pipeline" ]
 
 
 env:
@@ -41,7 +41,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
-          role-duration-seconds: 1200
 
       - name: Login to Amazon ECR
         id: login-ecr
