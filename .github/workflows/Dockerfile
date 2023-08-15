@@ -7,13 +7,13 @@ RUN mkdir /app
 WORKDIR /app
 
 # Copy package.json and package-lock.json
-COPY package*.json ./
+COPY package*.json /app/package.json
 
 # Install dependencies
 RUN npm install
 
 # Copy the rest of the application code
-COPY .. .
+COPY . /app
 
 # Build the React app
 RUN npm run build
