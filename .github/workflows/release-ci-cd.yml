@@ -50,7 +50,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: latest
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}/server:${{ github.sha }}
           file: ./.github/workflows/Dockerfile
 
       - name: Get latest ECS task definition
