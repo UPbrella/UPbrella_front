@@ -22,7 +22,7 @@ RUN npm run build
 FROM nginx:alpine
 
 # Copy built app from the build stage
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=build /app/dist /usr/share/nginx/html
 
 # 기본 nginx 설정 파일을 삭제한다. (custom 설정과 충돌 방지)
 RUN rm /etc/nginx/conf.d/default.conf
