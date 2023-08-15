@@ -5,11 +5,15 @@ export type BottomSheetProps = {
   children: JSX.Element;
   isBottomSheetOpen: boolean;
   setIsBottomSheetOpen: (value: boolean) => void;
+  snapPoints: number[];
 };
 
-const snapPoints = [484, 272, 0];
-
-const BottomSheet = ({ children, isBottomSheetOpen, setIsBottomSheetOpen }: BottomSheetProps) => {
+const BottomSheet = ({
+  children,
+  isBottomSheetOpen,
+  setIsBottomSheetOpen,
+  snapPoints,
+}: BottomSheetProps) => {
   const ref = useRef<SheetRef>();
   const contentRef = useRef<HTMLDivElement>(null);
   const snapTo = (i: number) => ref.current?.snapTo(i);

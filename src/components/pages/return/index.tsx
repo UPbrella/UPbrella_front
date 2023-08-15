@@ -59,6 +59,7 @@ const ReturnPage = () => {
             <BottomSheet
               isBottomSheetOpen={isBottomSheetOpen}
               setIsBottomSheetOpen={setIsBottomSheetOpen}
+              snapPoints={[484, 272, 0]}
             >
               <BankContent setBankName={setBankName} setIsBottomSheetOpen={setIsBottomSheetOpen} />
             </BottomSheet>
