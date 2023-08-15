@@ -47,6 +47,7 @@ jobs:
 
       - name: docker build and push
         run: |
+          sudo aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 641876149891.dkr.ecr.ap-northeast-2.amazonaws.com
           sudo docker build -t upbrella-ecr-front . -f ./.github/workflows/Dockerfile
           sudo docker tag upbrella-ecr-front:latest 641876149891.dkr.ecr.ap-northeast-2.amazonaws.com/upbrella-ecr-front:latest
           sudo docker push 641876149891.dkr.ecr.ap-northeast-2.amazonaws.com/upbrella-ecr-front:latest
