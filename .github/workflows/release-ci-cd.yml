@@ -2,7 +2,7 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ "release", "refs/heads/feat-160-front-aws-pipeline" ]
+    branches: [ "release", "feat-160-front-aws-pipeline" ]
 
 
 env:
