@@ -1,0 +1,72 @@
+name: Java CI with Gradle
+
+on:
+  push:
+    branches: [ "release", "feat/#160-front-aws-pipeline" ]
+
+
+env:
+  working-directory: ./
+  ECR_REPOSITORY: upbrella-ecr
+  ECS_SERVICE: upbrella-server
+  ECS_CLUSTER: upbrella-cluster
+  CONTAINER_NAME: upbrella-server
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Generate build
+        run: npm run build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: docker build and push
+        run: |
+          sudo aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 641876149891.dkr.ecr.ap-northeast-2.amazonaws.com
+          sudo docker build -t upbrella-ecr-front .
+          sudo docker tag upbrella-ecr-front:latest 641876149891.dkr.ecr.ap-northeast-2.amazonaws.com/upbrella-ecr-front:latest
+          sudo docker push 641876149891.dkr.ecr.ap-northeast-2.amazonaws.com/upbrella-ecr-front:latest
+
+      - name: Get latest ECS task definition
+        id: get-latest-task-def
+        run: |
+          TASK_DEF=$(aws ecs describe-services --cluster ${ECS_CLUSTER} --services ${ECS_SERVICE} --region ${AWS_REGION} --query "services[0].taskDefinition" --output text)
+          aws ecs describe-task-definition --task-definition $TASK_DEF --region ${AWS_REGION} --query "taskDefinition" --output json > task-definition.json
+          echo "TASK_DEF_JSON=$(pwd)/task-definition.json" >> $GITHUB_ENV
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ env.TASK_DEF_JSON }}
+          container-name: ${{ env.CONTAINER_NAME }}
+          image: ${{ steps.build-image.outputs.image }}
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE }}
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: true
