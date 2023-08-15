@@ -51,6 +51,7 @@ jobs:
           context: .
           push: true
           tags: latest
+          file: ./Dockerfile
 
       - name: Get latest ECS task definition
         id: get-latest-task-def
