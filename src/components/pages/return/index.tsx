@@ -4,11 +4,13 @@ import FormStatus from "@/components/atoms/Form/FormStatus";
 import FormButton from "@/components/atoms/Form/FormButton";
 import FormLocationMolecules from "@/components/molecules/FormLocationMolecules";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useState } from "react";
+import BottomSheet from "@/components/atoms/BottomSheet";
+import BankContent from "@/components/atoms/Form/BankContent";
 
 const ReturnPage = () => {
-  const handleBankOpen = () => {
-    // console.log("bank open");
-  };
+  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
+  const [bankName, setBankName] = useState("");
 
   return (
     <div className="flex-col max-w-2xl">
@@ -19,14 +21,15 @@ const ReturnPage = () => {
       <div className="mt-16 mb-32 max-w-2xl border border-gray-200 rounded-12 p-16">
         <ul className="list-disc text-8 ml-16">
           <li className="text-14 leading-20 gray-700">
-            수집된 개인정보는 <p className="inline font-semibold">서비스 운영의 목적으로만</p>{" "}
+            수집된 개인정보는 <span className="inline font-semibold">서비스 운영의 목적으로만</span>{" "}
             사용됩니다.
           </li>
           <li className="text-14 leading-20 gray-700">
             대여 신청 시 정보를{" "}
-            <p className="inline text-red">
-              정확히 입력해주셔야 <p className="inline text-14 font-semibold">원활한 보증금 환급</p>
-            </p>
+            <span className="inline text-red">
+              정확히 입력해주셔야{" "}
+              <span className="inline text-14 font-semibold">원활한 보증금 환급</span>
+            </span>
             이 가능합니다.
           </li>
         </ul>
@@ -39,16 +42,26 @@ const ReturnPage = () => {
       <div className="flex flex-col mb-32">
         <div className="text-15 leading-22 text-gray-700 mb-8">환급받을 계좌</div>
         <div className="flex justify-between w-full">
-          <div className="relative w-120 flex items-center border border-gray-300 rounded-8 p-12">
-            <input
-              className="w-120 text-15 leading-22 text-black cursor-pointer placeholder-gray-400 bg-transparent"
-              placeholder="카카오뱅크"
-              readOnly
-              onClick={handleBankOpen}
-            />
+          <div
+            className="relative w-120 flex items-center border border-gray-300 rounded-8 p-12"
+            onClick={() => setIsBottomSheetOpen(true)}
+          >
+            <div
+              className={`w-120 text-15 leading-22 cursor-pointer bg-transparent focus:outline-none ${
+                bankName === "" ? "text-gray-400" : "text-black"
+              }`}
+            >
+              {bankName || "은행명"}
+            </div>
             <ExpandMoreIcon
               style={{ position: "absolute", right: "3", fontSize: "20px", color: "#1C1B1F" }}
             />
+            <BottomSheet
+              isBottomSheetOpen={isBottomSheetOpen}
+              setIsBottomSheetOpen={setIsBottomSheetOpen}
+            >
+              <BankContent setBankName={setBankName} setIsBottomSheetOpen={setIsBottomSheetOpen} />
+            </BottomSheet>
           </div>
           <input
             className="ml-4 w-full border border-gray-300 rounded-8 p-12 focus:border-gray-600 focus:outline-none"

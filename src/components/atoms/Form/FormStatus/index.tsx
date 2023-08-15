@@ -43,6 +43,7 @@ const FormStatus = ({ label, placeholder }: FormStatusProps) => {
         rows={1}
         className={`w-full mt-4 rounded-8 border border-${borderColor} p-10 text-15 text-${textColor} leading-22 placeholder-gray-300 resize-none overflow-hidden focus:border-gray-600 focus:outline-none`}
         placeholder={placeholder}
+        spellCheck={false}
       />
     </div>
   );
