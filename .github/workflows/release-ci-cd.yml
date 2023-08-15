@@ -45,12 +45,12 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: docker build and push
-        run: |
-          sudo aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 641876149891.dkr.ecr.ap-northeast-2.amazonaws.com
-          sudo docker build -t upbrella-ecr-front .
-          sudo docker tag upbrella-ecr-front:latest 641876149891.dkr.ecr.ap-northeast-2.amazonaws.com/upbrella-ecr-front:latest
-          sudo docker push 641876149891.dkr.ecr.ap-northeast-2.amazonaws.com/upbrella-ecr-front:latest
+      - name: Build, tag, and push image to Amazon ECR
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: latest
 
       - name: Get latest ECS task definition
         id: get-latest-task-def
