@@ -71,16 +71,30 @@ jobs:
         - name: Login to Amazon ECR
           id: login-ecr
           uses: aws-actions/amazon-ecr-login@v1
+
+        - name: Get ECR password (temporary)
+          id: get-ecr-password
+          run: echo "::set-output name=password::$(aws ecr get-login-password)"
+          
+        - name: Build & Push image
+          uses: docker/build-push-action@v1
+          with:
+            registry: ${{ steps.login-ecr.outputs.registry }}
+            repository: 641876149891.dkr.ecr.ap-northeast-2.amazonaws.com/upbrella-ecr-front
+            username: AWS
+            password: ${{ steps.get-ecr-password.outputs.password }}
+            add_git_labels: true
+            tag_with_ref: true
     
-        - name: docker build and push
-          env:
-            ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-            IMAGE_TAG: ${{ github.sha }}
-          run: |
-            eval $(aws ecr get-login --no-include-email --region ap-northeast-2 | sed 's|https://||')
-            sudo docker buildx build --load --platform linux/amd64 -t upbrella-ecr-front . -f ./.github/workflows/Dockerfile
-            sudo docker tag upbrella-ecr-front:latest 641876149891.dkr.ecr.ap-northeast-2.amazonaws.com/upbrella-ecr-front:latest
-            sudo docker push 641876149891.dkr.ecr.ap-northeast-2.amazonaws.com/upbrella-ecr-front:latest
+        # - name: docker build and push
+        #   env:
+        #     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        #     IMAGE_TAG: ${{ github.sha }}
+        #   run: |
+        #     # eval $(aws ecr get-login --no-include-email --region ap-northeast-2 | sed 's|https://||')
+        #     sudo docker buildx build --load --platform linux/amd64 -t upbrella-ecr-front . -f ./.github/workflows/Dockerfile
+        #     sudo docker tag upbrella-ecr-front:latest 641876149891.dkr.ecr.ap-northeast-2.amazonaws.com/upbrella-ecr-front:latest
+        #     sudo docker push 641876149891.dkr.ecr.ap-northeast-2.amazonaws.com/upbrella-ecr-front:latest
           
     
         - name: Get latest ECS task definition
