@@ -14,14 +14,14 @@ export type TStoreDetail = {
   addressDetail: string;
   thumbnail: string; // 썸네일
   umbrellaLocation: string;
-  businessHour: string; // 뭐지
+  businessHour: string; // 화면 출력용
+  businessHours: TStoreBusinessHours[]; // 마커 활성화 여부용
   contactNumber?: string; // "010-0000-0000";
   instagramId?: string; // "upbrella";
   latitude: number | null;
   longitude: number | null;
   content: string;
   imageUrls: TStoreImage[];
-  businessHours: TStoreBusinessHours[]; // "09:00 ~ 18:00";
 };
 
 // api response
@@ -48,11 +48,17 @@ export type TStoreTableKey = keyof TStoreTable;
 // 지역 태그 (대분류)
 export type TClassification = {
   id: number;
-  type: "classification";
+  type: "CLASSIFICATION";
   name: string;
-  latitude: number;
-  longitude: number;
+  latitude: number | null;
+  longitude: number | null;
 };
+
+// api response
+export type TClassificationAllRes = { classifications: TClassification[] };
+
+// api request
+export type TClassificationParams = Omit<TClassification, "id" | "type">;
 
 // 지역 태그 (소분류)
 export type TSubClassification = {
