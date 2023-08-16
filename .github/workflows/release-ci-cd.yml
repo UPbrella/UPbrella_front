@@ -88,6 +88,7 @@ jobs:
             tag_with_ref: true
             username: AWS
             password: ${{ steps.get-ecr-password.outputs.password }}  # temporary
+            platform: linux/amd64
             tags: latest
             push: true
             dockerfile: ./.github/workflows/Dockerfile
