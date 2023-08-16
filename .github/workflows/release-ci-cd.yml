@@ -80,7 +80,7 @@ jobs:
           run: echo "::set-output name=password::$(aws ecr get-login-password)"
           
         - name: Build & Push image
-          uses: docker/build-push-action@v1
+          uses: docker/build-push-action@v4
           with:
             registry: ${{ steps.login-ecr.outputs.registry }}
             repository: upbrella-ecr-front
