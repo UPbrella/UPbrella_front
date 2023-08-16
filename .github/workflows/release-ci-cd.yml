@@ -93,36 +93,26 @@ jobs:
             dockerfile: ./.github/workflows/Dockerfile
             
     
-        # - name: docker build and push
-        #   env:
-        #     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        #     IMAGE_TAG: ${{ github.sha }}
-        #   run: |
-        #     # eval $(aws ecr get-login --no-include-email --region ap-northeast-2 | sed 's|https://||')
-        #     sudo docker buildx build --load --platform linux/amd64 -t upbrella-ecr-front . -f ./.github/workflows/Dockerfile
-        #     sudo docker tag upbrella-ecr-front:latest 641876149891.dkr.ecr.ap-northeast-2.amazonaws.com/upbrella-ecr-front:latest
-        #     sudo docker push 641876149891.dkr.ecr.ap-northeast-2.amazonaws.com/upbrella-ecr-front:latest
-          
     
-        # - name: Get latest ECS task definition
-        #   id: get-latest-task-def
-        #   run: |
-        #     TASK_DEF=$(aws ecs describe-services --cluster ${ECS_CLUSTER} --services ${ECS_SERVICE} --region ${AWS_REGION} --query "services[0].taskDefinition" --output text)
-        #     aws ecs describe-task-definition --task-definition $TASK_DEF --region ${AWS_REGION} --query "taskDefinition" --output json > task-definition.json
-        #     echo "TASK_DEF_JSON=$(pwd)/task-definition.json" >> $GITHUB_ENV
+        - name: Get latest ECS task definition
+          id: get-latest-task-def
+          run: |
+            TASK_DEF=$(aws ecs describe-services --cluster ${ECS_CLUSTER} --services ${ECS_SERVICE} --region ${AWS_REGION} --query "services[0].taskDefinition" --output text)
+            aws ecs describe-task-definition --task-definition $TASK_DEF --region ${AWS_REGION} --query "taskDefinition" --output json > task-definition.json
+            echo "TASK_DEF_JSON=$(pwd)/task-definition.json" >> $GITHUB_ENV
     
-        # - name: Fill in the new image ID in the Amazon ECS task definition
-        #   id: task-def
-        #   uses: aws-actions/amazon-ecs-render-task-definition@v1
-        #   with:
-        #     task-definition: ${{ env.TASK_DEF_JSON }}
-        #     container-name: ${{ env.CONTAINER_NAME }}
-        #     image: ${{ steps.build-image.outputs.image }}
+        - name: Fill in the new image ID in the Amazon ECS task definition
+          id: task-def
+          uses: aws-actions/amazon-ecs-render-task-definition@v1
+          with:
+            task-definition: ${{ env.TASK_DEF_JSON }}
+            container-name: ${{ env.CONTAINER_NAME }}
+            image: ${{ steps.build-image.outputs.image }}
     
-        # - name: Deploy Amazon ECS task definition
-        #   uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        #   with:
-        #     task-definition: ${{ steps.task-def.outputs.task-definition }}
-        #     service: ${{ env.ECS_SERVICE }}
-        #     cluster: ${{ env.ECS_CLUSTER }}
-        #     wait-for-service-stability: true
+        - name: Deploy Amazon ECS task definition
+          uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+          with:
+            task-definition: ${{ steps.task-def.outputs.task-definition }}
+            service: ${{ env.ECS_SERVICE }}
+            cluster: ${{ env.ECS_CLUSTER }}
+            wait-for-service-stability: true
