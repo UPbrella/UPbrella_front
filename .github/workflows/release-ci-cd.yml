@@ -7,7 +7,7 @@ on:
 
 env:
   working-directory: ./
-  ECR_REPOSITORY: upbrella-ecr
+  ECR_REPOSITORY: upbrella-ecr-front
   ECS_SERVICE: upbrella-server
   ECS_CLUSTER: upbrella-cluster
   CONTAINER_NAME: upbrella-server
