@@ -74,6 +74,7 @@ jobs:
     
         - name: docker build and push
           run: |
+            echo ${{ secrets.DOCKER_TOKEN }} | docker login ghcr.io -u AWS --password-stdin 
             sudo docker build -t upbrella-ecr-front . -f ./.github/workflows/Dockerfile
             sudo docker tag upbrella-ecr-front:latest 641876149891.dkr.ecr.ap-northeast-2.amazonaws.com/upbrella-ecr-front:latest
             sudo docker push 641876149891.dkr.ecr.ap-northeast-2.amazonaws.com/upbrella-ecr-front:latest
