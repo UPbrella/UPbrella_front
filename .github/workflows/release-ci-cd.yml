@@ -72,17 +72,11 @@ jobs:
           id: login-ecr
           uses: aws-actions/amazon-ecr-login@v1
 
-        - name: Get ECR password (temporary)
-          id: get-ecr-password
-          run: echo "::set-output name=password::$(aws ecr get-login-password)"
-          
         - name: Build & Push image
-          uses: docker/build-push-action@v1
+          uses: docker/build-push-action@v2-build-push
           with:
             registry: ${{ steps.login-ecr.outputs.registry }}
-            repository: 641876149891.dkr.ecr.ap-northeast-2.amazonaws.com/upbrella-ecr-front
-            username: AWS
-            password: ${{ steps.get-ecr-password.outputs.password }}
+            repository: ${{ steps.login-ecr.outputs.registry }}/upbrella-ecr-front
             add_git_labels: true
             tag_with_ref: true
             file: ./.github/workflows/Dockerfile
