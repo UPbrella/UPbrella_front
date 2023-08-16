@@ -79,6 +79,7 @@ jobs:
           run: |
             HASH=$(git log -1 --pretty=%h)
             IMAGE_ID=$ECR_REGISTRY/$ECR_REPOSITORY:${HASH}
+            cat ~/.docker/config.json
             echo ${{ secrets.DOCKER_TOKEN }} | docker login -u AWS --password-stdin 641876149891.dkr.ecr.ap-northeast-2.amazonaws.com
             sudo docker buildx build --load --platform linux/amd64 -t upbrella-ecr-front . -f ./.github/workflows/Dockerfile
             sudo docker tag upbrella-ecr-front:latest 641876149891.dkr.ecr.ap-northeast-2.amazonaws.com/upbrella-ecr-front:latest
