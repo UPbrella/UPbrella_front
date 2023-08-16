@@ -67,6 +67,9 @@ jobs:
             aws-region: ${{ secrets.AWS_REGION }}
             role-session-name: GitHubActions
             role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+
+        - name: Set up Docker Buildx
+          uses: docker/setup-buildx-action@v1
     
         - name: Login to Amazon ECR
           id: login-ecr
@@ -80,6 +83,7 @@ jobs:
             add_git_labels: true
             tag_with_ref: true
             file: ./.github/workflows/Dockerfile
+            tags: latest
             push: true
     
         # - name: docker build and push
