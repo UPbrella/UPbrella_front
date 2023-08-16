@@ -82,7 +82,7 @@ jobs:
             repository: upbrella-ecr-front
             add_git_labels: true
             tag_with_ref: true
-            file: ./.github/workflows/Dockerfile
+            context: ./.github/workflows
             tags: latest
             push: true
     
