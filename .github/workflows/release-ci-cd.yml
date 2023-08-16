@@ -82,9 +82,9 @@ jobs:
             repository: upbrella-ecr-front
             add_git_labels: true
             tag_with_ref: true
-            context: ./.github/workflows
             tags: latest
             push: true
+            dockerfile: ./.github/workflows/Dockerfile
     
         # - name: docker build and push
         #   env:
