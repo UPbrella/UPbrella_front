@@ -78,6 +78,7 @@ jobs:
   
         - name: Build & Push image
           uses: docker/build-push-action@v2
+          id: build-image
           with:
             platforms: linux/amd64
             tags: ${{ steps.login-ecr.outputs.registry }}/upbrella-ecr-front:latest
