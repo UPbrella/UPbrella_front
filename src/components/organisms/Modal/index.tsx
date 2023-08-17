@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { CSSProperties, ReactNode } from "react";
 import { Dialog, DialogActions, DialogContent } from "@mui/material";
 import CustomModalHeader from "@/components/molecules/ModalHeader";
 
@@ -8,12 +8,20 @@ type TProps = {
   handleClose: () => void;
   children: ReactNode;
   footerContents?: ReactNode;
+  style?: CSSProperties;
 };
 
 // Modal Organism
-const CustomModal = ({ titleText, isOpen, handleClose, children, footerContents }: TProps) => {
+const CustomModal = ({
+  titleText,
+  isOpen,
+  handleClose,
+  children,
+  footerContents,
+  style,
+}: TProps) => {
   return (
-    <Dialog maxWidth="xl" onClose={handleClose} open={isOpen}>
+    <Dialog style={style} maxWidth="xl" onClose={handleClose} open={isOpen}>
       {/* Header */}
       <CustomModalHeader titleText={titleText} handleClose={handleClose} />
 

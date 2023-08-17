@@ -1,4 +1,5 @@
-import { TStoreTable, TStoreTableKey } from "@/types/admin/StoreTypes";
+import { useMemo, useState } from "react";
+import { TStoreDetail, TStoreTableKey } from "@/types/admin/StoreTypes";
 import { TTableColumn } from "@/types/commonTypes";
 import {
   Paper,
@@ -10,12 +11,11 @@ import {
   TablePagination,
   TableRow,
 } from "@mui/material";
-import { useMemo, useState } from "react";
 
 type TProps = {
   columns: TTableColumn<TStoreTableKey>[];
-  rows: TStoreTable[];
-  onClickStoreRow: (id: number) => void;
+  rows: TStoreDetail[];
+  onClickStoreRow: (id: number, type: "store" | "image") => void;
 };
 
 // 테이블 컴포넌트 (재사용 고려하여 리팩토링 필요)`
@@ -44,17 +44,18 @@ const StoreTable = ({ columns, rows, onClickStoreRow }: TProps) => {
           <TableBody>
             {visibleRows.map((row, i) => {
               return (
-                <TableRow
-                  className="cursor-pointer"
-                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                  onClick={() => onClickStoreRow(row.id!)}
-                  hover
-                  key={`${row.name} + ${i}`}
-                >
+                <TableRow className="cursor-pointer" hover key={`${row.name} + ${i}`}>
                   {columns.map((column) => {
                     const value = row[column.id];
+                    const isImageCell = column.id === "imageUrls";
+
                     return (
-                      <TableCell key={column.id} align={column.align}>
+                      <TableCell
+                        style={isImageCell ? { cursor: "default" } : {}}
+                        key={column.id}
+                        align={column.align}
+                        onClick={() => onClickStoreRow(row.id, isImageCell ? "image" : "store")}
+                      >
                         {value && column.formatFn ? column.formatFn(value) : (value as string)}
                       </TableCell>
                     );

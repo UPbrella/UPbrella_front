@@ -6,10 +6,12 @@ import {
   TClassificationParams,
   TSubClassificationAllRes,
   TSubClassificationParams,
+  TStoreImageParams,
 } from "@/types/admin/StoreTypes";
 
 const API = {
   ADMIN_STORES: () => `/stores`,
+  ADMIN_IMAGE_UPLOAD: (id: number) => `/stores/${id}/images`,
   ADMIN_CLASSIFICATIONS: (id?: number) =>
     id ? `/stores/classifications/${id}` : "/stores/classifications/",
   ADMIN_SUBCLASSIFICATIONS: (id?: number) =>
@@ -20,6 +22,11 @@ const API = {
 export const getStores = async () => {
   const res = await $axios.get<TApiResponse<TStoreAllRes>>(API.ADMIN_STORES());
   return res.data;
+};
+
+// 협업지점 이미지 업로드
+export const postStoreImage = async ({ storeId, imageFile }: TStoreImageParams) => {
+  await $axios.post(API.ADMIN_IMAGE_UPLOAD(storeId), imageFile);
 };
 
 // 대분류 태그
