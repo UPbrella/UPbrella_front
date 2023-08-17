@@ -1,7 +1,7 @@
 import { TRoute } from "@/types/commonTypes";
 import HomeMainPage from "@/components/pages/home/HomeMainPage";
 import RentHistoryPage from "@/components/pages/admin/RentHistoryPage";
-import RentalLocationPage from "@/components/pages/RentalLocation/RentalLocationPage";
+import RentalLocationPage from "@/components/pages/rentalLocation/RentalLocationPage";
 import StoreManagePage from "@/components/pages/admin/store/StoreManagePage";
 
 /**
