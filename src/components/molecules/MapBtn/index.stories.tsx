@@ -1,5 +1,5 @@
 import { Meta, StoryFn } from "@storybook/react";
-import MapBtn from ".";
+import MapBtn, { MapBtnProps } from "@/components/molecules/MapBtn/index";
 
 export default {
   title: "molecules/MapBtn",
@@ -7,6 +7,5 @@ export default {
   tags: ["autodocs"],
 } as Meta;
 
-const Template: StoryFn = (args) => <MapBtn {...args} />;
-
-
+const Template: StoryFn<MapBtnProps> = (args) => <MapBtn {...args} />;
+export const Default = Template.bind({});

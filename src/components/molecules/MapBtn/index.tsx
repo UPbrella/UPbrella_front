@@ -2,7 +2,7 @@ import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import MyLocationOutlinedIcon from "@mui/icons-material/MyLocationOutlined";
 import { ReactNode } from "react";
-import { getCurrentPosition } from "@/utils/map/mapHelpers";
+import { getUserPosition } from "@/utils/map/mapHelper";
 
 const mapIcons: ReactNode[] = [
   <MyLocationOutlinedIcon />,
@@ -10,7 +10,7 @@ const mapIcons: ReactNode[] = [
   <QuestionMarkIcon />,
 ];
 
-type MapBtnProps = {
+export type MapBtnProps = {
   map: naver.maps.Map | undefined;
 };
 
@@ -23,7 +23,7 @@ const MapBtn = ({ map }: MapBtnProps) => {
       case 0:
         // 사용자의 현재 위치를 가져오는 함수 호출
         try {
-          const position = await getCurrentPosition(); // getCurrentPosition 함수는 실제 구현에 맞게 수정해야 합니다.
+          const position = await getUserPosition(); // getCurrentPosition 함수는 실제 구현에 맞게 수정해야 합니다.
           map?.setCenter(
             new naver.maps.LatLng(position.coords.latitude, position.coords.longitude)
           );
