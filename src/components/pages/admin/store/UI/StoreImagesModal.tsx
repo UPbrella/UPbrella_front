@@ -2,10 +2,17 @@ import toast from "react-hot-toast";
 import CustomModal from "@/components/organisms/Modal";
 import { ChangeEvent } from "react";
 import { useMutation, useQueryClient } from "react-query";
-import { postStoreImage } from "@/api/storeApi";
+import { deleteStoreImage, postStoreImage } from "@/api/storeApi";
 import CloseIcon from "@mui/icons-material/Close";
 import { TStoreDetail } from "@/types/admin/StoreTypes";
-import { Button, IconButton, ImageList, ImageListItem, ImageListItemBar } from "@mui/material";
+import {
+  Button,
+  IconButton,
+  ImageList,
+  ImageListItem,
+  ImageListItemBar,
+  Typography,
+} from "@mui/material";
 
 type TProps = {
   isOpen: boolean;
@@ -22,7 +29,8 @@ function srcset(image: string, width: number, height: number, rows = 1, cols = 1
 
 const StoreImagesModal = ({ isOpen, onCloseModal, selectedStore }: TProps) => {
   const queryClient = useQueryClient();
-  const { mutate, isLoading } = useMutation(postStoreImage);
+  const { mutate: saveMutate, isLoading: isSaveLoading } = useMutation(postStoreImage);
+  const { mutate: removeMutate, isLoading: isRemoveLoading } = useMutation(deleteStoreImage);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
@@ -33,7 +41,7 @@ const StoreImagesModal = ({ isOpen, onCloseModal, selectedStore }: TProps) => {
       formData.append("image", files[i]);
     }
 
-    mutate(
+    saveMutate(
       { storeId: selectedStore.id, imageFile: formData },
       {
         onSuccess: () => {
@@ -47,6 +55,22 @@ const StoreImagesModal = ({ isOpen, onCloseModal, selectedStore }: TProps) => {
         },
       }
     );
+  };
+
+  const onRemoveImage = (imageId: number) => {
+    if (window.confirm("정말 삭제하시겠습니까 ?")) {
+      removeMutate(imageId, {
+        onSuccess: () => {
+          queryClient.invalidateQueries(["stores"]);
+          toast.success("이미지 삭제 성공 !");
+          return;
+        },
+        onError: () => {
+          toast.error("이미지 삭제에 실패했어요.");
+          return;
+        },
+      });
+    }
   };
 
   return (
@@ -66,49 +90,63 @@ const StoreImagesModal = ({ isOpen, onCloseModal, selectedStore }: TProps) => {
           />
         </Button>
       }
-      style={isLoading ? { pointerEvents: "none", opacity: "0.6" } : {}}
+      style={isSaveLoading || isRemoveLoading ? { pointerEvents: "none", opacity: "0.6" } : {}}
     >
       <div>
-        <ImageList
-          sx={{
-            maxWidth: "700px",
-          }}
-          gap={5}
-        >
-          {selectedStore.imageUrls.map(({ id, imageUrl }, i) => {
-            // 현재는 첫번째 요소가 썸네일
-            const isThumbnail = i === 0; // hack
-            return (
-              <ImageListItem
-                style={isThumbnail ? { border: "1px solid red" } : {}}
-                key={id}
-                cols={isThumbnail ? 2 : 1}
-              >
-                <img {...srcset(imageUrl, 250, 250)} loading="lazy" />
-                <ImageListItemBar
-                  sx={{
-                    background: isThumbnail ? "linear-gradient(to top, #FCE7E3 , #E05938)" : "none",
-                  }}
-                  position="top"
-                  actionIcon={
-                    <div className="flex items-center gap-4">
-                      <IconButton
-                        onClick={() => {
-                          // TODO: 삭제 함수
-                          return;
-                        }}
-                      >
-                        <CloseIcon />
-                      </IconButton>
-                      {i === 0 && <>썸네일</>}
-                    </div>
-                  }
-                  actionPosition="left"
-                />
-              </ImageListItem>
-            );
-          })}
-        </ImageList>
+        {selectedStore.imageUrls.length ? (
+          <ImageList
+            sx={{
+              maxWidth: "700px",
+            }}
+            gap={5}
+          >
+            {selectedStore.imageUrls.map(({ id, imageUrl }, i) => {
+              // 현재는 첫번째 요소가 썸네일
+              const isThumbnail = i === 0; // hack
+              return (
+                <ImageListItem
+                  style={isThumbnail ? { border: "1px solid black" } : {}}
+                  key={id}
+                  cols={isThumbnail ? 2 : 1}
+                >
+                  <img {...srcset(imageUrl, 250, 250)} loading="lazy" />
+                  <ImageListItemBar
+                    sx={{
+                      background: isThumbnail ? "linear-gradient(to top, white , black)" : "none",
+                    }}
+                    position="top"
+                    actionIcon={
+                      <div className="flex items-center gap-8">
+                        <IconButton
+                          onClick={() => {
+                            onRemoveImage(id);
+                            return;
+                          }}
+                        >
+                          <CloseIcon
+                            style={{
+                              fill: "whit",
+                            }}
+                          />
+                        </IconButton>
+                        {i === 0 && (
+                          <Typography className="py-8" variant="h5" color="white">
+                            썸네일
+                          </Typography>
+                        )}
+                      </div>
+                    }
+                    actionPosition="left"
+                  />
+                </ImageListItem>
+              );
+            })}
+          </ImageList>
+        ) : (
+          <Typography variant="h6" className="text-center min-w-[500px] my-16">
+            이미지를 업로드 해주세요.
+          </Typography>
+        )}
       </div>
     </CustomModal>
   );
