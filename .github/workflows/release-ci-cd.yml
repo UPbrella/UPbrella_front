@@ -86,8 +86,8 @@ jobs:
             file: ./.github/workflows/Dockerfile
             builder: ${{ steps.buildx.outputs.name }}
             context: .
-   
-    
+
+        
         - name: Get latest ECS task definition
           id: get-latest-task-def
           run: |
@@ -101,7 +101,7 @@ jobs:
           with:
             task-definition: ${{ env.TASK_DEF_JSON }}
             container-name: ${{ env.CONTAINER_NAME }}
-            image: ${{ steps.build-image.outputs.image }}
+            image: ${{ steps.login-ecr.outputs.registry }}/upbrella-ecr-front:latest
     
         - name: Deploy Amazon ECS task definition
           uses: aws-actions/amazon-ecs-deploy-task-definition@v1
