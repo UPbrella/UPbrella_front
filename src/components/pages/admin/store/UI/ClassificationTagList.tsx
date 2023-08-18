@@ -6,8 +6,8 @@ import useModalStatus from "@/hooks/custom/useModalStatus";
 import { deleteClassification, postClassification } from "@/api/storeApi";
 import { useGetClassifications } from "@/hooks/queries/storeQueries";
 import ContentsTitle from "@/components/molecules/ContentsTitle";
-import ClassificationTagModal from "@/components/pages/admin/store/UI/StoreTagModal";
 import { ClassificationTagInitializer } from "@/components/pages/admin/store/helper";
+import ClassificationTagModal from "@/components/pages/admin/store/UI/ClassificationTagModal";
 
 const ClassificationTagList = () => {
   // client

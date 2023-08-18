@@ -1,9 +1,11 @@
 import { DEFAULT_COORDINATE } from "@/components/pages/admin/store/UI/StoreAddressInput";
 import {
-  TClassification,
-  TClassificationParams,
   TStoreDetail,
   TStoreParams,
+  TClassification,
+  TClassificationParams,
+  TSubClassification,
+  TSubClassificationParams,
 } from "@/types/admin/StoreTypes";
 
 // 협업지점 추가 시, 초기값 설정
@@ -112,4 +114,18 @@ export const ClassificationTagInitializer = (res?: TClassification): TClassifica
     longitude: DEFAULT_COORDINATE.lng,
     name: "",
   } satisfies TClassificationParams;
+};
+
+// 소분류 state 설정
+export const subClassificationTagInitializer = (
+  res?: TSubClassification
+): TSubClassificationParams => {
+  if (res) {
+    const { name } = res;
+    return { name } satisfies TSubClassificationParams;
+  }
+
+  return {
+    name: "",
+  } satisfies TSubClassificationParams;
 };
