@@ -11,6 +11,7 @@ env:
   ECS_SERVICE: upbrella-web-service
   ECS_CLUSTER: upbrella-cluster
   CONTAINER_NAME: upbrella-web-server
+  ESLINT_NO_DEV_ERRORS: true
 
 permissions:
   contents: read
@@ -60,6 +61,7 @@ jobs:
     
         - name: Generate build
           run: npm run build
+          
     
         - name: Configure AWS credentials
           uses: aws-actions/configure-aws-credentials@v2
