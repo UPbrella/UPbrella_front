@@ -1,4 +1,4 @@
-name: Java CI with Gradle
+name: Web Server CI Script
 
 on:
   push:
@@ -86,7 +86,6 @@ jobs:
             file: ./.github/workflows/Dockerfile
             builder: ${{ steps.buildx.outputs.name }}
             context: .
-
         
         - name: Get latest ECS task definition
           id: get-latest-task-def
