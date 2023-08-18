@@ -1,12 +1,16 @@
-import { HeaderContainer } from "@/components/organisms/Header/HeaderContainer";
 import CardFooter from "@/components/organisms/CardFooter";
 import LoginForm from "@/components/organisms/LoginForm";
 
-const LoginTemplate = () => {
+export type LoginTemplateProps = {
+  onClick: () => void;
+};
+
+const LoginTemplate = ({ onClick }: LoginTemplateProps) => {
   return (
     <div>
-      <HeaderContainer />
-      <LoginForm onClick={() => alert("로그인버튼")} />
+      <main className="flex flex-col items-center h-full ">
+        <LoginForm onClick={onClick} />
+      </main>
       <CardFooter />
     </div>
   );

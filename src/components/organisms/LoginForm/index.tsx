@@ -7,7 +7,7 @@ export type LoginFormProps = {
 
 const LoginForm = ({ onClick }: LoginFormProps) => {
   return (
-    <section className="flex flex-col items-center px-20 py-56 ">
+    <section className="flex flex-col items-center max-w-440 w-full px-20 py-56 ">
       <section className="mb-56">
         <LoginTitle label="로그인" />
       </section>
