@@ -20,13 +20,6 @@ type TProps = {
   selectedStore: Pick<TStoreDetail, "id" | "name" | "imageUrls">;
 };
 
-function srcset(image: string, width: number, height: number, rows = 1, cols = 1) {
-  return {
-    src: `${image}?w=${width * cols}&h=${height * rows}&fit=crop&auto=format`,
-    srcSet: `${image}?w=${width * cols}&h=${height * rows}&fit=crop&auto=format&dpr=2 2x`,
-  };
-}
-
 const StoreImagesModal = ({ isOpen, onCloseModal, selectedStore }: TProps) => {
   const queryClient = useQueryClient();
   const { mutate: saveMutate, isLoading: isSaveLoading } = useMutation(postStoreImage);
@@ -109,7 +102,7 @@ const StoreImagesModal = ({ isOpen, onCloseModal, selectedStore }: TProps) => {
                   key={id}
                   cols={isThumbnail ? 2 : 1}
                 >
-                  <img {...srcset(imageUrl, 250, 250)} loading="lazy" />
+                  <img src={imageUrl} loading="lazy" />
                   <ImageListItemBar
                     sx={{
                       background: isThumbnail ? "linear-gradient(to top, white , black)" : "none",
@@ -123,11 +116,7 @@ const StoreImagesModal = ({ isOpen, onCloseModal, selectedStore }: TProps) => {
                             return;
                           }}
                         >
-                          <CloseIcon
-                            style={{
-                              fill: "whit",
-                            }}
-                          />
+                          <CloseIcon />
                         </IconButton>
                         {i === 0 && (
                           <Typography className="py-8" variant="h5" color="white">
