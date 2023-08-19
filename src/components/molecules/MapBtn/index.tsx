@@ -47,6 +47,7 @@ const MapBtn = ({ map }: MapBtnProps) => {
     <div className="flex flex-col gap-2">
       {mapIcons.map((item, index) => (
         <div
+          key={index + "key"}
           className="bg-white w-44 h-44 rounded-99 border border-gray-300 text-28 grid place-content-center hover:pointer"
           onClick={() => handleIconClick(index)}
         >
