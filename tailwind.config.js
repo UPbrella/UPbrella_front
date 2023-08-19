@@ -5,6 +5,10 @@ const px0_1000 = { ...Array.from(Array(1001)).map((_, i) => `${i}px`) };
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
+    screens: {
+      sm: { max: "640px" },
+      md: { max: "360px" },
+    },
     extend: {
       maxWidth: px0_1000,
       width: px0_1000,
