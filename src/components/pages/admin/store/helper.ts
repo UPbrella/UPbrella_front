@@ -7,6 +7,7 @@ import {
   TSubClassification,
   TSubClassificationParams,
 } from "@/types/admin/StoreTypes";
+import { toast } from "react-hot-toast";
 
 // 협업지점 추가 시, 초기값 설정
 export const storeInitializer = (res?: TStoreDetail): TStoreParams => {
@@ -27,6 +28,7 @@ export const storeInitializer = (res?: TStoreDetail): TStoreParams => {
       umbrellaLocation,
       contactNumber,
       instagramId,
+      password,
     } = res;
 
     return {
@@ -45,7 +47,7 @@ export const storeInitializer = (res?: TStoreDetail): TStoreParams => {
       longitude,
       content,
       businessHours,
-      password: "",
+      password,
     } satisfies TStoreParams;
   }
 
@@ -54,7 +56,7 @@ export const storeInitializer = (res?: TStoreDetail): TStoreParams => {
     category: "",
     classificationId: null,
     subClassificationId: null,
-    activateStatus: false,
+    activateStatus: true,
     address: "",
     addressDetail: "",
     umbrellaLocation: "",
@@ -128,4 +130,46 @@ export const subClassificationTagInitializer = (
   return {
     name: "",
   } satisfies TSubClassificationParams;
+};
+
+export const createClassificationsOptions = (res?: TClassification[] | TSubClassification[]) => {
+  if (!res) return [];
+
+  return res.map(({ id, name }) => ({
+    value: id,
+    label: name,
+  }));
+};
+
+export const isValidateStoreSave = (params: TStoreParams) => {
+  const {
+    name,
+    address,
+    businessHour,
+    businessHours,
+    category,
+    classificationId,
+    subClassificationId,
+    umbrellaLocation,
+    longitude,
+    latitude,
+  } = params;
+
+  if (
+    !name ||
+    !address ||
+    !businessHour ||
+    !businessHours ||
+    !category ||
+    !classificationId ||
+    !subClassificationId ||
+    !umbrellaLocation ||
+    !longitude ||
+    !latitude
+  ) {
+    toast.error("필수값을 입력해주세요.");
+    return false;
+  }
+
+  return true;
 };

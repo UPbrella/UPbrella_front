@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+import { Button } from "@mui/material";
 import Store from "@/constants/Store";
 import { DAY_OF_WEEK } from "@/constants/Date";
 import { TTableColumn } from "@/types/commonTypes";
@@ -40,27 +42,16 @@ export const StoreTableColumns = Object.keys(Store.STORE_ENUM).map((key) => {
         return <>{value.name}</>;
       };
       break;
+    case "naverMapLink":
+      formatFn = (link: string) => (
+        <Button>
+          <Link target="_blank" rel="noopener" to={link}>
+            링크
+          </Link>
+        </Button>
+      );
+      break;
   }
-
-  // 지도 링크
-  // if (_key === "naverMapLink") {
-  //   formatFn = (link: string) => (
-  //     <Link target="_blank" rel="noopener" href={link}>
-  //       링크
-  //     </Link>
-  //   );
-  // }
-
-  // 이미지 현재는 텍스트만 return
-  // if (_key === "images") {
-  //   formatFn = (imgStrList: string[]) => (
-  //     <div>
-  //       {imgStrList.map((e) => (
-  //         <div key={e}>{e}</div>
-  //       ))}
-  //     </div>
-  //   );
-  // }
 
   return {
     id: _key,
@@ -75,11 +66,8 @@ export const getStoreTableData = (storesRes: TStoreDetail[]): TStoreTable[] => {
   return storesRes.map((e) => {
     return {
       ...e,
-      // TODO: 네이버 주소랑, 이미지 테이블에서 조회할 때, 어떻게 할지 고민
+      address: e.addressDetail ? `${e.address}, ${e.addressDetail}` : e.address,
       naverMapLink: `https://map.naver.com/v5/search/${e.address}?c=15,0,0,0,dh`,
-      images: e.imageUrls.map((e) => {
-        return e.imagesUrl;
-      }),
     };
   });
 };

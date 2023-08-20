@@ -22,6 +22,7 @@ export type TStoreDetail = {
   longitude: number | null;
   content: string;
   imageUrls: TStoreImage[];
+  password: string; // 자물쇠 비밀번호
 };
 
 // api response
@@ -34,13 +35,11 @@ export type TStoreParams = Omit<
 > & {
   classificationId: number | null;
   subClassificationId: number | null;
-  password: string;
 };
 
 // 표에서 확인할 데이터
 export type TStoreTable = TStoreDetail & {
   naverMapLink: string; // 네이버 지도 링크
-  images: string[]; // 이미지 텍스트
 };
 
 export type TStoreTableKey = keyof TStoreTable;

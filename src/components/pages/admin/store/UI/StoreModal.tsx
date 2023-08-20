@@ -3,6 +3,10 @@ import { Button } from "@mui/material";
 import CustomModal from "@/components/organisms/Modal";
 import StoreModalContents from "@/components/pages/admin/store/UI/StoreModalBody";
 import { TStoreBusinessHours, TStoreParams } from "@/types/admin/StoreTypes";
+import { useMutation, useQueryClient } from "react-query";
+import { deleteStores, patchStores, postStores } from "@/api/storeApi";
+import toast from "react-hot-toast";
+import { isValidateStoreSave } from "@/components/pages/admin/store/helper";
 
 // 그 외의 데이터가 더 있지만, type 지정은 일단 하지 않음.
 type TKakaoAddressResult = {
@@ -23,7 +27,13 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
 
   // client
   const [storeData, setStoreData] = useState(selectedStore);
-  const [storeId, setStoreId] = useState<number>();
+  // const [selectedStoreId, setSelectedStoreId] = useState<number>();
+
+  // server
+  const queryClient = useQueryClient();
+  const { mutate: createStore } = useMutation(postStores);
+  const { mutate: updateStore } = useMutation(patchStores);
+  const { mutate: removeStore } = useMutation(deleteStores);
 
   useEffect(() => {
     if (selectedStore) {
@@ -31,28 +41,23 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
     }
   }, [selectedStore]);
 
-  useEffect(() => {
-    if (selectedStoreId) {
-      setStoreId(selectedStoreId);
-    }
-  }, [selectedStoreId]);
-
-  const isCreate = Boolean(storeId);
+  // useEffect(() => {
 
   // 주소에 따라 위도, 경도 저장
   const getCoordinateByAddress = (address: string) => {
+    // TODO: loading 걸리는 것 확인
     kakao.maps.load(() => {
       const geocoder = new kakao.maps.services.Geocoder();
       geocoder.addressSearch(address, (result: TKakaoAddressResult[], status: string) => {
         if (status === kakao.maps.services.Status.OK) {
-          // x: latitude, y: longitude
+          // x: longitude, y: latitude
           if (result[0]) {
-            setStoreData({
-              ...storeData,
+            setStoreData((prev) => ({
+              ...prev,
               address,
-              latitude: +result[0].x,
-              longitude: +result[0].y,
-            });
+              latitude: +result[0].y,
+              longitude: +result[0].x,
+            }));
           } else {
             // console.error("위도, 경도 정보를 못 받아왔습니다.");
           }
@@ -95,21 +100,92 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
     });
   };
 
+  // TODO: 생성 수정 조건 달기 필수값 검증 백엔드한테도 물어보기 (수정, 삭제 작동 안하는듯, 수정과 생성 조건이 같은지?)
+  const onClickSaveStore = () => {
+    if (!isValidateStoreSave(storeData)) return;
+
+    // 수정
+    if (selectedStoreId) {
+      updateStore(
+        { storeId: selectedStoreId, params: storeData },
+        {
+          onSuccess: () => {
+            toast.success("지점이 수정 되었습니다.");
+            queryClient.invalidateQueries(["stores"]);
+            onCloseModal();
+            return;
+          },
+          onError: () => {
+            toast.error("수정에 실패했어요.");
+            return;
+          },
+        }
+      );
+      return;
+    }
+
+    // 생성
+    createStore(storeData, {
+      onSuccess: () => {
+        toast.success("지점이 생성 되었습니다.");
+        queryClient.invalidateQueries(["stores"]);
+        onCloseModal();
+        return;
+      },
+      onError: () => {
+        toast.error("생성에 실패했어요.");
+        return;
+      },
+    });
+    return;
+  };
+
+  // 삭제
+  const onClickDeleteStore = () => {
+    if (!selectedStoreId) return;
+    if (window.confirm("정말 삭제하시겠습니까 ?")) {
+      removeStore(selectedStoreId, {
+        onSuccess: () => {
+          toast.success("지점이 삭제 되었습니다.");
+          queryClient.invalidateQueries(["stores"]);
+          onCloseModal();
+          return;
+        },
+        onError: () => {
+          toast.error("삭제에 실패했어요.");
+          return;
+        },
+      });
+    }
+  };
+
   return (
     <CustomModal
       isOpen={isOpen}
       handleClose={onCloseModal}
-      titleText={`협업지점 ${isCreate ? "추가" : "수정"}`}
+      titleText={`협업지점 ${!selectedStoreId ? "추가" : "수정"}`}
       footerContents={
-        isCreate ? (
+        !selectedStoreId ? (
           <>
-            <Button size="large" autoFocus onClick={onCloseModal}>
+            <Button
+              size="large"
+              autoFocus
+              onClick={() => {
+                onClickSaveStore();
+              }}
+            >
               추가
             </Button>
           </>
         ) : (
           <>
-            <Button size="large" autoFocus onClick={onCloseModal}>
+            <Button
+              size="large"
+              autoFocus
+              onClick={() => {
+                onClickSaveStore();
+              }}
+            >
               수정
             </Button>
             <Button
@@ -117,10 +193,7 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
               size="large"
               autoFocus
               onClick={() => {
-                if (window.confirm("정말 삭제하시겠습니까 ?")) {
-                  //  삭제
-                  onCloseModal();
-                }
+                onClickDeleteStore();
               }}
             >
               삭제
@@ -129,7 +202,11 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
         )
       }
     >
-      <StoreModalContents storeData={storeData} onChangeStoreData={onChangeStoreData} />
+      <StoreModalContents
+        storeData={storeData}
+        setStoreData={setStoreData}
+        onChangeStoreData={onChangeStoreData}
+      />
     </CustomModal>
   );
 };

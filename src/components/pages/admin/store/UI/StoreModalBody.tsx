@@ -1,6 +1,4 @@
 import StoreFormWrapper from "@/components/pages/admin/store/UI/StoreFormWrapper";
-import useModalStatus from "@/hooks/custom/useModalStatus";
-import DaumPostcode from "react-daum-postcode";
 import { TStoreBusinessHours, TStoreParams } from "@/types/admin/StoreTypes";
 import {
   Button,
@@ -12,31 +10,38 @@ import {
   Typography,
 } from "@mui/material";
 import SelectBox from "@/components/molecules/SelectBox";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { createSelectItems } from "@/utils/selectBox";
 import { DAY_OF_WEEK } from "@/constants/Date";
-import { getFilterBusinessTime } from "@/components/pages/admin/store/helper";
+import {
+  createClassificationsOptions,
+  getFilterBusinessTime,
+} from "@/components/pages/admin/store/helper";
 import { TDayOfWeek } from "@/types/commonTypes";
+import { useGetClassifications, useGetSubClassifications } from "@/hooks/queries/storeQueries";
+import StoreAddressInput from "@/components/pages/admin/store/UI/StoreAddressInput";
 
 type TProps = {
   storeData: TStoreParams;
+  setStoreData: Dispatch<SetStateAction<TStoreParams>>;
   onChangeStoreData: (e: {
     target: { name: string; value: string | number | null | TStoreBusinessHours[] };
   }) => void;
 };
 
-const StoreModalContents = ({ storeData, onChangeStoreData }: TProps) => {
-  const {
-    isOpen: isOpenAddress,
-    handleOpen: handleOpenAddress,
-    handleClose: handleCloseAddress,
-  } = useModalStatus();
-
+const StoreModalContents = ({ storeData, setStoreData, onChangeStoreData }: TProps) => {
   const [dayInputState, setDayInputState] = useState<TStoreBusinessHours>({
     date: "MONDAY",
     openAt: "11:00",
     closeAt: "20:00",
   });
+
+  // server
+  const { data: classifiRes } = useGetClassifications();
+  const { data: subClassifiRes } = useGetSubClassifications();
+
+  const classifiOptions = createClassificationsOptions(classifiRes);
+  const subClassifiOptions = createClassificationsOptions(subClassifiRes);
 
   const onChangeDayInput = (name: string, value: string | number | null) => {
     if (name === "openAt" || name === "closeAt") {
@@ -96,7 +101,6 @@ const StoreModalContents = ({ storeData, onChangeStoreData }: TProps) => {
         />
       </StoreFormWrapper>
 
-      {/* TODO: 위치 태그 api 로 받아와서 dropdown 선택 */}
       {/* 대여소 위치 내 지역 태그 */}
       <StoreFormWrapper label="대여소 위치 내 지역 태그" isRequired>
         <div>
@@ -105,7 +109,7 @@ const StoreModalContents = ({ storeData, onChangeStoreData }: TProps) => {
             value={storeData.classificationId ?? ""}
             name="classificationId"
             onChange={(name, value) => onChangeStoreData({ target: { name, value } })}
-            menuItems={[]}
+            menuItems={classifiOptions}
           />
         </div>
       </StoreFormWrapper>
@@ -118,13 +122,30 @@ const StoreModalContents = ({ storeData, onChangeStoreData }: TProps) => {
             value={storeData.subClassificationId ?? ""}
             name="subClassificationId"
             onChange={(name, value) => onChangeStoreData({ target: { name, value } })}
-            menuItems={[]}
+            menuItems={subClassifiOptions}
           />
         </div>
       </StoreFormWrapper>
 
-      {/* 영업 시간 */}
-      <StoreFormWrapper label="영업 시간" isRequired>
+      {/* 영업 시간 - 화면 출력용 */}
+      <StoreFormWrapper label="영업 시간(화면 출력용)" isRequired>
+        <TextareaAutosize
+          placeholder="매일 12:30 ~ 23:00"
+          value={storeData.businessHour}
+          name="businessHour"
+          onChange={onChangeStoreData}
+          minRows={3}
+          style={{
+            width: "300px",
+            border: "1px solid black",
+            borderColor: "rgba(0, 0, 0, 0.23)",
+            borderRadius: "4px",
+          }}
+        />
+      </StoreFormWrapper>
+
+      {/* 영업 시간 - 마커 활성화 여부용 */}
+      <StoreFormWrapper label="영업 시간(마커 활성화 여부용)" isRequired>
         <div>
           <div className="flex items-center gap-4 w-[600px]">
             <SelectBox
@@ -167,43 +188,11 @@ const StoreModalContents = ({ storeData, onChangeStoreData }: TProps) => {
 
       {/* 주소, 상세주소 */}
       <StoreFormWrapper label="주소" isRequired>
-        <div className="flex flex-col gap-4">
-          <div className="flex gap-2 items-center">
-            <TextField
-              className="w-250"
-              placeholder="주소 검색으로 입력해주세요."
-              disabled
-              value={storeData.address}
-              name="address"
-              onChange={onChangeStoreData}
-            />
-            <Button variant="contained" onClick={handleOpenAddress}>
-              검색
-            </Button>
-          </div>
-          {isOpenAddress && (
-            <DaumPostcode
-              onComplete={(res) => {
-                // logic
-                onChangeStoreData({
-                  target: {
-                    name: "address",
-                    value: res.address,
-                  },
-                });
-                handleCloseAddress();
-              }}
-              autoClose={false}
-            ></DaumPostcode>
-          )}
-          {/* detail address 필요? */}
-          <TextField
-            placeholder="상세 주소를 입력해주세요."
-            name="addressDetail"
-            value={storeData.addressDetail}
-            onChange={onChangeStoreData}
-          />
-        </div>
+        <StoreAddressInput
+          storeData={storeData}
+          setStoreData={setStoreData}
+          onChangeStoreData={onChangeStoreData}
+        />
       </StoreFormWrapper>
 
       {/* 우산 위치 설명 */}
@@ -221,7 +210,6 @@ const StoreModalContents = ({ storeData, onChangeStoreData }: TProps) => {
       {/* 북마커 활성화 여부 */}
       <StoreFormWrapper label="북마커 활성화 여부" isRequired>
         <RadioGroup
-          defaultValue="NO"
           value={storeData.activateStatus}
           name="activateStatus"
           onChange={onChangeStoreData}
@@ -229,6 +217,18 @@ const StoreModalContents = ({ storeData, onChangeStoreData }: TProps) => {
           <FormControlLabel value={true} control={<Radio />} label="YES" />
           <FormControlLabel value={false} control={<Radio />} label="NO" />
         </RadioGroup>
+      </StoreFormWrapper>
+
+      {/* 연락처 */}
+      <StoreFormWrapper label="자물쇠 비밀번호">
+        <div className="flex gap-2 items-center">
+          <TextField
+            placeholder="1234"
+            value={storeData.password}
+            name="password"
+            onChange={onChangeStoreData}
+          />
+        </div>
       </StoreFormWrapper>
 
       {/* 연락처 */}
@@ -246,7 +246,6 @@ const StoreModalContents = ({ storeData, onChangeStoreData }: TProps) => {
       {/* 인스타그램 계정 */}
       <StoreFormWrapper label="인스타그램 계정">
         <div className="flex gap-2 items-center">
-          @
           <TextField
             placeholder="upbrella"
             value={storeData.instagramId}
@@ -272,18 +271,6 @@ const StoreModalContents = ({ storeData, onChangeStoreData }: TProps) => {
           value={storeData.content}
         />
       </StoreFormWrapper>
-
-      {/* 이미지 업로드 */}
-      {/* <StoreFormWrapper label="이미지 업로드">
-        <div className="flex gap-2 items-center">
-          <TextField
-            placeholder="upbrella"
-            name="imageUrls"
-            onChange={onChangeStoreData}
-            value={storeData.imageUrls}
-          />
-        </div>
-      </StoreFormWrapper> */}
     </div>
   );
 };
