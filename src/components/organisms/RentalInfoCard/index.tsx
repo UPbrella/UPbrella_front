@@ -7,42 +7,45 @@ import CallOutlinedIcon from "@mui/icons-material/CallOutlined";
 import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
 import WavingHandOutlinedIcon from "@mui/icons-material/WavingHandOutlined";
 import InstagramIcon from "@mui/icons-material/Instagram";
-import React from "react";
-
-type TProps = {
-  children: React.ReactNode;
-};
-
-const LabelWrapper = ({ children }: TProps) => {
-  return <div className="mt-18 text-gray-700">{children}</div>;
-};
-
-const LabelWithIcon = (icon?: React.ReactNode, content?: React.ReactNode) => {
-  return (
-    <LabelWrapper>
-      {icon}
-      {content}
-    </LabelWrapper>
-  );
-};
 
 const RentalInfoCard = () => {
   const firstData = StoreDetailMockData.StoreDetailMockData[0];
 
   const labels = [
-    LabelWithIcon(
-      <UmbrellaSharpIcon className="text-gray-400 mr-16" />,
-      `대여가능 우산 ${firstData.umbrellaCount} 개`
-    ),
-    LabelWithIcon(<AccessTimeSharpIcon className="text-gray-400 mr-16" />, firstData.businessHours),
-    LabelWithIcon(<CallOutlinedIcon className="text-gray-400 mr-16" />, firstData.contactNumber),
-    LabelWithIcon(<InstagramIcon className="text-gray-400 mr-16" />, `@${firstData.instagramId}`),
-    LabelWithIcon(
-      <PlaceOutlinedIcon className="text-gray-400 mr-16" />,
-      `@${firstData.storeLocation}`
-    ),
-    <div className="text-primary-500 ml-40">{firstData.umbrellaLocation}</div>,
-    LabelWithIcon(<WavingHandOutlinedIcon className="text-gray-400 mr-16" />, firstData.content),
+    {
+      icon: <UmbrellaSharpIcon className="text-gray-400 mr-16" />,
+      text: (
+        <span>
+          대여가능 우산{" "}
+          <span className="text-primary-500 font-bold">{firstData.umbrellaCount}</span> 개
+        </span>
+      ),
+    },
+    {
+      icon: <AccessTimeSharpIcon className="text-gray-400 mr-16" />,
+      text: <span>{firstData.businessHours}</span>,
+    },
+    {
+      icon: <CallOutlinedIcon className="text-gray-400 mr-16" />,
+      text: <span>{firstData.contactNumber}</span>,
+    },
+    {
+      icon: <InstagramIcon className="text-gray-400 mr-16" />,
+      text: <span>@{firstData.instagramId}</span>,
+    },
+    {
+      icon: <PlaceOutlinedIcon className="text-gray-400 mr-16" />,
+      text: (
+        <div className="flex flex-col">
+          {firstData.storeLocation}{" "}
+          <span className="text-primary-500">{firstData.umbrellaLocation}</span>
+        </div>
+      ),
+    },
+    {
+      icon: <WavingHandOutlinedIcon className="text-gray-400 mr-16" />,
+      text: <span>{firstData.content}</span>,
+    },
   ];
 
   return (
@@ -51,7 +54,16 @@ const RentalInfoCard = () => {
       <div className="pt-24 pb-6">
         <NaverDirectionBtn />
       </div>
-      {labels}
+      <div className="mt-18 text-gray-700">
+        {labels.map((label, index) => (
+          <div key={index}>
+            <div className="flex mb-16 text-gray-700">
+              {label.icon}
+              {label.text}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
