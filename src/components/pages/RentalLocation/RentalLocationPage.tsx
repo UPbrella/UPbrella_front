@@ -18,8 +18,7 @@ export default function RentalInfo() {
   const mapElement = useRef(null);
 
   const [map, setMap] = useState<naver.maps.Map>();
-  /* eslint-disable @typescript-eslint/no-unused-vars */
-  const [marker, setMarker] = useState<naver.maps.Marker>();
+  const [, setMarker] = useState<naver.maps.Marker>();
 
   // map 처음 한번 생성
   useEffect(() => {

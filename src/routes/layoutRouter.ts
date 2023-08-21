@@ -1,10 +1,10 @@
 import { TRoute } from "@/types/commonTypes";
 import HomeMainPage from "@/components/pages/home/HomeMainPage";
 import RentHistoryPage from "@/components/pages/admin/RentHistoryPage";
-import RentalLocationPage from "@/components/pages/rentalLocation/RentalLocationPage";
 import StoreManagePage from "@/components/pages/admin/store/StoreManagePage";
 import LoginPage from "@/components/pages/Login/LoginPage";
 import LoginRedirect from "@/components/pages/Login/LoginRedirectPage";
+import RentalLocationPage from "@/components/pages/RentalLocation/RentalLocationPage";
 
 /**
  * Header, footer의 layout이 필요한 페이지
