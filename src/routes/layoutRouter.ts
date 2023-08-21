@@ -5,6 +5,7 @@ import RentalLocationPage from "@/components/pages/rentalLocation/RentalLocation
 import StoreManagePage from "@/components/pages/admin/store/StoreManagePage";
 import LoginPage from "@/components/pages/Login/LoginPage";
 import LoginRedirect from "@/components/pages/Login/LoginRedirectPage";
+import SignUpRequiredForm from "@/components/templates/SignUp/SignUpRequired";
 
 /**
  * Header, footer의 layout이 필요한 페이지
@@ -40,5 +41,10 @@ export const LAYOUT_ROUTES: TRoute[] = [
     name: "로그인 리다이렉트 페이지",
     path: "/auth",
     component: LoginRedirect,
+  },
+  {
+    name: "회원가입 정보 입력 페이지",
+    path: "/members/signup/info",
+    component: SignUpRequiredForm,
   },
 ];
