@@ -39,6 +39,9 @@ export default {
         kakao: "#FEE500",
         kakaoblack: "#000000",
       },
+      backgroundImage: {
+        basic: "url('/src/assets/basicbackground.png')",
+      },
     },
   },
   plugins: [],
