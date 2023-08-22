@@ -24,4 +24,5 @@ PhoneNumber.args = {
 export const RefundAccount = Template.bind({});
 RefundAccount.args = {
   label: "환급받을 계좌",
+  isRequired: true,
 };

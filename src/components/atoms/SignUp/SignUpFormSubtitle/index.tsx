@@ -1,6 +1,6 @@
 export type SignUpFormSubTitleProps = {
   label1: string;
-  label2: string;
+  label2?: string;
   labelBold?: string;
 };
 
