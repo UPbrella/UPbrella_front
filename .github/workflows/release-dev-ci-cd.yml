@@ -10,7 +10,7 @@ env:
   ECR_REPOSITORY: upbrella-ecr-dev-web
   ECS_SERVICE: upbrella-dev-web-service
   ECS_CLUSTER: upbrella-dev-cluster
-  CONTAINER_NAME: upbrella-web-server
+  CONTAINER_NAME: upbrella-dev-web
   ESLINT_NO_DEV_ERRORS: true
 
 permissions:
