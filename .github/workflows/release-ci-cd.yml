@@ -2,7 +2,7 @@ name: Web Server CI Script
 
 on:
   push:
-    branches: [ "release", "feat-160-front-aws-pipeline" ]
+    branches: [ "release" ]
 
 
 env:
