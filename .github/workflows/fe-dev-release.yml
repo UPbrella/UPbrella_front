@@ -1,0 +1,70 @@
+name: FE codedeploy
+
+on:
+  push:
+    branches: [ "release-dev" ]
+
+env:
+  AWS_REGION: ap-northeast-2
+  S3_BUCKET_NAME: upbrella-dev
+  CODE_DEPLOY_APPLICATION_NAME: upbrella-dev-deploy
+  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: upbrella-dev-deploy-group
+  working-directory: ./
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_FE }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_FE }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set node@v1
+        uses: actions/setup-node@v3
+
+      - name: check Node v
+        run: node -v
+
+      - name: Install npm
+        run: sudo apt install npm
+
+      - name: check npm
+        run: npm -v
+
+      - name: install dependency
+        run: npm install
+        working-directory: ${{ env.working-directory }}
+
+      - name: install CI
+        run: npm ci
+        working-directory: ${{ env.working-directory }}
+
+      - name: Generate build
+        run: npm run build
+        working-directory: ${{ env.working-directory }}
+
+      - name: Upload to AWS S3
+        run: |
+          aws deploy push \
+            --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
+            --ignore-hidden-files \
+            --s3-location s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip \
+            --source .
+      - name: Deploy to AWS EC2 from S3
+        run: |
+          aws deploy create-deployment \
+            --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
+            --deployment-config-name CodeDeployDefault.AllAtOnce \
+            --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} \
+            --s3-location bucket=$S3_BUCKET_NAME,key=$GITHUB_SHA.zip,bundleType=zip
