@@ -6,8 +6,10 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     screens: {
-      sm: { max: "640px" },
-      md: { max: "360px" },
+      sm: { max: "360px" },
+      md: { max: "640px" },
+      lg: { max: "1024px" },
+      xl: { min: "1025px" },
     },
     extend: {
       maxWidth: px0_1000,
