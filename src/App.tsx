@@ -1,9 +1,11 @@
-import MainLayout from "@/components/templates/common/MainLayout";
-import { Route, Routes } from "react-router-dom";
-import { NOT_LAYOUT_ROUTES } from "./routes/notLayoutRouter";
-import { LAYOUT_ROUTES } from "@/routes/layoutRouter";
-import { QueryClient, QueryClientProvider } from "react-query";
 import { Toaster } from "react-hot-toast";
+import { Route, Routes } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
+import MainLayout from "@/components/templates/common/MainLayout";
+import AdminWrapper from "@/components/templates/admin/AdminWrapper";
+import { ADMIN_ROUTES } from "@/routes/adminRouter";
+import { LAYOUT_ROUTES } from "@/routes/layoutRouter";
+import { NOT_LAYOUT_ROUTES } from "@/routes/notLayoutRouter";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -39,6 +41,22 @@ function App() {
           <Route element={<MainLayout />}>
             {LAYOUT_ROUTES.map((route) => {
               return <Route key={route.name} path={route.path} element={<route.component />} />;
+            })}
+          </Route>
+
+          <Route element={<MainLayout />}>
+            {ADMIN_ROUTES.map((route) => {
+              return (
+                <Route
+                  key={route.name}
+                  path={route.path}
+                  element={
+                    <AdminWrapper>
+                      <route.component />
+                    </AdminWrapper>
+                  }
+                />
+              );
             })}
           </Route>
 
