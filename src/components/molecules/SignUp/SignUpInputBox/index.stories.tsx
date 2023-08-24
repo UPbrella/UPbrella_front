@@ -24,11 +24,3 @@ PhoneNumber.args = {
   labelInput: "010-1234-5678",
   name: "number",
 };
-
-export const RefundAccount = Template.bind({});
-RefundAccount.args = {
-  labelTitle: "환급받을 계좌",
-  isRequired: true,
-  labelInput: "계좌번호",
-  name: "refundaccount",
-};
