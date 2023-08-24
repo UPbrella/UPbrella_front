@@ -6,14 +6,15 @@ export type SignUpAllowBoxProps = {
   isAllow?: boolean;
   label: string;
   isClicked?: boolean;
+  onClickAllow: () => void;
 };
 
-const SignUpAllowBox = ({ isAllow, label, isClicked }: SignUpAllowBoxProps) => {
+const SignUpAllowBox = ({ isAllow, label, isClicked, onClickAllow }: SignUpAllowBoxProps) => {
   return (
     <section className="flex justify-between px-8 py-12 items-center">
       <div className="flex">
         <div className="mr-8">
-          <SignUpFormAllow isAllow={isAllow} />
+          <SignUpFormAllow isAllow={isAllow} onClick={onClickAllow} />
         </div>
         <SignUpFormAllowText label={label} />
       </div>

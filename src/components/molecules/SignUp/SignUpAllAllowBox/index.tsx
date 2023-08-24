@@ -4,13 +4,14 @@ import SignUpFormAllAllowText from "@/components/atoms/SignUp/SignUpFormAllAllow
 export type SignUpAllAllowBoxProps = {
   isAllow?: boolean;
   label: string;
+  onClickAllow: () => void;
 };
 
-const SignUpAllAllowBox = ({ isAllow, label }: SignUpAllAllowBoxProps) => {
+const SignUpAllAllowBox = ({ isAllow, label, onClickAllow }: SignUpAllAllowBoxProps) => {
   return (
     <section className="flex px-8 py-12 items-center rounded-5 bg-gray-100">
       <div className="mr-8">
-        <SignUpFormAllow isAllow={isAllow} />
+        <SignUpFormAllow isAllow={isAllow} onClick={onClickAllow} />
       </div>
       <SignUpFormAllAllowText label={label} />
     </section>
