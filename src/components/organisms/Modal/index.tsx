@@ -8,7 +8,7 @@ type TProps = {
   handleClose: () => void;
   children: ReactNode;
   footerContents?: ReactNode;
-  style?: CSSProperties;
+  isLoading?: boolean;
 };
 
 // Modal Organism
@@ -18,10 +18,18 @@ const CustomModal = ({
   handleClose,
   children,
   footerContents,
-  style,
+  isLoading,
 }: TProps) => {
+  // hack
+  const isLoadingStyle = { pointerEvents: "none", opacity: "0.6" } satisfies CSSProperties;
+
   return (
-    <Dialog style={style} maxWidth="xl" onClose={handleClose} open={isOpen}>
+    <Dialog
+      style={isLoading ? isLoadingStyle : {}}
+      maxWidth="xl"
+      onClose={handleClose}
+      open={isOpen}
+    >
       {/* Header */}
       <CustomModalHeader titleText={titleText} handleClose={handleClose} />
 

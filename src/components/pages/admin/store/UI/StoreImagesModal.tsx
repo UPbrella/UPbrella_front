@@ -71,6 +71,7 @@ const StoreImagesModal = ({ isOpen, onCloseModal, selectedStore }: TProps) => {
       isOpen={isOpen}
       handleClose={onCloseModal}
       titleText={`협업지점 이미지 업로드 및 조회`}
+      isLoading={isSaveLoading || isRemoveLoading}
       footerContents={
         <Button variant="contained" component="label">
           이미지 업로드
@@ -83,7 +84,6 @@ const StoreImagesModal = ({ isOpen, onCloseModal, selectedStore }: TProps) => {
           />
         </Button>
       }
-      style={isSaveLoading || isRemoveLoading ? { pointerEvents: "none", opacity: "0.6" } : {}}
     >
       <div>
         {selectedStore.imageUrls.length ? (
