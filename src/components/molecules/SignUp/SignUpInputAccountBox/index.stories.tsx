@@ -15,5 +15,4 @@ export const Account = Template.bind({});
 Account.args = {
   labelTitle: "환급받을 계좌",
   labelInput: "계좌번호",
-  name: "account",
 };
