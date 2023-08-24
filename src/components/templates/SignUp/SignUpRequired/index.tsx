@@ -4,27 +4,38 @@ import SignUpInputBox from "@/components/molecules/SignUp/SignUpInputBox";
 import SignUpAllAllowBox from "@/components/molecules/SignUp/SignUpAllAllowBox";
 import SignUpAllowBox from "@/components/molecules/SignUp/SignUpAllowBox";
 import SignUpFormButton from "@/components/atoms/SignUp/SignUpFormButton";
+import { ChangeEvent } from "react";
 
 export type SignUpRequiredFormProps = {
   name: string;
+  onChangeValue: (e: ChangeEvent<HTMLInputElement>) => void;
   phone: string;
   isAllAllow?: boolean;
+  onClickAllAllow: () => void;
   isFirstAllow?: boolean;
+  onClickFirstAllow: () => void;
+  onClickSecondAllow: () => void;
   isSecondAllow?: boolean;
   isFirstClicked?: boolean;
-  ifSecondClicked?: boolean;
+  isSecondClicked?: boolean;
   isDone?: boolean;
+  onClickButton?: () => void;
 };
 
 const SignUpRequiredForm = ({
   name,
+  onChangeValue,
   phone,
   isAllAllow,
   isFirstAllow,
+  onClickAllAllow,
   isSecondAllow,
+  onClickFirstAllow,
+  onClickSecondAllow,
   isFirstClicked,
-  ifSecondClicked,
+  isSecondClicked,
   isDone,
+  onClickButton,
 }: SignUpRequiredFormProps) => {
   return (
     <main className="flex flex-1 flex-col justify-center items-center bg-basic">
@@ -41,17 +52,34 @@ const SignUpRequiredForm = ({
               />
             </div>
             <div className="mb-16">
-              <SignUpInputBox labelTitle="이름" labelInput="이름입력" name={name} />
+              <SignUpInputBox
+                labelTitle="이름"
+                labelInput="이름입력"
+                name="name"
+                value={name}
+                onChangeValue={onChangeValue}
+              />
             </div>
             <div>
-              <SignUpInputBox labelTitle="전화번호" labelInput="010-1234-5678" name={phone} />
+              <SignUpInputBox
+                labelTitle="전화번호"
+                labelInput="010-1234-5678"
+                name="phone"
+                value={phone}
+                onChangeValue={onChangeValue}
+              />
             </div>
           </section>
           <section>
-            <SignUpAllAllowBox isAllow={isAllAllow} label="전체동의" />
+            <SignUpAllAllowBox
+              isAllow={isAllAllow}
+              onClickAllow={onClickAllAllow}
+              label="전체동의"
+            />
             <div className="my-4">
               <SignUpAllowBox
                 isAllow={isFirstAllow}
+                onClickAllow={onClickFirstAllow}
                 label="(필수) 업브렐라 이용약관"
                 isClicked={isFirstClicked}
               />
@@ -59,11 +87,12 @@ const SignUpRequiredForm = ({
             <div className="mb-24">
               <SignUpAllowBox
                 isAllow={isSecondAllow}
+                onClickAllow={onClickSecondAllow}
                 label="(필수) 개인정보 수집 및 이용동의"
-                isClicked={ifSecondClicked}
+                isClicked={isSecondClicked}
               />
             </div>
-            <SignUpFormButton label="다음" isDone={isDone} />
+            <SignUpFormButton label="다음" isDone={isDone} onClick={onClickButton} />
           </section>
         </section>
       </article>
