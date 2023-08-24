@@ -1,10 +1,11 @@
 import { TRoute } from "@/types/commonTypes";
 import HomeMainPage from "@/components/pages/home/HomeMainPage";
 import RentHistoryPage from "@/components/pages/admin/RentHistoryPage";
-import RentalLocationPage from "@/components/pages/rentalLocation/RentalLocationPage";
 import StoreManagePage from "@/components/pages/admin/store/StoreManagePage";
 import LoginPage from "@/components/pages/Login/LoginPage";
 import LoginRedirect from "@/components/pages/Login/LoginRedirectPage";
+import RentalLocationPage from "@/components/pages/RentalLocation/RentalLocationPage";
+import RentalOfficePage from "@/components/pages/rentalOffice/RentalOfficePage";
 import SignUpPage from "@/components/pages/SignUp";
 
 /**
@@ -31,6 +32,11 @@ export const LAYOUT_ROUTES: TRoute[] = [
     name: "대여소 위치 페이지",
     path: "/rentalLocation",
     component: RentalLocationPage,
+  },
+  {
+    name: "협업 지점 소개페이지",
+    path: "/rentalOffice",
+    component: RentalOfficePage,
   },
   {
     name: "로그인 페이지",
