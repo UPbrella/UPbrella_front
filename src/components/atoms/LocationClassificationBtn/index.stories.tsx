@@ -4,7 +4,7 @@ import LocationClassificationBtn, {
 } from "@/components/atoms/LocationClassificationBtn/index";
 
 export default {
-  title: "Example/LocationClassificationBtn",
+  title: "atoms/LocationClassificationBtn",
   component: LocationClassificationBtn,
   tags: ["autodocs"],
 } as Meta;
