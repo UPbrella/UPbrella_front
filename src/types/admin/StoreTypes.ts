@@ -37,12 +37,12 @@ export type TStoreParams = Omit<
   subClassificationId: number | null;
 };
 
-// 표에서 확인할 데이터
-export type TStoreTable = TStoreDetail & {
-  naverMapLink: string; // 네이버 지도 링크
+export type TStoreImageParams = {
+  storeId: number;
+  imageFile: FormData;
 };
 
-export type TStoreTableKey = keyof TStoreTable;
+export type TStoreTableKey = keyof TStoreDetail;
 
 // 지역 태그 (대분류)
 export type TClassification = {
@@ -55,7 +55,7 @@ export type TClassification = {
 
 export type TStoreImage = {
   id: number;
-  imagesUrl: string;
+  imageUrl: string;
 };
 
 export type TStoreBusinessHours = {

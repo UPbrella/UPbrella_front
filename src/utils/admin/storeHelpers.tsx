@@ -6,11 +6,10 @@ import { TTableColumn } from "@/types/commonTypes";
 import {
   TClassification,
   TStoreBusinessHours,
-  TStoreDetail,
-  TStoreTable,
   TStoreTableKey,
   TSubClassification,
 } from "@/types/admin/StoreTypes";
+import { Button } from "@mui/material";
 
 // 협업지점 테이블 Column 생성
 export const StoreTableColumns = Object.keys(Store.STORE_ENUM).map((key) => {
@@ -42,14 +41,8 @@ export const StoreTableColumns = Object.keys(Store.STORE_ENUM).map((key) => {
         return <>{value.name}</>;
       };
       break;
-    case "naverMapLink":
-      formatFn = (link: string) => (
-        <Button>
-          <Link target="_blank" rel="noopener" to={link}>
-            링크
-          </Link>
-        </Button>
-      );
+    case "imageUrls":
+      formatFn = () => <Button variant="contained">이미지 업로드 및 확인</Button>;
       break;
   }
 
@@ -60,14 +53,3 @@ export const StoreTableColumns = Object.keys(Store.STORE_ENUM).map((key) => {
     formatFn,
   } as TTableColumn<TStoreTableKey>;
 });
-
-// api -> 테이블 형식으로 포맷팅 함수
-export const getStoreTableData = (storesRes: TStoreDetail[]): TStoreTable[] => {
-  return storesRes.map((e) => {
-    return {
-      ...e,
-      address: e.addressDetail ? `${e.address}, ${e.addressDetail}` : e.address,
-      naverMapLink: `https://map.naver.com/v5/search/${e.address}?c=15,0,0,0,dh`,
-    };
-  });
-};

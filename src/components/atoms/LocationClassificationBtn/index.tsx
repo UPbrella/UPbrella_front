@@ -2,25 +2,27 @@ import { useState } from "react";
 
 export type TLocationClassificationBtn = {
   text: string[];
-  map: naver.maps.Map | undefined;
+  map?: naver.maps.Map;
 };
 
 const LocationClassificationBtn = ({ text, map }: TLocationClassificationBtn) => {
-  const { naver } = window;
-
   const [activeIndex, setActiveIndex] = useState(0);
-  const shinchon = new naver.maps.LatLng(37.5608393877042, 126.93545258588699);
-  const yeonhee = new naver.maps.LatLng(37.573885406749994, 126.93472815974937);
 
   const handleClick = (index: number) => {
     setActiveIndex(index);
 
-    if (index === 0) {
-      map?.setCenter(shinchon);
-    } else {
-      map?.setCenter(yeonhee);
+    if (map && window.naver && window.naver.maps) {
+      const shinchon = new window.naver.maps.LatLng(37.5608393877042, 126.93545258588699);
+      const yeonhee = new window.naver.maps.LatLng(37.573885406749994, 126.93472815974937);
+
+      if (index === 0) {
+        map.setCenter(shinchon);
+      } else {
+        map.setCenter(yeonhee);
+      }
     }
   };
+
   return (
     <div>
       {text.map((item, index) => (

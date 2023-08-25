@@ -7,10 +7,13 @@ import {
   TSubClassificationAllRes,
   TSubClassificationParams,
   TStoreParams,
+  TStoreImageParams,
 } from "@/types/admin/StoreTypes";
 
 const API = {
   ADMIN_STORES: (id?: number) => (id ? `/stores/${id}` : `/stores`),
+  ADMIN_IMAGE_UPLOAD: (id: number) => `/stores/${id}/images`,
+  ADMIN_IMAGE_DELETE: (id: number) => `/stores/images/${id}`,
   ADMIN_CLASSIFICATIONS: (id?: number) =>
     id ? `/stores/classifications/${id}` : "/stores/classifications/",
   ADMIN_SUBCLASSIFICATIONS: (id?: number) =>
@@ -42,6 +45,15 @@ export const patchStores = async ({
 // 협업지점 삭제
 export const deleteStores = async (storeId: number) => {
   await $axios.delete(API.ADMIN_STORES(storeId));
+
+// 협업지점 이미지 업로드
+export const postStoreImage = async ({ storeId, imageFile }: TStoreImageParams) => {
+  await $axios.post(API.ADMIN_IMAGE_UPLOAD(storeId), imageFile);
+};
+
+// 협업지점 이미지 삭제
+export const deleteStoreImage = async (storeId: number) => {
+  await $axios.delete(API.ADMIN_IMAGE_DELETE(storeId));
 };
 
 // 대분류 태그

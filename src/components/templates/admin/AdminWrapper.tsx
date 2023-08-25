@@ -1,5 +1,5 @@
-import AdminMenu from "@/components/templates/admin/AdminMenu";
 import { ReactNode } from "react";
+import AdminMenu from "@/components/templates/admin/AdminMenu";
 
 type TProps = {
   children: ReactNode;
@@ -7,8 +7,7 @@ type TProps = {
 
 const AdminWrapper = ({ children }: TProps) => {
   return (
-    <div className="">
-      {/* TODO: 어드민 메뉴 > 탭 형식으로 변경 고려 */}
+    <div className="flex flex-col gap-8">
       <AdminMenu />
 
       {/* 페이지 별 컨텐츠 */}
