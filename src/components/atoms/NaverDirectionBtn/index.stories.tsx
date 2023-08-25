@@ -1,4 +1,3 @@
-import React from "react";
 import NaverDirectionBtn from "@/components/atoms/NaverDirectionBtn/index";
 
 import type { Meta, StoryFn } from "@storybook/react";

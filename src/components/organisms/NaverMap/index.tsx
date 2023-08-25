@@ -35,9 +35,8 @@ const NaverMap = ({
       });
 
       // 마커 추가
-      /* eslint-disable @typescript-eslint/no-unused-vars */
       if (addMarker) {
-        const marker = new naver.maps.Marker({
+        new naver.maps.Marker({
           position: defaultPosition,
           map: map,
           icon: { content: `<img alt="webMarker" src="${webMarker}" />` },
@@ -54,8 +53,7 @@ const NaverMap = ({
 
         const labelSize = new naver.maps.Size(labelDiv.offsetWidth, labelDiv.offsetHeight);
 
-        /* eslint-disable @typescript-eslint/no-unused-vars */
-        const labelMarker = new naver.maps.Marker({
+        new naver.maps.Marker({
           position: defaultPosition,
           map: map,
           icon: {
