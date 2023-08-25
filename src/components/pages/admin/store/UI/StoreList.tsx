@@ -6,18 +6,21 @@ import StoreTable from "@/components/organisms/admin/StoreTable";
 import ContentsTitle from "@/components/molecules/ContentsTitle";
 import StoreModal from "@/components/pages/admin/store/UI/StoreModal";
 import { storeInitializer } from "@/components/pages/admin/store/helper";
-import { StoreTableColumns, getStoreTableData } from "@/utils/admin/storeHelpers";
+import { StoreTableColumns } from "@/utils/admin/storeHelpers";
+import StoreImagesModal from "@/components/pages/admin/store/UI/StoreImagesModal";
 
 // 협업지점 리스트 + 모달
 const StoreList = () => {
   // client
   const { isOpen, handleOpen, handleClose } = useModalStatus();
   const [selectedStoreId, setSelectedStoreId] = useState<number>();
+  const [modalType, setModalType] = useState<"store" | "image">("store");
 
   // server
   const { data: storesRes } = useGetStores();
 
-  const onClickStoreRow = (id: number) => {
+  const onClickStoreRow = (id: number, type: "store" | "image") => {
+    setModalType(type);
     handleOpen();
     setSelectedStoreId(id);
   };
@@ -27,8 +30,7 @@ const StoreList = () => {
     setSelectedStoreId(undefined);
   };
 
-  // TODO: filter table row Data
-  const rows = getStoreTableData(storesRes ?? []);
+  const selectedStore = storesRes?.find((row) => row.id === selectedStoreId);
 
   return (
     <>
@@ -46,16 +48,34 @@ const StoreList = () => {
         </ContentsTitle>
 
         {/* 협업 지점 테이블 */}
-        <StoreTable columns={StoreTableColumns} rows={rows} onClickStoreRow={onClickStoreRow} />
+        <StoreTable
+          columns={StoreTableColumns}
+          rows={storesRes ?? []}
+          onClickStoreRow={onClickStoreRow}
+        />
       </div>
 
       {/* store 생성 및 수정 Modal */}
-      <StoreModal
-        isOpen={isOpen}
-        onCloseModal={onCloseModal}
-        selectedStore={storeInitializer(storesRes?.find((row) => row.id === selectedStoreId))}
-        selectedStoreId={selectedStoreId}
-      />
+      {modalType === "store" && (
+        <StoreModal
+          isOpen={isOpen}
+          onCloseModal={onCloseModal}
+          selectedStore={storeInitializer(selectedStore)}
+          selectedStoreId={selectedStoreId}
+        />
+      )}
+
+      {modalType === "image" && selectedStore && (
+        <StoreImagesModal
+          isOpen={isOpen}
+          onCloseModal={onCloseModal}
+          selectedStore={{
+            id: selectedStore.id,
+            name: selectedStore.name,
+            imageUrls: selectedStore.imageUrls,
+          }}
+        />
+      )}
     </>
   );
 };

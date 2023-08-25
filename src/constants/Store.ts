@@ -11,8 +11,7 @@ const STORE_ENUM: Record<string, string> = {
   contactNumber: "연락처",
   instagramId: "인스타",
   content: "소개",
-  // naverMapLink: "네이버지도",
-  // images: "이미지",
+  imageUrls: "이미지",
 };
 
 export default {
