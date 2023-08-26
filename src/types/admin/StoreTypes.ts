@@ -22,6 +22,7 @@ export type TStoreDetail = {
   longitude: number | null;
   content: string;
   imageUrls: TStoreImage[];
+  password: string; // 자물쇠 비밀번호
 };
 
 // api response
@@ -34,7 +35,6 @@ export type TStoreParams = Omit<
 > & {
   classificationId: number | null;
   subClassificationId: number | null;
-  password: string;
 };
 
 export type TStoreImageParams = {

@@ -53,12 +53,12 @@ const StoreAddressInput = ({ storeData, onChangeStoreData, setStoreData }: TProp
     setMarker(marker);
 
     naver.maps.Event.addListener(_map, "click", (e) => {
-      const { x, y } = e.latlng;
+      const { _lat, _lng } = e.latlng;
       marker.setPosition(e.latlng);
       setStoreData((prev) => ({
         ...prev,
-        latitude: y,
-        longitude: x,
+        latitude: _lat,
+        longitude: _lng,
       }));
     });
 
@@ -85,11 +85,11 @@ const StoreAddressInput = ({ storeData, onChangeStoreData, setStoreData }: TProp
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex w-[600px] gap-8">
-        <div className="flex-1 flex items-center gap-4">
+      <div className="flex flex-col max-w-[300px] self-end gap-4">
+        <div className="flex-1 flex justify-between items-center gap-4">
           주소
           <TextField
-            className="flex-1"
+            className="w-200"
             placeholder="주소 검색 후 선택해주세요."
             disabled
             value={storeData.address}
@@ -97,16 +97,18 @@ const StoreAddressInput = ({ storeData, onChangeStoreData, setStoreData }: TProp
             onChange={onChangeStoreData}
           />
         </div>
-        <div className="flex-1 flex items-center gap-4">
-          상세 주소
-          <TextField
-            className="flex-1"
-            placeholder="상세 주소를 입력해주세요."
-            name="addressDetail"
-            value={storeData.addressDetail}
-            onChange={onChangeStoreData}
-          />
-        </div>
+        {storeData.address && (
+          <div className="flex-1 flex justify-between items-center gap-4">
+            상세 주소
+            <TextField
+              className="w-200"
+              placeholder="상세 주소를 입력해주세요."
+              name="addressDetail"
+              value={storeData.addressDetail}
+              onChange={onChangeStoreData}
+            />
+          </div>
+        )}
       </div>
       <div className="flex max-w-[600px]">
         <DaumPostcode
@@ -123,7 +125,7 @@ const StoreAddressInput = ({ storeData, onChangeStoreData, setStoreData }: TProp
         ></DaumPostcode>
         <div className="flex flex-col gap-5">
           <Map ref={mapElement} width="300px" height="400px" />
-          <div>
+          <div className="flex flex-col">
             <div>위도: {storeData.latitude}</div>
             <div>경도: {storeData.longitude}</div>
           </div>

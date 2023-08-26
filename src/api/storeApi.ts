@@ -6,11 +6,12 @@ import {
   TClassificationParams,
   TSubClassificationAllRes,
   TSubClassificationParams,
+  TStoreParams,
   TStoreImageParams,
 } from "@/types/admin/StoreTypes";
 
 const API = {
-  ADMIN_STORES: () => `/stores`,
+  ADMIN_STORES: (id?: number) => (id ? `/stores/${id}` : `/stores`),
   ADMIN_IMAGE_UPLOAD: (id: number) => `/stores/${id}/images`,
   ADMIN_IMAGE_DELETE: (id: number) => `/stores/images/${id}`,
   ADMIN_CLASSIFICATIONS: (id?: number) =>
@@ -24,6 +25,26 @@ export const getStores = async () => {
   const res = await $axios.get<TApiResponse<TStoreAllRes>>(API.ADMIN_STORES());
   return res.data;
 };
+
+// 협업지점 생성
+export const postStores = async (params: TStoreParams) => {
+  await $axios.post(API.ADMIN_STORES(), params);
+};
+
+// 협업지점 수정
+export const patchStores = async ({
+  storeId,
+  params,
+}: {
+  storeId: number;
+  params: TStoreParams;
+}) => {
+  await $axios.patch(API.ADMIN_STORES(storeId), params);
+};
+
+// 협업지점 삭제
+export const deleteStores = async (storeId: number) => {
+  await $axios.delete(API.ADMIN_STORES(storeId));
 
 // 협업지점 이미지 업로드
 export const postStoreImage = async ({ storeId, imageFile }: TStoreImageParams) => {
