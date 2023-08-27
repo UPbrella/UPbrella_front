@@ -26,6 +26,7 @@ const FormStatus = ({ label, placeholder }: FormStatusProps) => {
 
     const { value } = event.target;
     setIsWriting(Boolean(value));
+    // setStatus(event.target.value);
   };
 
   const borderColor = isWriting ? "gray-600" : "gray-300";
