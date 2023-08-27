@@ -45,6 +45,19 @@ jobs:
       tag_git_hash: ${{ steps.tag.outputs.git_hash }}
 
     steps:
+      # Github Repository Secrets를 통해 .env 파일을 생성
+      - name: Generate Environment Variables File for Production
+        env:
+          VITE_UPBRELLA_API_BASE_URL: ${{ secrets.VITE_UPBRELLA_API_BASE_URL_PROD }}
+          VITE_NAVER_MAP_API_KEY: ${{ secrets.VITE_NAVER_MAP_API_KEY }}
+          VITE_KAKAO_MAP_API_KEY: ${{ secrets.VITE_KAKAO_MAP_API_KEY }}
+          VITE_KAKAO_LOGIN_REST_API_KEY: ${{ secrets.VITE_KAKAO_LOGIN_REST_API_KEY }}
+        run: |
+          echo "VITE_UPBRELLA_API_BASE_URL=${VITE_UPBRELLA_API_BASE_URL}" >> .env
+          echo "VITE_NAVER_MAP_API_KEY=${VITE_NAVER_MAP_API_KEY}" >> .env
+          echo "VITE_KAKAO_MAP_API_KEY=${VITE_KAKAO_MAP_API_KEY}" >> .env
+          echo "VITE_KAKAO_LOGIN_REST_API_KEY=${VITE_KAKAO_LOGIN_REST_API_KEY}" >> .env
+
       - name: checkout
         uses: actions/checkout@v3
 
@@ -57,7 +70,7 @@ jobs:
         run: npm install
 
       - name: Generate build
-        run: npm run build:production
+        run: npm run build
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
