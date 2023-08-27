@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
 import Store from "@/constants/Store";
 import { DAY_OF_WEEK } from "@/constants/Date";
@@ -9,7 +8,6 @@ import {
   TStoreTableKey,
   TSubClassification,
 } from "@/types/admin/StoreTypes";
-import { Button } from "@mui/material";
 
 // 협업지점 테이블 Column 생성
 export const StoreTableColumns = Object.keys(Store.STORE_ENUM).map((key) => {
