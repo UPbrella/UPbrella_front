@@ -35,9 +35,8 @@ const NaverMap = ({
       });
 
       // 마커 추가
-      /* eslint-disable @typescript-eslint/no-unused-vars */
       if (addMarker) {
-        const marker = new naver.maps.Marker({
+        new naver.maps.Marker({
           position: defaultPosition,
           map: map,
           icon: { content: `<img alt="webMarker" src="${webMarker}" />` },
@@ -54,8 +53,7 @@ const NaverMap = ({
 
         const labelSize = new naver.maps.Size(labelDiv.offsetWidth, labelDiv.offsetHeight);
 
-        /* eslint-disable @typescript-eslint/no-unused-vars */
-        const labelMarker = new naver.maps.Marker({
+        new naver.maps.Marker({
           position: defaultPosition,
           map: map,
           icon: {
@@ -69,7 +67,7 @@ const NaverMap = ({
     // 네이버 지도 API 로드
     const script = document.createElement("script");
     script.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${
-      import.meta.env.VITE_NAVER_MAP_API_CLIENT_ID
+      import.meta.env.VITE_NAVER_MAP_API_KEY
     }`;
     script.async = true;
     document.head.appendChild(script);

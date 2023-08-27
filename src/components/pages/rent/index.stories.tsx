@@ -1,4 +1,3 @@
-import React from "react";
 import RentPage from ".";
 import { Meta, StoryFn } from "@storybook/react";
 
