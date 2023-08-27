@@ -67,7 +67,7 @@ const NaverMap = ({
     // 네이버 지도 API 로드
     const script = document.createElement("script");
     script.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${
-      import.meta.env.VITE_NAVER_MAP_API_CLIENT_ID
+      import.meta.env.VITE_NAVER_MAP_API_KEY
     }`;
     script.async = true;
     document.head.appendChild(script);
