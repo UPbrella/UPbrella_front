@@ -1,0 +1,23 @@
+.swiper {
+  margin-left: 0;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  display: none;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  width: 40px;
+  height: 40px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 8px;
+  background-image: url("../../../assets/chevron_right.svg");
+  background-repeat: no-repeat; /* 이미지 반복 없음 */
+  background-position: center center; /* 이미지를 가운데에 위치 */
+}
+.swiper-button-prev {
+  background-image: url("../../../assets/chevron_left.svg");
+}
