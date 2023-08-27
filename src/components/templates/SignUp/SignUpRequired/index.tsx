@@ -38,7 +38,7 @@ const SignUpRequiredForm = ({
   onClickButton,
 }: SignUpRequiredFormProps) => {
   return (
-    <main className="flex flex-1 flex-col justify-center items-center bg-basic">
+    <main className="flex flex-1 flex-col justify-center items-center">
       <article className="flex flex-1 flex-col justify-center items-center w-440 max-h-640 p-20">
         <SignUpProgress isInProgress1={true} isInProgress2={false} />
         <section className="flex flex-1 flex-col justify-between mt-40">
