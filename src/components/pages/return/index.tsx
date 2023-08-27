@@ -13,7 +13,7 @@ const ReturnPage = () => {
   const [bankName, setBankName] = useState("");
 
   return (
-    <div className="flex-col max-w-2xl">
+    <div className="flex-col max-w-2xl mx-auto">
       <MobileHeader />
       <div className="mt-20 text-24 font-semibold leading-32 text-black mb-32">
         우산을 반납할까요?

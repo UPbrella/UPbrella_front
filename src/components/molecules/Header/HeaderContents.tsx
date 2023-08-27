@@ -1,16 +1,37 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "@/assets/main_logo.svg";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import { useState } from "react";
 import HeaderMyPage from "@/components/atoms/Header/HeaderMyPage";
 import MenuIcon from "@mui/icons-material/Menu";
+import { NavLink } from "react-router-dom";
 
 export type HeaderContentsProps = {
   isLogin?: boolean;
   name?: string;
 };
 
+const headerNavItems = [
+  {
+    name: "업브렐라 이야기",
+    path: "/about",
+  },
+  {
+    name: "대여소 위치",
+    path: "/rentalLocation",
+  },
+  {
+    name: "협업 지점 소개",
+    path: "/rentalOffice",
+  },
+  {
+    name: "이용안내",
+    path: "/information",
+  },
+] as const;
+
 const HeaderContents = ({ isLogin, name }: HeaderContentsProps) => {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleMyPageOpen = () => {
@@ -24,15 +45,24 @@ const HeaderContents = ({ isLogin, name }: HeaderContentsProps) => {
           <img className="w-64 h-64" src={Logo} alt="Logo" />
         </Link>
         <div className="flex justify-between text-16 font-semibold leading-24 text-gray-700">
-          {["업브렐라 이야기", "대여소 위치", "협업 지점 소개", "이용안내"].map((page) => (
-            // TODO 추후에 위에 4페이지 만들어 NavLink로 연결 (focus 폐기)
-            <button
-              className="mr-32 p-8 focus:text-primary-500 focus:border-solid focus:border-b-2 focus:border-primary-500"
-              key={page}
+          {headerNavItems.map(({ name, path }) => (
+            <NavLink
+              key={name}
+              to={path}
+              className={({ isActive }) => {
+                let defaultClassName = "transition-all mr-32 p-8";
+                if (isActive) {
+                  defaultClassName +=
+                    " text-primary-500 border-solid border-b-2 border-primary-500";
+                }
+
+                return defaultClassName;
+              }}
             >
-              {page}
-            </button>
+              {name}
+            </NavLink>
           ))}
+
           {isLogin ? (
             <div className="flex items-center cursor-pointer relative" onClick={handleMyPageOpen}>
               <PersonOutlineOutlinedIcon sx={{ fontSize: "20px" }} />
@@ -44,7 +74,10 @@ const HeaderContents = ({ isLogin, name }: HeaderContentsProps) => {
               )}
             </div>
           ) : (
-            <button className="w-82 h-48 rounded-8 gap-8 bg-primary-500 font-semibold text-16 leading-24 text-white">
+            <button
+              onClick={() => navigate("/login")}
+              className="w-82 h-48 rounded-8 gap-8 bg-primary-500 font-semibold text-16 leading-24 text-white"
+            >
               로그인
             </button>
           )}

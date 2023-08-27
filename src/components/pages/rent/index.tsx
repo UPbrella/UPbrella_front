@@ -23,7 +23,7 @@ const RentPage = () => {
   const handleCloseLockPwModal = () => setIsOpenLockPwModal(false);
 
   return (
-    <div className="flex-col max-w-2xl">
+    <div className="flex-col max-w-2xl mx-auto">
       <MobileHeader />
       <div className="mt-20 text-24 font-semibold leading-32 text-black">
         {isRent ? "우산을 빌렸어요!" : "우산을 빌릴까요?"}
