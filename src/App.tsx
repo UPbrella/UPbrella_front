@@ -33,7 +33,7 @@ function App() {
           },
         }}
       />
-      <div className="max-w-[1440px] px-40 mx-auto">
+      <div className="max-w-[1440px] min-h-[100vh] px-40 mx-auto flex flex-col">
         <Routes>
           {/* Not Found Page */}
 

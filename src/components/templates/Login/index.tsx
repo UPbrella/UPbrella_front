@@ -7,12 +7,12 @@ export type LoginTemplateProps = {
 
 const LoginTemplate = ({ onClick }: LoginTemplateProps) => {
   return (
-    <div>
-      <main className="flex flex-col items-center h-full ">
+    <>
+      <main className="flex-1 flex flex-col items-center justify-center">
         <LoginForm onClick={onClick} />
       </main>
       <CardFooter />
-    </div>
+    </>
   );
 };
 export default LoginTemplate;

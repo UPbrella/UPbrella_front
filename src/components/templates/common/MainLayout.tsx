@@ -6,7 +6,9 @@ const MainLayout = () => {
     <>
       <HeaderContainer />
       {/* <Nav /> */}
-      <Outlet />
+      <div className="flex-1 flex flex-col">
+        <Outlet />
+      </div>
       {/* <Footer /> */}
     </>
   );
