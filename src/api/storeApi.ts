@@ -45,6 +45,7 @@ export const patchStores = async ({
 // 협업지점 삭제
 export const deleteStores = async (storeId: number) => {
   await $axios.delete(API.ADMIN_STORES(storeId));
+};
 
 // 협업지점 이미지 업로드
 export const postStoreImage = async ({ storeId, imageFile }: TStoreImageParams) => {

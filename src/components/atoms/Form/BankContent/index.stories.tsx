@@ -6,7 +6,16 @@ export default {
   component: BankContent,
 } as Meta;
 
-const Template: StoryFn = () => <BankContent />;
+const Template: StoryFn = () => (
+  <BankContent
+    setBankName={() => {
+      return;
+    }}
+    setIsBottomSheetOpen={() => {
+      return;
+    }}
+  />
+);
 
 export const Default = Template.bind({});
 Default.args = {};

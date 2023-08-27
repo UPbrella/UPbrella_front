@@ -1,8 +1,8 @@
-name: FE codedeploy
+name: FE Development Deploy
 
 on:
   push:
-    branches: [ "release-dev" ]
+    branches: ["release-dev"]
 
 env:
   AWS_REGION: ap-northeast-2
@@ -51,7 +51,7 @@ jobs:
         working-directory: ${{ env.working-directory }}
 
       - name: Generate build
-        run: npm run build
+        run: npm run build:dev
         working-directory: ${{ env.working-directory }}
 
       - name: Upload to AWS S3
