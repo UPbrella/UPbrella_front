@@ -11,6 +11,10 @@ env:
   ECS_CLUSTER: upbrella-cluster
   CONTAINER_NAME: upbrella-web-server
   ESLINT_NO_DEV_ERRORS: true
+  VITE_UPBRELLA_API_BASE_URL: ${{ secrets.VITE_UPBRELLA_API_BASE_URL_PROD }}
+  VITE_NAVER_MAP_API_KEY: ${{ secrets.VITE_NAVER_MAP_API_KEY }}
+  VITE_KAKAO_MAP_API_KEY: ${{ secrets.VITE_KAKAO_MAP_API_KEY }}
+  VITE_KAKAO_LOGIN_REST_API_KEY: ${{ secrets.VITE_KAKAO_LOGIN_REST_API_KEY }}
 
 permissions:
   contents: read
