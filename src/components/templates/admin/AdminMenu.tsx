@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Tab, Tabs } from "@mui/material";
 
 const adminMenu = [
@@ -27,7 +27,15 @@ const adminMenu = [
 
 const AdminMenu = () => {
   const navigate = useNavigate();
-  const [value, setValue] = useState(0);
+  const location = useLocation();
+  const idx = adminMenu.findIndex((e) => e.navToUrl === location.pathname);
+
+  if (idx === -1) {
+    navigate("/");
+    alert("잘못된 경로로 들어오셨습니다.");
+  }
+
+  const [value, setValue] = useState(idx);
 
   const handleChange = (newValue: number) => {
     setValue(newValue);
