@@ -60,7 +60,7 @@ export default function RentalInfo() {
   // console.log("map is ", map);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col mt-24">
       <div className="flex justify-center">
         {/* 태블렛 환경에서 대여지점 카드 hidden */}
 
