@@ -5,9 +5,10 @@ import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined
 import HeaderMyPage from "@/components/atoms/Header/HeaderMyPage";
 import MenuIcon from "@mui/icons-material/Menu";
 import { NavLink } from "react-router-dom";
+import MobileMenu from "../MobileMenu";
 
 export type HeaderContentsProps = {
-  isLogin?: boolean;
+  isLogin: boolean;
   name?: string;
 };
 
@@ -32,17 +33,22 @@ const headerNavItems = [
 
 const HeaderContents = ({ isLogin, name }: HeaderContentsProps) => {
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false);
+  const [infoBubbleOpen, setInfoBubbleOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleMyPageOpen = () => {
-    setIsOpen(!isOpen);
+    setInfoBubbleOpen(!infoBubbleOpen);
+  };
+
+  const handleMenuOpen = () => {
+    setMenuOpen(true);
   };
 
   return (
     <>
-      <div className="flex justify-between items-center mt-8 relative lg:hidden">
+      <div className="flex justify-between items-center my-8 px-40 relative lg:hidden">
         <Link to={"/"}>
-          <img className="w-64 h-64" src={Logo} alt="Logo" />
+          <img className="w-64 h-64 p-8" src={Logo} alt="Logo" />
         </Link>
         <div className="flex justify-between text-16 font-semibold leading-24 text-gray-700">
           {headerNavItems.map(({ name, path }) => (
@@ -67,7 +73,7 @@ const HeaderContents = ({ isLogin, name }: HeaderContentsProps) => {
             <div className="flex items-center cursor-pointer relative" onClick={handleMyPageOpen}>
               <PersonOutlineOutlinedIcon sx={{ fontSize: "20px" }} />
               <div className="ml-4">{name}님</div>
-              {isOpen && (
+              {infoBubbleOpen && (
                 <div className="absolute top-11 right-0">
                   <HeaderMyPage />
                 </div>
@@ -83,14 +89,22 @@ const HeaderContents = ({ isLogin, name }: HeaderContentsProps) => {
           )}
         </div>
       </div>
-      <div className="flex justify-center items-center mt-8 relative xl:hidden">
-        <div className="absolute left-0 mt-18">
+
+      <div
+        className={menuOpen ? "hidden" : "flex justify-center items-center mt-8 relative xl:hidden"}
+      >
+        <div className="absolute left-0 mt-18" onClick={handleMenuOpen}>
           <MenuIcon style={{ width: "28px", height: "28px" }} />
         </div>
         <Link to={"/"} className="mt-8">
           <img className="w-48 h-48" src={Logo} alt="Logo" />
         </Link>
       </div>
+      {menuOpen && (
+        <div className="mx-40 xl:hidden">
+          <MobileMenu isLogin={isLogin} setMenuOpen={setMenuOpen} />
+        </div>
+      )}
     </>
   );
 };
