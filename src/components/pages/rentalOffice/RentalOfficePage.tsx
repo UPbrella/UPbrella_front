@@ -29,11 +29,13 @@ const RentalOfficePage = () => {
       </div>
       <div>
         <LocationClassificationBtn classifications={classificationName} />
-        <div className="font-bold	text-24 mt-64 ml-5 mb-16">신촌</div>
-        <div className="grid  grid-cols-3 grid-flow-row gap-4 lg:grid-cols-2">
-          {storeData.map((store, index) => (
-            <Store key={index} title={store.title} category={store.category} />
-          ))}
+        <div>
+          <div className="font-bold	text-24 mt-64 ml-5 mb-16">신촌</div>
+          <div className="grid  grid-cols-3 grid-flow-row gap-4 lg:grid-cols-2">
+            {storeData.map((store, index) => (
+              <Store key={index} title={store.title} category={store.category} />
+            ))}
+          </div>
         </div>
       </div>
     </div>
