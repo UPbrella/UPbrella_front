@@ -1,33 +1,35 @@
 import { useState } from "react";
 
 export type TLocationClassificationBtn = {
-  text: string[];
+  classifications: {
+    name: string;
+    latitude?: number | null;
+    longitude?: number | null;
+  }[];
   map?: naver.maps.Map;
 };
 
-const LocationClassificationBtn = ({ text, map }: TLocationClassificationBtn) => {
+const LocationClassificationBtn = ({ classifications, map }: TLocationClassificationBtn) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const handleClick = (index: number) => {
     setActiveIndex(index);
 
     if (map && window.naver && window.naver.maps) {
-      const shinchon = new window.naver.maps.LatLng(37.5608393877042, 126.93545258588699);
-      const yeonhee = new window.naver.maps.LatLng(37.573885406749994, 126.93472815974937);
-
-      if (index === 0) {
-        map.setCenter(shinchon);
-      } else {
-        map.setCenter(yeonhee);
-      }
+      const location = classifications[index];
+      const newCenter = new window.naver.maps.LatLng(
+        location.latitude ?? 0,
+        location.longitude ?? 0
+      );
+      map.setCenter(newCenter);
     }
   };
 
   return (
     <div>
-      {text.map((item, index) => (
+      {classifications.map((item, index) => (
         <button
-          key={item}
+          key={item.name}
           className={`${
             activeIndex === index
               ? "text-primary-500 border-primary-500"
@@ -35,7 +37,7 @@ const LocationClassificationBtn = ({ text, map }: TLocationClassificationBtn) =>
           } font-semibold px-16 py-8 mr-8 rounded-999 border text-15 bg-white`}
           onClick={() => handleClick(index)}
         >
-          {item}
+          {item.name}
         </button>
       ))}
     </div>

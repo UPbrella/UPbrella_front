@@ -6,8 +6,9 @@ import LocationClassificationBtn from "@/components/atoms/LocationClassification
 import MapBtn from "@/components/molecules/MapBtn";
 import "@/styles/markerLabel.css";
 import Card from "@/components/organisms/Card";
+import { useGetClassifications } from "@/hooks/queries/storeQueries";
 
-// 신촌 좌표
+// 기본 위치 좌표
 export const DEFAULT_COORDINATE = {
   lat: 37.5608393877042,
   lng: 126.93545258588699,
@@ -46,17 +47,30 @@ export default function RentalInfo() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [naver]);
 
+  // server
+  const { data: classificationsRes } = useGetClassifications();
+
+  const classificationData =
+    classificationsRes?.map((item) => ({
+      name: item.name,
+      latitude: item.latitude,
+      longitude: item.longitude,
+    })) || [];
+
+  // console.log("map is ", map);
+
   return (
     <div className="flex flex-col">
       <div className="flex justify-center">
         {/* 태블렛 환경에서 대여지점 카드 hidden */}
+
         <div className="sm:hidden pr-24">
           <Card />
         </div>
         <div className="w-full max-w-936 rounded-20 relative">
           <Map ref={mapElement} width="100%" height="896px" borderRadius="20px" />
           <div className="absolute top-0 left-0 z-10 p-24">
-            <LocationClassificationBtn text={["신촌", "연희동"]} map={map} />
+            <LocationClassificationBtn classifications={classificationData} map={map} />
           </div>
           <div className="absolute top-0 right-7 z-10 pt-86">
             <MapBtn map={map} />
