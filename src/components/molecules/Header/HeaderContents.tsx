@@ -101,8 +101,8 @@ const HeaderContents = ({ isLogin, name }: HeaderContentsProps) => {
         </Link>
       </div>
       {menuOpen && (
-        <div className="flex justify-center items-center">
-          <div className="xl:hidden lg:w-full max-w-640">
+        <div className="fixed top-0 left-0 right-0 bottom-0 flex justify-center bg-white p-20">
+          <div className="xl:hidden lg:w-full lg:max-w-640 sm:w-full sm:max-w-360">
             <MobileMenu isLogin={isLogin} setMenuOpen={setMenuOpen} />
           </div>
         </div>

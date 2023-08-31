@@ -34,7 +34,7 @@ const MobileMenu: React.FC<TMenu> = ({ isLogin, setMenuOpen }) => {
     <div className="relative w-full">
       <div className="bg-white z-100">
         <div className="flex justify-between items-center py-16">
-          <Link to={"/"} className="mt-8">
+          <Link to={"/"}>
             <img className="w-32 h-32" src={Logo} alt="Logo" />
           </Link>
           <div onClick={handleMenuClose}>
