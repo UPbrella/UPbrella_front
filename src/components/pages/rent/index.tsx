@@ -3,18 +3,46 @@ import FormBasic from "@/components/atoms/Form/FormBasic";
 import FormStatus from "@/components/atoms/Form/FormStatus";
 import FormButton from "@/components/atoms/Form/FormButton";
 import FormLocationMolecules from "@/components/molecules/FormLocationMolecules";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RentModalAccount from "@/components/atoms/Form/RentModalAccount";
 import RentModalFinish from "@/components/atoms/Form/RentModalFinish";
 import FormModal from "@/components/molecules/FormModal";
+import { useGetRentFormData } from "@/hooks/queries/formQueries";
 
 const RentPage = () => {
   // 대여 전(false), 대여 후(true)
   const [isRent, setIsRent] = useState(false);
 
+  // url에서 UmbrellaId 가져옴
+  const umbrellaId = 1; // TODO: 일단 고정값으로 두었는데, qr코드 url 협의후에 수정
+
+  // 대여폼
+  // const [name, setName] = useState("");
+  // const [phone, setPhone] = useState("");
+  const [location, setLocation] = useState("");
+  const [storeName, setStoreName] = useState("");
+  const [umbrellaUuid, setUmbrellaUuid] = useState(0);
+  // const [status, setStatus] = useState("");
+  // const [pw, setPw] = useState("");
+
+  // 로그인 유저 정보 조회 (name, phone)
+
+  // 대여 폼 데이터 조회 (location, storeName, umbrellaNo)
+  const { data } = useGetRentFormData(umbrellaId);
+
+  useEffect(() => {
+    if (data) {
+      setLocation(data.classificationName);
+      setStoreName(data.rentStoreName);
+      setUmbrellaUuid(data.umbrellaUuid);
+    }
+  }, [data]);
+
   // 보증금 입금 안내 모달
   const [isOpenDepositModal, setIsOpenDepositModal] = useState(false); // 자물쇠 비밀번호 안내 모달
-  const handleOpenDepositModal = () => setIsOpenDepositModal(true);
+  const handleOpenDepositModal = () => {
+    setIsOpenDepositModal(true);
+  };
   const handleCloseDepositModal = () => setIsOpenDepositModal(false);
 
   // 자물쇠 비밀번호 안내 모달
@@ -40,10 +68,10 @@ const RentPage = () => {
           </li>
         </ul>
       </div>
-      <FormBasic label="이름" />
-      <FormBasic label="전화번호" />
-      <FormLocationMolecules label="대여지점" />
-      <FormBasic label="우산번호" />
+      <FormBasic label="이름" value={""} />
+      <FormBasic label="전화번호" value={""} />
+      <FormLocationMolecules label="대여지점" location={location} storeName={storeName} />
+      <FormBasic label="우산번호" value={umbrellaUuid} />
       <FormStatus label="상태신고" placeholder="우산이나 대여 환경에 문제가 있다면 작성해주세요!" />
       <FormButton label="대여하기" handleOpen={handleOpenDepositModal} />
 
@@ -52,6 +80,8 @@ const RentPage = () => {
           <RentModalAccount
             handleCloseDepositModal={handleCloseDepositModal}
             handleOpenLockPwModal={handleOpenLockPwModal}
+            storeName={storeName}
+            umbrellaUuid={umbrellaUuid}
           />
         </FormModal>
       )}
