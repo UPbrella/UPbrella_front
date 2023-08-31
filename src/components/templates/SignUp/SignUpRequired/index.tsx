@@ -9,7 +9,7 @@ import { ChangeEvent } from "react";
 export type SignUpRequiredFormProps = {
   name: string;
   onChangeValue: (e: ChangeEvent<HTMLInputElement>) => void;
-  phone: string;
+  phoneNumber: string;
   isAllAllow?: boolean;
   onClickAllAllow: () => void;
   isFirstAllow?: boolean;
@@ -25,7 +25,7 @@ export type SignUpRequiredFormProps = {
 const SignUpRequiredForm = ({
   name,
   onChangeValue,
-  phone,
+  phoneNumber,
   isAllAllow,
   isFirstAllow,
   onClickAllAllow,
@@ -64,8 +64,8 @@ const SignUpRequiredForm = ({
               <SignUpInputBox
                 labelTitle="전화번호"
                 labelInput="010-1234-5678"
-                name="phone"
-                value={phone}
+                name="phoneNumber"
+                value={phoneNumber}
                 onChangeValue={onChangeValue}
               />
             </div>
