@@ -1,16 +1,44 @@
 import MobileHeader from "@/components/organisms/MobileHeader";
-import FormBasic from "@/components/atoms/Form/FormBasic";
-import FormStatus from "@/components/atoms/Form/FormStatus";
+// import FormBasic from "@/components/atoms/Form/FormBasic";
+// import FormStatus from "@/components/atoms/Form/FormStatus";
 import FormButton from "@/components/atoms/Form/FormButton";
-import FormLocationMolecules from "@/components/molecules/FormLocationMolecules";
+// import FormLocationMolecules from "@/components/molecules/FormLocationMolecules";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useState } from "react";
 import BottomSheet from "@/components/atoms/BottomSheet";
 import BankContent from "@/components/atoms/Form/BankContent";
+import FormModal from "@/components/molecules/FormModal";
+
+// export type ReturnProps = {
+//   name: string;
+//   phone: string;
+//   ReturnModalProps: ReturnModalProps[];
+//   status: string;
+// };
+
+// export type ReturnModalProps = {
+//   location: string;
+//   storeName: string;
+//   umbrellaNo: number;
+//   bank: string;
+//   account: number;
+//   isExceed?: boolean;
+// };
 
 const ReturnPage = () => {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const [bankName, setBankName] = useState("");
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
+  // const [name, setName] = useState("");
+  // const [phone, setPhone] = useState("");
+  // const [location, setLocation] = useState("");
+  // const [storeName, setStoreName] = useState("");
+  // const [umbrellaNo, setUmbrellaNo] = useState(0);
+  // const [bank, setBank] = useState("");
+  // const [account, setAccount] = useState(0);
+  // const [isExceed, setIsExceed] = useState(false);
+  // const [status, setStatus] = useState("");
 
   return (
     <div className="flex-col max-w-2xl mx-auto">
@@ -34,10 +62,11 @@ const ReturnPage = () => {
           </li>
         </ul>
       </div>
-      <FormBasic label="이름" />
+
+      {/* <FormBasic label="이름" />
       <FormBasic label="전화번호" />
       <FormLocationMolecules label="반납지점" />
-      <FormBasic label="우산번호" />
+      <FormBasic label="우산번호" /> */}
 
       <div className="flex flex-col mb-32">
         <div className="text-15 leading-22 text-gray-700 mb-8">환급받을 계좌</div>
@@ -74,11 +103,18 @@ const ReturnPage = () => {
         <div className="mt-4 text-14 leading-20 text-gray-600">* ‘-’은 빼고 입력해주세요!</div>
       </div>
 
-      <FormStatus
+      {/* <FormStatus
         label="개선 요청 사항"
         placeholder="개선이 필요하다고 느낀 점이 있다면 작성해주세요!"
-      />
-      <FormButton label="반납하기" />
+      /> */}
+
+      <FormButton label="반납하기" handleOpen={() => setIsOpenModal(true)} />
+
+      {isOpenModal && (
+        <FormModal height="380">
+          <>TODO - ReturnModal 연결</>
+        </FormModal>
+      )}
     </div>
   );
 };
