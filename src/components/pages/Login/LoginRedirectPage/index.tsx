@@ -10,7 +10,7 @@ const LoginRedirect = () => {
   const login = async () => {
     const code = new URL(window.location.href).searchParams.get("code");
 
-    await $axios.get(`/users/oauth/login?code=${code}`);
+    await $axios.get(`/users/oauth/login?code=${code}`, { withCredentials: true });
 
     const res = await $axios.get(`/users/login`, { withCredentials: true }).catch((error) => {
       // 회원가입이 필요한 회원의 경우 400 응답, 존재하지 않는 회원입니다.라는 메세지
