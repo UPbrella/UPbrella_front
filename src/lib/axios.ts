@@ -2,7 +2,7 @@ import axios from "axios";
 import qs from "qs";
 
 export const $axios = axios.create({
-  baseURL: "http://43.202.94.218:8080",
+  baseURL: import.meta.env.VITE_UPBRELLA_API_BASE_URL,
   timeout: 15000,
   paramsSerializer: (params) => {
     return qs.stringify(params, { arrayFormat: "repeat" });
