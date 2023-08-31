@@ -46,7 +46,7 @@ const HeaderContents = ({ isLogin, name }: HeaderContentsProps) => {
 
   return (
     <>
-      <div className="flex justify-between items-center my-8 px-40 relative lg:hidden">
+      <div className="flex justify-between items-center w-full px-40 my-8 relative lg:hidden">
         <Link to={"/"}>
           <img className="w-64 h-64 p-8" src={Logo} alt="Logo" />
         </Link>
@@ -101,8 +101,10 @@ const HeaderContents = ({ isLogin, name }: HeaderContentsProps) => {
         </Link>
       </div>
       {menuOpen && (
-        <div className="mx-40 xl:hidden">
-          <MobileMenu isLogin={isLogin} setMenuOpen={setMenuOpen} />
+        <div className="flex justify-center items-center">
+          <div className="xl:hidden lg:w-full max-w-640">
+            <MobileMenu isLogin={isLogin} setMenuOpen={setMenuOpen} />
+          </div>
         </div>
       )}
     </>

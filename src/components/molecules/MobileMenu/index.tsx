@@ -31,7 +31,7 @@ const MobileMenu: React.FC<TMenu> = ({ isLogin, setMenuOpen }) => {
   };
 
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <div className="bg-white z-100">
         <div className="flex justify-between items-center py-16">
           <Link to={"/"} className="mt-8">
