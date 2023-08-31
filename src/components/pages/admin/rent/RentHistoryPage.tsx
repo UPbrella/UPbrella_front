@@ -136,8 +136,8 @@ const RENT_ADMIN_TABLE: Record<
     kor: "보증금 입금 여부",
     width: 150,
     options: [
-      { label: "환급 완료", value: true },
-      { label: "미완료", value: false },
+      { label: "입금", value: true },
+      { label: "미입금", value: false },
     ],
   },
   isReturned: { kor: "반납 여부" },
@@ -145,8 +145,8 @@ const RENT_ADMIN_TABLE: Record<
     kor: "보증금 환급 여부",
     width: 150,
     options: [
-      { label: "입금", value: true },
-      { label: "미입금", value: false },
+      { label: "환급 완료", value: true },
+      { label: "미완료", value: false },
     ],
   },
   returnBank: { kor: "환급 은행", notSort: true },
