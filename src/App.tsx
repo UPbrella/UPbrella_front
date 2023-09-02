@@ -3,10 +3,10 @@ import { Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import MainLayout from "@/components/templates/common/MainLayout";
 import AdminWrapper from "@/components/templates/admin/AdminWrapper";
+import NotFound from "@/components/pages/not-found/NotFound";
 import { ADMIN_ROUTES } from "@/routes/adminRouter";
 import { LAYOUT_ROUTES } from "@/routes/layoutRouter";
 import { NOT_LAYOUT_ROUTES } from "@/routes/notLayoutRouter";
-import NotFound from "@/components/pages/not-found/NotFound";
 
 const queryClient = new QueryClient({
   defaultOptions: {
