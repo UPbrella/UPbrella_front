@@ -1,17 +1,15 @@
+import { TClassification } from "@/types/admin/StoreTypes";
 import { useState } from "react";
 
 export type TLocationClassificationBtn = {
-  classifications: {
-    name: string;
-    latitude?: number | null;
-    longitude?: number | null;
-  }[];
+  classifications: TClassification[];
   map?: naver.maps.Map;
 };
 
 const LocationClassificationBtn = ({ classifications, map }: TLocationClassificationBtn) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
+  // console.log(classifications, "ghkrdldkdkd");
   const handleClick = (index: number) => {
     setActiveIndex(index);
 

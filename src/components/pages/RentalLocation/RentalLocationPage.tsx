@@ -50,14 +50,7 @@ export default function RentalInfo() {
   // server
   const { data: classificationsRes } = useGetClassifications();
 
-  const classificationData =
-    classificationsRes?.map((item) => ({
-      name: item.name,
-      latitude: item.latitude,
-      longitude: item.longitude,
-    })) || [];
-
-  // console.log("map is ", map);
+  // console.log("classification is ", classificationsRes);
 
   return (
     <div className="flex flex-col mt-24">
@@ -69,10 +62,12 @@ export default function RentalInfo() {
         </div>
         <div className="w-full max-w-936 rounded-20 relative">
           <Map ref={mapElement} width="100%" height="896px" borderRadius="20px" />
-          <div className="absolute top-0 left-0 z-10 p-24">
-            <LocationClassificationBtn classifications={classificationData} map={map} />
+          <div className="absolute top-0 left-0 z-9 p-24">
+            {classificationsRes && (
+              <LocationClassificationBtn classifications={classificationsRes} map={map} />
+            )}
           </div>
-          <div className="absolute top-0 right-7 z-10 pt-86">
+          <div className="absolute top-0 right-7 z-10 pt-86 lg:hidden">
             <MapBtn map={map} />
           </div>
         </div>
