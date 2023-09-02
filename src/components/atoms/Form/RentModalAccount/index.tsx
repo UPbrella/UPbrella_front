@@ -1,11 +1,15 @@
 export type RentModalAccountProps = {
   handleCloseDepositModal: () => void;
   handleOpenLockPwModal: () => void;
+  storeName: string;
+  umbrellaUuid: number;
 };
 
 const RentModalAccount = ({
   handleCloseDepositModal,
   handleOpenLockPwModal,
+  storeName,
+  umbrellaUuid,
 }: RentModalAccountProps) => {
   const copyAccountToClipboard = () => {
     handleCloseDepositModal(); // (1) 보증금 입금 안내 모달 close
@@ -20,12 +24,14 @@ const RentModalAccount = ({
       <div className="flex flex-col">
         <p className="text-18 font-bold">
           <p className="inline font-normal">'</p>
-          모티브 스터디카페<p className="inline font-normal">'에서</p>
+          {storeName}
+          <p className="inline font-normal">'에서</p>
         </p>
         {"\n"}
         <p className="text-18 font-bold">
           <p className="inline font-normal">'</p>
-          24<p className="inline font-normal">'번 우산을 빌릴까요?</p>
+          {umbrellaUuid}
+          <p className="inline font-normal">'번 우산을 빌릴까요?</p>
         </p>
       </div>
       <div className="flex flex-col">

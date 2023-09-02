@@ -2,11 +2,12 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { ChangeEvent } from "react";
 
 export type SignUpFormInputBankNameProps = {
-  //   isClicked?: boolean; TODO
   label: string;
   name: string;
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onClick: () => void;
+  bankRef: React.RefObject<HTMLInputElement>;
 };
 
 const SignUpFormInputBankName = ({
@@ -14,6 +15,8 @@ const SignUpFormInputBankName = ({
   name,
   value,
   onChange,
+  onClick,
+  bankRef,
 }: SignUpFormInputBankNameProps) => {
   return (
     <div>
@@ -25,8 +28,10 @@ const SignUpFormInputBankName = ({
           name={name}
           value={value}
           onChange={onChange}
+          ref={bankRef}
+          readOnly
         />
-        <ExpandMoreIcon className="text-gray-700" />
+        <ExpandMoreIcon className="text-gray-700" onClick={onClick} />
       </div>
     </div>
   );
