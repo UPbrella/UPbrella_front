@@ -9,7 +9,7 @@ import { TRoute } from "@/types/commonTypes";
 export const NOT_LAYOUT_ROUTES: TRoute[] = [
   {
     name: "대여폼 페이지",
-    path: "/rent",
+    path: "rent/form/:umbrellaId",
     component: RentPage,
   },
   {

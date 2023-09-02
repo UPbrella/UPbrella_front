@@ -1,4 +1,4 @@
-import RentHistoryPage from "@/components/pages/admin/RentHistoryPage";
+import RentHistoryPage from "@/components/pages/admin/rent/RentHistoryPage";
 import StoreManagePage from "@/components/pages/admin/store/StoreManagePage";
 import { TRoute } from "@/types/commonTypes";
 
