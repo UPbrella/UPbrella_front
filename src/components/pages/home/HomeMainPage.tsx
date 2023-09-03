@@ -1,3 +1,4 @@
+import { ADMIN_ROUTES_URL } from "@/routes/adminRouter";
 import { Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
@@ -20,7 +21,7 @@ const navItems = [
   },
   {
     name: "어드민(권한분리 예정)",
-    path: "/admin/stores",
+    path: ADMIN_ROUTES_URL.rent.path,
   },
 ] as const;
 
