@@ -18,6 +18,7 @@ type TProps = {
   onClickStoreRow: (id: number, type: "store" | "image") => void;
 };
 
+// TODO: primereact table로 변경
 // 테이블 컴포넌트 (재사용 고려하여 리팩토링 필요)
 const StoreTable = ({ columns, rows, onClickStoreRow }: TProps) => {
   const [page, setPage] = useState(0);
