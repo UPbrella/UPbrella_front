@@ -1,17 +1,16 @@
-import styled from "@emotion/styled";
-import { usePatchPayment, usePatchRefund, useRentHistories } from "@/hooks/queries/rentQueries";
-import { TRefundedStatus, TRentHistory } from "@/types/admin/RentTypes";
-import { Column } from "primereact/column";
-import { DataTable } from "primereact/datatable";
-import { ProgressSpinner } from "primereact/progressspinner";
-import { Dropdown } from "primereact/dropdown";
-import { toast } from "react-hot-toast";
-import { Paginator } from "primereact/paginator";
-import { usePaginator } from "@/hooks/custom/usePaginator";
-import { Button, Typography } from "@mui/material";
 import SelectBox from "@/components/molecules/SelectBox";
-import { useState } from "react";
+import { CssDataTable } from "@/components/pages/admin/components/Table";
 import { downloadRentDataExcel } from "@/components/pages/admin/rent/helper";
+import { usePaginator } from "@/hooks/custom/usePaginator";
+import { useRentHistories, usePatchPayment, usePatchRefund } from "@/hooks/queries/rentQueries";
+import { TRefundedStatus, TRentHistory } from "@/types/admin/RentTypes";
+import { Typography, Button } from "@mui/material";
+import { Column } from "primereact/column";
+import { Dropdown } from "primereact/dropdown";
+import { Paginator } from "primereact/paginator";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { ProgressSpinner } from "primereact/progressspinner";
 
 const RentHistoryPage = () => {
   const {
@@ -110,7 +109,7 @@ const RentHistoryPage = () => {
           {Object.keys(RENT_ADMIN_TABLE).map((key) => {
             const field = key as keyof TRentHistory;
             const minWidth = RENT_ADMIN_TABLE[field].width ?? "130px";
-            const header = RENT_ADMIN_TABLE[field].kor;
+            const header = RENT_ADMIN_TABLE[field].label;
             const dropDownOptions = RENT_ADMIN_TABLE[field].options;
             const sortable = !RENT_ADMIN_TABLE[field].notSort;
 
@@ -164,21 +163,21 @@ export const RentHistoryExcelButton = () => {
     if (rentHistoriesRes)
       downloadRentDataExcel(
         rentHistoriesRes.rentalHistoryResponsePage.map((e) => ({
-          [RENT_ADMIN_TABLE.id.kor]: e.id,
-          [RENT_ADMIN_TABLE.name.kor]: e.name,
-          [RENT_ADMIN_TABLE.phoneNumber.kor]: e.phoneNumber,
-          [RENT_ADMIN_TABLE.rentStoreName.kor]: e.rentStoreName,
-          [RENT_ADMIN_TABLE.rentAt.kor]: e.rentAt,
-          [RENT_ADMIN_TABLE.umbrellaUuid.kor]: e.umbrellaUuid,
-          [RENT_ADMIN_TABLE.elapsedDay.kor]: e.elapsedDay,
-          [RENT_ADMIN_TABLE.paid.kor]: e.paid ? "O" : "X",
-          [RENT_ADMIN_TABLE.refundCompleted.kor]: e.refundCompleted ? "O" : "X",
-          [RENT_ADMIN_TABLE.bank.kor]: e.bank,
-          [RENT_ADMIN_TABLE.accountNumber.kor]: e.accountNumber,
-          [RENT_ADMIN_TABLE.returnAt.kor]: e.returnAt,
-          [RENT_ADMIN_TABLE.returnStoreName.kor]: e.returnStoreName,
-          [RENT_ADMIN_TABLE.totalRentalDay.kor]: e.totalRentalDay,
-          [RENT_ADMIN_TABLE.etc.kor]: e.etc,
+          [RENT_ADMIN_TABLE.id.label]: e.id,
+          [RENT_ADMIN_TABLE.name.label]: e.name,
+          [RENT_ADMIN_TABLE.phoneNumber.label]: e.phoneNumber,
+          [RENT_ADMIN_TABLE.rentStoreName.label]: e.rentStoreName,
+          [RENT_ADMIN_TABLE.rentAt.label]: e.rentAt,
+          [RENT_ADMIN_TABLE.umbrellaUuid.label]: e.umbrellaUuid,
+          [RENT_ADMIN_TABLE.elapsedDay.label]: e.elapsedDay,
+          [RENT_ADMIN_TABLE.paid.label]: e.paid ? "O" : "X",
+          [RENT_ADMIN_TABLE.refundCompleted.label]: e.refundCompleted ? "O" : "X",
+          [RENT_ADMIN_TABLE.bank.label]: e.bank,
+          [RENT_ADMIN_TABLE.accountNumber.label]: e.accountNumber,
+          [RENT_ADMIN_TABLE.returnAt.label]: e.returnAt,
+          [RENT_ADMIN_TABLE.returnStoreName.label]: e.returnStoreName,
+          [RENT_ADMIN_TABLE.totalRentalDay.label]: e.totalRentalDay,
+          [RENT_ADMIN_TABLE.etc.label]: e.etc,
         }))
       );
   };
@@ -196,51 +195,42 @@ export const RentHistoryExcelButton = () => {
   );
 };
 
-const CssDataTable = styled(DataTable)`
-  font-size: 14px;
-
-  th,
-  td {
-    text-align: center !important;
-  }
-
-  .p-column-header-content {
-    justify-content: center !important;
-  }
-`;
-
 export const RENT_ADMIN_TABLE: Record<
   keyof TRentHistory,
-  { kor: string; width?: number; options?: { label: string; value: boolean }[]; notSort?: boolean }
+  {
+    label: string;
+    width?: number;
+    options?: { label: string; value: boolean }[];
+    notSort?: boolean;
+  }
 > = {
-  id: { kor: "일련 번호", width: 100 },
-  name: { kor: "이름" },
-  phoneNumber: { kor: "전화번호", width: 150 },
-  rentStoreName: { kor: "대여 지점", notSort: true },
-  rentAt: { kor: "대여 날짜", width: 150 },
-  umbrellaUuid: { kor: "우산 고유 번호" },
-  elapsedDay: { kor: "대여 경과 일수" },
+  id: { label: "일련 번호", width: 100 },
+  name: { label: "이름" },
+  phoneNumber: { label: "전화번호", width: 150 },
+  rentStoreName: { label: "대여 지점", notSort: true },
+  rentAt: { label: "대여 날짜", width: 150 },
+  umbrellaUuid: { label: "우산 고유 번호" },
+  elapsedDay: { label: "대여 경과 일수" },
   paid: {
-    kor: "보증금 입금 여부",
-    width: 150,
-    options: [
-      { label: "입금", value: true },
-      { label: "미입금", value: false },
-    ],
-  },
-  refundCompleted: {
-    kor: "보증금 환급 여부",
-    notSort: true,
+    label: "보증금 입금 여부",
     width: 150,
     options: [
       { label: "환급 완료", value: true },
       { label: "미완료", value: false },
     ],
   },
-  bank: { kor: "환급 은행", notSort: true },
-  accountNumber: { kor: "환급 계좌 번호", width: 150, notSort: true },
-  returnAt: { kor: "반납 날짜", width: 150 },
-  returnStoreName: { kor: "반납 지점", notSort: true },
-  totalRentalDay: { kor: "총 대여 기간" },
-  etc: { kor: "비고", notSort: true },
+  refundCompleted: {
+    label: "보증금 환급 여부",
+    width: 150,
+    options: [
+      { label: "입금", value: true },
+      { label: "미입금", value: false },
+    ],
+  },
+  bank: { label: "환급 은행", notSort: true },
+  accountNumber: { label: "환급 계좌 번호", width: 150, notSort: true },
+  returnAt: { label: "반납 날짜", width: 150 },
+  returnStoreName: { label: "반납 지점", notSort: true },
+  totalRentalDay: { label: "총 대여 기간" },
+  etc: { label: "비고", notSort: true },
 };

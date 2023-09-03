@@ -8,6 +8,9 @@ import { ADMIN_ROUTES } from "@/routes/adminRouter";
 import { LAYOUT_ROUTES } from "@/routes/layoutRouter";
 import { NOT_LAYOUT_ROUTES } from "@/routes/notLayoutRouter";
 import NotFound from "@/components/pages/not-found/NotFound";
+import "primereact/resources/themes/lara-light-indigo/theme.css"; //theme
+import "primereact/resources/primereact.min.css"; //core css
+import "primeicons/primeicons.css";
 import React from "react";
 
 const queryClient = new QueryClient({
