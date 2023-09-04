@@ -31,16 +31,16 @@ const RentModalAccount = ({
   return (
     <div className="w-full p-24 pl-0 ml-20 flex flex-col">
       <div className="flex flex-col">
-        <p className="text-18 font-bold">
+        <div className="text-18 font-bold">
           <p className="inline font-normal">'</p>
           {storeName}
           <p className="inline font-normal">'에서</p>
-        </p>
-        <p className="text-18 font-bold">
+        </div>
+        <div className="text-18 font-bold">
           <p className="inline font-normal">'</p>
           {umbrellaUuid}
           <p className="inline font-normal">'번 우산을 빌릴까요?</p>
-        </p>
+        </div>
       </div>
       <div className="flex flex-col">
         <ol className="list-decimal mt-16 ml-20 text-gray-700">
