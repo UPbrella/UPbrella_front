@@ -17,6 +17,7 @@ export const DEFAULT_COORDINATE = {
 export default function RentalInfo() {
   const { naver } = window;
   const mapElement = useRef(null);
+  const [, setSelectedClassification] = useState(221);
 
   const [map, setMap] = useState<naver.maps.Map>();
   const [, setMarker] = useState<naver.maps.Marker>();
@@ -49,9 +50,6 @@ export default function RentalInfo() {
 
   // server
   const { data: classificationsRes } = useGetClassifications();
-
-  // console.log("classification is ", classificationsRes);
-
   return (
     <div className="flex flex-col mt-24">
       <div className="flex justify-center">
@@ -64,7 +62,11 @@ export default function RentalInfo() {
           <Map ref={mapElement} width="100%" height="896px" borderRadius="20px" />
           <div className="absolute top-0 left-0 z-9 p-24">
             {classificationsRes && (
-              <LocationClassificationBtn classifications={classificationsRes} map={map} />
+              <LocationClassificationBtn
+                classifications={classificationsRes}
+                setSelectedClassification={setSelectedClassification}
+                map={map}
+              />
             )}
           </div>
           <div className="absolute top-0 right-7 z-10 pt-86 lg:hidden">

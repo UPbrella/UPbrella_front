@@ -1,7 +1,8 @@
 import LocationClassificationBtn from "@/components/atoms/LocationClassificationBtn";
 import Card from "@/components/organisms/Card";
 import Store from "@/components/molecules/Store";
-import { useGetSubClassifications } from "@/hooks/queries/storeQueries";
+import { useGetClassifications } from "@/hooks/queries/storeQueries";
+import { useState } from "react";
 
 const RentalOfficePage = () => {
   const storeData = [
@@ -13,14 +14,11 @@ const RentalOfficePage = () => {
     { title: "또 다른 가게 이름", category: ["음식점", "레스토랑"] },
     // ... 더 많은 가게 데이터
   ];
+  const [, setSelectedClassification] = useState(221);
 
   // server
-  const { data: subClassificationsRes } = useGetSubClassifications();
-
-  const classificationName =
-    subClassificationsRes?.map((item) => ({
-      name: item.name,
-    })) || [];
+  // const { data: subClassificationsRes } = useGetSubClassifications();
+  const { data: classificationsRes } = useGetClassifications();
 
   return (
     <div className="flex mt-24">
@@ -28,7 +26,12 @@ const RentalOfficePage = () => {
         <Card />
       </div>
       <div>
-        <LocationClassificationBtn classifications={classificationName} />
+        {classificationsRes && (
+          <LocationClassificationBtn
+            classifications={classificationsRes}
+            setSelectedClassification={setSelectedClassification}
+          />
+        )}
         <div>
           <div className="font-bold	text-24 mt-64 ml-5 mb-16">신촌</div>
           <div className="grid  grid-cols-3 grid-flow-row gap-4 lg:grid-cols-2">
