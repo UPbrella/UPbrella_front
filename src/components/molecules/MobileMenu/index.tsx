@@ -44,18 +44,6 @@ const MobileMenu: React.FC<TMenu> = ({ isLogin, setMenuOpen }) => {
 
         <div className="flex flex-col py-20">
           {isLogin ? (
-            <div className="mb-4">
-              <div className="font-semibold text-20 text-gray-700 mb-16">
-                업브렐라를 찾아주셔서 감사해요!
-              </div>
-              <button
-                className="rounded-8 font-semibold w-full py-12 text-white bg-primary-500"
-                onClick={() => handleNavToUrl("/login")}
-              >
-                로그인
-              </button>
-            </div>
-          ) : (
             <div className="flex justify-between mb-4">
               <div className="flex items-center mr-12 font-semibold text-20">
                 <PersonOutlineIcon />
@@ -66,6 +54,18 @@ const MobileMenu: React.FC<TMenu> = ({ isLogin, setMenuOpen }) => {
                 onClick={() => handleNavToUrl("/mypage")}
               >
                 마이페이지 <NavigateNextIcon fontSize="small" />
+              </button>
+            </div>
+          ) : (
+            <div className="mb-4">
+              <div className="font-semibold text-20 text-gray-700 mb-16">
+                업브렐라를 찾아주셔서 감사해요!
+              </div>
+              <button
+                className="rounded-8 font-semibold w-full py-12 text-white bg-primary-500"
+                onClick={() => handleNavToUrl("/login")}
+              >
+                로그인
               </button>
             </div>
           )}
@@ -84,7 +84,7 @@ const MobileMenu: React.FC<TMenu> = ({ isLogin, setMenuOpen }) => {
             </>
           ))}
           <div className="bg-gray-200 w-full h-1 my-16"></div>
-          {!isLogin && (
+          {isLogin && (
             <button className="flex mx-16 text-14 text-gray-500 font-semibold">로그아웃</button>
           )}
         </div>
