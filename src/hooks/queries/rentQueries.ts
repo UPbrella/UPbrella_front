@@ -3,19 +3,39 @@ import {
   patchHistoriesPayment,
   patchHistoriesRefund,
 } from "@/api/rentHistoryApi";
+import { TRentHistoriesParams } from "@/types/admin/RentTypes";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 const RENT_QUERY_KEYS = {
   rentHistories: () => ["rent-histories"],
 } as const;
 
-export const useRentHistories = () => {
+export const useRentHistories = (params: TRentHistoriesParams) => {
   return useQuery({
     keepPreviousData: true,
-    queryKey: [...RENT_QUERY_KEYS.rentHistories()],
-    queryFn: () => getRentHistories(),
-    select: (res) =>
-      res.data.rentalHistoryResponsePage.map((e) => ({ ...e, isReturned: !!e.rentAt })),
+    queryKey: [...RENT_QUERY_KEYS.rentHistories(), { params }],
+    queryFn: () => getRentHistories(params),
+    select: (res) => {
+      return {
+        ...res.data,
+        rentalHistoryResponsePage: res.data.rentalHistoryResponsePage.map((e) => {
+          const isReturned = !!e.rentAt;
+          const returnData = {
+            refundCompleted: isReturned ? e.refundCompleted : null,
+            bank: isReturned ? e.bank : null,
+            accountNumber: isReturned ? e.accountNumber : null,
+            returnAt: isReturned ? e.returnAt : null,
+            returnStoreName: isReturned ? e.returnStoreName : null,
+            totalRentalDay: isReturned ? e.totalRentalDay : null,
+          };
+
+          return {
+            ...e,
+            ...returnData,
+          };
+        }),
+      };
+    },
   });
 };
 
