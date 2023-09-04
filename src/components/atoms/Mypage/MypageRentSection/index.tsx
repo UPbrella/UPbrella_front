@@ -25,7 +25,7 @@ const MypageRentSection = ({ rentInfo }: MypageRentSectionProps) => {
   ];
 
   return (
-    <div className="flex p-24 bg-white border border-gray-200 border-solid rounded-12">
+    <div className="flex p-24 bg-white border border-gray-200 text-gray-700 border-solid rounded-12">
       <div className="flex flex-col text-15">
         {rentInfoContent.map((info, index) => {
           if (info[0] === "우산 번호") {
