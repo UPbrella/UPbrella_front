@@ -1,7 +1,6 @@
 import { utils, write } from "xlsx";
 import { saveAs } from "file-saver";
 
-// TODO: 엑셀 한글 매핑
 export const downloadRentDataExcel = (rentRes: unknown[]) => {
   const worksheet = utils.json_to_sheet(rentRes);
   const workbook = { Sheets: { data: worksheet }, SheetNames: ["data"] };
