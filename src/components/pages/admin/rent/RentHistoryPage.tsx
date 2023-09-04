@@ -1,23 +1,51 @@
 import styled from "@emotion/styled";
-import { useRentHistories } from "@/hooks/queries/rentQueries";
+import { usePatchPayment, usePatchRefund, useRentHistories } from "@/hooks/queries/rentQueries";
 import { TRentHistory } from "@/types/admin/RentTypes";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { Dropdown } from "primereact/dropdown";
+import { toast } from "react-hot-toast";
+import { Paginator } from "primereact/paginator";
+import { useState } from "react";
 
 type TRentHistoryState = TRentHistory & {
   isReturned: boolean;
 };
 
 const RentHistoryPage = () => {
-  const { data, isLoading } = useRentHistories();
+  // client
+  // TODO: API 수정 시 반영
+  const [first] = useState(0);
+
+  // server
+  const { data: rentHistoriesRes, isLoading: isLoadingHistories } = useRentHistories();
+  const { mutate: updatePayment, isLoading: isUpdatingPayment } = usePatchPayment();
+  const { mutate: updateRefund, isLoading: isUpdatingRefund } = usePatchRefund();
+
+  // 보증금 입금
+  const onTogglePayment = (historyId: number) => {
+    updatePayment(historyId, {
+      onSuccess: () => {
+        toast.success("성공적으로 변경되었습니다.");
+      },
+    });
+  };
+
+  // 보증금 환급
+  const onToggleRefund = (historyId: number) => {
+    updateRefund(historyId, {
+      onSuccess: () => {
+        toast.success("성공적으로 변경되었습니다.");
+      },
+    });
+  };
 
   return (
     <>
       <CssDataTable
         emptyMessage={
-          isLoading ? (
+          isLoadingHistories ? (
             <div className="w-[85vw] flex justify-center">
               <ProgressSpinner />
             </div>
@@ -31,7 +59,7 @@ const RentHistoryPage = () => {
         removableSort
         sortMode="multiple"
         editMode="cell"
-        value={data}
+        value={rentHistoriesRes}
       >
         {Object.keys(RENT_ADMIN_TABLE).map((key) => {
           const field = key as keyof TRentHistoryState;
@@ -49,13 +77,14 @@ const RentHistoryPage = () => {
               header={header}
               body={
                 dropDownOptions
-                  ? (data) => (
+                  ? (data: TRentHistoryState) => (
                       <Dropdown
+                        disabled={isUpdatingPayment || isUpdatingRefund}
                         options={dropDownOptions}
                         value={data[field]}
                         onChange={() => {
-                          // TODO:API
-                          return;
+                          if (field === "rentCostCompleted") onTogglePayment(data.id);
+                          if (field === "refundCompleted") onToggleRefund(data.id);
                         }}
                       />
                     )
@@ -65,6 +94,14 @@ const RentHistoryPage = () => {
           );
         })}
       </CssDataTable>
+      <Paginator
+        first={first}
+        rows={10}
+        pageLinkSize={5}
+        // TODO: API 수정 반영
+        // totalRecords={buildingList?.totalElements}
+        // onPageChange={onPageChange}
+      />
     </>
   );
 };
@@ -99,8 +136,8 @@ const RENT_ADMIN_TABLE: Record<
     kor: "보증금 입금 여부",
     width: 150,
     options: [
-      { label: "환급 완료", value: true },
-      { label: "미완료", value: false },
+      { label: "입금", value: true },
+      { label: "미입금", value: false },
     ],
   },
   isReturned: { kor: "반납 여부" },
@@ -108,8 +145,8 @@ const RENT_ADMIN_TABLE: Record<
     kor: "보증금 환급 여부",
     width: 150,
     options: [
-      { label: "입금", value: true },
-      { label: "미입금", value: false },
+      { label: "환급 완료", value: true },
+      { label: "미완료", value: false },
     ],
   },
   returnBank: { kor: "환급 은행", notSort: true },
