@@ -1,41 +1,47 @@
+import { TClassification } from "@/types/admin/StoreTypes";
 import { useState } from "react";
 
 export type TLocationClassificationBtn = {
-  text: string[];
+  classifications: TClassification[];
+  setSelectedClassification: React.Dispatch<React.SetStateAction<number | 0>>;
   map?: naver.maps.Map;
 };
 
-const LocationClassificationBtn = ({ text, map }: TLocationClassificationBtn) => {
+const LocationClassificationBtn = ({
+  classifications,
+  setSelectedClassification,
+  map,
+}: TLocationClassificationBtn) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const handleClick = (index: number) => {
+  const handleClick = (index: number, classificationId: number) => {
     setActiveIndex(index);
 
-    if (map && window.naver && window.naver.maps) {
-      const shinchon = new window.naver.maps.LatLng(37.5608393877042, 126.93545258588699);
-      const yeonhee = new window.naver.maps.LatLng(37.573885406749994, 126.93472815974937);
+    setSelectedClassification(classificationId);
 
-      if (index === 0) {
-        map.setCenter(shinchon);
-      } else {
-        map.setCenter(yeonhee);
-      }
+    if (map && window.naver && window.naver.maps) {
+      const location = classifications[index];
+      const newCenter = new window.naver.maps.LatLng(
+        location.latitude ?? 0,
+        location.longitude ?? 0
+      );
+      map.setCenter(newCenter);
     }
   };
 
   return (
     <div>
-      {text.map((item, index) => (
+      {classifications.map((item, index) => (
         <button
-          key={item}
+          key={item.name}
           className={`${
             activeIndex === index
               ? "text-primary-500 border-primary-500"
               : "text-gray-700 border-gray-300"
           } font-semibold px-16 py-8 mr-8 rounded-999 border text-15 bg-white`}
-          onClick={() => handleClick(index)}
+          onClick={() => handleClick(index, item.id)}
         >
-          {item}
+          {item.name}
         </button>
       ))}
     </div>

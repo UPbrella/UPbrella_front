@@ -14,6 +14,12 @@ export type TRoute = {
   component: () => JSX.Element;
 };
 
+// 모바일 메뉴 type
+export type TMobileMenu = {
+  name: string;
+  path: string;
+};
+
 // 테이블 column type
 export type TTableColumn<T> = {
   id: T;
