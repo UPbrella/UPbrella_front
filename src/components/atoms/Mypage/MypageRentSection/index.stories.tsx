@@ -22,4 +22,6 @@ RentSection.args = {
     returned: false,
     refunded: false,
   },
+  isProfile: true,
+  isRecent: true,
 };

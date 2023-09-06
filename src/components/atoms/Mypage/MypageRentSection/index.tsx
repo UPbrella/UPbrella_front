@@ -1,5 +1,7 @@
 export type MypageRentSectionProps = {
   rentInfo: TRentInfo;
+  isProfile: boolean;
+  isRecent: boolean;
 };
 export type TRentInfo = {
   umbrellaUuid: number;
@@ -11,7 +13,7 @@ export type TRentInfo = {
   refunded: boolean;
 };
 
-const MypageRentSection = ({ rentInfo }: MypageRentSectionProps) => {
+const MypageRentSection = ({ rentInfo, isProfile, isRecent }: MypageRentSectionProps) => {
   const { umbrellaUuid, rentedAt, rentedStore, returnedDue, returnAt, returned, refunded } =
     rentInfo;
   const rentInfoContent = [
@@ -24,8 +26,11 @@ const MypageRentSection = ({ rentInfo }: MypageRentSectionProps) => {
     ["환급 여부", refunded],
   ];
 
+  const color = isRecent ? `bg-primary-100 border-primary-300` : `bg-white border-gray-200`;
+  const padding = isProfile ? `p-20` : `p-24`;
+
   return (
-    <div className="flex p-24 bg-white border border-gray-200 border-solid rounded-12">
+    <div className={`flex ${padding} ${color} border text-gray-700 border-solid rounded-12`}>
       <div className="flex flex-col text-15">
         {rentInfoContent.map((info, index) => {
           if (info[0] === "우산 번호") {
