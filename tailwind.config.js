@@ -19,8 +19,8 @@ export default {
       borderRadius: px0_1000,
       fontSize: px0_100,
       lineHeight: px0_100,
-      padding: px0_100,
-      margin: px0_100,
+      padding: px0_1000,
+      margin: px0_1000,
       colors: {
         "primary-700": "#E05938",
         "primary-600": "#E86546",

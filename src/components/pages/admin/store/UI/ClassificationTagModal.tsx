@@ -84,7 +84,11 @@ const ClassificationTagModal = ({
         )
       }
     >
-      <div className={`flex flex-col gap-6 ${selectedId ? "pointer-events-none opacity-60" : ""} `}>
+      <div
+        className={`w-500 flex flex-col gap-6 ${
+          selectedId ? "pointer-events-none opacity-60" : ""
+        } `}
+      >
         <div className="flex items-center gap-5">
           태그 이름 :
           <TextField
