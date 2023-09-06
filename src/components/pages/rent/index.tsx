@@ -19,8 +19,8 @@ const RentPage = () => {
   // 대여폼
   // const [name, setName] = useState("");
   // const [phone, setPhone] = useState("");
-  const [location, setLocation] = useState("");
-  const [storeName, setStoreName] = useState("");
+  const [classificationName, setClassificationName] = useState("");
+  const [rentStoreName, setRentStoreName] = useState("");
   const [umbrellaUuid, setUmbrellaUuid] = useState(0);
   const [status, setStatus] = useState("");
   const [storeId, setStoreId] = useState(0);
@@ -36,8 +36,8 @@ const RentPage = () => {
 
   useEffect(() => {
     if (data) {
-      setLocation(data.classificationName);
-      setStoreName(data.rentStoreName);
+      setClassificationName(data.classificationName);
+      setRentStoreName(data.rentStoreName);
       setUmbrellaUuid(data.umbrellaUuid);
       setStoreId(data.storeMetaId);
     }
@@ -75,16 +75,21 @@ const RentPage = () => {
       </div>
       <FormBasic label="이름" value={name} />
       <FormBasic label="전화번호" value={phone} />
-      <FormLocationMolecules location={location} storeName={storeName} />
+      <FormLocationMolecules
+        classificationName={classificationName}
+        rentStoreName={rentStoreName}
+      />
       <FormBasic label="우산번호" value={umbrellaUuid} />
       <FormStatus
         label="상태신고"
         placeholder="우산이나 대여 환경에 문제가 있다면 작성해주세요!"
         setStatus={setStatus}
         status={status}
-        isRent={isRent}
+        isComplete={isRent}
       />
-      {!isRent && <FormButton label="대여하기" handleOpen={handleOpenDepositModal} />}
+      {!isRent && (
+        <FormButton label="대여하기" isActive={true} handleOpen={handleOpenDepositModal} />
+      )}
 
       {isOpenDepositModal && (
         <FormModal height="286">
@@ -92,8 +97,8 @@ const RentPage = () => {
             handleCloseDepositModal={handleCloseDepositModal}
             handleOpenLockPwModal={handleOpenLockPwModal}
             umbrellaUuid={umbrellaUuid}
-            location={location}
-            storeName={storeName}
+            classificationName={classificationName}
+            rentStoreName={rentStoreName}
             umbrellaId={umbrellaId}
             status={status}
             storeId={storeId}
