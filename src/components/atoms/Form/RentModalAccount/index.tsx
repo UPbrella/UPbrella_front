@@ -1,8 +1,12 @@
 export type RentModalAccountProps = {
   handleCloseDepositModal: () => void;
   handleOpenLockPwModal: () => void;
-  storeName: string;
   umbrellaUuid: number;
+  location: string;
+  storeName: string;
+  umbrellaId: number;
+  status?: string;
+  storeId: number;
 };
 
 const RentModalAccount = ({
@@ -12,31 +16,37 @@ const RentModalAccount = ({
   umbrellaUuid,
 }: RentModalAccountProps) => {
   const copyAccountToClipboard = () => {
+    // TODO: POST API (storeId, umbrellaId, conditionReport)
+
     handleCloseDepositModal(); // (1) 보증금 입금 안내 모달 close
     handleOpenLockPwModal(); // (2) 자물쇠 비밀번호 안내 모달 open
-    navigator.clipboard.writeText(account);
+    navigator.clipboard.writeText(bankName + " " + accountNumber);
   };
 
-  const account = "카카오뱅크 7979-82-98201";
+  // TODO: 계좌 어떻게 처리할지 논의
+  const bankName = "카카오뱅크";
+  const accountNumber = "7979-82-98201";
+  const accountName = "이연우";
 
   return (
     <div className="w-full p-24 pl-0 ml-20 flex flex-col">
       <div className="flex flex-col">
-        <p className="text-18 font-bold">
+        <div className="text-18 font-bold">
           <p className="inline font-normal">'</p>
           {storeName}
           <p className="inline font-normal">'에서</p>
-        </p>
-        {"\n"}
-        <p className="text-18 font-bold">
+        </div>
+        <div className="text-18 font-bold">
           <p className="inline font-normal">'</p>
           {umbrellaUuid}
           <p className="inline font-normal">'번 우산을 빌릴까요?</p>
-        </p>
+        </div>
       </div>
       <div className="flex flex-col">
         <ol className="list-decimal mt-16 ml-20 text-gray-700">
-          <li>{account} 이연우 계좌복사</li>
+          <li>
+            {bankName} {accountNumber} {accountName} 계좌복사
+          </li>
           <li>보증금 10,000원 입금</li>
           <li>대여 완료!</li>
         </ol>
