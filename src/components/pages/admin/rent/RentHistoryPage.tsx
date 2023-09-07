@@ -1,16 +1,21 @@
-import SelectBox from "@/components/molecules/SelectBox";
-import { CssDataTable } from "@/components/pages/admin/components/Table";
-import { downloadRentDataExcel } from "@/components/pages/admin/rent/helper";
-import { usePaginator } from "@/hooks/custom/usePaginator";
-import { useRentHistories, usePatchPayment, usePatchRefund } from "@/hooks/queries/rentQueries";
-import { TRefundedStatus, TRentHistory } from "@/types/admin/RentTypes";
-import { Typography, Button } from "@mui/material";
+import toast from "react-hot-toast";
+import { useState } from "react";
 import { Column } from "primereact/column";
 import { Dropdown } from "primereact/dropdown";
 import { Paginator } from "primereact/paginator";
-import { useState } from "react";
-import toast from "react-hot-toast";
+import { Typography, Button } from "@mui/material";
+import SelectBox from "@/components/molecules/SelectBox";
 import { ProgressSpinner } from "primereact/progressspinner";
+import { CssDataTable } from "@/components/pages/admin/components/Table";
+import { downloadRentDataExcel } from "@/components/pages/admin/rent/helper";
+import { TRefundedStatus, TRentHistory } from "@/types/admin/RentTypes";
+import { usePaginator } from "@/hooks/custom/usePaginator";
+import {
+  useRentHistories,
+  usePatchPayment,
+  usePatchRefund,
+  useDeleteAccount,
+} from "@/hooks/queries/rentQueries";
 
 const RentHistoryPage = () => {
   const {
@@ -29,12 +34,13 @@ const RentHistoryPage = () => {
     page,
     size: rows,
   });
-  const { mutate: updatePayment, isLoading: isUpdatingPayment } = usePatchPayment();
-  const { mutate: updateRefund, isLoading: isUpdatingRefund } = usePatchRefund();
+  const { mutate: mutateUpdatePayment, isLoading: isUpdatingPayment } = usePatchPayment();
+  const { mutate: mutateUpdateRefund, isLoading: isUpdatingRefund } = usePatchRefund();
+  const { mutate: mutateDeleteAccount, isLoading: isDeletingAccount } = useDeleteAccount();
 
   // 보증금 입금
   const onTogglePayment = (historyId: number) => {
-    updatePayment(historyId, {
+    mutateUpdatePayment(historyId, {
       onSuccess: () => {
         toast.success("성공적으로 변경되었습니다.");
       },
@@ -43,11 +49,26 @@ const RentHistoryPage = () => {
 
   // 보증금 환급
   const onToggleRefund = (historyId: number) => {
-    updateRefund(historyId, {
+    mutateUpdateRefund(historyId, {
       onSuccess: () => {
         toast.success("성공적으로 변경되었습니다.");
       },
     });
+  };
+
+  // 계좌 정보 삭제
+  const handleDeleteAccount = (historyId: number) => {
+    if (window.confirm(`계좌정보를 삭제하시겠습니까 ?`)) {
+      mutateDeleteAccount(historyId, {
+        onSuccess: () => {
+          toast.success("성공적으로 삭제하였습니다.");
+        },
+        onError: () => {
+          toast.error("서버 에러가 발생했습니다.");
+          return;
+        },
+      });
+    }
   };
 
   const refundedOptions: { label: string; value: TRefundedStatus }[] = [
@@ -138,6 +159,23 @@ const RentHistoryPage = () => {
               />
             );
           })}
+          <Column
+            body={(data) => {
+              return (
+                <Button
+                  disabled={isDeletingAccount}
+                  variant="outlined"
+                  color="error"
+                  onClick={() => {
+                    handleDeleteAccount(data.id);
+                    return;
+                  }}
+                >
+                  계좌 정보 삭제
+                </Button>
+              );
+            }}
+          />
         </CssDataTable>
         <Paginator
           first={first}

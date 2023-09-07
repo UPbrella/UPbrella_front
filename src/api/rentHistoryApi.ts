@@ -6,6 +6,7 @@ const API = {
   RENT_HISTORY: () => `/admin/rent/histories`,
   RENT_REFUND: (historyId: number) => `/admin/rent/histories/refund/${historyId}`,
   RENT_PAYMENT: (historyId: number) => `/admin/rent/histories/payment/${historyId}`,
+  RENT_DELETE_ACCOUNT: (historyId: number) => `/admin/rent/histories/${historyId}/account`,
 } as const;
 
 // 우산 대여 기록 전체 조회
@@ -42,4 +43,9 @@ export const patchHistoriesPayment = async (historyId: number) => {
 // 보증금 환급 여부 상태 토글
 export const patchHistoriesRefund = async (historyId: number) => {
   await $axios.patch(API.RENT_REFUND(historyId));
+};
+
+// 계좌 삭제
+export const deleteHistoriesAccount = async (historyId: number) => {
+  await $axios.delete(API.RENT_DELETE_ACCOUNT(historyId));
 };

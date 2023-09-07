@@ -7,3 +7,9 @@ export type TUserRes = {
   accountNumber: string | null;
   adminStatus: boolean;
 };
+
+export type TBlackUserRes = {
+  id: number;
+  socialId: number;
+  blockedAt: string;
+};
