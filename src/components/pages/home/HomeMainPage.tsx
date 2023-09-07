@@ -1,5 +1,5 @@
 import { ADMIN_ROUTES_URL } from "@/routes/adminRouter";
-import { Button, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const navItems = [
