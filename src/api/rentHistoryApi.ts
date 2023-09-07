@@ -1,18 +1,36 @@
 import { $axios } from "@/lib/axios";
-import { TRentHistory } from "@/types/admin/RentTypes";
+import { TRentHistoriesParams, TRentHistoriesRes } from "@/types/admin/RentTypes";
 import { TApiResponse } from "@/types/commonTypes";
 
 const API = {
-  RENT_HISTORY: () => `/rent/histories`,
-  RENT_REFUND: (historyId: number) => `/rent/histories/refund/${historyId}`,
-  RENT_PAYMENT: (historyId: number) => `/rent/histories/payment/${historyId}`,
+  RENT_HISTORY: () => `/admin/rent/histories`,
+  RENT_REFUND: (historyId: number) => `/admin/rent/histories/refund/${historyId}`,
+  RENT_PAYMENT: (historyId: number) => `/admin/rent/histories/payment/${historyId}`,
 } as const;
 
 // 우산 대여 기록 전체 조회
-export const getRentHistories = async () => {
-  const res = await $axios.get<TApiResponse<{ rentalHistoryResponsePage: TRentHistory[] }>>(
-    API.RENT_HISTORY()
-  );
+export const getRentHistories = async ({ refunded, page, size }: TRentHistoriesParams) => {
+  const _refunded = (() => {
+    if (refunded === "all") {
+      return undefined;
+    }
+
+    if (refunded === "notDone") {
+      return false;
+    }
+
+    if (refunded === "done") {
+      return true;
+    }
+  })();
+
+  const res = await $axios.get<TApiResponse<TRentHistoriesRes>>(API.RENT_HISTORY(), {
+    params: {
+      refunded: _refunded,
+      page,
+      size,
+    },
+  });
   return res.data;
 };
 

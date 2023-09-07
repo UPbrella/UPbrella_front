@@ -11,13 +11,14 @@ import {
 } from "@/types/admin/StoreTypes";
 
 const API = {
-  ADMIN_STORES: (id?: number) => (id ? `/stores/${id}` : `/stores`),
-  ADMIN_IMAGE_UPLOAD: (id: number) => `/stores/${id}/images`,
-  ADMIN_IMAGE_DELETE: (id: number) => `/stores/images/${id}`,
+  ADMIN_STORES: (id?: number) => (id ? `/admin/stores/${id}` : `/admin/stores`),
+  ADMIN_IMAGE_UPLOAD: (id: number) => `/admin/stores/${id}/images`,
+  ADMIN_IMAGE_DELETE: (id: number) => `/admin/stores/images/${id}`,
   ADMIN_CLASSIFICATIONS: (id?: number) =>
-    id ? `/stores/classifications/${id}` : "/stores/classifications/",
+    id ? `/admin/stores/classifications/${id}` : "/admin/stores/classifications",
+  CLASSIFICATIONS: () => "/stores/classifications",
   ADMIN_SUBCLASSIFICATIONS: (id?: number) =>
-    id ? `/stores/subClassifications/${id}` : "/stores/subClassifications",
+    id ? `/admin/stores/subClassifications/${id}` : "/admin/stores/subClassifications",
 } as const;
 
 // 협업지점 전체 조회
@@ -59,7 +60,7 @@ export const deleteStoreImage = async (storeId: number) => {
 
 // 대분류 태그
 export const getClassifications = async () => {
-  const res = await $axios.get<TApiResponse<TClassificationAllRes>>(API.ADMIN_CLASSIFICATIONS());
+  const res = await $axios.get<TApiResponse<TClassificationAllRes>>(API.CLASSIFICATIONS());
   return res.data;
 };
 
