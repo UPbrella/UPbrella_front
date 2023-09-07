@@ -25,6 +25,7 @@ const MypageRentSection = ({ rentInfo, isProfile, isRecent }: MypageRentSectionP
     ["반납 여부", returned],
     ["환급 여부", refunded],
   ];
+
   const color = isRecent ? `bg-primary-100 border-primary-300` : `bg-white border-gray-200`;
   const padding = isProfile ? `p-20` : `p-24`;
 
