@@ -3,9 +3,9 @@ import { TRentHistoriesParams, TRentHistoriesRes } from "@/types/admin/RentTypes
 import { TApiResponse } from "@/types/commonTypes";
 
 const API = {
-  RENT_HISTORY: () => `/rent/histories`,
-  RENT_REFUND: (historyId: number) => `/rent/histories/refund/${historyId}`,
-  RENT_PAYMENT: (historyId: number) => `/rent/histories/payment/${historyId}`,
+  RENT_HISTORY: () => `/admin/rent/histories`,
+  RENT_REFUND: (historyId: number) => `/admin/rent/histories/refund/${historyId}`,
+  RENT_PAYMENT: (historyId: number) => `/admin/rent/histories/payment/${historyId}`,
 } as const;
 
 // 우산 대여 기록 전체 조회

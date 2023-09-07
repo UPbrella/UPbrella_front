@@ -3,8 +3,8 @@ import { TUserRes } from "@/types/admin/userTypes";
 import { TApiResponse } from "@/types/commonTypes";
 
 const API = {
-  GET_USERS: () => `/users`,
-  DELETE_USERS: (userId: number) => `/users/${userId}`,
+  GET_USERS: () => `/admin/users`,
+  DELETE_USERS: (userId: number) => `/admin/users/${userId}`,
 } as const;
 
 // 유저 전체 조회
