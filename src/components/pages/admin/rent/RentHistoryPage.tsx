@@ -164,6 +164,7 @@ const RentHistoryPage = () => {
               return (
                 <Button
                   disabled={isDeletingAccount}
+                  style={{ minWidth: "120px" }}
                   variant="outlined"
                   color="error"
                   onClick={() => {
