@@ -8,6 +8,7 @@ import {
   TSubClassificationParams,
   TStoreParams,
   TStoreImageParams,
+  TClassificationAllStore,
 } from "@/types/admin/StoreTypes";
 
 const API = {
@@ -18,13 +19,30 @@ const API = {
     id ? `/stores/classifications/${id}` : "/stores/classifications/",
   ADMIN_SUBCLASSIFICATIONS: (id?: number) =>
     id ? `/stores/subClassifications/${id}` : "/stores/subClassifications",
+  STORE_CLASSIFICATIONS: (id: number) => `/stores/classification/${id}`,
+  STORE_LIST: () => "/stores/introductions",
+  STORE_DETAIL: (id: number) => `/stores/${id}`,
 } as const;
+
+// // 협업지점 소개 페이지에서의 협업지점 목록 조회
+// export const getStoreList = async () => {
+//   const res = await $axios.get<TApiResponse<TStoreListRes>>(API.STORE_LIST());
+//   return res.data;
+// };
 
 // 협업지점 전체 조회
 export const getStores = async () => {
   const res = await $axios.get<TApiResponse<TStoreAllRes>>(API.ADMIN_STORES());
   return res.data;
 };
+
+// // 협업지점 상세 조회
+// export const getStoreDetail = async (id: number) => {
+//   const res = await $axios.get<TApiResponse<TStoreListDetail>>(API.STORE_DETAIL(id));
+//   return res.data;
+// };
+
+// 협업지점 이미지 업로드
 
 // 협업지점 생성
 export const postStores = async (params: TStoreParams) => {
@@ -69,6 +87,14 @@ export const postClassification = async (params: TClassificationParams) => {
 
 export const deleteClassification = async (deleteId: number) => {
   await $axios.delete(API.ADMIN_CLASSIFICATIONS(deleteId));
+};
+
+// 대분류 태그 별 협업 지점 목록
+export const getClassificationsStore = async (classificationId: number) => {
+  const res = await $axios.get<TApiResponse<TClassificationAllStore>>(
+    API.STORE_CLASSIFICATIONS(classificationId)
+  );
+  return res.data;
 };
 
 // 소분류 태그
