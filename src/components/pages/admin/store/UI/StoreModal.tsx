@@ -7,6 +7,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { deleteStores, patchStores, postStores } from "@/api/storeApi";
 import toast from "react-hot-toast";
 import { isValidateStoreSave } from "@/components/pages/admin/store/helper";
+import { formatPhoneNumber } from "@/utils/utils";
 
 // 그 외의 데이터가 더 있지만, type 지정은 일단 하지 않음.
 type TKakaoAddressResult = {
@@ -72,16 +73,9 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
     const { name, value } = e.target;
     if (name === "contactNumber") {
       if (typeof value === "string") {
-        if (value.length > 13) return;
-
-        let _value = value;
-        _value = value
-          .replace(/[^0-9]/g, "") // 숫자를 제외한 모든 문자 제거
-          .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
-
         setStoreData({
           ...storeData,
-          [name]: _value,
+          [name]: formatPhoneNumber(value),
         });
         return;
       }

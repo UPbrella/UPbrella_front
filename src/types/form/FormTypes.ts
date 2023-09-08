@@ -1,5 +1,6 @@
 export type TRentFormData = {
   classificationName: string;
+  storeMetaId: number;
   rentStoreName: string;
   umbrellaUuid: number;
 };
