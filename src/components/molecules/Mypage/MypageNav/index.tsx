@@ -6,20 +6,25 @@ export type MypageNavProps = {
 };
 
 const MypageNav = ({ isClick, onClick }: MypageNavProps) => {
-  const navList = ["이용내역", "환급계좌 등록/변경", "개인정보 조회", "문의하기"];
+  const navList = [
+    ["이용내역", "/rent"],
+    ["환급계좌 등록/변경", "/account"],
+    ["개인정보 조회", "/info"],
+    ["문의하기", "/contact"],
+  ];
   return (
     <section className="flex flex-col w-full">
-      {navList.map((navName, index) => {
+      {navList.map((navInfo, index) => {
         if (index === navList.length - 1) {
           return (
             <div key={index}>
-              <MypageNavSection navName={navName} isClick={isClick} onClick={onClick} />
+              <MypageNavSection navName={navInfo[0]} isClick={isClick} onClick={onClick} />
             </div>
           );
         }
         return (
           <div key={index} className="mb-8">
-            <MypageNavSection navName={navName} isClick={isClick} onClick={onClick} />
+            <MypageNavSection navName={navInfo[0]} isClick={isClick} onClick={onClick} />
           </div>
         );
       })}

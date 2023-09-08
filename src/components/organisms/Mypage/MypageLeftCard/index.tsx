@@ -1,11 +1,12 @@
+import { TRentInfo } from "@/components/atoms/Mypage/MypageRentSection";
 import ProfileName from "@/components/atoms/Mypage/ProfileName";
-import ProfileRent, { TProfileInfo } from "@/components/atoms/Mypage/ProfileRent";
+import ProfileRent from "@/components/atoms/Mypage/ProfileRent";
 import MypageNav from "@/components/molecules/Mypage/MypageNav";
 
 export type MypageLeftCardProps = {
   userName: string;
   totalRentNum: number;
-  profileInfo: TProfileInfo;
+  profileInfo: TRentInfo;
   isClick: boolean;
   onClick: () => void;
 };
