@@ -5,4 +5,11 @@ export type TRentFormData = {
   umbrellaUuid: number;
 };
 
+export type TRentFormBody = {
+  region: string;
+  storeId: number;
+  umbrellaId: number;
+  conditionReport?: string;
+};
+
 export type TRentFormDataParams = Omit<TRentFormData, "umbrellaId" | "type">;

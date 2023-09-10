@@ -8,6 +8,9 @@ import RentModalAccount from "@/components/atoms/Form/RentModalAccount";
 import RentModalFinish from "@/components/atoms/Form/RentModalFinish";
 import FormModal from "@/components/molecules/FormModal";
 import { useGetRentFormData } from "@/hooks/queries/formQueries";
+import { loginInfo } from "@/recoil";
+import { useRecoilValue } from "recoil";
+import { formatPhoneNumber } from "@/utils/utils";
 
 const RentPage = () => {
   // 대여 전(false), 대여 후(true)
@@ -17,8 +20,8 @@ const RentPage = () => {
   const umbrellaId = 1; // TODO: 일단 고정값으로 두었는데, qr코드 url 협의후에 수정
 
   // 대여폼
-  // const [name, setName] = useState("");
-  // const [phone, setPhone] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [location, setLocation] = useState("");
   const [storeName, setStoreName] = useState("");
   const [umbrellaUuid, setUmbrellaUuid] = useState(0);
@@ -27,9 +30,12 @@ const RentPage = () => {
   // const [pw, setPw] = useState("");
 
   // 로그인 유저 정보 조회 (name, phone)
-  // TODO: 임시, 상태관리에서 가져올 예정
-  const name = "홍길동";
-  const phone = "010-1234-5678";
+  const userInfo = useRecoilValue(loginInfo);
+  useEffect(() => {
+    setName(userInfo.name);
+    const formattedPhone = formatPhoneNumber(userInfo.phoneNumber);
+    setPhone(formattedPhone);
+  }, [userInfo]);
 
   // 대여 폼 데이터 조회 (location, storeName, umbrellaNo)
   const { data } = useGetRentFormData(umbrellaId);
