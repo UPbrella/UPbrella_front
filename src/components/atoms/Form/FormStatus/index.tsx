@@ -5,10 +5,10 @@ export type FormStatusProps = {
   placeholder?: string;
   setStatus: (status: string) => void;
   status: string;
-  isRent: boolean;
+  isComplete: boolean;
 };
 
-const FormStatus = ({ label, placeholder, setStatus, status, isRent }: FormStatusProps) => {
+const FormStatus = ({ label, placeholder, setStatus, status, isComplete }: FormStatusProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [isWriting, setIsWriting] = useState(false);
 
@@ -41,7 +41,7 @@ const FormStatus = ({ label, placeholder, setStatus, status, isRent }: FormStatu
         {label}
         <div className="ml-4 text-gray-500 text-12 font-normal">(선택)</div>
       </div>
-      {isRent ? (
+      {isComplete ? (
         <div className="w-full mt-4 rounded-8 p-12 gap-2.5 text-15 text-gray-500 leading-22 placeholder-gray-300 bg-gray-100">
           {status}
         </div>
