@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import toast from "react-hot-toast";
 import { Button, Divider, Input, Typography } from "@mui/material";
 import { Column } from "primereact/column";
@@ -8,27 +9,20 @@ import {
   useDeleteUsers,
   useGetBlackUsers,
   useGetUsers,
+  usePatchAdminUsers,
 } from "@/hooks/queries/userQueries";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { FormEvent, useEffect, useState } from "react";
 import { TBlackUserRes, TUserRes } from "@/types/admin/userTypes";
-
-type TUserState = {
-  adminStatus: string;
-  id: number;
-  socialId: number;
-  name: string;
-  phoneNumber: string;
-  bank: string | null;
-  accountNumber: string | null;
-};
+import { InputSwitch } from "primereact/inputswitch";
+import { replaceItemAtIndex } from "@/utils/utils";
 
 // TODO:user, black user 컴포넌트 분리
 // TODO: 관리자로 설정 기능
 const UserAdminPage = () => {
   // client
   const [searchWord, setSearchWord] = useState("");
-  const [userData, setUserData] = useState<TUserState[]>([]);
+  const [userData, setUserData] = useState<TUserRes[]>([]);
 
   // server
   const { data: userRes, isLoading, isError } = useGetUsers();
@@ -37,8 +31,10 @@ const UserAdminPage = () => {
     isLoading: isBlackUsersLoading,
     isError: isBlackUsersError,
   } = useGetBlackUsers();
-  const { mutate: mutateBlackUser } = useDeleteUsers();
-  const { mutate: mutateDeleteUser } = useDeleteBlackUsers();
+
+  const { mutate: mutateDeleteUser, isLoading: isDeletingUser } = useDeleteUsers();
+  const { mutate: mutateDeleteBlackUser, isLoading: isDeletingBlackUser } = useDeleteBlackUsers();
+  const { mutate: mutateAdminUser, isLoading: isPatchingAdminUser } = usePatchAdminUsers();
 
   useEffect(() => {
     if (userRes) {
@@ -53,7 +49,7 @@ const UserAdminPage = () => {
         return;
       }
 
-      mutateBlackUser(user.id, {
+      mutateDeleteUser(user.id, {
         onError: () => {
           toast.error("서버 에러가 발생했습니다.");
           return;
@@ -69,7 +65,7 @@ const UserAdminPage = () => {
         return;
       }
 
-      mutateDeleteUser(user.id, {
+      mutateDeleteBlackUser(user.id, {
         onError: () => {
           toast.error("서버 에러가 발생했습니다.");
           return;
@@ -94,6 +90,26 @@ const UserAdminPage = () => {
 
     result = result.filter(({ name }) => name.includes(searchWord));
     setUserData(result);
+  };
+
+  const onChangeAdminStatus = ({ index, value }: { index: number; value: boolean }) => {
+    if (window.confirm(`${userData[index].name} 의 권한을 변경하시겠습니까?`)) {
+      mutateAdminUser(userData[index].id, {
+        onSuccess: () => {
+          setUserData((prev) =>
+            replaceItemAtIndex({
+              arr: prev,
+              index,
+              newValue: { ...prev[index], adminStatus: value },
+            })
+          );
+        },
+        onError: () => {
+          toast.error("서버 에러가 발생했습니다.");
+          return;
+        },
+      });
+    }
   };
 
   return (
@@ -148,6 +164,24 @@ const UserAdminPage = () => {
                 style={{ minWidth }}
                 header={USER_ADMIN_TABLE[key].label}
                 field={column}
+                body={
+                  key === "adminStatus"
+                    ? (data, { rowIndex }) => {
+                        return (
+                          <InputSwitch
+                            disabled={isPatchingAdminUser}
+                            checked={data[column]}
+                            onChange={(e) =>
+                              onChangeAdminStatus({
+                                index: rowIndex,
+                                value: e.value!,
+                              })
+                            }
+                          />
+                        );
+                      }
+                    : undefined
+                }
               />
             );
           })}
@@ -155,6 +189,7 @@ const UserAdminPage = () => {
             body={(data: TUserRes) => {
               return (
                 <Button
+                  disabled={isDeletingUser}
                   variant="outlined"
                   color="error"
                   onClick={() => handleUpdateBlackUser(data)}
@@ -199,7 +234,12 @@ const UserAdminPage = () => {
           <Column
             body={(data: TBlackUserRes) => {
               return (
-                <Button variant="outlined" color="error" onClick={() => handleDeleteUser(data)}>
+                <Button
+                  disabled={isDeletingBlackUser}
+                  variant="outlined"
+                  color="error"
+                  onClick={() => handleDeleteUser(data)}
+                >
                   완전 탈퇴
                 </Button>
               );

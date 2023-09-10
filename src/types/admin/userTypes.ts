@@ -6,6 +6,7 @@ export type TUserRes = {
   bank: string | null;
   accountNumber: string | null;
   adminStatus: boolean;
+  email: string | null;
 };
 
 export type TBlackUserRes = {

@@ -7,6 +7,7 @@ const API = {
   DELETE_USERS: (userId: number) => `/admin/users/${userId}`,
   GET_BLACK_USERS: () => `/users/blackList`,
   DELETE_BLACK_USERS: (userId: number) => `/users/blackList/${userId}`,
+  PATCH_ADMIN_USERS: (userId: number) => `/admin/users/${userId}`,
 } as const;
 
 // 유저 전체 조회
@@ -29,4 +30,9 @@ export const getBlackUsers = async () => {
 // 블랙리스트 유저 삭제
 export const deleteBlackUsers = async (blackUserId: number) => {
   await $axios.delete(API.DELETE_BLACK_USERS(blackUserId));
+};
+
+// 유저 관리자 권한 수정
+export const patchAdminUsers = async (userId: number) => {
+  await $axios.patch(API.PATCH_ADMIN_USERS(userId));
 };

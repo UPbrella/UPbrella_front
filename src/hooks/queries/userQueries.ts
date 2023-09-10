@@ -1,4 +1,10 @@
-import { deleteBlackUsers, deleteUsers, getBlackUsers, getUsers } from "@/api/userApi";
+import {
+  deleteBlackUsers,
+  deleteUsers,
+  getBlackUsers,
+  getUsers,
+  patchAdminUsers,
+} from "@/api/userApi";
 import { toast } from "react-hot-toast";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
@@ -11,7 +17,7 @@ export const useGetUsers = () => {
   return useQuery({
     queryKey: [...USER_QUERY_KEYS.users()],
     queryFn: () => getUsers(),
-    select: (res) => res.data.users.map((e) => ({ ...e, adminStatus: e.adminStatus ? "O" : "X" })),
+    select: (res) => res.data.users,
   });
 };
 
@@ -41,6 +47,15 @@ export const useDeleteBlackUsers = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(...USER_QUERY_KEYS.blackUsers());
       toast.success("탈퇴되었습니다.");
+    },
+  });
+};
+
+export const usePatchAdminUsers = () => {
+  return useMutation({
+    mutationFn: (userId: number) => patchAdminUsers(userId),
+    onSuccess: () => {
+      toast.success("변경되었습니다.");
     },
   });
 };

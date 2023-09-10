@@ -8,6 +8,7 @@ export const USER_ADMIN_TABLE: Record<keyof TUserRes, { label: string; width?: s
   bank: { label: "은행" },
   accountNumber: { label: "계좌번호" },
   adminStatus: { label: "관리자 여부" },
+  email: { label: "이메일", width: "150px" },
 } as const;
 
 export const USER_BLACKLIST_TABLE: Record<
