@@ -7,6 +7,7 @@ export type MypageLeftCardProps = {
   userName: string;
   totalRentNum: number;
   profileInfo: TRentInfo;
+  isReturned: boolean;
   isClick: boolean;
   onClick: () => void;
 };
@@ -15,6 +16,7 @@ const MypageLeftCard = ({
   userName,
   totalRentNum,
   profileInfo,
+  isReturned,
   isClick,
   onClick,
 }: MypageLeftCardProps) => {
@@ -24,7 +26,7 @@ const MypageLeftCard = ({
         <div className="mb-24">
           <ProfileName userName={userName} totalRentNum={totalRentNum} />
         </div>
-        <ProfileRent profileInfo={profileInfo} />
+        <ProfileRent profileInfo={profileInfo} isReturned={isReturned} />
       </section>
       <MypageNav isClick={isClick} onClick={onClick} />
     </section>
