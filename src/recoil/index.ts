@@ -31,6 +31,7 @@ export const rentHistories = selector({
   key: "rentHistories",
   get: async () => {
     const response = await $axios.get("/users/histories", { withCredentials: true });
-    return response.data.data.histories;
+    const histories = response.data.data.histories.reverse();
+    return histories;
   },
 });
