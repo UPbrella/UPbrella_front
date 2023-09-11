@@ -1,10 +1,5 @@
 import { NavLink } from "react-router-dom";
 
-export type MypageNavProps = {
-  isClick?: boolean;
-  onClick?: () => void;
-};
-
 const MypageNav = () => {
   const navList = [
     {
