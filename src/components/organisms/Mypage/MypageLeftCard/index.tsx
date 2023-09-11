@@ -8,8 +8,6 @@ export type MypageLeftCardProps = {
   totalRentNum: number;
   profileInfo: TRentInfo;
   isReturned: boolean;
-  isClick: boolean;
-  onClick: () => void;
 };
 
 const MypageLeftCard = ({
@@ -17,8 +15,6 @@ const MypageLeftCard = ({
   totalRentNum,
   profileInfo,
   isReturned,
-  isClick,
-  onClick,
 }: MypageLeftCardProps) => {
   return (
     <section className="flex flex-col items-center w-320">
@@ -28,7 +24,7 @@ const MypageLeftCard = ({
         </div>
         <ProfileRent profileInfo={profileInfo} isReturned={isReturned} />
       </section>
-      <MypageNav isClick={isClick} onClick={onClick} />
+      <MypageNav />
     </section>
   );
 };

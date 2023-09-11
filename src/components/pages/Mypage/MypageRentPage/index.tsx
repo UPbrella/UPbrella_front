@@ -20,7 +20,6 @@ const MypageRentPage = () => {
     returned: false,
     refunded: false,
   });
-  // const [isClick, setIsClick] = useState<boolean>(false);
   const [rentList, setRentList] = useState<TRentContentInfo[]>([]);
   const umbrellaHistories = useRecoilValueLoadable(rentHistories);
   const umbrellaNum = useRecoilValueLoadable(rentHistories);
@@ -94,10 +93,6 @@ const MypageRentPage = () => {
               totalRentNum={totalRentNum}
               profileInfo={profileRentInfo}
               isReturned={profileRentInfo.returned}
-              isClick={false}
-              onClick={() => {
-                alert("클릭됨");
-              }}
             />
           </div>
           <MypageRentCard rentList={rentList} />
