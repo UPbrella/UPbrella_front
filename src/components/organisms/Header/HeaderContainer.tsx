@@ -1,13 +1,36 @@
-// import { HeaderContents } from "@/components/molecules/Header/HeaderContents";
 import HeaderContents from "@/components/molecules/Header/HeaderContents";
+import { loginInfo } from "@/recoil";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useRecoilValueLoadable } from "recoil";
 
 export const HeaderContainer = () => {
+  const userLoginInfo = useRecoilValueLoadable(loginInfo);
+  const [isLogin, setIsLogin] = useState<boolean>(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    switch (userLoginInfo.state) {
+      case "hasValue":
+        setIsLogin(true);
+        break;
+      case "loading":
+        <div>Loading...</div>;
+        break;
+      case "hasError":
+        navigate("/login");
+        setIsLogin(false);
+        break;
+    }
+  }, [isLogin, navigate, userLoginInfo.state]);
+
   return (
     <div className="h-80">
-      {/* 로그인한 경우 */}
-      {/* <HeaderContents isLogin name="김민희" />  */}
-      {/* 로그인하지 않은 경우 */}
-      <HeaderContents isLogin={false} />
+      {isLogin ? (
+        <HeaderContents isLogin={isLogin} name={userLoginInfo.contents.name} />
+      ) : (
+        <HeaderContents isLogin={isLogin} />
+      )}
     </div>
   );
 };
