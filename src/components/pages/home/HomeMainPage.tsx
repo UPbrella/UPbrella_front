@@ -25,7 +25,7 @@ const navItems = [
   },
   {
     name: "마이페이지",
-    path: "/members/mypage",
+    path: "/members/mypage/rent",
   },
 ] as const;
 

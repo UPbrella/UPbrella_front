@@ -5,6 +5,7 @@ import RentalOfficePage from "@/components/pages/rentalOffice/RentalOfficePage";
 import SignUpPage from "@/components/pages/SignUp";
 import LoginPage from "@/components/pages/Login/LoginPage";
 import LoginRedirect from "@/components/pages/Login/LoginRedirectPage";
+import MypageRentPage from "@/components/pages/Mypage/MypageRentPage";
 
 /**
  * Header, footer의 layout이 필요한 페이지
@@ -40,5 +41,10 @@ export const LAYOUT_ROUTES: TRoute[] = [
     name: "회원가입 정보 입력 페이지",
     path: "/members/signup/info",
     component: SignUpPage,
+  },
+  {
+    name: "마이페이지",
+    path: "/members/mypage/rent",
+    component: MypageRentPage,
   },
 ];
