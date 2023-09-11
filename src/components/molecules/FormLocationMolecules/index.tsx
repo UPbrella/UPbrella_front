@@ -1,16 +1,18 @@
 import FormLocation from "@/components/atoms/Form/FormLocation";
 
 export type FormLocationMoleculesProps = {
-  label: string;
-  location: string;
-  storeName: string;
+  classificationName: string;
+  rentStoreName: string;
 };
 
-const FormLocationMolecules = ({ label, location, storeName }: FormLocationMoleculesProps) => {
+const FormLocationMolecules = ({
+  classificationName,
+  rentStoreName,
+}: FormLocationMoleculesProps) => {
   return (
     <div className="flex w-full justify-start">
-      <FormLocation label="지역" isTitle value={location} />
-      <FormLocation label={label} value={storeName} />
+      <FormLocation label="지역" isTitle value={classificationName} />
+      <FormLocation label="대여지점" value={rentStoreName} />
     </div>
   );
 };

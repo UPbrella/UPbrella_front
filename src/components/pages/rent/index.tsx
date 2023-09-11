@@ -19,22 +19,27 @@ const RentPage = () => {
   // 대여폼
   // const [name, setName] = useState("");
   // const [phone, setPhone] = useState("");
-  const [location, setLocation] = useState("");
-  const [storeName, setStoreName] = useState("");
+  const [classificationName, setClassificationName] = useState("");
+  const [rentStoreName, setRentStoreName] = useState("");
   const [umbrellaUuid, setUmbrellaUuid] = useState(0);
-  // const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("");
+  const [storeId, setStoreId] = useState(0);
   // const [pw, setPw] = useState("");
 
   // 로그인 유저 정보 조회 (name, phone)
+  // TODO: 임시, 상태관리에서 가져올 예정
+  const name = "홍길동";
+  const phone = "010-1234-5678";
 
   // 대여 폼 데이터 조회 (location, storeName, umbrellaNo)
   const { data } = useGetRentFormData(umbrellaId);
 
   useEffect(() => {
     if (data) {
-      setLocation(data.classificationName);
-      setStoreName(data.rentStoreName);
+      setClassificationName(data.classificationName);
+      setRentStoreName(data.rentStoreName);
       setUmbrellaUuid(data.umbrellaUuid);
+      setStoreId(data.storeMetaId);
     }
   }, [data]);
 
@@ -68,20 +73,35 @@ const RentPage = () => {
           </li>
         </ul>
       </div>
-      <FormBasic label="이름" value={""} />
-      <FormBasic label="전화번호" value={""} />
-      <FormLocationMolecules label="대여지점" location={location} storeName={storeName} />
+      <FormBasic label="이름" value={name} />
+      <FormBasic label="전화번호" value={phone} />
+      <FormLocationMolecules
+        classificationName={classificationName}
+        rentStoreName={rentStoreName}
+      />
       <FormBasic label="우산번호" value={umbrellaUuid} />
-      <FormStatus label="상태신고" placeholder="우산이나 대여 환경에 문제가 있다면 작성해주세요!" />
-      <FormButton label="대여하기" handleOpen={handleOpenDepositModal} />
+      <FormStatus
+        label="상태신고"
+        placeholder="우산이나 대여 환경에 문제가 있다면 작성해주세요!"
+        setStatus={setStatus}
+        status={status}
+        isComplete={isRent}
+      />
+      {!isRent && (
+        <FormButton label="대여하기" isActive={true} handleOpen={handleOpenDepositModal} />
+      )}
 
       {isOpenDepositModal && (
         <FormModal height="286">
           <RentModalAccount
             handleCloseDepositModal={handleCloseDepositModal}
             handleOpenLockPwModal={handleOpenLockPwModal}
-            storeName={storeName}
             umbrellaUuid={umbrellaUuid}
+            classificationName={classificationName}
+            rentStoreName={rentStoreName}
+            umbrellaId={umbrellaId}
+            status={status}
+            storeId={storeId}
           />
         </FormModal>
       )}

@@ -3,9 +3,12 @@ import { useRef, useEffect, useState, ChangeEvent } from "react";
 export type FormStatusProps = {
   label: string;
   placeholder?: string;
+  setStatus: (status: string) => void;
+  status: string;
+  isComplete: boolean;
 };
 
-const FormStatus = ({ label, placeholder }: FormStatusProps) => {
+const FormStatus = ({ label, placeholder, setStatus, status, isComplete }: FormStatusProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [isWriting, setIsWriting] = useState(false);
 
@@ -26,7 +29,7 @@ const FormStatus = ({ label, placeholder }: FormStatusProps) => {
 
     const { value } = event.target;
     setIsWriting(Boolean(value));
-    // setStatus(event.target.value);
+    setStatus(event.target.value);
   };
 
   const borderColor = isWriting ? "gray-600" : "gray-300";
@@ -38,14 +41,20 @@ const FormStatus = ({ label, placeholder }: FormStatusProps) => {
         {label}
         <div className="ml-4 text-gray-500 text-12 font-normal">(선택)</div>
       </div>
-      <textarea
-        ref={textareaRef}
-        onChange={handleTextareaChange}
-        rows={1}
-        className={`w-full mt-4 rounded-8 border border-${borderColor} p-10 text-15 text-${textColor} leading-22 placeholder-gray-300 resize-none overflow-hidden focus:border-gray-600 focus:outline-none`}
-        placeholder={placeholder}
-        spellCheck={false}
-      />
+      {isComplete ? (
+        <div className="w-full mt-4 rounded-8 p-12 gap-2.5 text-15 text-gray-500 leading-22 placeholder-gray-300 bg-gray-100">
+          {status}
+        </div>
+      ) : (
+        <textarea
+          ref={textareaRef}
+          onChange={handleTextareaChange}
+          rows={1}
+          className={`w-full mt-4 rounded-8 border border-${borderColor} p-10 text-15 text-${textColor} leading-22 placeholder-gray-300 resize-none overflow-hidden focus:border-gray-600 focus:outline-none`}
+          placeholder={placeholder}
+          spellCheck={false}
+        />
+      )}
     </div>
   );
 };
