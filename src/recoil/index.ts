@@ -1,24 +1,6 @@
 import { $axios } from "@/lib/axios";
-import { atom, selector } from "recoil";
+import { selector } from "recoil";
 
-export type TUserInfo = {
-  id: number;
-  name: string;
-  phoneNumber: string;
-  bank?: string;
-  accountNumber?: string;
-};
-
-export const userInfo = atom<TUserInfo>({
-  key: "userInfo",
-  default: {
-    id: 0,
-    name: "",
-    phoneNumber: "",
-    bank: "",
-    accountNumber: "",
-  },
-});
 export const loginInfo = selector({
   key: "loginInfo",
   get: async () => {
