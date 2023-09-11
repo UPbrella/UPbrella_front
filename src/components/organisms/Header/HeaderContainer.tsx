@@ -18,6 +18,7 @@ export const HeaderContainer = () => {
         <div>Loading...</div>;
         break;
       case "hasError":
+        // TODO: 지금 timing 차이 때문에 로그인하고나서 다시 로그인페이지로 떨어지는 문제 해결해야함.
         navigate("/login");
         setIsLogin(false);
         break;
