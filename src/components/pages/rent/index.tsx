@@ -11,6 +11,9 @@ import { useGetRentFormData } from "@/hooks/queries/formQueries";
 import { loginInfo } from "@/recoil";
 import { useRecoilValue } from "recoil";
 import { formatPhoneNumber } from "@/utils/utils";
+import { useMutation, useQueryClient } from "react-query";
+import { postRent } from "@/api/formApi";
+import { toast } from "react-hot-toast";
 
 const RentPage = () => {
   // 대여 전(false), 대여 후(true)
@@ -22,10 +25,10 @@ const RentPage = () => {
   // 대여폼
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [location, setLocation] = useState("");
+  const [region, setRegion] = useState("");
   const [storeName, setStoreName] = useState("");
   const [umbrellaUuid, setUmbrellaUuid] = useState(0);
-  const [status, setStatus] = useState("");
+  const [conditionReport, setConditionReport] = useState("");
   const [storeId, setStoreId] = useState(0);
   // const [pw, setPw] = useState("");
 
@@ -42,12 +45,32 @@ const RentPage = () => {
 
   useEffect(() => {
     if (data) {
-      setLocation(data.classificationName);
+      setRegion(data.classificationName);
       setStoreName(data.rentStoreName);
       setUmbrellaUuid(data.umbrellaUuid);
       setStoreId(data.storeMetaId);
     }
   }, [data]);
+
+  // POST 우산대여신청
+  const queryClient = useQueryClient();
+  const { mutate: createMutate } = useMutation(postRent);
+  const onClickPostBtn = () => {
+    createMutate(
+      { region, storeId, umbrellaId, conditionReport },
+      {
+        onError: () => {
+          toast.error("대여신청 실패");
+          return;
+        },
+        onSuccess: () => {
+          toast.success("대여신청 성공");
+          queryClient.invalidateQueries([""]);
+          return;
+        },
+      }
+    );
+  };
 
   // 보증금 입금 안내 모달
   const [isOpenDepositModal, setIsOpenDepositModal] = useState(false); // 자물쇠 비밀번호 안내 모달
@@ -81,13 +104,13 @@ const RentPage = () => {
       </div>
       <FormBasic label="이름" value={name} />
       <FormBasic label="전화번호" value={phone} />
-      <FormLocationMolecules location={location} storeName={storeName} />
+      <FormLocationMolecules region={region} storeName={storeName} />
       <FormBasic label="우산번호" value={umbrellaUuid} />
       <FormStatus
         label="상태신고"
         placeholder="우산이나 대여 환경에 문제가 있다면 작성해주세요!"
-        setStatus={setStatus}
-        status={status}
+        setConditionReport={setConditionReport}
+        conditionReport={conditionReport}
         isRent={isRent}
       />
       {!isRent && <FormButton label="대여하기" handleOpen={handleOpenDepositModal} />}
@@ -98,11 +121,12 @@ const RentPage = () => {
             handleCloseDepositModal={handleCloseDepositModal}
             handleOpenLockPwModal={handleOpenLockPwModal}
             umbrellaUuid={umbrellaUuid}
-            location={location}
+            region={region}
             storeName={storeName}
             umbrellaId={umbrellaId}
-            status={status}
+            conditionReport={conditionReport}
             storeId={storeId}
+            onClickPostBtn={onClickPostBtn}
           />
         </FormModal>
       )}

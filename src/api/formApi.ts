@@ -1,6 +1,6 @@
 import { $axios } from "@/lib/axios";
 import { TApiResponse } from "@/types/commonTypes";
-import { TRentFormData } from "@/types/form/FormTypes";
+import { TRentFormData, TRentDetail } from "@/types/form/FormTypes";
 
 const API = {
   RENT_FORM: (umbrellaId: number) => `/rent/form/${umbrellaId}`,
@@ -14,7 +14,6 @@ export const getRentFormData = async (umbrellaId: number) => {
 };
 
 // 우산 대여 신청
-// export const postRent = async () => {
-//   const res = await $axios.post;
-//   return res.data;
-// };
+export const postRent = async (params: TRentDetail) => {
+  await $axios.post(API.RENT(), params);
+};

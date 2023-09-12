@@ -6,6 +6,6 @@ export default {
   component: RentLocationMolecules,
 } as Meta;
 
-const Template: StoryFn = () => <RentLocationMolecules location="" storeName="" />;
+const Template: StoryFn = () => <RentLocationMolecules region="" storeName="" />;
 
 export const Default = Template.bind({});
