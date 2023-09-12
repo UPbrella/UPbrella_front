@@ -13,7 +13,7 @@ import { useGetReturnFormData, useGetReturnUmbrella } from "@/hooks/queries/form
 import { useRecoilValue } from "recoil";
 import { loginInfo } from "@/recoil";
 import { formatPhoneNumber } from "@/utils/utils";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "react-query";
 import { toast } from "react-hot-toast";
 import { patchReturn } from "@/api/formApi";
 
@@ -77,7 +77,6 @@ const ReturnPage = () => {
   }, [bank, accountNumber]);
 
   // POST 우산반납신청
-  const queryClient = useQueryClient();
   const { mutate: updateRent } = useMutation(patchReturn);
   const onClickPatchBtn = () => {
     updateRent(
@@ -94,7 +93,7 @@ const ReturnPage = () => {
         },
         onSuccess: () => {
           toast.success("반납신청 성공");
-          queryClient.invalidateQueries(["returnUmbrella"]);
+          setIsReturn(true);
           return;
         },
       }
@@ -187,7 +186,7 @@ const ReturnPage = () => {
         label="개선 요청 사항"
         placeholder="개선이 필요하다고 느낀 점이 있다면 작성해주세요!"
         setStatus={setImprovementReportContent}
-        status={status}
+        status={improvementReportContent}
         isComplete={isReturn}
       />
 
@@ -204,7 +203,6 @@ const ReturnPage = () => {
             elapsedDay={elapsedDay}
             bank={bank}
             accountNumber={accountNumber}
-            setIsReturn={setIsReturn}
             setIsOpenModal={setIsOpenModal}
             onClickPatchBtn={onClickPatchBtn}
           />

@@ -5,7 +5,6 @@ export type ReturnModalProps = {
   elapsedDay: number;
   bank: string;
   accountNumber: string;
-  setIsReturn: (value: boolean) => void;
   setIsOpenModal: (value: boolean) => void;
   onClickPatchBtn: () => void;
 };
@@ -17,7 +16,6 @@ const ReturnModal = ({
   elapsedDay,
   bank,
   accountNumber,
-  setIsReturn,
   setIsOpenModal,
   onClickPatchBtn,
 }: ReturnModalProps) => {
@@ -50,7 +48,6 @@ const ReturnModal = ({
         <button
           className="bg-primary-500 w-150"
           onClick={() => {
-            setIsReturn(true);
             setIsOpenModal(false);
             onClickPatchBtn();
           }}
