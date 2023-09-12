@@ -24,6 +24,14 @@ const ReturnPage = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isActive, setIsActive] = useState(false);
 
+  // 로그인 유저 정보 조회 (이름, 전화번호, 은행명, 계좌번호)
+  const userInfo = useRecoilValue(loginInfo);
+  useEffect(() => {
+    setName(userInfo.name);
+    const formattedPhone = formatPhoneNumber(userInfo.phoneNumber);
+    setPhone(formattedPhone);
+  }, [userInfo]);
+
   // 반납폼
   // const [storeId, setStoreId] = useState(0);
   const [name, setName] = useState("");
@@ -31,20 +39,10 @@ const ReturnPage = () => {
   const [classificationName, setClassificationName] = useState("");
   const [rentStoreName, setRentStoreName] = useState("");
   const [umbrellaUuid, setUmbrellaUuid] = useState(0);
-  const [bank, setBank] = useState("은행명");
-  const [accountNumber, setAccountNumber] = useState("");
+  const [bank, setBank] = useState(userInfo.bank || "은행명");
+  const [accountNumber, setAccountNumber] = useState(userInfo.accountNumber || "");
   const [improvementReportContent, setImprovementReportContent] = useState("");
   const [elapsedDay, setElapsedDay] = useState(0);
-
-  // 로그인 유저 정보 조회 (이름, 전화번호, 은행명, 계좌번호)
-  const userInfo = useRecoilValue(loginInfo);
-  useEffect(() => {
-    setName(userInfo.name);
-    const formattedPhone = formatPhoneNumber(userInfo.phoneNumber);
-    setPhone(formattedPhone);
-    setBank(userInfo.bank);
-    setAccountNumber(userInfo.accountNumber);
-  }, [userInfo]);
 
   // TODO url (storeId)
   const returnStoreId = 1;
@@ -69,7 +67,7 @@ const ReturnPage = () => {
 
   // 필수조건 입력 확인
   useEffect(() => {
-    if (bank !== "은행명" && accountNumber !== "") {
+    if (bank !== "" && accountNumber && accountNumber.length !== 0) {
       setIsActive(true);
     } else {
       setIsActive(false);
