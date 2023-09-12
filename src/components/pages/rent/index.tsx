@@ -113,7 +113,9 @@ const RentPage = () => {
         conditionReport={conditionReport}
         isRent={isRent}
       />
-      {!isRent && <FormButton label="대여하기" handleOpen={handleOpenDepositModal} />}
+      {!isRent && (
+        <FormButton label="대여하기" isActive={true} handleOpen={handleOpenDepositModal} />
+      )}
 
       {isOpenDepositModal && (
         <FormModal height="286">
