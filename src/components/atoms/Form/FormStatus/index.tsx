@@ -15,7 +15,6 @@ const FormStatus = ({
   conditionReport,
   isRent,
 }: FormStatusProps) => {
-      
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [isWriting, setIsWriting] = useState(false);
 
@@ -48,7 +47,7 @@ const FormStatus = ({
         {label}
         <div className="ml-4 text-gray-500 text-12 font-normal">(선택)</div>
       </div>
-      {isComplete ? (
+      {isRent ? (
         <div className="w-full mt-4 rounded-8 p-12 gap-2.5 text-15 text-gray-500 leading-22 placeholder-gray-300 bg-gray-100">
           {conditionReport}
         </div>

@@ -2,8 +2,8 @@ export type RentModalAccountProps = {
   handleCloseDepositModal: () => void;
   handleOpenLockPwModal: () => void;
   umbrellaUuid: number;
-  classificationName: string;
-  rentStoreName: string;
+  region: string;
+  storeName: string;
   umbrellaId: number;
   conditionReport?: string;
   storeId: number;
@@ -13,7 +13,7 @@ export type RentModalAccountProps = {
 const RentModalAccount = ({
   handleCloseDepositModal,
   handleOpenLockPwModal,
-  rentStoreName,
+  storeName,
   umbrellaUuid,
   onClickPostBtn,
 }: RentModalAccountProps) => {
@@ -34,7 +34,7 @@ const RentModalAccount = ({
       <div className="flex flex-col">
         <div className="text-18 font-bold">
           <p className="inline font-normal">'</p>
-          {rentStoreName}
+          {storeName}
           <p className="inline font-normal">'에서</p>
         </div>
         <div className="text-18 font-bold">
