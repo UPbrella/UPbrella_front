@@ -11,7 +11,7 @@ import { useGetRentFormData } from "@/hooks/queries/formQueries";
 import { loginInfo } from "@/recoil";
 import { useRecoilValue } from "recoil";
 import { formatPhoneNumber } from "@/utils/utils";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "react-query";
 import { postRent } from "@/api/formApi";
 import { toast } from "react-hot-toast";
 
@@ -53,7 +53,6 @@ const RentPage = () => {
   }, [data]);
 
   // POST 우산대여신청
-  const queryClient = useQueryClient();
   const { mutate: createMutate } = useMutation(postRent);
   const onClickPostBtn = () => {
     createMutate(
@@ -65,7 +64,8 @@ const RentPage = () => {
         },
         onSuccess: () => {
           toast.success("대여신청 성공");
-          queryClient.invalidateQueries([""]);
+          setIsRent(true);
+          setIsOpenLockPwModal(true);
           return;
         },
       }
@@ -81,7 +81,6 @@ const RentPage = () => {
 
   // 자물쇠 비밀번호 안내 모달
   const [isOpenLockPwModal, setIsOpenLockPwModal] = useState(false); // 자물쇠 비밀번호 안내 모달
-  const handleOpenLockPwModal = () => setIsOpenLockPwModal(true);
   const handleCloseLockPwModal = () => setIsOpenLockPwModal(false);
 
   return (
@@ -111,7 +110,7 @@ const RentPage = () => {
         placeholder="우산이나 대여 환경에 문제가 있다면 작성해주세요!"
         setConditionReport={setConditionReport}
         conditionReport={conditionReport}
-        isRent={isRent}
+        isComplete={isRent}
       />
       {!isRent && (
         <FormButton label="대여하기" isActive={true} handleOpen={handleOpenDepositModal} />
@@ -121,7 +120,6 @@ const RentPage = () => {
         <FormModal height="286">
           <RentModalAccount
             handleCloseDepositModal={handleCloseDepositModal}
-            handleOpenLockPwModal={handleOpenLockPwModal}
             umbrellaUuid={umbrellaUuid}
             region={region}
             storeName={storeName}
@@ -134,7 +132,7 @@ const RentPage = () => {
       )}
       {isOpenLockPwModal && (
         <FormModal height="266">
-          <RentModalFinish handleCloseLockPwModal={handleCloseLockPwModal} setIsRent={setIsRent} />
+          <RentModalFinish handleCloseLockPwModal={handleCloseLockPwModal} />
         </FormModal>
       )}
     </div>

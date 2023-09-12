@@ -1,6 +1,5 @@
 export type RentModalAccountProps = {
   handleCloseDepositModal: () => void;
-  handleOpenLockPwModal: () => void;
   umbrellaUuid: number;
   region: string;
   storeName: string;
@@ -12,7 +11,6 @@ export type RentModalAccountProps = {
 
 const RentModalAccount = ({
   handleCloseDepositModal,
-  handleOpenLockPwModal,
   storeName,
   umbrellaUuid,
   onClickPostBtn,
@@ -20,7 +18,6 @@ const RentModalAccount = ({
   const copyAccountToClipboard = () => {
     onClickPostBtn();
     handleCloseDepositModal(); // (1) 보증금 입금 안내 모달 close
-    handleOpenLockPwModal(); // (2) 자물쇠 비밀번호 안내 모달 open
     navigator.clipboard.writeText(bankName + " " + accountNumber);
   };
 
