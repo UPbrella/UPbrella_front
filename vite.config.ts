@@ -20,14 +20,5 @@ export default ({ mode }) => {
         },
       }),
     ],
-    server: {
-      proxy: {
-        "/api": {
-          target: "http://upbrella-dev.site:8080",
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, ""),
-        },
-      },
-    },
   };
 };
