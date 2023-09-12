@@ -9,6 +9,13 @@ import BottomSheet from "@/components/atoms/BottomSheet";
 import BankContent from "@/components/atoms/Form/BankContent";
 import FormModal from "@/components/molecules/FormModal";
 import ReturnModal from "@/components/atoms/Form/ReturnModal";
+import { useGetReturnFormData, useGetReturnUmbrella } from "@/hooks/queries/formQueries";
+import { useRecoilValue } from "recoil";
+import { loginInfo } from "@/recoil";
+import { formatPhoneNumber } from "@/utils/utils";
+import { useMutation, useQueryClient } from "react-query";
+import { toast } from "react-hot-toast";
+import { patchReturn } from "@/api/formApi";
 
 const ReturnPage = () => {
   // 반납전(false), 반납후(true)
@@ -18,38 +25,81 @@ const ReturnPage = () => {
   const [isActive, setIsActive] = useState(false);
 
   // 반납폼
-  // const [name, setName] = useState("");
-  // const [phone, setPhone] = useState("");
   // const [storeId, setStoreId] = useState(0);
-  // const [classificationName, setClassificationName] = useState("");
-  // const [rentStoreName, setRentStoreName] = useState("");
-  // const [umbrellaUuid, setUmbrellaUuid] = useState(0);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [classificationName, setClassificationName] = useState("");
+  const [rentStoreName, setRentStoreName] = useState("");
+  const [umbrellaUuid, setUmbrellaUuid] = useState(0);
   const [bank, setBank] = useState("은행명");
-  const [account, setAccount] = useState("");
-  const [status, setStatus] = useState("");
-  // const [day, setDay] = useState(0);
-
-  // url (storeId, 지역, 반납지점)
-  // const storeId = 1;
-  const classificationName = "";
-  const rentStoreName = "";
+  const [accountNumber, setAccountNumber] = useState("");
+  const [improvementReportContent, setImprovementReportContent] = useState("");
+  const [elapsedDay, setElapsedDay] = useState(0);
 
   // 로그인 유저 정보 조회 (이름, 전화번호, 은행명, 계좌번호)
-  const name = "홍길동";
-  const phone = "010-1234-5678";
+  const userInfo = useRecoilValue(loginInfo);
+  useEffect(() => {
+    setName(userInfo.name);
+    const formattedPhone = formatPhoneNumber(userInfo.phoneNumber);
+    setPhone(formattedPhone);
+    setBank(userInfo.bank);
+    setAccountNumber(userInfo.accountNumber);
+  }, [userInfo]);
+
+  // TODO url (storeId)
+  const returnStoreId = 1;
+
+  // 반납 폼 데이터 조회 (classificationName, rentStoreName)
+  const { data: formData } = useGetReturnFormData(returnStoreId);
+  useEffect(() => {
+    if (formData) {
+      setClassificationName(formData.classificationName);
+      setRentStoreName(formData.rentStoreName);
+    }
+  }, [formData]);
 
   // 사용자가 빌린 우산 조회 (umbrellaUuid, 대여일수)
-  const umbrellaUuid = 1;
-  const day = 3;
+  const { data: umbrellaData } = useGetReturnUmbrella();
+  useEffect(() => {
+    if (umbrellaData) {
+      setUmbrellaUuid(umbrellaData.uuid);
+      setElapsedDay(umbrellaData.elapsedDay);
+    }
+  }, [umbrellaData]);
 
   // 필수조건 입력 확인
   useEffect(() => {
-    if (bank !== "은행명" && account !== "") {
+    if (bank !== "은행명" && accountNumber !== "") {
       setIsActive(true);
     } else {
       setIsActive(false);
     }
-  }, [bank, account]);
+  }, [bank, accountNumber]);
+
+  // POST 우산반납신청
+  const queryClient = useQueryClient();
+  const { mutate: updateRent } = useMutation(patchReturn);
+  const onClickPatchBtn = () => {
+    updateRent(
+      {
+        returnStoreId,
+        bank,
+        accountNumber,
+        improvementReportContent,
+      },
+      {
+        onError: () => {
+          toast.error("반납신청 실패");
+          return;
+        },
+        onSuccess: () => {
+          toast.success("반납신청 성공");
+          queryClient.invalidateQueries(["returnUmbrella"]);
+          return;
+        },
+      }
+    );
+  };
 
   return (
     <div className="flex-col max-w-2xl mx-auto">
@@ -119,14 +169,14 @@ const ReturnPage = () => {
 
           {isReturn ? (
             <div className="w-full ml-4 rounded-8 p-12 text-15 text-gray-500 leading-22 bg-gray-100">
-              {account}
+              {accountNumber}
             </div>
           ) : (
             <input
               className={`ml-4 w-full rounded-8 p-12 focus:border-gray-600 focus:outline-none border border-gray-300`}
-              placeholder={account ? account : "계좌번호"}
-              value={account}
-              onChange={(e) => setAccount(e.target.value)}
+              placeholder={accountNumber ? accountNumber : "계좌번호"}
+              value={accountNumber}
+              onChange={(e) => setAccountNumber(e.target.value)}
             />
           )}
         </div>
@@ -136,7 +186,7 @@ const ReturnPage = () => {
       <FormStatus
         label="개선 요청 사항"
         placeholder="개선이 필요하다고 느낀 점이 있다면 작성해주세요!"
-        setStatus={setStatus}
+        setStatus={setImprovementReportContent}
         status={status}
         isComplete={isReturn}
       />
@@ -151,11 +201,12 @@ const ReturnPage = () => {
             classificationName={classificationName}
             rentStoreName={rentStoreName}
             umbrellaUuid={umbrellaUuid}
-            day={day}
+            elapsedDay={elapsedDay}
             bank={bank}
-            account={account}
+            accountNumber={accountNumber}
             setIsReturn={setIsReturn}
             setIsOpenModal={setIsOpenModal}
+            onClickPatchBtn={onClickPatchBtn}
           />
         </FormModal>
       )}
