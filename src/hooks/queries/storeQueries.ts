@@ -1,6 +1,10 @@
-import { getClassifications, getSubClassifications, getClassificationsStore } from "@/api/storeApi";
+import {
+  getClassifications,
+  getSubClassifications,
+  getClassificationsStore,
+  getStores,
+} from "@/api/storeApi";
 import { useQuery } from "react-query";
-
 
 export const useGetStores = () => {
   return useQuery({
