@@ -174,7 +174,11 @@ const ReturnPage = () => {
             />
           )}
         </div>
-        <div className="mt-4 text-14 leading-20 text-gray-600">* ‘-’은 빼고 입력해주세요!</div>
+        <div className="mt-4 text-14 leading-20 text-gray-600">
+          * ‘-’은 빼고 입력해주세요! <br /> * 현재 ‘반납 페이지’에서 입력하신 은행, 계좌번호 정보는
+          보증금 환급이 완료됨에 따라 파기됩니다. <br /> * MYPAGE를 통해 정보를 저장하면 빠른 반납이
+          가능합니다.
+        </div>
       </div>
 
       <FormStatus
