@@ -24,5 +24,5 @@ Left.args = {
     returned: false,
     refunded: false,
   },
-  isClick: false,
+  isReturned: false,
 };
