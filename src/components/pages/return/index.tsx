@@ -26,7 +26,7 @@ const ReturnPage = () => {
   // const [umbrellaUuid, setUmbrellaUuid] = useState(0);
   const [bank, setBank] = useState("은행명");
   const [account, setAccount] = useState("");
-  const [status, setStatus] = useState("");
+  const [conditionReport, setConditionReport] = useState("");
   // const [day, setDay] = useState(0);
 
   // url (storeId, 지역, 반납지점)
@@ -76,10 +76,7 @@ const ReturnPage = () => {
 
       <FormBasic label="이름" value={name} />
       <FormBasic label="전화번호" value={phone} />
-      <FormLocationMolecules
-        classificationName={classificationName}
-        rentStoreName={rentStoreName}
-      />
+      <FormLocationMolecules region={classificationName} storeName={rentStoreName} />
       <FormBasic label="우산번호" value={umbrellaUuid} />
 
       <div className="flex flex-col mb-32">
@@ -136,8 +133,8 @@ const ReturnPage = () => {
       <FormStatus
         label="개선 요청 사항"
         placeholder="개선이 필요하다고 느낀 점이 있다면 작성해주세요!"
-        setStatus={setStatus}
-        status={status}
+        setConditionReport={setConditionReport}
+        conditionReport={conditionReport}
         isComplete={isReturn}
       />
 
