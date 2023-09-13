@@ -69,7 +69,7 @@ const HeaderContents = ({ isLogin, name }: HeaderContentsProps) => {
             </NavLink>
           ))}
 
-          {!isLogin ? (
+          {isLogin ? (
             <div className="flex items-center cursor-pointer relative" onClick={handleMyPageOpen}>
               <PersonOutlineOutlinedIcon sx={{ fontSize: "20px" }} />
               <div className="ml-4">{name}님</div>

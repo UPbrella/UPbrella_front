@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const navItems = [
   {
     name: "대여폼",
-    path: "/rent",
+    path: "/rent/form/1",
   },
   {
     name: "반납폼",

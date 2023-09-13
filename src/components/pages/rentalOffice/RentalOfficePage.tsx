@@ -29,7 +29,7 @@ const RentalOfficePage = () => {
         {classificationsRes && (
           <LocationClassificationBtn
             classifications={classificationsRes}
-            setSelectedClassification={setSelectedClassification}
+            handleClassificationSelection={setSelectedClassification}
           />
         )}
         <div>

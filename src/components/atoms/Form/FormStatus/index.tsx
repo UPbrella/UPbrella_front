@@ -3,18 +3,12 @@ import { useRef, useEffect, useState, ChangeEvent } from "react";
 export type FormStatusProps = {
   label: string;
   placeholder?: string;
-  setConditionReport: (conditionReport: string) => void;
-  conditionReport: string;
+  setStatus: (conditionReport: string) => void;
+  status: string;
   isComplete: boolean;
 };
 
-const FormStatus = ({
-  label,
-  placeholder,
-  setConditionReport,
-  conditionReport,
-  isComplete,
-}: FormStatusProps) => {
+const FormStatus = ({ label, placeholder, setStatus, status, isComplete }: FormStatusProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [isWriting, setIsWriting] = useState(false);
 
@@ -35,7 +29,7 @@ const FormStatus = ({
 
     const { value } = event.target;
     setIsWriting(Boolean(value));
-    setConditionReport(event.target.value);
+    setStatus(event.target.value);
   };
 
   const borderColor = isWriting ? "gray-600" : "gray-300";
@@ -49,7 +43,7 @@ const FormStatus = ({
       </div>
       {isComplete ? (
         <div className="w-full min-h-[48px] mt-4 rounded-8 p-12 gap-2.5 text-15 text-gray-500 leading-22 placeholder-gray-300 bg-gray-100">
-          {conditionReport}
+          {status}
         </div>
       ) : (
         <textarea
