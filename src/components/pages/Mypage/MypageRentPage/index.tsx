@@ -2,7 +2,6 @@ import { TRentInfo } from "@/components/atoms/Mypage/MypageRentSection";
 import { TRentContentInfo } from "@/components/molecules/Mypage/MypageRentList";
 import MypageLeftCard from "@/components/organisms/Mypage/MypageLeftCard";
 import MypageRentCard from "@/components/organisms/Mypage/MypageRentCard";
-import { $axios } from "@/lib/axios";
 import { loginInfo, rentHistories } from "@/recoil";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -59,11 +58,10 @@ const MypageRentPage = () => {
     const getCurrentUmbrellaId = async () => {
       switch (umbrellaHistories.state) {
         case "hasValue": {
-          const res = await $axios.get("/users/loggedIn/umbrella", { withCredentials: true }); // 가장 최근 우산 id 조회
-          // 전체 우산 중에서 가장 최근 우산 정보 filter
-          const profileRent: TRentInfo = umbrellaHistories.contents.filter(
-            (history: TRentInfo) => history.umbrellaUuid === res.data.data.uuid
-          )[0];
+          const profileRent: TRentInfo = umbrellaHistories.contents.find(
+            (history: TRentInfo) => !history.returned
+          );
+
           setProfileRentInfo({ ...profileRent });
           // TODO:지금은 여기에 포함되어있지만 반드시 분리해줘야한다.
           setRentList(umbrellaHistories.contents);
