@@ -42,7 +42,7 @@ const FormStatus = ({ label, placeholder, setStatus, status, isComplete }: FormS
         <div className="ml-4 text-gray-500 text-12 font-normal">(선택)</div>
       </div>
       {isComplete ? (
-        <div className="w-full mt-4 rounded-8 p-12 gap-2.5 text-15 text-gray-500 leading-22 placeholder-gray-300 bg-gray-100">
+        <div className="w-full min-h-[48px] mt-4 rounded-8 p-12 gap-2.5 text-15 text-gray-500 leading-22 placeholder-gray-300 bg-gray-100">
           {status}
         </div>
       ) : (
