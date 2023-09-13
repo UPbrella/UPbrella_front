@@ -6,4 +6,11 @@ export type TUserRes = {
   bank: string | null;
   accountNumber: string | null;
   adminStatus: boolean;
+  email: string | null;
+};
+
+export type TBlackUserRes = {
+  id: number;
+  socialId: number;
+  blockedAt: string;
 };

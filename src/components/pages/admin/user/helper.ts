@@ -1,3 +1,5 @@
+import { TBlackUserRes, TUserRes } from "@/types/admin/userTypes";
+
 export const USER_ADMIN_TABLE: Record<keyof TUserRes, { label: string; width?: string }> = {
   id: { label: `사용자 고유번호` },
   socialId: { label: "사용자 소셜 고유번호", width: "150px" },
@@ -6,15 +8,13 @@ export const USER_ADMIN_TABLE: Record<keyof TUserRes, { label: string; width?: s
   bank: { label: "은행" },
   accountNumber: { label: "계좌번호" },
   adminStatus: { label: "관리자 여부" },
+  email: { label: "이메일", width: "150px" },
 } as const;
 
-// TODO: Type 파일에서 import (삭제예정)
-export type TUserRes = {
-  id: number;
-  socialId: number;
-  name: string;
-  phoneNumber: string;
-  bank: string | null;
-  accountNumber: string | null;
-  adminStatus: boolean;
-};
+export const USER_BLACKLIST_TABLE: Record<
+  keyof Omit<TBlackUserRes, "id">,
+  { label: string; width?: string }
+> = {
+  socialId: { label: "사용자 소셜 고유번호" },
+  blockedAt: { label: "블랙리스트 등재 시간" },
+} as const;

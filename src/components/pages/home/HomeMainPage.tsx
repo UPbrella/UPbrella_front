@@ -23,6 +23,10 @@ const navItems = [
     name: "어드민(권한분리 예정)",
     path: ADMIN_ROUTES_URL.rent.path,
   },
+  {
+    name: "마이페이지",
+    path: "/members/mypage/rent",
+  },
 ] as const;
 
 const HomeMainPage = () => {

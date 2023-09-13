@@ -14,4 +14,4 @@ const Template: StoryFn<TLocationClassificationBtn> = (args) => (
 );
 
 export const Default = Template.bind({});
-Default.args = { text: ["신촌", "연희동"] };
+// Default.args = { text: ["신촌", "연희동"] };

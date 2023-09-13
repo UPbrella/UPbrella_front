@@ -1,11 +1,9 @@
 export type RentModalFinishProps = {
   handleCloseLockPwModal: () => void;
-  setIsRent: (value: boolean) => void;
 };
 
-const RentModalFinish = ({ handleCloseLockPwModal, setIsRent }: RentModalFinishProps) => {
+const RentModalFinish = ({ handleCloseLockPwModal }: RentModalFinishProps) => {
   const handleFinish = () => {
-    setIsRent(true);
     handleCloseLockPwModal();
   };
 

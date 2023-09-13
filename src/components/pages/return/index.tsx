@@ -123,10 +123,7 @@ const ReturnPage = () => {
 
       <FormBasic label="이름" value={name} />
       <FormBasic label="전화번호" value={phone} />
-      <FormLocationMolecules
-        classificationName={classificationName}
-        rentStoreName={rentStoreName}
-      />
+      <FormLocationMolecules region={classificationName} storeName={rentStoreName} />
       <FormBasic label="우산번호" value={umbrellaUuid} />
 
       <div className="flex flex-col mb-32">
