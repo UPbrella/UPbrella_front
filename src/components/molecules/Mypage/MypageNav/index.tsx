@@ -25,7 +25,7 @@ const MypageNav = () => {
       {navList.map((navInfo, index) => {
         let defaultClassName = "h-56 px-32 flex items-center rounded-8";
         if (index !== navList.length - 1) {
-          defaultClassName += "mb-8";
+          defaultClassName += " mb-8";
         }
         return (
           <NavLink

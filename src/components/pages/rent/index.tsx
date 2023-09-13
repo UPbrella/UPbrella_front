@@ -108,8 +108,8 @@ const RentPage = () => {
       <FormStatus
         label="상태신고"
         placeholder="우산이나 대여 환경에 문제가 있다면 작성해주세요!"
-        setConditionReport={setConditionReport}
-        conditionReport={conditionReport}
+        setStatus={setConditionReport}
+        status={conditionReport}
         isComplete={isRent}
       />
       {!isRent && (
