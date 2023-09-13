@@ -58,9 +58,9 @@ export default function RentalInfo() {
 
   useEffect(() => {
     updateMapMarkers();
-  });
+  }, [map, storeMarker.data]);
 
-  const updateMapMarkers = () => {
+  const updateMapMarkers = useCallback(() => {
     if (!map || !window.naver.maps || !storeMarker.data) return; // 분류 ID가 없으면 아무것도 하지 않음
     const storeMarkerList = storeMarker.data; // 가게 목록 데이터
 
@@ -93,7 +93,7 @@ export default function RentalInfo() {
 
       setMarkers(newMarkers);
     }
-  };
+  }, [map, storeMarker.data]);
 
   const handleMarkerClick = (marker: naver.maps.Marker, storeName: string, umbrella: number) => {
     // 이전 활성화된 마커가 있으면 축소
