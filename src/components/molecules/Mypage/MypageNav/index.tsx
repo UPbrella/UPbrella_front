@@ -23,31 +23,15 @@ const MypageNav = () => {
   return (
     <section className="flex flex-col w-full">
       {navList.map((navInfo, index) => {
-        if (index === navList.length - 1) {
-          return (
-            <NavLink
-              key={navInfo.name}
-              to={navInfo.path}
-              className={({ isActive }) => {
-                let defaultClassName = "h-56 px-32 flex items-center rounded-8";
-                if (isActive) {
-                  defaultClassName += " bg-primary-300";
-                } else {
-                  defaultClassName += " bg-white";
-                }
-                return defaultClassName;
-              }}
-            >
-              <p className="text-black text-18 font-semibold leading-24">{navInfo.name}</p>
-            </NavLink>
-          );
+        let defaultClassName = "h-56 px-32 flex items-center rounded-8";
+        if (index !== navList.length - 1) {
+          defaultClassName += "mb-8";
         }
         return (
           <NavLink
             key={navInfo.name}
             to={navInfo.path}
             className={({ isActive }) => {
-              let defaultClassName = "h-56 px-32 flex items-center rounded-8 mb-8";
               if (isActive) {
                 defaultClassName += " bg-primary-300";
               } else {
