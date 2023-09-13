@@ -24,3 +24,10 @@ export type TReturnDetail = {
 };
 
 export type TRentFormDataParams = Omit<TRentFormData, "umbrellaId" | "type">;
+
+export type TRentDetail = {
+  region: string;
+  storeId: number;
+  umbrellaId: number;
+  conditionReport?: string;
+};

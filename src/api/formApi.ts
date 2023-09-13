@@ -5,8 +5,8 @@ import {
   TReturnFormData,
   TReturnUmbrella,
   TReturnDetail,
+  TRentDetail,
 } from "@/types/form/FormTypes";
-
 
 const API = {
   RENT_FORM: (umbrellaId: number) => `/rent/form/${umbrellaId}`,
@@ -30,6 +30,7 @@ export const getReturnFormData = async (storeId: number) => {
 // 우산 대여 신청
 export const postRent = async (params: TRentDetail) => {
   await $axios.post(API.RENT(), params);
+};
 
 // 사용자가 빌린 우산 조회
 export const getReturnUmbrella = async () => {
