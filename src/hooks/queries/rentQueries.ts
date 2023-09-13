@@ -1,4 +1,5 @@
 import {
+  deleteHistoriesAccount,
   getRentHistories,
   patchHistoriesPayment,
   patchHistoriesRefund,
@@ -53,6 +54,16 @@ export const usePatchRefund = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (historyId: number) => patchHistoriesRefund(historyId),
+    onSuccess: () => {
+      queryClient.invalidateQueries(...RENT_QUERY_KEYS.rentHistories());
+    },
+  });
+};
+
+export const useDeleteAccount = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (historyId: number) => deleteHistoriesAccount(historyId),
     onSuccess: () => {
       queryClient.invalidateQueries(...RENT_QUERY_KEYS.rentHistories());
     },

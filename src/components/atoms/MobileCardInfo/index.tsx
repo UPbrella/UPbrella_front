@@ -29,7 +29,8 @@ const MobileCardInfo = () => {
   ];
 
   return (
-      <div className="text-gray-700">
+    <div>
+      <div className="mt-18 text-gray-700">
         {labels.map((label, index) => (
           <div key={index}>
             <div className="flex my-4 text-gray-700">
@@ -38,6 +39,7 @@ const MobileCardInfo = () => {
             </div>
           </div>
         ))}
+      </div>
     </div>
   );
 };

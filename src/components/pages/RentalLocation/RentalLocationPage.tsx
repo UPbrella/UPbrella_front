@@ -1,7 +1,7 @@
 import CardFooter from "@/components/organisms/CardFooter";
 import webMarker from "@/assets/webMarker.svg";
 import Map from "../admin/store/UI/Map";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import LocationClassificationBtn from "@/components/atoms/LocationClassificationBtn";
 import MapBtn from "@/components/molecules/MapBtn";
 import "@/styles/markerLabel.css";
@@ -36,6 +36,7 @@ export default function RentalInfo() {
 
     const mapOptions: naver.maps.MapOptions = {
       center: _location,
+      zoom: 17,
     };
 
     const _map = new naver.maps.Map(mapElement.current, mapOptions);
@@ -56,11 +57,7 @@ export default function RentalInfo() {
   const { data: classificationsRes } = useGetClassifications();
   const storeMarker = useGetClassificationsStore(selectedClassification);
 
-  useEffect(() => {
-    updateMapMarkers();
-  });
-
-  const updateMapMarkers = () => {
+  const updateMapMarkers = useCallback(() => {
     if (!map || !window.naver.maps || !storeMarker.data) return; // 분류 ID가 없으면 아무것도 하지 않음
     const storeMarkerList = storeMarker.data; // 가게 목록 데이터
 
@@ -93,7 +90,12 @@ export default function RentalInfo() {
 
       setMarkers(newMarkers);
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [map, storeMarker.data]);
+
+  useEffect(() => {
+    updateMapMarkers();
+  }, [map, storeMarker.data, updateMapMarkers]);
 
   const handleMarkerClick = (marker: naver.maps.Marker, storeName: string, umbrella: number) => {
     // 이전 활성화된 마커가 있으면 축소
