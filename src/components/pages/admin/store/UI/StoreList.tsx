@@ -41,6 +41,7 @@ const StoreList = () => {
             variant="contained"
             onClick={() => {
               handleOpen();
+              setModalType("store");
             }}
           >
             추가

@@ -43,6 +43,7 @@ const BottomSheet = ({
       onClose={() => setIsBottomSheetOpen(false)}
       snapPoints={snapPoints}
       initialSnap={1}
+      className="lg:hidden xl:hidden"
     >
       <Sheet.Container>
         <Sheet.Header />

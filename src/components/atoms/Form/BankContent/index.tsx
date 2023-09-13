@@ -2,17 +2,17 @@ import { MouseEventHandler } from "react";
 import { BankIcon } from "@/constants/BankIcon";
 
 export type BankContentProps = {
-  setBankName: (value: string) => void;
+  setBank: (value: string) => void;
   setIsBottomSheetOpen: (value: boolean) => void;
 };
 
-const BankContent = ({ setBankName, setIsBottomSheetOpen }: BankContentProps) => {
+const BankContent = ({ setBank, setIsBottomSheetOpen }: BankContentProps) => {
   const banks = Object.entries(BankIcon);
 
   const handleClickBank: MouseEventHandler<HTMLDivElement> = (event) => {
     event.stopPropagation(); // 이벤트버블링
     const bankName = event.currentTarget.textContent || ""; // 선택한 은행의 이름을 가져옴
-    setBankName(bankName);
+    setBank(bankName);
     setIsBottomSheetOpen(false);
   };
 
@@ -25,7 +25,7 @@ const BankContent = ({ setBankName, setIsBottomSheetOpen }: BankContentProps) =>
         {banks.map(([bankName, icon]) => (
           <div key={bankName} className="mb-12">
             <div
-              className="mb-25 flex flex-col items-center justify-center  cursor-pointer"
+              className="mb-25 flex flex-col items-center justify-center cursor-pointer"
               onClick={handleClickBank}
             >
               <div className="w-24 h-24">{icon}</div>
