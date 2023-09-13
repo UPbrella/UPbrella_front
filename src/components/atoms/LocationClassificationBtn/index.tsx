@@ -3,29 +3,30 @@ import { useState } from "react";
 
 export type TLocationClassificationBtn = {
   classifications: TClassification[];
-  setSelectedClassification: React.Dispatch<React.SetStateAction<number | 0>>;
+  handleClassificationSelection: (classificationId: number) => void;
   map?: naver.maps.Map;
 };
 
 const LocationClassificationBtn = ({
   classifications,
-  setSelectedClassification,
   map,
+  handleClassificationSelection,
 }: TLocationClassificationBtn) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const handleClick = (index: number, classificationId: number) => {
-    setActiveIndex(index);
+    if (activeIndex !== index) {
+      setActiveIndex(index);
+      handleClassificationSelection(classificationId);
 
-    setSelectedClassification(classificationId);
-
-    if (map && window.naver && window.naver.maps) {
-      const location = classifications[index];
-      const newCenter = new window.naver.maps.LatLng(
-        location.latitude ?? 0,
-        location.longitude ?? 0
-      );
-      map.setCenter(newCenter);
+      if (map && window.naver && window.naver.maps) {
+        const location = classifications[index];
+        const newCenter = new window.naver.maps.LatLng(
+          location.latitude ?? 0,
+          location.longitude ?? 0
+        );
+        map.setCenter(newCenter);
+      }
     }
   };
 

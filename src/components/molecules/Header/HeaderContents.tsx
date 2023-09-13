@@ -93,7 +93,7 @@ const HeaderContents = ({ isLogin, name }: HeaderContentsProps) => {
       <div
         className={menuOpen ? "hidden" : "flex justify-center items-center mt-8 relative xl:hidden"}
       >
-        <div className="absolute left-0 mt-18" onClick={handleMenuOpen}>
+        <div className="absolute left-0 mt-18 sm:pl-20" onClick={handleMenuOpen}>
           <MenuIcon style={{ width: "28px", height: "28px" }} />
         </div>
         <Link to={"/"} className="mt-8">
