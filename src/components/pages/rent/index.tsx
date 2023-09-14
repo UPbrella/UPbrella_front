@@ -19,8 +19,23 @@ const RentPage = () => {
   // 대여 전(false), 대여 후(true)
   const [isRent, setIsRent] = useState(false);
 
+  const url = window.location.href;
+  const match = url.match(/\/rent\/form\/(\d+)/);
+  const id = match ? match[1] : null;
+
+  const umbrellaId = parseInt(id, 10);
+
   // url에서 UmbrellaId 가져옴
-  const umbrellaId = 1; // TODO: 일단 고정값으로 두었는데, qr코드 url 협의후에 수정
+
+  // useEffect(() => {
+  //   console.log(id);
+
+  //   if (id) {
+  //     setUmbrellaId(parseInt(id, 10));
+  //     console.log(id);
+  //     console.log(umbrellaId);
+  //   }
+  // }, [id]);
 
   // 대여폼
   const [name, setName] = useState("");
