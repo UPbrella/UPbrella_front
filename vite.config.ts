@@ -23,7 +23,7 @@ export default ({ mode }) => {
     server: {
       proxy: {
         "/api": {
-          target: "http://upbrella-dev.site:8080",
+          target: env.VITE_UPBRELLA_API_BASE_URL,
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, ""),
         },
