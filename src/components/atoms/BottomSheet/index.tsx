@@ -6,6 +6,7 @@ export type BottomSheetProps = {
   isBottomSheetOpen: boolean;
   setIsBottomSheetOpen: (value: boolean) => void;
   snapPoints: number[];
+  _className?: string;
 };
 
 const BottomSheet = ({
@@ -13,6 +14,7 @@ const BottomSheet = ({
   isBottomSheetOpen,
   setIsBottomSheetOpen,
   snapPoints,
+  _className,
 }: BottomSheetProps) => {
   const ref = useRef<SheetRef>();
   const contentRef = useRef<HTMLDivElement>(null);
@@ -43,6 +45,7 @@ const BottomSheet = ({
       onClose={() => setIsBottomSheetOpen(false)}
       snapPoints={snapPoints}
       initialSnap={1}
+      className={_className}
     >
       <Sheet.Container>
         <Sheet.Header />
