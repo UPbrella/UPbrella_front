@@ -31,7 +31,7 @@ const ReturnModal = ({
   };
 
   return (
-    <div className="flex flex-col p-20 max-w-2xl w-320">
+    <div className="flex flex-col pt-10 pb-5 max-w-2xl w-320">
       <div className="text-18 leading-24 text-black mb-16">
         '<span className="font-bold">{rentStoreName}</span>'에서 <br /> '
         <span className="font-bold">{umbrellaUuid}</span>'번 우산을 반납할까요?

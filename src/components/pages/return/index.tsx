@@ -160,7 +160,6 @@ const ReturnPage = () => {
               </BottomSheet>
             </div>
           )}
-
           {isReturn ? (
             <div className="w-full ml-4 rounded-8 p-12 text-15 text-gray-500 leading-22 bg-gray-100">
               {accountNumber}
