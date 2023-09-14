@@ -1,8 +1,8 @@
 import SignUpNotRequiredForm from "@/components/templates/SignUp/SignUpNotRequired";
 import SignUpRequiredForm from "@/components/templates/SignUp/SignUpRequired";
-// import { $axios } from "@/lib/axios";
+import { $axios } from "@/lib/axios";
 import { MouseEvent, ChangeEvent, useEffect, useState, useRef } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export type TInputs = {
   name: string;
@@ -10,11 +10,6 @@ export type TInputs = {
   bank: string;
   accountNumber: string;
 };
-
-// export type TIsAllows = {
-//   isFirstAllow: boolean;
-//   isSecondAllow: boolean;
-// };
 
 // export type TIsAllows = {
 //   isAllAllow: boolean;
@@ -35,15 +30,8 @@ const SignUpPage = () => {
   //     isSecondAllow: false,
   //   });
   const [isAllAllow, setIsAllAllow] = useState(false);
-  //   const [isAllows, setIsAllows] = useState<TIsAllows>({
-  //     isFirstAllow: false,
-  //     isSecondAllow: false,
-  //   });
   const [isFirstAllow, setIsFirstAllow] = useState(false);
   const [isSecondAllow, setIsSecondAllow] = useState(false);
-
-  //   const [isFirstClicked, setIsFirstClicked] = useState<boolean>(false);
-  //   const [isSecondClicked, setIsSecondClicked] = useState<boolean>(false);
   const [isDone, setIsDone] = useState<boolean>(false);
   const [isNext, setIsNext] = useState<boolean>(false);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
@@ -51,9 +39,8 @@ const SignUpPage = () => {
   const bankInput = useRef<HTMLInputElement>(null);
 
   const { name, phoneNumber, bank, accountNumber } = inputs;
-  //   const { isFirstAllow, isSecondAllow } = isAllows;
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const isPass = !!name && !!phoneNumber && isFirstAllow && isSecondAllow;
@@ -111,9 +98,6 @@ const SignUpPage = () => {
       setInputs({ ...inputs, [bankInput.current.name]: bankName });
       setIsOpenModal(!isOpenModal);
     }
-
-    // ref잡고
-    // input custom해서 setValue
   };
 
   const handleClose = () => {
@@ -121,10 +105,13 @@ const SignUpPage = () => {
   };
 
   const onSubmitButton = async () => {
-    // await $axios.post("/users/join", { ...inputs, withCredentials: false });
-    //  session 때문에 withCredentials
-    alert("버튼완료");
-    // navigate("/");
+    const res = await $axios.post("/users/join", { ...inputs }, { withCredentials: true });
+    if (res) {
+      navigate("/");
+      alert("회원가입이 완료되었습니다.");
+    } else {
+      alert("다시 시도해주세요");
+    }
   };
 
   return (
@@ -153,8 +140,9 @@ const SignUpPage = () => {
           isSecondAllow={isSecondAllow}
           onClickFirstAllow={handleIsFirstAllow}
           onClickSecondAllow={handleIsSecondAllow}
-          // isFirstClicked={isFirstClicked}
-          // isSecondClicked={isSecondClicked}
+          // TODO
+          // isFirstClicked={isFirstClicked}: 약관페이지로 이동
+          // isSecondClicked={isSecondClicked}: 개인정보이용동의페이지로 이동
           isDone={isDone}
           onClickButton={onClickButton}
         />

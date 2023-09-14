@@ -4,8 +4,12 @@ import { Outlet } from "react-router-dom";
 const MainLayout = () => {
   return (
     <>
-      <HeaderContainer />
-      {/* <Nav /> */}
+      <div className="relative">
+        {/* <Nav /> */}
+        <div className="relative z-10">
+          <HeaderContainer />
+        </div>
+      </div>
       <div className="flex-1 flex flex-col">
         <Outlet />
       </div>
