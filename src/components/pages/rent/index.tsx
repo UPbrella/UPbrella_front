@@ -14,6 +14,7 @@ import { formatPhoneNumber } from "@/utils/utils";
 import { useMutation } from "react-query";
 import { postRent } from "@/api/formApi";
 import { toast } from "react-hot-toast";
+import RentModalNotOpen from "@/components/atoms/Form/RentModalNotOpen";
 
 const RentPage = () => {
   // 대여 전(false), 대여 후(true)
@@ -30,7 +31,9 @@ const RentPage = () => {
   const [umbrellaUuid, setUmbrellaUuid] = useState(0);
   const [conditionReport, setConditionReport] = useState("");
   const [storeId, setStoreId] = useState(0);
-  // const [pw, setPw] = useState("");
+  // const [lockNumber, setLockNumber] = useState(""); TODO-Post Body
+  const lockNumber = "1234";
+  const [isNotOpen, setIsNotOpen] = useState(false);
 
   // 로그인 유저 정보 조회 (name, phone)
   const userInfo = useRecoilValue(loginInfo);
@@ -65,7 +68,9 @@ const RentPage = () => {
         onSuccess: () => {
           toast.success("대여신청 성공");
           setIsRent(true);
-          setIsOpenLockPwModal(true);
+          if (lockNumber) {
+            setIsOpenLockPwModal(true);
+          }
           return;
         },
       }
@@ -79,7 +84,7 @@ const RentPage = () => {
   };
   const handleCloseDepositModal = () => setIsOpenDepositModal(false);
 
-  // 자물쇠 비밀번호 안내 모달
+  // TODO - 자물쇠 비밀번호 안내 모달
   const [isOpenLockPwModal, setIsOpenLockPwModal] = useState(false); // 자물쇠 비밀번호 안내 모달
   const handleCloseLockPwModal = () => setIsOpenLockPwModal(false);
 
@@ -130,9 +135,20 @@ const RentPage = () => {
           />
         </FormModal>
       )}
+
       {isOpenLockPwModal && (
         <FormModal height="266">
-          <RentModalFinish handleCloseLockPwModal={handleCloseLockPwModal} />
+          <RentModalFinish
+            handleCloseLockPwModal={handleCloseLockPwModal}
+            lockNumber={lockNumber}
+            setIsNotOpen={setIsNotOpen}
+          />
+        </FormModal>
+      )}
+
+      {isNotOpen && (
+        <FormModal height="184">
+          <RentModalNotOpen />
         </FormModal>
       )}
     </div>
