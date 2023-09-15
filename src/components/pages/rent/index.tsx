@@ -14,7 +14,7 @@ import { formatPhoneNumber } from "@/utils/utils";
 import { useMutation } from "react-query";
 import { postRent } from "@/api/formApi";
 import { toast } from "react-hot-toast";
-import RentModalNotOpen from "@/components/atoms/Form/RentModalNotOpen";
+import RentModalStorageIssue from "@/components/atoms/Form/RentModalStorageIssue";
 
 const RentPage = () => {
   // 대여 전(false), 대여 후(true)
@@ -31,9 +31,7 @@ const RentPage = () => {
   const [umbrellaUuid, setUmbrellaUuid] = useState(0);
   const [conditionReport, setConditionReport] = useState("");
   const [storeId, setStoreId] = useState(0);
-  // const [lockNumber, setLockNumber] = useState(""); TODO-Post Body
-  const lockNumber = "1234";
-  const [isNotOpen, setIsNotOpen] = useState(false);
+  const [lockNumber, setLockNumber] = useState("1234"); // TODO-Post Body
 
   // 로그인 유저 정보 조회 (name, phone)
   const userInfo = useRecoilValue(loginInfo);
@@ -66,27 +64,33 @@ const RentPage = () => {
           return;
         },
         onSuccess: () => {
-          toast.success("대여신청 성공");
-          setIsRent(true);
+          setLockNumber("1111");
+
           if (lockNumber) {
             setIsOpenLockPwModal(true);
+          } else {
+            toast.success("대여신청 성공");
+            setIsRent(true);
+            return;
           }
-          return;
         },
       }
     );
   };
 
   // 보증금 입금 안내 모달
-  const [isOpenDepositModal, setIsOpenDepositModal] = useState(false); // 자물쇠 비밀번호 안내 모달
+  const [isOpenDepositModal, setIsOpenDepositModal] = useState(false);
   const handleOpenDepositModal = () => {
     setIsOpenDepositModal(true);
   };
   const handleCloseDepositModal = () => setIsOpenDepositModal(false);
 
   // TODO - 자물쇠 비밀번호 안내 모달
-  const [isOpenLockPwModal, setIsOpenLockPwModal] = useState(false); // 자물쇠 비밀번호 안내 모달
+  const [isOpenLockPwModal, setIsOpenLockPwModal] = useState(false);
   const handleCloseLockPwModal = () => setIsOpenLockPwModal(false);
+
+  // 보관함이 안열려요 모달
+  const [isOpenStorageIssue, setIsOpenStorageIssue] = useState(false);
 
   return (
     <div className="flex-col max-w-2xl mx-auto">
@@ -132,6 +136,9 @@ const RentPage = () => {
             conditionReport={conditionReport}
             storeId={storeId}
             onClickPostBtn={onClickPostBtn}
+            setLockNumber={setLockNumber}
+            lockNumber={lockNumber}
+            setIsOpenDepositModal={setIsOpenDepositModal}
           />
         </FormModal>
       )}
@@ -141,14 +148,19 @@ const RentPage = () => {
           <RentModalFinish
             handleCloseLockPwModal={handleCloseLockPwModal}
             lockNumber={lockNumber}
-            setIsNotOpen={setIsNotOpen}
+            setIsOpenStorageIssue={setIsOpenStorageIssue}
+            setIsRent={setIsRent}
           />
         </FormModal>
       )}
 
-      {isNotOpen && (
+      {isOpenStorageIssue && (
         <FormModal height="184">
-          <RentModalNotOpen />
+          <RentModalStorageIssue
+            setIsOpenStorageIssue={setIsOpenStorageIssue}
+            setLockNumber={setLockNumber}
+            setIsOpenLockPwModal={setIsOpenLockPwModal}
+          />
         </FormModal>
       )}
     </div>

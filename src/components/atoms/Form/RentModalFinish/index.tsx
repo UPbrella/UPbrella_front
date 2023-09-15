@@ -1,20 +1,20 @@
+import { toast } from "react-hot-toast";
+
 export type RentModalFinishProps = {
   handleCloseLockPwModal: () => void;
   lockNumber: string;
-  setIsNotOpen: (value: boolean) => void;
+  setIsOpenStorageIssue: (value: boolean) => void;
+  setIsRent: (value: boolean) => void;
 };
 
 const RentModalFinish = ({
   handleCloseLockPwModal,
   lockNumber,
-  setIsNotOpen,
+  setIsOpenStorageIssue,
+  setIsRent,
 }: RentModalFinishProps) => {
-  const handleFinish = () => {
-    handleCloseLockPwModal();
-  };
-
   return (
-    <div className="w-320 flex flex-col justify-between px-20">
+    <div className="w-full flex flex-col justify-between m-10">
       <div className="flex flex-col">
         <p className="text-18 font-bold">대여완료!</p>
       </div>
@@ -33,13 +33,20 @@ const RentModalFinish = ({
       <div className="flex mt-16 h-48">
         <button
           className="w-192 rounded-8 bg-primary-200 font-semibold text-16 leading-24 text-primary-500 mr-8"
-          onClick={() => setIsNotOpen(true)}
+          onClick={() => {
+            setIsOpenStorageIssue(true);
+            handleCloseLockPwModal();
+          }}
         >
           보관함이 안 열려요:(
         </button>
         <button
           className="w-80 rounded-8 bg-primary-500 text-white font-semibold text-16 leading-24"
-          onClick={handleFinish}
+          onClick={() => {
+            handleCloseLockPwModal();
+            toast.success("대여신청 성공");
+            setIsRent(true);
+          }}
         >
           확인
         </button>
