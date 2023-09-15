@@ -14,7 +14,7 @@ export const NOT_LAYOUT_ROUTES: TRoute[] = [
   },
   {
     name: "반납폼 페이지",
-    path: "/return",
+    path: "/return/form",
     component: ReturnPage,
   },
 ];

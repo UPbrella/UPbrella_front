@@ -16,6 +16,7 @@ import { formatPhoneNumber } from "@/utils/utils";
 import { useMutation } from "react-query";
 import { toast } from "react-hot-toast";
 import { patchReturn } from "@/api/formApi";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const ReturnPage = () => {
   // 반납전(false), 반납후(true)
@@ -23,6 +24,19 @@ const ReturnPage = () => {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isActive, setIsActive] = useState(false);
+  const navigate = useNavigate();
+
+  // TODO url (storeId)
+  const location = useLocation();
+  const storeId = new URLSearchParams(location.search).get("storeId");
+  const returnStoreId = storeId ? parseInt(storeId, 10) : 0;
+
+  // 반납 폼 데이터 조회 (classificationName, rentStoreName)
+  const { data: formData, isError: getReturnformError } = useGetReturnFormData(returnStoreId);
+  if (getReturnformError) {
+    navigate("/404");
+    toast.error("존재하지 않는 협업 지점 고유번호입니다.");
+  }
 
   // 로그인 유저 정보 조회 (이름, 전화번호, 은행명, 계좌번호)
   const userInfo = useRecoilValue(loginInfo);
@@ -44,11 +58,6 @@ const ReturnPage = () => {
   const [improvementReportContent, setImprovementReportContent] = useState("");
   const [elapsedDay, setElapsedDay] = useState(0);
 
-  // TODO url (storeId)
-  const returnStoreId = 1;
-
-  // 반납 폼 데이터 조회 (classificationName, rentStoreName)
-  const { data: formData } = useGetReturnFormData(returnStoreId);
   useEffect(() => {
     if (formData) {
       setClassificationName(formData.classificationName);
@@ -57,7 +66,12 @@ const ReturnPage = () => {
   }, [formData]);
 
   // 사용자가 빌린 우산 조회 (umbrellaUuid, 대여일수)
-  const { data: umbrellaData } = useGetReturnUmbrella();
+  const { data: umbrellaData, isError: getUmbrellaError } = useGetReturnUmbrella();
+  if (getUmbrellaError) {
+    navigate("/404");
+    toast.error("사용자가 빌린 우산이 없습니다.");
+  }
+
   useEffect(() => {
     if (umbrellaData) {
       setUmbrellaUuid(umbrellaData.uuid);
