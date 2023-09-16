@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Tab, Tabs } from "@mui/material";
 import { ADMIN_ROUTES_URL } from "@/routes/adminRouter";
@@ -48,6 +48,10 @@ const AdminMenu = () => {
     navigate(adminMenu[newValue].navToUrl);
     return;
   };
+
+  useEffect(() => {
+    setValue(idx);
+  }, [idx]);
 
   return (
     <>
