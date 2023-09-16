@@ -21,10 +21,10 @@ export default ({ mode }) => {
     ],
     server: {
       proxy: {
-        "/api": {
-          target: "http://upbrella-dev.site:8080",
+        [env.VITE_UPBRELLA_API_PROXY_URL]: {
+          target: env.VITE_UPBRELLA_API_BASE_URL,
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, ""),
+          rewrite: (path) => path.replace(env.VITE_UPBRELLA_API_PROXY_URL, ""),
         },
       },
     },
