@@ -6,6 +6,7 @@ export type TLocationClassificationBtn = {
   map?: naver.maps.Map;
   setSelectedClassificationId?: (id: number) => void;
   setSelectedClassificationName?: (name: string) => void;
+  handleClassificationSelection?: (id: number) => void;
 };
 
 const LocationClassificationBtn = ({
@@ -13,6 +14,7 @@ const LocationClassificationBtn = ({
   map,
   setSelectedClassificationId,
   setSelectedClassificationName,
+  handleClassificationSelection,
 }: TLocationClassificationBtn) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const buttonsRef = useRef<(HTMLButtonElement | null)[]>([]);
@@ -26,10 +28,10 @@ const LocationClassificationBtn = ({
   const handleClick = (index: number, classificationId: number, classificationName: string) => {
     if (activeIndex !== index) {
       setActiveIndex(index);
-
+      handleClassificationSelection?.(index);
       const location = classifications[index];
 
-      if (map && window.naver && window.naver.maps && isTClassification(location)) {
+      if (map instanceof window.naver.maps.Map && isTClassification(location)) {
         const newCenter = new window.naver.maps.LatLng(
           location.latitude ?? 0,
           location.longitude ?? 0
@@ -46,7 +48,7 @@ const LocationClassificationBtn = ({
     <div>
       {classifications.map((item, index) => (
         <button
-          key={item.name}
+          key={item.id}
           ref={(el) => (buttonsRef.current[index] = el)}
           className={`${
             activeIndex === index
