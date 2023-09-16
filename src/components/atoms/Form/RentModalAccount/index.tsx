@@ -1,25 +1,23 @@
 export type RentModalAccountProps = {
   handleCloseDepositModal: () => void;
-  handleOpenLockPwModal: () => void;
   umbrellaUuid: number;
-  classificationName: string;
-  rentStoreName: string;
+  region: string;
+  storeName: string;
   umbrellaId: number;
-  status?: string;
+  conditionReport?: string;
   storeId: number;
+  onClickPostBtn: () => void;
 };
 
 const RentModalAccount = ({
   handleCloseDepositModal,
-  handleOpenLockPwModal,
-  rentStoreName,
+  storeName,
   umbrellaUuid,
+  onClickPostBtn,
 }: RentModalAccountProps) => {
   const copyAccountToClipboard = () => {
-    // TODO: POST API (storeId, umbrellaId, conditionReport)
-
+    onClickPostBtn();
     handleCloseDepositModal(); // (1) 보증금 입금 안내 모달 close
-    handleOpenLockPwModal(); // (2) 자물쇠 비밀번호 안내 모달 open
     navigator.clipboard.writeText(bankName + " " + accountNumber);
   };
 
@@ -33,7 +31,7 @@ const RentModalAccount = ({
       <div className="flex flex-col">
         <div className="text-18 font-bold">
           <p className="inline font-normal">'</p>
-          {rentStoreName}
+          {storeName}
           <p className="inline font-normal">'에서</p>
         </div>
         <div className="text-18 font-bold">

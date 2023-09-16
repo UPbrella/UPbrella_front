@@ -41,12 +41,12 @@ function App() {
               },
             }}
           />
+
           <div className="bg-cover">
             <div className="max-w-[1440px] min-h-[100vh] px-40 mx-auto flex flex-col">
               <Routes>
                 {/* Not Found Page */}
                 <Route path="/*" element={<NotFound />} />
-
                 {/* Route */}
                 <Route element={<MainLayout />}>
                   {LAYOUT_ROUTES.map((route) => {

@@ -1,21 +1,20 @@
+import { TRentInfo } from "@/components/atoms/Mypage/MypageRentSection";
 import ProfileName from "@/components/atoms/Mypage/ProfileName";
-import ProfileRent, { TProfileInfo } from "@/components/atoms/Mypage/ProfileRent";
+import ProfileRent from "@/components/atoms/Mypage/ProfileRent";
 import MypageNav from "@/components/molecules/Mypage/MypageNav";
 
 export type MypageLeftCardProps = {
   userName: string;
   totalRentNum: number;
-  profileInfo: TProfileInfo;
-  isClick: boolean;
-  onClick: () => void;
+  profileInfo: TRentInfo;
+  isReturned: boolean;
 };
 
 const MypageLeftCard = ({
   userName,
   totalRentNum,
   profileInfo,
-  isClick,
-  onClick,
+  isReturned,
 }: MypageLeftCardProps) => {
   return (
     <section className="flex flex-col items-center w-320">
@@ -23,9 +22,9 @@ const MypageLeftCard = ({
         <div className="mb-24">
           <ProfileName userName={userName} totalRentNum={totalRentNum} />
         </div>
-        <ProfileRent profileInfo={profileInfo} />
+        <ProfileRent profileInfo={profileInfo} isReturned={isReturned} />
       </section>
-      <MypageNav isClick={isClick} onClick={onClick} />
+      <MypageNav />
     </section>
   );
 };

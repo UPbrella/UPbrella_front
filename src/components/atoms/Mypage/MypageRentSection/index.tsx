@@ -30,7 +30,7 @@ const MypageRentSection = ({ rentInfo, isProfile, isRecent }: MypageRentSectionP
   const padding = isProfile ? `p-20` : `p-24`;
 
   return (
-    <div className={`flex ${padding} ${color} border text-gray-700 border-solid rounded-12`}>
+    <div className={`flex ${padding} ${color} border text-gray-700 border-solid rounded-12 w-full`}>
       <div className="flex flex-col text-15">
         {rentInfoContent.map((info, index) => {
           if (info[0] === "우산 번호") {
