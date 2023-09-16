@@ -41,12 +41,14 @@ const InfoPage = () => {
   // };
 
   return (
-    <div className="px-120 pt-24">
-      <div className="font-semibold	text-24 pb-32">이용안내</div>
-      <LocationClassificationBtn
-        classifications={mock}
-        setSelectedClassification={setSelectedClassification}
-      />
+    <>
+      <div className="px-120">
+        <div className="font-semibold	text-24 pb-32 pt-24">이용안내</div>
+        <LocationClassificationBtn
+          classifications={mock}
+          setSelectedClassification={setSelectedClassification}
+        />
+      </div>
       <section className="flex justify-center w-full gap-10" style={{ height: "520px" }}>
         <div className="flex flex-col pt-194">
           <InformTitle stepTitle="STEP 1" title="가까운 협업 지점 방문하기" />
@@ -101,7 +103,7 @@ const InfoPage = () => {
         </div>
         <img src={rental_step5} className="w-280 h-395 mt-125" />
       </section>
-    </div>
+    </>
   );
 };
 
