@@ -1,9 +1,12 @@
 import {
   getClassifications,
   getSubClassifications,
-  getClassificationsStore,
   getStores,
+  getStoreList,
+  getClassificationsStore,
+  getStoreDetail,
 } from "@/api/storeApi";
+
 import { useQuery } from "react-query";
 
 export const useGetStores = () => {
@@ -39,12 +42,19 @@ export const useGetClassificationsStore = (classificationId: number) => {
   });
 };
 
-// TODO: 백엔드 api 수정 필요, 수정 후 다시 조회 예정
-// // 협업지점 소개 페이지에서의 협업지점 목록 조회
-// export const useGetStoreList = () => {
-//   return useQuery({
-//     queryKey: ["storeList"],
-//     queryFn: () => getStoreList(),
-//     select: (res) => res.data.storesByClassification,
-//   });
-// };
+// 협업지점 상세조회
+export const useGetStoreDetail = (storeId: number) => {
+  return useQuery(["store", storeId], () => getStoreDetail(storeId), {
+    enabled: storeId !== null, // storeId가 null이면 쿼리 비활성화
+    select: (res) => res.data,
+  });
+};
+
+// 협업지점 소개 페이지에서의 협업지점 목록 조회
+export const useGetStoreList = () => {
+  return useQuery({
+    queryKey: ["storeList"],
+    queryFn: () => getStoreList(),
+    select: (res) => res.data.storesByClassification,
+  });
+};
