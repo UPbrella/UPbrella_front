@@ -1,31 +1,43 @@
-import { TClassification } from "@/types/admin/StoreTypes";
-import { useState } from "react";
+import { TClassification, TSubClassification } from "@/types/admin/StoreTypes";
+import { useRef, useState } from "react";
 
 export type TLocationClassificationBtn = {
-  classifications: TClassification[];
-  handleClassificationSelection: (classificationId: number) => void;
+  classifications: (TClassification | TSubClassification)[];
   map?: naver.maps.Map;
+  setSelectedClassificationId?: (id: number) => void;
+  setSelectedClassificationName?: (name: string) => void;
 };
 
 const LocationClassificationBtn = ({
   classifications,
   map,
-  handleClassificationSelection,
+  setSelectedClassificationId,
+  setSelectedClassificationName,
 }: TLocationClassificationBtn) => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const buttonsRef = useRef<(HTMLButtonElement | null)[]>([]);
 
-  const handleClick = (index: number, classificationId: number) => {
+  const isTClassification = (
+    item: TClassification | TSubClassification | null
+  ): item is TClassification => {
+    return item !== null && item.type === "CLASSIFICATION";
+  };
+
+  const handleClick = (index: number, classificationId: number, classificationName: string) => {
     if (activeIndex !== index) {
       setActiveIndex(index);
-      handleClassificationSelection(classificationId);
 
-      if (map && window.naver && window.naver.maps) {
-        const location = classifications[index];
+      const location = classifications[index];
+
+      if (map && window.naver && window.naver.maps && isTClassification(location)) {
         const newCenter = new window.naver.maps.LatLng(
           location.latitude ?? 0,
           location.longitude ?? 0
         );
-        map.setCenter(newCenter);
+        map?.setCenter(newCenter);
+      } else if (classificationId && setSelectedClassificationId && setSelectedClassificationName) {
+        setSelectedClassificationId(classificationId);
+        setSelectedClassificationName(classificationName);
       }
     }
   };
@@ -35,12 +47,13 @@ const LocationClassificationBtn = ({
       {classifications.map((item, index) => (
         <button
           key={item.name}
+          ref={(el) => (buttonsRef.current[index] = el)}
           className={`${
             activeIndex === index
               ? "text-primary-500 border-primary-500"
               : "text-gray-700 border-gray-300"
           } font-semibold px-16 py-8 mr-8 rounded-999 border text-15 bg-white`}
-          onClick={() => handleClick(index, item.id)}
+          onClick={() => handleClick(index, item.id, item.name)}
         >
           {item.name}
         </button>
