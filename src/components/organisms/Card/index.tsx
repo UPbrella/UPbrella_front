@@ -1,10 +1,14 @@
-import ImgSwiper from "../ImgSwiper";
-import RentalInfoCard from "../RentalInfoCard";
+import ImgSwiper from "@/components/organisms/ImgSwiper/index";
+import RentalInfoCard from "@/components/organisms/RentalInfoCard/index";
+// import { TStoreListDetail } from "@/types/admin/StoreTypes";
 
+// export type TCard = {
+//   storeDetail: TStoreListDetail;
+// };
 const Card = () => {
   return (
-    <div className="flex flex-col">
-      <ImgSwiper />
+    <div className="flex-col">
+      <ImgSwiper maxWidth={400} maxHeight={280} />
       <RentalInfoCard />
     </div>
   );
