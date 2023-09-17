@@ -32,8 +32,17 @@ const ReturnPage = () => {
   const returnStoreId = storeId ? parseInt(storeId, 10) : 0;
 
   // 반납 폼 데이터 조회 (classificationName, rentStoreName)
-  const { data: formData, isError: getReturnformError } = useGetReturnFormData(returnStoreId);
-  if (getReturnformError) {
+  const {
+    data: formData,
+    isLoading: returnFormDataLoading,
+    isError: getReturnFormError,
+  } = useGetReturnFormData(returnStoreId);
+
+  if (returnFormDataLoading) {
+    <div>Loading..</div>;
+  }
+
+  if (getReturnFormError) {
     navigate("/404");
     toast.error("존재하지 않는 협업 지점 고유번호입니다.");
   }

@@ -27,8 +27,6 @@ const RentPage = () => {
   const umbrellaId = id ? parseInt(id, 10) : 0;
   const navigate = useNavigate();
 
-  const [isLoading, setIsLoading] = useState(false);
-
   // 대여폼
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -50,11 +48,11 @@ const RentPage = () => {
   // 대여 폼 데이터 조회 (location, storeName, umbrellaNo)
   const { data, isError, isLoading: rentFormDataLoading } = useGetRentFormData(umbrellaId);
   if (rentFormDataLoading) {
-    setIsLoading(true);
+    // TODO - Loading 화면 만들기
+    <div>Loading</div>;
   }
 
   if (isError) {
-    setIsLoading(false);
     // TODO Not-found URL 형식
     navigate("/404");
     toast.error("존재하지 않는 우산 고유 번호입니다.");
@@ -68,7 +66,6 @@ const RentPage = () => {
 
   useEffect(() => {
     if (data) {
-      setIsLoading(false);
       setRegion(data.classificationName);
       setStoreName(data.rentStoreName);
       setUmbrellaUuid(data.umbrellaUuid);
@@ -107,9 +104,7 @@ const RentPage = () => {
   const [isOpenLockPwModal, setIsOpenLockPwModal] = useState(false); // 자물쇠 비밀번호 안내 모달
   const handleCloseLockPwModal = () => setIsOpenLockPwModal(false);
 
-  return isLoading ? (
-    <div>Loading...</div>
-  ) : (
+  return (
     <div className="flex-col max-w-2xl mx-auto">
       <MobileHeader />
       <div className="mt-20 text-24 font-semibold leading-32 text-black">
