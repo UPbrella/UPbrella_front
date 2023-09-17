@@ -14,6 +14,9 @@ export type MypageAccountCardProps = {
   handleClickBank: (event: MouseEvent<HTMLDivElement>) => void;
   hasBankAccountInfo: boolean;
   isInputCompleted: boolean;
+  onClickDeleteButton: () => void;
+  onClickChangeButton: () => void;
+  onClickRegisterButton: () => void;
 };
 const MypageAccountCard = ({
   bank,
@@ -26,6 +29,9 @@ const MypageAccountCard = ({
   handleClickBank,
   hasBankAccountInfo,
   isInputCompleted,
+  onClickDeleteButton,
+  onClickChangeButton,
+  onClickRegisterButton,
 }: MypageAccountCardProps) => {
   const banks = Object.entries(BankIcon);
   return (
@@ -60,7 +66,10 @@ const MypageAccountCard = ({
       />
       <div className="flex justify-end mt-8">
         {hasBankAccountInfo ? (
-          <button className="w-127 h-56 border border-solid border-gray-300 rounded-8 text-gray-700 text-18 font-semibold leadin-24 px-29 mr-8">
+          <button
+            className="w-127 h-56 border border-solid border-gray-300 rounded-8 text-gray-700 text-18 font-semibold leadin-24 px-29 mr-8"
+            onClick={onClickDeleteButton}
+          >
             계좌 삭제
           </button>
         ) : (
@@ -68,7 +77,10 @@ const MypageAccountCard = ({
         )}
         {hasBankAccountInfo
           ? (isInputCompleted && (
-              <button className="w-127 h-56 border border-solid bg-primary-200 rounded-8 text-primary-500 text-18 font-semibold leadin-24 px-29">
+              <button
+                className="w-127 h-56 border border-solid bg-primary-200 rounded-8 text-primary-500 text-18 font-semibold leadin-24 px-29"
+                onClick={onClickChangeButton}
+              >
                 계좌 변경
               </button>
             )) ||
@@ -78,7 +90,10 @@ const MypageAccountCard = ({
               </button>
             ))
           : (isInputCompleted && (
-              <button className="w-127 h-56 border border-solid bg-primary-200 rounded-8 text-primary-500 text-18 font-semibold leadin-24 px-29">
+              <button
+                className="w-127 h-56 border border-solid bg-primary-200 rounded-8 text-primary-500 text-18 font-semibold leadin-24 px-29"
+                onClick={onClickRegisterButton}
+              >
                 계좌 등록
               </button>
             )) ||
@@ -90,5 +105,5 @@ const MypageAccountCard = ({
       </div>
     </div>
   );
-}; //
+};
 export default MypageAccountCard;
