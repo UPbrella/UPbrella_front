@@ -19,6 +19,7 @@ import { useNavigate, useParams } from "react-router-dom";
 const RentPage = () => {
   // 대여 전(false), 대여 후(true)
   const [isRent, setIsRent] = useState(false);
+
   const { id } = useParams();
   const umbrellaId = id ? parseInt(id, 10) : 0;
   const navigate = useNavigate();
