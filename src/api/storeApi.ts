@@ -14,9 +14,9 @@ import {
 } from "@/types/admin/StoreTypes";
 
 const API = {
-  ADMIN_STORES: (id?: number) => (id ? `/stores/${id}` : `/stores`),
-  ADMIN_IMAGE_UPLOAD: (id: number) => `/stores/${id}/images`,
-  ADMIN_IMAGE_DELETE: (id: number) => `/stores/images/${id}`,
+  ADMIN_STORES: (id?: number) => (id ? `/admin/stores/${id}` : `/stores`),
+  ADMIN_IMAGE_UPLOAD: (id: number) => `/admin/stores/${id}/images`,
+  ADMIN_IMAGE_DELETE: (id: number) => `/admin/stores/images/${id}`,
   ADMIN_CLASSIFICATIONS: (id?: number) =>
     id ? `/stores/classifications/${id}` : "/stores/classifications/",
   CLASSIFICATIONS: () => "/stores/classifications",
