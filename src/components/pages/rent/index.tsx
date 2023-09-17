@@ -14,16 +14,12 @@ import { formatPhoneNumber } from "@/utils/utils";
 import { useMutation } from "react-query";
 import { postRent } from "@/api/formApi";
 import { toast } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const RentPage = () => {
   // 대여 전(false), 대여 후(true)
   const [isRent, setIsRent] = useState(false);
-
-  const url = window.location.href;
-  const match = url.match(/\/rent\/form\/(\d+)/);
-  const id = match ? match[1] : null;
-
+  const { id } = useParams();
   const umbrellaId = id ? parseInt(id, 10) : 0;
   const navigate = useNavigate();
 
