@@ -67,7 +67,7 @@ const MypageAccountCard = ({
       <div className="flex justify-end mt-8">
         {hasBankAccountInfo ? (
           <button
-            className="w-127 h-56 border border-solid border-gray-300 rounded-8 text-gray-700 text-18 font-semibold leadin-24 px-29 mr-8"
+            className="h-56 border border-solid border-gray-300 rounded-8 text-gray-700 text-18 font-semibold leadin-24 px-32 mr-8"
             onClick={onClickDeleteButton}
           >
             계좌 삭제
@@ -78,27 +78,27 @@ const MypageAccountCard = ({
         {hasBankAccountInfo
           ? (isInputCompleted && (
               <button
-                className="w-127 h-56 border border-solid bg-primary-200 rounded-8 text-primary-500 text-18 font-semibold leadin-24 px-29"
+                className="h-56 border border-solid bg-primary-200 rounded-8 text-primary-500 text-18 font-semibold leadin-24 px-32"
                 onClick={onClickChangeButton}
               >
                 계좌 변경
               </button>
             )) ||
             (!isInputCompleted && (
-              <button className="w-127 h-56 border border-solid bg-primary-100 rounded-8 text-primary-300 text-18 font-semibold leadin-24 px-29 disabled:hover">
+              <button className="h-56 border border-solid bg-primary-100 rounded-8 text-primary-300 text-18 font-semibold leadin-24 px-32 disabled:hover">
                 계좌 변경
               </button>
             ))
           : (isInputCompleted && (
               <button
-                className="w-127 h-56 border border-solid bg-primary-200 rounded-8 text-primary-500 text-18 font-semibold leadin-24 px-29"
+                className="h-56 border border-solid bg-primary-200 rounded-8 text-primary-500 text-18 font-semibold leadin-24 px-32"
                 onClick={onClickRegisterButton}
               >
                 계좌 등록
               </button>
             )) ||
             (!isInputCompleted && (
-              <button className="w-127 h-56 border border-solid bg-primary-100 rounded-8 text-primary-300 text-18 font-semibold leadin-24 px-29 disabled:hover">
+              <button className="h-56 border border-solid bg-primary-100 rounded-8 text-primary-300 text-18 font-semibold leadin-24 px-32 disabled:hover">
                 계좌 등록
               </button>
             ))}
