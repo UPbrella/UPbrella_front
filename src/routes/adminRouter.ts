@@ -11,19 +11,16 @@ export const ADMIN_ROUTES_URL = {
     path: "/admin/rent-history",
     component: RentHistoryPage,
   },
-
   umbrella: {
     name: "우산 관리",
     path: "/admin/umbrellas",
     component: UmbrellaAdminPage,
   },
-
   user: {
     name: "회원 관리",
     path: "/admin/users",
     component: UserAdminPage,
   },
-
   feedback: {
     name: "상태신고 / 개선사항 확인",
     path: "/admin/feedback",
