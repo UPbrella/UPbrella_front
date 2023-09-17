@@ -4,7 +4,7 @@ export type MypageFormTitleProps = {
 
 const MypageFormTitle = ({ label }: MypageFormTitleProps) => {
   return (
-    <div className="text-gray-600 text-16 font-semibold leading-24 flex items-center w-56 mr-40">
+    <div className="text-gray-600 text-16 font-semibold leading-24 flex items-center w-56">
       {label}
     </div>
   );
