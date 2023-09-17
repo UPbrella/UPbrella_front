@@ -20,7 +20,7 @@ const RentPage = () => {
   const [isRent, setIsRent] = useState(false);
 
   // url에서 UmbrellaId 가져옴
-  const umbrellaId = 1; // TODO: 일단 고정값으로 두었는데, qr코드 url 협의후에 수정
+  const umbrellaId = 1;
 
   // 대여폼
   const [name, setName] = useState("");
