@@ -2,10 +2,10 @@ import LocationClassificationBtn from "@/components/atoms/LocationClassification
 import Store from "@/components/molecules/Store";
 import Card from "@/components/organisms/Card";
 import { useGetStoreList, useGetSubClassifications } from "@/hooks/queries/storeQueries";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const RentalOfficePage = () => {
-  const [selectedStoreId, setSelectedStoreId] = useState<number | null>(null);
+  const [, setSelectedStoreId] = useState<number | null>(null);
   const [, setSelectedClassificationId] = useState<number | null>(null);
   const [selectedClassificationName, setSelectedClassificationName] = useState<string>("");
 
@@ -16,12 +16,12 @@ const RentalOfficePage = () => {
   // TODO: 백엔드 404 에러 미해결로 문의드린 상태
   // const { data: useGetStoreDetailData } = useGetStoreDetail(selectedStoreId ?? 16);
 
-  useEffect(() => {
-    // console.log("전체 스토어 리스트", storeListRes);
-    // console.log("전체 카테고리 리스트", subClassificationsRes);
-    // console.log("selected store 아이디", selectedStoreId);
-    // console.log("selected store 정보", useGetStoreDetailData);
-  }, [selectedStoreId]);
+  // useEffect(() => {
+  //   // console.log("전체 스토어 리스트", storeListRes);
+  //   // console.log("전체 카테고리 리스트", subClassificationsRes);
+  //   // console.log("selected store 아이디", selectedStoreId);
+  //   // console.log("selected store 정보", useGetStoreDetailData);
+  // }, [selectedStoreId]);
 
   return (
     <div className="flex mt-24">
