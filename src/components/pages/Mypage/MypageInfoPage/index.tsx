@@ -1,9 +1,9 @@
 import MypageInfoCard from "@/components/organisms/Mypage/MypageInfoCard";
 import MypageLeftCard from "@/components/organisms/Mypage/MypageLeftCard";
-import { $axios } from "@/lib/axios";
+// import { $axios } from "@/lib/axios";
 import { loginInfo } from "@/recoil";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { useRecoilValueLoadable } from "recoil";
 
 type TInfos = {
@@ -18,10 +18,10 @@ const MypageInfoPage = () => {
     phoneNumber: "",
     email: "",
   });
-
+  // const setIsLogin = useSetRecoilState<boolean>(loginState);
   const loginInfoValue = useRecoilValueLoadable(loginInfo);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     const getInfos = async () => {
@@ -45,15 +45,22 @@ const MypageInfoPage = () => {
     getInfos();
   }, [loginInfoValue.contents, loginInfoValue.state]);
   const handleDeleteUser = async () => {
-    try {
-      // 로그아웃, isLogin=false처리도 해주어야
-      await $axios.delete("/users/loggedIn", { withCredentials: true }).then(() => {
-        navigate("/");
-        alert("회원탈퇴 완료했습니다!");
-      });
-    } catch {
-      alert("지금은 탈퇴가 불가능합니다. 대여중인 우산이 있습니다.");
-    }
+    alert("회원탈퇴 로직 구현되었지만, 현재 탈퇴후 재가입시 문제 있어서 비활성화.");
+    // try {
+    //   await $axios.get("/users/loggedIn/umbrella", { withCredentials: true });
+    //   alert("지금은 탈퇴가 불가능합니다. 대여중인 우산이 있습니다.");
+    // } catch {
+    //   await $axios
+    //     .delete("/users/loggedIn", { withCredentials: true })
+    //     .then(() => {
+    //       setIsLogin(false);
+    //       navigate("/");
+    //       alert("회원탈퇴 완료했습니다!");
+    //     })
+    //     .catch(() => {
+    //       alert("오류가 발생했습니다. 다시 시도해주세요.");
+    //     });
+    // }
   };
   return (
     <div className="flex justify-center w-[1280px] mt-24 px-40">
