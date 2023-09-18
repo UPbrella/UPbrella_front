@@ -9,7 +9,8 @@ const navItems = [
   },
   {
     name: "반납폼",
-    path: "/return",
+    path: "/return/form?storeId=1",
+    // TODO path: "/return/form", 메인 화면에서 접속을 위해 임시로 storeId 넣어둠
   },
   {
     name: "로그인",

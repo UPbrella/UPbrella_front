@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import RentModalAccount from "@/components/atoms/Form/RentModalAccount";
 import RentModalFinish from "@/components/atoms/Form/RentModalFinish";
 import FormModal from "@/components/molecules/FormModal";
-import { useGetRentFormData } from "@/hooks/queries/formQueries";
+import { useGetRentFormData, useGetReturnUmbrella } from "@/hooks/queries/formQueries";
 import { loginInfo } from "@/recoil";
 import { useRecoilValue } from "recoil";
 import { formatPhoneNumber } from "@/utils/utils";
@@ -15,13 +15,15 @@ import { useMutation } from "react-query";
 import { postRent } from "@/api/formApi";
 import { toast } from "react-hot-toast";
 import RentModalStorageIssue from "@/components/atoms/Form/RentModalStorageIssue";
+import { useNavigate, useParams } from "react-router-dom";
 
 const RentPage = () => {
   // 대여 전(false), 대여 후(true)
   const [isRent, setIsRent] = useState(false);
 
-  // url에서 UmbrellaId 가져옴
-  const umbrellaId = 1; // TODO: 일단 고정값으로 두었는데, qr코드 url 협의후에 수정
+  const { id } = useParams();
+  const umbrellaId = id ? parseInt(id, 10) : 0;
+  const navigate = useNavigate();
 
   // 대여폼
   const [name, setName] = useState("");
@@ -42,7 +44,23 @@ const RentPage = () => {
   }, [userInfo]);
 
   // 대여 폼 데이터 조회 (location, storeName, umbrellaNo)
-  const { data } = useGetRentFormData(umbrellaId);
+  const { data, isError, isLoading: rentFormDataLoading } = useGetRentFormData(umbrellaId);
+  if (rentFormDataLoading) {
+    // TODO - Loading 화면 만들기
+    <div>Loading</div>;
+  }
+
+  if (isError) {
+    // TODO Not-found URL 형식
+    navigate("/404");
+    toast.error("존재하지 않는 우산 고유 번호입니다.");
+  }
+
+  const { data: umbrellaData } = useGetReturnUmbrella();
+  if (umbrellaData) {
+    navigate("/404");
+    toast.error("이미 대여중인 우산이 있습니다.");
+  }
 
   useEffect(() => {
     if (data) {

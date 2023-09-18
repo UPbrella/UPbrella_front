@@ -94,6 +94,7 @@ const MypageRentPage = () => {
             />
           </div>
           <MypageRentCard rentList={rentList} />
+          {/*//TODO: 이부분의 components만 상황에 따라 바뀌도록 할 수 있으면 더 깔끔할텐데..? */}
         </div>
       </div>
     </div>

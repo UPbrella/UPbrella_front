@@ -1,12 +1,17 @@
 import { $axios } from "@/lib/axios";
+import { loginState } from "@/recoil";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
 
 const LoginRedirect = () => {
   const navigate = useNavigate();
+  const [, setIsLogin] = useRecoilState<boolean>(loginState);
+
   useEffect(() => {
     login();
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const login = async () => {
     const code = new URL(window.location.href).searchParams.get("code");
 
@@ -25,6 +30,7 @@ const LoginRedirect = () => {
     });
     if (res) {
       alert("로그인 완료!");
+      setIsLogin(true);
       navigate("/");
     }
   };
