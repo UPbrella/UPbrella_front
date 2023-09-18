@@ -46,9 +46,9 @@ const InfoPage = () => {
           handleClassificationSelection={handleClassificationSelection}
         />
       </div>
-      {selectedClassificationIndex === 0 ? <HowRent /> : null}
-      {selectedClassificationIndex === 1 ? <HowReturn /> : null}
-      {selectedClassificationIndex === 2 ? <FAQ /> : null}
+      {selectedClassificationIndex === 0 && <HowRent />}
+      {selectedClassificationIndex === 1 && <HowReturn />}
+      {selectedClassificationIndex === 2 && <FAQ />}
     </>
   );
 };
