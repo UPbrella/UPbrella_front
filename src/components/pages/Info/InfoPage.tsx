@@ -46,7 +46,7 @@ const InfoPage = () => {
         <div className="font-semibold	text-24 pb-32 pt-24">이용안내</div>
         <LocationClassificationBtn
           classifications={mock}
-          setSelectedClassification={setSelectedClassification}
+          setSelectedClassificationId={setSelectedClassification}
         />
       </div>
       <section className="flex justify-center w-full gap-10" style={{ height: "520px" }}>
