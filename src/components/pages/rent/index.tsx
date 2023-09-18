@@ -14,6 +14,7 @@ import { formatPhoneNumber } from "@/utils/utils";
 import { useMutation } from "react-query";
 import { postRent } from "@/api/formApi";
 import { toast } from "react-hot-toast";
+import RentModalStorageIssue from "@/components/atoms/Form/RentModalStorageIssue";
 import { useNavigate, useParams } from "react-router-dom";
 
 const RentPage = () => {
@@ -32,7 +33,7 @@ const RentPage = () => {
   const [umbrellaUuid, setUmbrellaUuid] = useState(0);
   const [conditionReport, setConditionReport] = useState("");
   const [storeId, setStoreId] = useState(0);
-  // const [pw, setPw] = useState("");
+  const [lockNumber, setLockNumber] = useState("1234"); // TODO-Post Body
 
   // 로그인 유저 정보 조회 (name, phone)
   const userInfo = useRecoilValue(loginInfo);
@@ -81,25 +82,33 @@ const RentPage = () => {
           return;
         },
         onSuccess: () => {
-          toast.success("대여신청 성공");
-          setIsRent(true);
-          setIsOpenLockPwModal(true);
-          return;
+          setLockNumber("1111");
+
+          if (lockNumber) {
+            setIsOpenLockPwModal(true);
+          } else {
+            toast.success("대여신청 성공");
+            setIsRent(true);
+            return;
+          }
         },
       }
     );
   };
 
   // 보증금 입금 안내 모달
-  const [isOpenDepositModal, setIsOpenDepositModal] = useState(false); // 자물쇠 비밀번호 안내 모달
+  const [isOpenDepositModal, setIsOpenDepositModal] = useState(false);
   const handleOpenDepositModal = () => {
     setIsOpenDepositModal(true);
   };
   const handleCloseDepositModal = () => setIsOpenDepositModal(false);
 
-  // 자물쇠 비밀번호 안내 모달
-  const [isOpenLockPwModal, setIsOpenLockPwModal] = useState(false); // 자물쇠 비밀번호 안내 모달
+  // TODO - 자물쇠 비밀번호 안내 모달
+  const [isOpenLockPwModal, setIsOpenLockPwModal] = useState(false);
   const handleCloseLockPwModal = () => setIsOpenLockPwModal(false);
+
+  // 보관함이 안열려요 모달
+  const [isOpenStorageIssue, setIsOpenStorageIssue] = useState(false);
 
   return (
     <div className="flex-col max-w-2xl mx-auto">
@@ -145,12 +154,31 @@ const RentPage = () => {
             conditionReport={conditionReport}
             storeId={storeId}
             onClickPostBtn={onClickPostBtn}
+            setLockNumber={setLockNumber}
+            lockNumber={lockNumber}
+            setIsOpenDepositModal={setIsOpenDepositModal}
           />
         </FormModal>
       )}
+
       {isOpenLockPwModal && (
         <FormModal height="266">
-          <RentModalFinish handleCloseLockPwModal={handleCloseLockPwModal} />
+          <RentModalFinish
+            handleCloseLockPwModal={handleCloseLockPwModal}
+            lockNumber={lockNumber}
+            setIsOpenStorageIssue={setIsOpenStorageIssue}
+            setIsRent={setIsRent}
+          />
+        </FormModal>
+      )}
+
+      {isOpenStorageIssue && (
+        <FormModal height="184">
+          <RentModalStorageIssue
+            setIsOpenStorageIssue={setIsOpenStorageIssue}
+            setLockNumber={setLockNumber}
+            setIsOpenLockPwModal={setIsOpenLockPwModal}
+          />
         </FormModal>
       )}
     </div>
