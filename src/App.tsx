@@ -27,56 +27,56 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <RecoilRoot>
-      <React.Suspense fallback={<div>Loading...</div>}>
-        <QueryClientProvider client={queryClient}>
-          <Toaster
-            position="top-center"
-            toastOptions={{
-              style: { padding: "16px", color: "#fff", background: "#5DCF17" },
-              duration: 3000,
-              error: {
-                style: {
-                  background: "#FF513E",
-                },
+      <QueryClientProvider client={queryClient}>
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            style: { padding: "16px", color: "#fff", background: "#5DCF17" },
+            duration: 3000,
+            error: {
+              style: {
+                background: "#FF513E",
               },
-            }}
-          />
-          <div className="bg-cover bg-basic">
-            <div className="max-w-[1440px] min-h-[100vh] px-40 mx-auto flex flex-col sm:px-0">
-              <Routes>
-                {/* Not Found Page */}
-                <Route path="/*" element={<NotFound />} />
-                {/* Route */}
-                <Route element={<MainLayout />}>
+            },
+          }}
+        />
+        <div className="bg-cover bg-basic">
+          <div className="max-w-[1440px] min-h-[100vh] px-40 mx-auto flex flex-col sm:px-0">
+            <Routes>
+              {/* Not Found Page */}
+              {/* Route */}
+              <Route element={<MainLayout />}>
+                <>
                   {LAYOUT_ROUTES.map((route) => {
                     return (
                       <Route key={route.name} path={route.path} element={<route.component />} />
                     );
                   })}
-                </Route>
-                <Route element={<MainLayout />}>
-                  {ADMIN_ROUTES.map((route) => {
-                    return (
-                      <Route
-                        key={route.name}
-                        path={route.path}
-                        element={
-                          <AdminWrapper>
-                            <route.component />
-                          </AdminWrapper>
-                        }
-                      />
-                    );
-                  })}
-                </Route>
-                {NOT_LAYOUT_ROUTES.map((route) => {
-                  return <Route key={route.name} path={route.path} element={<route.component />} />;
+                  <Route path="/*" element={<NotFound />} />
+                </>
+              </Route>
+              <Route element={<MainLayout />}>
+                {ADMIN_ROUTES.map((route) => {
+                  return (
+                    <Route
+                      key={route.name}
+                      path={route.path}
+                      element={
+                        <AdminWrapper>
+                          <route.component />
+                        </AdminWrapper>
+                      }
+                    />
+                  );
                 })}
-              </Routes>
-            </div>
+              </Route>
+              {NOT_LAYOUT_ROUTES.map((route) => {
+                return <Route key={route.name} path={route.path} element={<route.component />} />;
+              })}
+            </Routes>
           </div>
-        </QueryClientProvider>
-      </React.Suspense>
+        </div>
+      </QueryClientProvider>
     </RecoilRoot>
   );
 }
