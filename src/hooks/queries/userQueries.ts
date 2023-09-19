@@ -52,6 +52,8 @@ const useUpbrellaLogin = () => {
 
       toast.error("잘못된 요청입니다. 다시 로그인 해주세요.");
       navigate("/login");
+      setIsLogin(false);
+
       return;
     },
   });
@@ -62,6 +64,7 @@ export const useKakaoLogin = () => {
   const code = new URL(window.location.href).searchParams.get("code");
   const { mutate: upbrellaLogin } = useUpbrellaLogin();
   const navigate = useNavigate();
+  const setIsLogin = useSetRecoilState(loginState);
 
   return useMutation({
     mutationFn: async () => await $axios.post("/users/oauth/login", { code }),
@@ -72,17 +75,23 @@ export const useKakaoLogin = () => {
     onError: () => {
       toast.error("카카오 계정을 확인해주세요.");
       navigate("/login");
+      setIsLogin(false);
     },
   });
 };
 
 // 유저 정보 확인
 export const useGetUserStatus = () => {
+  const setIsLogin = useSetRecoilState(loginState);
+
   return useQuery({
     queryKey: [...USER_QUERY_KEYS.userStatus()],
     queryFn: async () => await $axios.get("/users/loggedIn"),
     retry: 0,
     keepPreviousData: true,
+    onError: () => {
+      setIsLogin(false);
+    },
   });
 };
 
