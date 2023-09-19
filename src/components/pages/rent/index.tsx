@@ -25,6 +25,8 @@ const RentPage = () => {
   const { id } = useParams();
   const umbrellaId = id ? parseInt(id, 10) : 0;
 
+  const userInfo = useRecoilValue(loginInfo);
+
   // 대여폼
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -40,11 +42,10 @@ const RentPage = () => {
 
   // hook
   const { data, isError, isLoading: rentFormDataLoading } = useGetRentFormData(umbrellaId);
-  const { data: umbrellaData } = useGetReturnUmbrella();
+  const { data: umbrellaData, isLoading: umbrellaDataLoading } = useGetReturnUmbrella();
   const { mutate: createMutate } = useMutation(postRent);
 
   // 로그인 유저 정보 조회 (name, phone)
-  const userInfo = useRecoilValue(loginInfo);
   useEffect(() => {
     setName(userInfo.name);
     const formattedPhone = formatPhoneNumber(userInfo.phoneNumber);
@@ -65,15 +66,8 @@ const RentPage = () => {
     return <></>;
   }
 
-  if (isError) {
-    return (
-      <div>
-        <ErrorComponent
-          error="죄송합니다. 페이지를 찾을 수 없어요:("
-          subError="존재하지 않는 우산 고유 번호입니다."
-        />
-      </div>
-    );
+  if (umbrellaDataLoading) {
+    return <></>;
   }
 
   if (umbrellaData) {
@@ -82,6 +76,17 @@ const RentPage = () => {
         <ErrorComponent
           error="죄송합니다. 페이지를 찾을 수 없어요:("
           subError="이미 대여중인 우산이 있습니다."
+        />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div>
+        <ErrorComponent
+          error="죄송합니다. 페이지를 찾을 수 없어요:("
+          subError="존재하지 않는 우산 고유 번호입니다."
         />
       </div>
     );

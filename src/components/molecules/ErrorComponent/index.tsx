@@ -11,9 +11,9 @@ const ErrorComponent = ({ error, subError }: TErrorComponent) => {
   const navigate = useNavigate();
 
   return (
-    <div className="h-screen">
+    <div className="h-screen flex flex-col">
       <HeaderContainer />
-      <div className="h-5/6 flex flex-col justify-center items-center px-20">
+      <div className="h-4/5 flex flex-col justify-center items-center px-20">
         <img src={errorpage_img} className="w-196 h-160" />
         <div className="text-18 font-semibold mt-16">{error}</div>
         <div className="text-gray-600 mt-8">{subError}</div>
