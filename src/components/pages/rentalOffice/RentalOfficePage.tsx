@@ -24,7 +24,7 @@ const RentalOfficePage = () => {
       <div className="flex mr-24 md:hidden">
         {useGetStoreDetailData && <Card storeDetail={useGetStoreDetailData} />}
       </div>
-      <>
+      <div>
         {subClassificationsRes && (
           <LocationClassificationBtn
             classifications={subClassificationsRes}
@@ -32,17 +32,19 @@ const RentalOfficePage = () => {
             setSelectedClassificationName={setSelectedClassificationName}
           />
         )}
-        <>
+        <div>
           {storeListRes && (
-            <Store
-              storeList={storeListRes}
-              classifications={subClassificationsRes}
-              setSelectedStoreId={setSelectedStoreId}
-              selectedClassificationName={selectedClassificationName}
-            />
+            <div>
+              <Store
+                storeList={storeListRes}
+                classifications={subClassificationsRes}
+                setSelectedStoreId={setSelectedStoreId}
+                selectedClassificationName={selectedClassificationName}
+              />
+            </div>
           )}
-        </>
-      </>
+        </div>
+      </div>
     </div>
   );
 };
