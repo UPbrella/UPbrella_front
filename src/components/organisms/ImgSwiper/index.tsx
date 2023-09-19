@@ -6,11 +6,19 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "@/components/organisms/ImgSwiper/styles.css";
 
-const ImgSwiper = () => {
+export type TImgSwiper = {
+  maxWidth?: number;
+  maxHeight?: number;
+};
+
+const ImgSwiper = ({ maxWidth, maxHeight }: TImgSwiper) => {
+  const swiperStyles = {
+    maxWidth: maxWidth ? `${maxWidth}px` : "100%", // maxWidth props에 따라 설정
+    maxHeight: maxHeight ? `${maxHeight}px` : "100%", // maxHeight props에 따라 설정
+  };
   return (
-    <div className="flex justify-start">
+    <div className="flex justify-start" style={swiperStyles}>
       <Swiper
-        className="w-400 h-280 rounded-20"
         modules={[Navigation, Pagination, Scrollbar, A11y]}
         spaceBetween={10}
         slidesPerView={1}
