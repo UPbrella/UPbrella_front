@@ -20,8 +20,8 @@ export default {
   ],
 } as Meta;
 
-const Template: StoryFn<TMenu> = ({ isLogin, setMenuOpen }) => (
-  <MobileMenu isLogin={isLogin} setMenuOpen={setMenuOpen} />
+const Template: StoryFn<TMenu> = ({ name, setMenuOpen }) => (
+  <MobileMenu name={name} setMenuOpen={setMenuOpen} />
 );
 
 export const Default = Template.bind({});

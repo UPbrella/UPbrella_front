@@ -7,6 +7,9 @@ export type RentModalAccountProps = {
   conditionReport?: string;
   storeId: number;
   onClickPostBtn: () => void;
+  setLockNumber: (value: string) => void;
+  lockNumber: string;
+  setIsOpenDepositModal: (value: boolean) => void;
 };
 
 const RentModalAccount = ({
@@ -14,9 +17,18 @@ const RentModalAccount = ({
   storeName,
   umbrellaUuid,
   onClickPostBtn,
+  setLockNumber,
+  lockNumber,
+  setIsOpenDepositModal,
 }: RentModalAccountProps) => {
   const copyAccountToClipboard = () => {
-    onClickPostBtn();
+    onClickPostBtn(); // 보관함이 있는 경우 이 시점에 비밀번호 설정
+    setLockNumber("1234"); // TODO 비밀번호 API 통신
+
+    if (lockNumber) {
+      setIsOpenDepositModal(true);
+    }
+
     handleCloseDepositModal(); // (1) 보증금 입금 안내 모달 close
     navigator.clipboard.writeText(bankName + " " + accountNumber);
   };
@@ -27,7 +39,7 @@ const RentModalAccount = ({
   const accountName = "이연우";
 
   return (
-    <div className="w-full p-24 pl-0 ml-20 flex flex-col">
+    <div className="w-full m-10 flex flex-col">
       <div className="flex flex-col">
         <div className="text-18 font-bold">
           <p className="inline font-normal">'</p>
@@ -41,7 +53,7 @@ const RentModalAccount = ({
         </div>
       </div>
       <div className="flex flex-col">
-        <ol className="list-decimal mt-16 ml-20 text-gray-700">
+        <ol className="text-14 list-decimal mt-16 ml-20 text-gray-700">
           <li>
             {bankName} {accountNumber} {accountName} 계좌복사
           </li>
