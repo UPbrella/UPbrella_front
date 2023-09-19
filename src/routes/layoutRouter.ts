@@ -26,7 +26,7 @@ export const LAYOUT_ROUTES: TRoute[] = [
     component: RentalLocationPage,
   },
   {
-    name: "협업 지점 소개페이지",
+    name: "협업지점 소개 페이지",
     path: "/rentalOffice",
     component: RentalOfficePage,
   },
