@@ -4,6 +4,7 @@ import { useState } from "react";
 import HowRent from "@/components/organisms/Info/HowRent";
 import HowReturn from "@/components/organisms/Info/HowReturn";
 import FAQ from "@/components/organisms/Info/FAQ";
+import Footer from "@/components/organisms/Footer";
 
 const mock: TClassification[] = [
   {
@@ -49,6 +50,7 @@ const InfoPage = () => {
       {selectedClassificationIndex === 0 && <HowRent />}
       {selectedClassificationIndex === 1 && <HowReturn />}
       {selectedClassificationIndex === 2 && <FAQ />}
+      <Footer />
     </>
   );
 };
