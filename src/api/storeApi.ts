@@ -21,7 +21,7 @@ const API = {
     id ? `/admin/stores/classifications/${id}` : "/admin/stores/classifications/",
   CLASSIFICATIONS: () => "/stores/classifications",
   ADMIN_SUBCLASSIFICATIONS: (id?: number) =>
-    id ? `/admin/stores/subClassifications/${id}` : "/admin/stores/subClassifications",
+    id ? `/admin/stores/subClassifications/${id}` : "/stores/subClassifications",
   STORE_CLASSIFICATIONS: (id: number) => `/stores/classification/${id}`,
   STORE_LIST: () => "/stores/introductions",
   STORE_DETAIL: (id: number) => `/stores/${id}`,
