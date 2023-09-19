@@ -26,7 +26,7 @@ const RentalOfficePage = () => {
   //   setIsMobileCardOpen(false);
   // };
   return (
-    <div className="flex justify-center mt-24 md:flex-col sm:px-20">
+    <div className="flex justify-center mt-24 md:mt-0 md:flex-col sm:px-20">
       <div className="flex mr-24 md:hidden lg:hidden">
         {useGetStoreDetailData && <Card storeDetail={useGetStoreDetailData} />}
       </div>
