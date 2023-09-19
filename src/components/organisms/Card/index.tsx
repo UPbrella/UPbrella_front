@@ -17,7 +17,7 @@ const Card = ({ storeDetail, maxWidth, maxHeight }: TCard) => {
         maxHeight={maxHeight ?? 280}
         images={storeDetail.imageUrls}
       />
-      <RentalInfoCard storeDetail={storeDetail} maxWidth={maxWidth || 400} />
+      <RentalInfoCard storeDetail={storeDetail} />
     </div>
   );
 };
