@@ -1,51 +1,13 @@
-import LocationClassificationBtn from "@/components/atoms/LocationClassificationBtn";
-import { TClassification } from "@/types/admin/StoreTypes";
-import { useState } from "react";
-import HowRent from "@/components/organisms/Info/HowRent";
-import HowReturn from "@/components/organisms/Info/HowReturn";
-import FAQ from "@/components/organisms/Info/FAQ";
-import Footer from "@/components/organisms/Footer";
-
-const mock: TClassification[] = [
-  {
-    id: 1,
-    type: "CLASSIFICATION",
-    name: "우산 대여 방법",
-    latitude: null,
-    longitude: null,
-  },
-  {
-    id: 2,
-    type: "CLASSIFICATION",
-    name: "우산 반납 방법",
-    latitude: null,
-    longitude: null,
-  },
-  {
-    id: 3,
-    type: "CLASSIFICATION",
-    name: "자주 묻는 질문",
-    latitude: null,
-    longitude: null,
-  },
-];
-
-const InfoPage = () => {
-  const [selectedClassificationIndex, setSelectedClassificationIndex] = useState(0);
-
-  const handleClassificationSelection = (index: number) => {
-    setSelectedClassificationIndex(index);
-  };
-
+import InformTitle from "@/components/atoms/InformTitle";
+import rental_step1 from "@/assets/Rental/rental_step1.png";
+import rental_step2 from "@/assets/Rental/rental_step2.png";
+import rental_step3 from "@/assets/Rental/rental_step3.png";
+import rental_step3_2 from "@/assets/Rental/rental_step3_2.png";
+import rental_step4 from "@/assets/Rental/rental_step4.png";
+import rental_step5 from "@/assets/Rental/rental_step5.png";
+const HowRent = () => {
   return (
     <>
-      <div className="px-120">
-        <div className="font-semibold	text-24 pb-32 pt-24">이용안내</div>
-        <LocationClassificationBtn
-          classifications={mock}
-          setSelectedClassificationId={setSelectedClassification}
-        />
-      </div>
       <section className="flex justify-center w-full gap-10" style={{ height: "520px" }}>
         <div className="flex flex-col pt-194">
           <InformTitle stepTitle="STEP 1" title="가까운 협업 지점 방문하기" />
@@ -104,4 +66,4 @@ const InfoPage = () => {
   );
 };
 
-export default InfoPage;
+export default HowRent;
