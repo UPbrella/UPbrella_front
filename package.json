@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "vite --open --host 0.0.0.0 --port 3000",
+    "dev": "vite --force",
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --cache --max-warnings 0",
     "preview": "vite preview",
@@ -35,6 +36,7 @@
     "react-query": "^3.39.3",
     "react-router-dom": "^6.14.1",
     "recoil": "^0.7.7",
+    "recoil-persist": "^5.1.0",
     "swiper": "^10.0.4",
     "vite-plugin-html": "^3.2.0",
     "xlsx": "^0.18.5"

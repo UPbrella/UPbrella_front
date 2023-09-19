@@ -161,6 +161,11 @@ const RentHistoryPage = () => {
           })}
           <Column
             body={(data) => {
+              if (!data["refundCompleted"])
+                return (
+                  <div className="min-w-[100px] whitespace-pre">{`보증금 환급 후에 \n 삭제 가능합니다.`}</div>
+                );
+
               return (
                 <Button
                   disabled={isDeletingAccount}

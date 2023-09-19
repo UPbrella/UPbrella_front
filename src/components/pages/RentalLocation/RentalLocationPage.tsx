@@ -148,6 +148,7 @@ export default function RentalInfo() {
             isBottomSheetOpen={isBottomSheetOpen}
             setIsBottomSheetOpen={setIsBottomSheetOpen}
             snapPoints={[640, 320, 0]}
+            _className="lg:hidden xl:hidden"
           >
             <MobileCard />
           </BottomSheet>
