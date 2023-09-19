@@ -1,4 +1,3 @@
-import MobileHeader from "@/components/organisms/MobileHeader";
 import FormBasic from "@/components/atoms/Form/FormBasic";
 import FormStatus from "@/components/atoms/Form/FormStatus";
 import FormButton from "@/components/atoms/Form/FormButton";
@@ -17,6 +16,7 @@ import { useMutation } from "react-query";
 import { toast } from "react-hot-toast";
 import { patchReturn } from "@/api/formApi";
 import { useLocation, useNavigate } from "react-router-dom";
+import { HeaderContainer } from "@/components/organisms/Header/HeaderContainer";
 
 const ReturnPage = () => {
   // 반납전(false), 반납후(true)
@@ -32,16 +32,7 @@ const ReturnPage = () => {
   const returnStoreId = storeId ? parseInt(storeId, 10) : 0;
 
   // 반납 폼 데이터 조회 (classificationName, rentStoreName)
-  const {
-    data: formData,
-    isLoading: returnFormDataLoading,
-    isError: getReturnFormError,
-  } = useGetReturnFormData(returnStoreId);
-
-  if (returnFormDataLoading) {
-    <div>Loading..</div>;
-  }
-
+  const { data: formData, isError: getReturnFormError } = useGetReturnFormData(returnStoreId);
   if (getReturnFormError) {
     navigate("/404");
     toast.error("존재하지 않는 협업 지점 고유번호입니다.");
@@ -123,7 +114,7 @@ const ReturnPage = () => {
 
   return (
     <div className="flex-col max-w-2xl mx-auto">
-      <MobileHeader />
+      <HeaderContainer />
       <div className="mt-20 text-24 font-semibold leading-32 text-black mb-32">
         {!isReturn ? "우산을 반납할까요?" : "우산을 반납했어요!"}
       </div>

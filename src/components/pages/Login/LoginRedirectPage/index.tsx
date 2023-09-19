@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { loginState } from "@/recoil";
 import { useKakaoLogin } from "@/hooks/queries/userQueries";
@@ -8,6 +8,7 @@ import { useKakaoLogin } from "@/hooks/queries/userQueries";
 const LoginRedirect = () => {
   const navigate = useNavigate();
   const [isLogin] = useRecoilState<boolean>(loginState);
+  const { state } = useLocation();
 
   const { mutate: kakaoLogin } = useKakaoLogin();
 
@@ -17,9 +18,9 @@ const LoginRedirect = () => {
 
   useEffect(() => {
     if (isLogin) {
-      navigate("/");
+      state ? navigate(state) : navigate("/");
     }
-  }, [isLogin, navigate]);
+  }, [state, isLogin, navigate]);
 
   return <div></div>;
 };
