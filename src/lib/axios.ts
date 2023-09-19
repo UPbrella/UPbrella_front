@@ -7,4 +7,5 @@ export const $axios = axios.create({
   paramsSerializer: (params) => {
     return qs.stringify(params, { arrayFormat: "repeat" });
   },
+  withCredentials: true,
 });
