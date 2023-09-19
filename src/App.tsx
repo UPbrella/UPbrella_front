@@ -37,16 +37,19 @@ function App() {
               style: {
                 background: "#FF513E",
               },
+            }}
+          />
+
+          <div className="bg-cover">
+            <div className="max-w-[1440px] min-h-[100vh] px-40 mx-auto flex flex-col">
+              <Routes>
+                {/* Not Found Page */}
+                <Route path="/*" element={<NotFound />} />
+                {/* Route */}
+                <Route element={<MainLayout />}>
             },
           }}
         />
-        <div className="bg-cover bg-basic">
-          <div className="max-w-[1440px] min-h-[100vh] px-40 mx-auto flex flex-col sm:px-0">
-            <Routes>
-              {/* Not Found Page */}
-              {/* Route */}
-              <Route element={<MainLayout />}>
-                <>
                   {LAYOUT_ROUTES.map((route) => {
                     return (
                       <Route key={route.name} path={route.path} element={<route.component />} />
