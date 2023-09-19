@@ -5,6 +5,7 @@ export const useGetRentFormData = (umbrellaId: number) => {
     queryKey: ["rentFormData"],
     queryFn: () => getRentFormData(umbrellaId),
     select: (res) => res.data,
+    retry: 0,
   });
 };
 
@@ -13,6 +14,7 @@ export const useGetReturnFormData = (storeId: number) => {
     queryKey: ["returnFormData"],
     queryFn: () => getReturnFormData(storeId),
     select: (res) => res.data,
+    retry: 0,
   });
 };
 
@@ -21,5 +23,6 @@ export const useGetReturnUmbrella = () => {
     queryKey: ["returnUmbrella"],
     queryFn: () => getReturnUmbrella(),
     select: (res) => res.data,
+    retry: 0,
   });
 };

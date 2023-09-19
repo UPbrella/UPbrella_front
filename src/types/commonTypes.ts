@@ -5,6 +5,7 @@ import {
   TStoreImage,
   TSubClassification,
 } from "@/types/admin/StoreTypes";
+import { AxiosError } from "axios";
 import { ReactNode } from "react";
 
 // 라우트 type
@@ -12,12 +13,6 @@ export type TRoute = {
   name: string;
   path: string;
   component: () => JSX.Element;
-};
-
-// 모바일 메뉴 type
-export type TMobileMenu = {
-  name: string;
-  path: string;
 };
 
 // 테이블 column type
@@ -48,3 +43,7 @@ export type TApiResponse<T> = {
 
 // day enum
 export type TDayOfWeek = keyof typeof DAY_OF_WEEK;
+
+type TErrors = TApiResponse<null>;
+
+export type TCustomError = AxiosError<TErrors>;

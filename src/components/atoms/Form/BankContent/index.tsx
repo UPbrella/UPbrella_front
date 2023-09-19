@@ -25,7 +25,7 @@ const BankContent = ({ setBank, setIsBottomSheetOpen }: BankContentProps) => {
         {banks.map(([bankName, icon]) => (
           <div key={bankName} className="mb-12">
             <div
-              className="mb-25 flex flex-col items-center justify-center cursor-pointer"
+              className="mb-25 flex flex-col items-center justify-center cursor-pointer !pointer-events-auto"
               onClick={handleClickBank}
             >
               <div className="w-24 h-24">{icon}</div>
