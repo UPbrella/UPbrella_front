@@ -4,6 +4,7 @@ import UmbrellaModal from "@/components/pages/admin/umbrella/UI/UmbrellaModal";
 import {
   UMBRELLA_STATISTICS_TABLE,
   UMBRELLA_TABLE,
+  downloadUmbrellaDataExcel,
 } from "@/components/pages/admin/umbrella/helper";
 import useModalStatus from "@/hooks/custom/useModalStatus";
 import { usePaginator } from "@/hooks/custom/usePaginator";
@@ -114,12 +115,10 @@ const UmbrellaAdminPage = () => {
           />
         </div>
         <div>
+          {/* TODO: Prime 칼라 변경 */}
           <Button
             disabled={!storeRes}
-            style={{
-              width: "150px",
-            }}
-            // TODO: Prime 칼라 변경
+            className="w-[150px]"
             variant="contained"
             onClick={() => {
               handleOpen();
@@ -132,8 +131,8 @@ const UmbrellaAdminPage = () => {
 
       {/* 우산 대여 정보 현황 */}
       {umbrellaStatisticsRes && standard() && (
-        <>
-          <Typography className="!mb-8" variant="h5">
+        <div>
+          <Typography className="!mb-16" variant="h5">
             {`"${standard()}" 우산 대여 정보`}
           </Typography>
           <CssDataTable value={[umbrellaStatisticsRes]}>
@@ -144,16 +143,17 @@ const UmbrellaAdminPage = () => {
               );
             })}
           </CssDataTable>
-        </>
+        </div>
       )}
 
       {/* 우산 관리 테이블 */}
       {umbrellasRes && storeRes && (
         <>
-          <Typography className="!mb-8" variant="h5">
-            {"우산 관리 테이블"}
-          </Typography>
           <div>
+            <Typography className="!mb-16" variant="h5">
+              {"우산 관리 테이블"}
+            </Typography>
+            <UmbrellaExcelButton />
             <CssDataTable
               rowHover
               showGridlines
@@ -237,3 +237,38 @@ const UmbrellaAdminPage = () => {
 };
 
 export default UmbrellaAdminPage;
+
+const UmbrellaExcelButton = () => {
+  const { data: allUmbrellaStatistics } = useGetUmbrellasStatistics();
+  const { data: allUmbrellaRes, isLoading } = useGetUmbrellas({
+    page: 0,
+    size: allUmbrellaStatistics?.totalUmbrellaCount,
+  });
+
+  // 한글 매핑
+  const onClickExcelBtn = () => {
+    if (allUmbrellaRes)
+      downloadUmbrellaDataExcel(
+        allUmbrellaRes.map((e) => ({
+          [UMBRELLA_TABLE.id.label]: e.id,
+          [UMBRELLA_TABLE.historyId.label]: e.historyId ?? "-",
+          [UMBRELLA_TABLE.storeMetaId.label]: e.storeMetaId,
+          [UMBRELLA_TABLE.uuid.label]: e.uuid,
+          [UMBRELLA_TABLE.rentable.label]: e.rentable ? "O" : "X",
+          [UMBRELLA_TABLE.etc.label]: e.etc,
+        }))
+      );
+  };
+
+  return (
+    <Button
+      disabled={isLoading || !allUmbrellaStatistics}
+      size="large"
+      className="!mb-16 w-[180px]"
+      variant="outlined"
+      onClick={onClickExcelBtn}
+    >
+      우산 목록 다운로드
+    </Button>
+  );
+};

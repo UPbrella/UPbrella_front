@@ -4,6 +4,8 @@ import {
   TUmbrellaRes,
   TUmbrellaStatisticsRes,
 } from "@/types/admin/umbrellaTypes";
+import saveAs from "file-saver";
+import { utils, write } from "xlsx";
 
 export const UMBRELLA_STATISTICS_TABLE: Record<
   keyof TUmbrellaStatisticsRes,
@@ -44,4 +46,28 @@ export const convertUmbrellaData = (res?: TUmbrellaRes) => {
     rentable: true,
     etc: "",
   } satisfies TUmbrellaState;
+};
+
+export const downloadUmbrellaDataExcel = (umbrellaRes: unknown[]) => {
+  const worksheet = utils.json_to_sheet(umbrellaRes);
+  const workbook = { Sheets: { data: worksheet }, SheetNames: ["data"] };
+  const excelBuffer = write(workbook, {
+    bookType: "xlsx",
+    type: "array",
+  });
+
+  const EXCEL_TYPE =
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+  const EXCEL_EXTENSION = ".xlsx";
+
+  const data = new Blob([excelBuffer], {
+    type: EXCEL_TYPE,
+  });
+
+  const year = new Date().getFullYear();
+  const month = new Date().getMonth();
+  const day = new Date().getDay();
+  const date = `${new Date().getHours()}${new Date().getMinutes()}`;
+
+  saveAs(data, "우산_조회" + `${year}${month}${day}_${date}` + EXCEL_EXTENSION);
 };
