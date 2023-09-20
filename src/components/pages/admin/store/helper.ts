@@ -1,6 +1,6 @@
 import { DEFAULT_COORDINATE } from "@/components/pages/admin/store/UI/StoreAddressInput";
 import {
-  TStoreDetail,
+  TAdminStoreDetail,
   TStoreParams,
   TClassification,
   TClassificationParams,
@@ -11,7 +11,7 @@ import {
 import { toast } from "react-hot-toast";
 
 // 협업지점 추가 시, 초기값 설정
-export const storeInitializer = (res?: TStoreDetail): TStoreParams => {
+export const storeInitializer = (res?: TAdminStoreDetail): TStoreParams => {
   if (res) {
     const {
       activateStatus,

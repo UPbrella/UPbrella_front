@@ -1,4 +1,4 @@
-import { TStoreDetail, TStoreTableData, TStoreTableKey } from "@/types/admin/StoreTypes";
+import { TAdminStoreDetail, TStoreTableData, TStoreTableKey } from "@/types/admin/StoreTypes";
 import { Button } from "@mui/material";
 import { CssDataTable } from "@/components/pages/admin/components/Table";
 import { Column } from "primereact/column";
@@ -8,7 +8,7 @@ import { InputSwitch } from "primereact/inputswitch";
 import { usePatchStoreActive, usePatchStoreInactive } from "@/hooks/queries/storeQueries";
 
 type TProps = {
-  storesRes: TStoreDetail[];
+  storesRes: TAdminStoreDetail[];
   onClickStoreRow: (id: number, type: "store" | "image") => void;
 };
 
