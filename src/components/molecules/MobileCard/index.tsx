@@ -1,5 +1,4 @@
 import MobileCardInfo from "@/components/atoms/MobileCardInfo";
-import NaverDirectionBtn from "@/components/atoms/NaverDirectionBtn";
 
 const MobileCard = () => {
   return (
@@ -12,7 +11,7 @@ const MobileCard = () => {
         ></img>
         <MobileCardInfo></MobileCardInfo>
       </div>
-      <NaverDirectionBtn />
+      {/* <NaverDirectionBtn  /> */}
     </div>
   );
 };
