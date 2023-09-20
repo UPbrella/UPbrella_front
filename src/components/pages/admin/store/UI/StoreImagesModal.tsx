@@ -4,7 +4,7 @@ import { ChangeEvent } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { deleteStoreImage, postStoreImage } from "@/api/storeApi";
 import CloseIcon from "@mui/icons-material/Close";
-import { TStoreDetail } from "@/types/admin/StoreTypes";
+import { TAdminStoreDetail } from "@/types/admin/StoreTypes";
 import {
   Button,
   IconButton,
@@ -17,7 +17,7 @@ import {
 type TProps = {
   isOpen: boolean;
   onCloseModal: () => void;
-  selectedStore: Pick<TStoreDetail, "id" | "name" | "imageUrls">;
+  selectedStore: Pick<TAdminStoreDetail, "id" | "name" | "imageUrls">;
 };
 
 const StoreImagesModal = ({ isOpen, onCloseModal, selectedStore }: TProps) => {
