@@ -21,10 +21,8 @@ import ErrorComponent from "@/components/molecules/ErrorComponent";
 const RentPage = () => {
   // 대여 전(false), 대여 후(true)
   const [isRent, setIsRent] = useState(false);
-
   const { id } = useParams();
   const umbrellaId = id ? parseInt(id, 10) : 0;
-
   const userInfo = useRecoilValue(loginInfo);
 
   // 대여폼
@@ -35,7 +33,7 @@ const RentPage = () => {
   const [umbrellaUuid, setUmbrellaUuid] = useState(0);
   const [conditionReport, setConditionReport] = useState("");
   const [storeId, setStoreId] = useState(0);
-  const [lockNumber, setLockNumber] = useState("1234"); // TODO-Post Body
+  const [lockNumber, setLockNumber] = useState(""); // TODO-Post Body
   const [isOpenDepositModal, setIsOpenDepositModal] = useState(false);
   const [isOpenLockPwModal, setIsOpenLockPwModal] = useState(false);
   const [isOpenStorageIssue, setIsOpenStorageIssue] = useState(false);
@@ -102,7 +100,7 @@ const RentPage = () => {
           return;
         },
         onSuccess: () => {
-          setLockNumber("1111");
+          // setLockNumber("1111");
 
           if (lockNumber) {
             setIsOpenLockPwModal(true);
