@@ -11,7 +11,7 @@ import NotFound from "@/components/pages/not-found/NotFound";
 import "primereact/resources/themes/lara-light-indigo/theme.css"; //theme
 import "primereact/resources/primereact.min.css"; //core css
 import "primeicons/primeicons.css";
-import React from "react";
+import PrivateRoutes from "./utils/PrivateRoutes";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -70,9 +70,11 @@ function App() {
                   );
                 })}
               </Route>
-              {NOT_LAYOUT_ROUTES.map((route) => {
-                return <Route key={route.name} path={route.path} element={<route.component />} />;
-              })}
+              <Route element={<PrivateRoutes />}>
+                {NOT_LAYOUT_ROUTES.map((route) => {
+                  return <Route key={route.name} path={route.path} element={<route.component />} />;
+                })}
+              </Route>
             </Routes>
           </div>
         </div>

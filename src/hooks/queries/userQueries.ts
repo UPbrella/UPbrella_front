@@ -6,12 +6,12 @@ import {
   patchAdminUsers,
 } from "@/api/userApi";
 import { $axios } from "@/lib/axios";
-import { loginState } from "@/recoil";
+import { loginState, redirectUrl } from "@/recoil";
 import { TCustomError } from "@/types/commonTypes";
 import { toast } from "react-hot-toast";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 export const USER_QUERY_KEYS = {
   userStatus: () => ["userStatus"],
@@ -24,6 +24,7 @@ export const USER_QUERY_KEYS = {
 //
 // 업브렐라 로그인
 const useUpbrellaLogin = () => {
+  const path = useRecoilValue(redirectUrl);
   const { refetch: getUserStatus } = useGetUserStatus();
   const navigate = useNavigate();
   const setIsLogin = useSetRecoilState(loginState);
@@ -34,7 +35,7 @@ const useUpbrellaLogin = () => {
       // 유저 정보 요청
       getUserStatus().then((e) => {
         if (e.data?.status === 200) {
-          navigate("/");
+          navigate(path); // TODO-여기
           setIsLogin(true);
           return;
         }
