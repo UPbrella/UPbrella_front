@@ -18,10 +18,10 @@ const API = {
   ADMIN_IMAGE_UPLOAD: (id: number) => `/admin/stores/${id}/images`,
   ADMIN_IMAGE_DELETE: (id: number) => `/admin/stores/images/${id}`,
   ADMIN_CLASSIFICATIONS: (id?: number) =>
-    id ? `/admin/stores/classifications/${id}` : "/admin/stores/classifications/",
+    id ? `/stores/classifications/${id}` : "/stores/classifications/",
   CLASSIFICATIONS: () => "/stores/classifications",
   ADMIN_SUBCLASSIFICATIONS: (id?: number) =>
-    id ? `/admin/stores/subClassifications/${id}` : "/admin/stores/subClassifications",
+    id ? `/stores/subClassifications/${id}` : "/stores/subClassifications",
   STORE_CLASSIFICATIONS: (id: number) => `/stores/classification/${id}`,
   STORE_LIST: () => "/stores/introductions",
   STORE_DETAIL: (id: number) => `/stores/${id}`,
