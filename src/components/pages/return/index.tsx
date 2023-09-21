@@ -9,8 +9,8 @@ import BankContent from "@/components/atoms/Form/BankContent";
 import FormModal from "@/components/molecules/FormModal";
 import ReturnModal from "@/components/atoms/Form/ReturnModal";
 import { useGetReturnFormData, useGetReturnUmbrella } from "@/hooks/queries/formQueries";
-import { useRecoilValue } from "recoil";
-import { loginInfo } from "@/recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { loginInfo, redirectUrl } from "@/recoil";
 import { formatPhoneNumber } from "@/utils/utils";
 import { useMutation } from "react-query";
 import { toast } from "react-hot-toast";
@@ -43,6 +43,9 @@ const ReturnPage = () => {
   const [accountNumber, setAccountNumber] = useState(userInfo.accountNumber || "");
   const [improvementReportContent, setImprovementReportContent] = useState("");
   const [elapsedDay, setElapsedDay] = useState(0);
+
+  const setRediretcUrl = useSetRecoilState(redirectUrl);
+  setRediretcUrl("/");
 
   // 로그인 유저 정보 조회 (이름, 전화번호, 은행명, 계좌번호)
   useEffect(() => {

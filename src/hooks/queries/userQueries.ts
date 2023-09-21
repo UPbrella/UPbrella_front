@@ -35,7 +35,7 @@ const useUpbrellaLogin = () => {
       // 유저 정보 요청
       getUserStatus().then((e) => {
         if (e.data?.status === 200) {
-          navigate(path); // TODO-여기
+          navigate(path);
           setIsLogin(true);
           return;
         }

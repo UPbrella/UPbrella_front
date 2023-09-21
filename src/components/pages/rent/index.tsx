@@ -7,8 +7,8 @@ import RentModalAccount from "@/components/atoms/Form/RentModalAccount";
 import RentModalFinish from "@/components/atoms/Form/RentModalFinish";
 import FormModal from "@/components/molecules/FormModal";
 import { useGetRentFormData, useGetReturnUmbrella } from "@/hooks/queries/formQueries";
-import { loginInfo } from "@/recoil";
-import { useRecoilValue } from "recoil";
+import { loginInfo, redirectUrl } from "@/recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { formatPhoneNumber } from "@/utils/utils";
 import { useMutation } from "react-query";
 import { postRent } from "@/api/formApi";
@@ -42,6 +42,9 @@ const RentPage = () => {
   const { data, isError, isLoading: rentFormDataLoading } = useGetRentFormData(umbrellaId);
   const { data: umbrellaData, isLoading: umbrellaDataLoading } = useGetReturnUmbrella();
   const { mutate: createMutate } = useMutation(postRent);
+
+  const setRediretcUrl = useSetRecoilState(redirectUrl);
+  setRediretcUrl("/");
 
   // 로그인 유저 정보 조회 (name, phone)
   useEffect(() => {
