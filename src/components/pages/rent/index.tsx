@@ -1,4 +1,3 @@
-import MobileHeader from "@/components/organisms/MobileHeader";
 import FormBasic from "@/components/atoms/Form/FormBasic";
 import FormStatus from "@/components/atoms/Form/FormStatus";
 import FormButton from "@/components/atoms/Form/FormButton";
@@ -8,22 +7,23 @@ import RentModalAccount from "@/components/atoms/Form/RentModalAccount";
 import RentModalFinish from "@/components/atoms/Form/RentModalFinish";
 import FormModal from "@/components/molecules/FormModal";
 import { useGetRentFormData, useGetReturnUmbrella } from "@/hooks/queries/formQueries";
-import { loginInfo } from "@/recoil";
-import { useRecoilValue } from "recoil";
+import { loginInfo, redirectUrl } from "@/recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { formatPhoneNumber } from "@/utils/utils";
 import { useMutation } from "react-query";
 import { postRent } from "@/api/formApi";
 import { toast } from "react-hot-toast";
 import RentModalStorageIssue from "@/components/atoms/Form/RentModalStorageIssue";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { HeaderContainer } from "@/components/organisms/Header/HeaderContainer";
+import ErrorComponent from "@/components/molecules/ErrorComponent";
 
 const RentPage = () => {
   // 대여 전(false), 대여 후(true)
   const [isRent, setIsRent] = useState(false);
-
   const { id } = useParams();
   const umbrellaId = id ? parseInt(id, 10) : 0;
-  const navigate = useNavigate();
+  const userInfo = useRecoilValue(loginInfo);
 
   // 대여폼
   const [name, setName] = useState("");
@@ -33,34 +33,25 @@ const RentPage = () => {
   const [umbrellaUuid, setUmbrellaUuid] = useState(0);
   const [conditionReport, setConditionReport] = useState("");
   const [storeId, setStoreId] = useState(0);
-  const [lockNumber, setLockNumber] = useState("1234"); // TODO-Post Body
+  const [lockNumber, setLockNumber] = useState(""); // TODO-Post Body
+  const [isOpenDepositModal, setIsOpenDepositModal] = useState(false);
+  const [isOpenLockPwModal, setIsOpenLockPwModal] = useState(false);
+  const [isOpenStorageIssue, setIsOpenStorageIssue] = useState(false);
+
+  // hook
+  const { data, isError, isLoading: rentFormDataLoading } = useGetRentFormData(umbrellaId);
+  const { data: umbrellaData, isLoading: umbrellaDataLoading } = useGetReturnUmbrella();
+  const { mutate: createMutate } = useMutation(postRent);
+
+  const setRediretcUrl = useSetRecoilState(redirectUrl);
+  setRediretcUrl("/");
 
   // 로그인 유저 정보 조회 (name, phone)
-  const userInfo = useRecoilValue(loginInfo);
   useEffect(() => {
     setName(userInfo.name);
     const formattedPhone = formatPhoneNumber(userInfo.phoneNumber);
     setPhone(formattedPhone);
   }, [userInfo]);
-
-  // 대여 폼 데이터 조회 (location, storeName, umbrellaNo)
-  const { data, isError, isLoading: rentFormDataLoading } = useGetRentFormData(umbrellaId);
-  if (rentFormDataLoading) {
-    // TODO - Loading 화면 만들기
-    <div>Loading</div>;
-  }
-
-  if (isError) {
-    // TODO Not-found URL 형식
-    navigate("/404");
-    toast.error("존재하지 않는 우산 고유 번호입니다.");
-  }
-
-  const { data: umbrellaData } = useGetReturnUmbrella();
-  if (umbrellaData) {
-    navigate("/404");
-    toast.error("이미 대여중인 우산이 있습니다.");
-  }
 
   useEffect(() => {
     if (data) {
@@ -71,8 +62,38 @@ const RentPage = () => {
     }
   }, [data]);
 
+  // 대여 폼 데이터 조회 (location, storeName, umbrellaNo)
+  if (rentFormDataLoading) {
+    return <></>;
+  }
+
+  if (umbrellaDataLoading) {
+    return <></>;
+  }
+
+  if (umbrellaData) {
+    return (
+      <div>
+        <ErrorComponent
+          error="죄송합니다. 페이지를 찾을 수 없어요:("
+          subError="이미 대여중인 우산이 있습니다."
+        />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div>
+        <ErrorComponent
+          error="죄송합니다. 페이지를 찾을 수 없어요:("
+          subError="존재하지 않는 우산 고유 번호입니다."
+        />
+      </div>
+    );
+  }
+
   // POST 우산대여신청
-  const { mutate: createMutate } = useMutation(postRent);
   const onClickPostBtn = () => {
     createMutate(
       { region, storeId, umbrellaId, conditionReport },
@@ -82,7 +103,7 @@ const RentPage = () => {
           return;
         },
         onSuccess: () => {
-          setLockNumber("1111");
+          // setLockNumber("1111");
 
           if (lockNumber) {
             setIsOpenLockPwModal(true);
@@ -97,22 +118,19 @@ const RentPage = () => {
   };
 
   // 보증금 입금 안내 모달
-  const [isOpenDepositModal, setIsOpenDepositModal] = useState(false);
   const handleOpenDepositModal = () => {
     setIsOpenDepositModal(true);
   };
+
+  // 자물쇠 비밀번호 안내 모달
   const handleCloseDepositModal = () => setIsOpenDepositModal(false);
 
-  // TODO - 자물쇠 비밀번호 안내 모달
-  const [isOpenLockPwModal, setIsOpenLockPwModal] = useState(false);
+  // 보관함 모달
   const handleCloseLockPwModal = () => setIsOpenLockPwModal(false);
-
-  // 보관함이 안열려요 모달
-  const [isOpenStorageIssue, setIsOpenStorageIssue] = useState(false);
 
   return (
     <div className="flex-col max-w-2xl mx-auto">
-      <MobileHeader />
+      <HeaderContainer />
       <div className="mt-20 text-24 font-semibold leading-32 text-black">
         {isRent ? "우산을 빌렸어요!" : "우산을 빌릴까요?"}
       </div>
