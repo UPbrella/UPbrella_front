@@ -26,3 +26,9 @@ export const rentHistories = selector({
     return histories;
   },
 });
+
+export const redirectUrl = atom({
+  key: "redirectUrl",
+  default: "/",
+  effects_UNSTABLE: [persistAtom],
+});
