@@ -126,10 +126,7 @@ export default function RentalInfo() {
       <div className="flex justify-center">
         {/* 태블렛 환경에서 대여지점 카드 hidden */}
 
-        <div className="md:hidden pr-24">
-          // TODO: 백엔드 대분류 협업지점 목록 해결 후 수정예정
-          {/* <Card /> */}
-        </div>
+        <div className="md:hidden pr-24">{/* <Card /> */}</div>
         <div className="w-full max-w-936 rounded-20 relative">
           <Map ref={mapElement} width="100%" height="896px" borderRadius="20px" />
           <div className="absolute top-0 left-0 z-9 p-24">
@@ -152,7 +149,6 @@ export default function RentalInfo() {
           >
             <MobileCard />
           </BottomSheet>
-          ;
         </div>
       </div>
       <CardFooter />
