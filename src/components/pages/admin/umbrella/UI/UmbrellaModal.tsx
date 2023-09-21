@@ -37,7 +37,7 @@ const UmbrellaModal = ({ isOpen, handleClose, storeRes, umbrellaRes, storeId }: 
   // client
   const [isReadOnly, setIsReadOnly] = useState(!!umbrellaRes);
   const [umbrellaData, setUmbrellaData] = useState(convertUmbrellaData(umbrellaRes));
-  const QR_CODE_URL = `${window.location.origin}/rent/form/${umbrellaRes?.storeMetaId}`;
+  const QR_CODE_URL = `${window.location.origin}/rent/form/${umbrellaRes?.id}`;
 
   // server
   const queryClient = useQueryClient();
