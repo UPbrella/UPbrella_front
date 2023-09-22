@@ -86,7 +86,19 @@ export type TStoreImageParams = {
   imageFile: FormData;
 };
 
-export type TStoreTableKey = keyof TStoreDetail;
+export type TStoreTableData = Omit<
+  TStoreDetail,
+  | "addressDetail"
+  | "businessHours"
+  | "latitude"
+  | "longitude"
+  | "password"
+  | "subClassification"
+  | "classification"
+  | "thumbnail"
+>;
+
+export type TStoreTableKey = keyof TStoreTableData;
 
 // 지역 태그 (대분류)
 export type TClassification = {

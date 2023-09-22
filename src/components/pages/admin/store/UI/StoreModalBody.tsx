@@ -1,14 +1,6 @@
 import StoreFormWrapper from "@/components/pages/admin/store/UI/StoreFormWrapper";
 import { TStoreBusinessHours, TStoreParams } from "@/types/admin/StoreTypes";
-import {
-  Button,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  TextField,
-  TextareaAutosize,
-  Typography,
-} from "@mui/material";
+import { Button, TextField, TextareaAutosize, Typography } from "@mui/material";
 import SelectBox from "@/components/molecules/SelectBox";
 import { Dispatch, SetStateAction, useState } from "react";
 import { createSelectItems } from "@/utils/selectBox";
@@ -205,18 +197,6 @@ const StoreModalContents = ({ storeData, setStoreData, onChangeStoreData }: TPro
             onChange={onChangeStoreData}
           />
         </div>
-      </StoreFormWrapper>
-
-      {/* 북마커 활성화 여부 */}
-      <StoreFormWrapper label="북마커 활성화 여부" isRequired>
-        <RadioGroup
-          value={storeData.activateStatus}
-          name="activateStatus"
-          onChange={onChangeStoreData}
-        >
-          <FormControlLabel value={true} control={<Radio />} label="YES" />
-          <FormControlLabel value={false} control={<Radio />} label="NO" />
-        </RadioGroup>
       </StoreFormWrapper>
 
       {/* 연락처 */}

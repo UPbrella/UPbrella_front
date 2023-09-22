@@ -1,87 +1,100 @@
-import { useMemo, useState } from "react";
-import { TStoreDetail, TStoreTableKey } from "@/types/admin/StoreTypes";
-import { TTableColumn } from "@/types/commonTypes";
-import {
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TablePagination,
-  TableRow,
-} from "@mui/material";
+import { TStoreDetail, TStoreTableData, TStoreTableKey } from "@/types/admin/StoreTypes";
+import { Button } from "@mui/material";
+import { CssDataTable } from "@/components/pages/admin/components/Table";
+import { Column } from "primereact/column";
+import { filterStoreTableView } from "@/components/pages/admin/store/helper";
+import { STORE_ADMIN_TABLE } from "@/utils/admin/storeHelpers";
+import { InputSwitch } from "primereact/inputswitch";
+import { usePatchStoreActive, usePatchStoreInactive } from "@/hooks/queries/storeQueries";
 
 type TProps = {
-  columns: TTableColumn<TStoreTableKey>[];
-  rows: TStoreDetail[];
+  storesRes: TStoreDetail[];
   onClickStoreRow: (id: number, type: "store" | "image") => void;
 };
 
-// TODO: primereact table로 변경
-// 테이블 컴포넌트 (재사용 고려하여 리팩토링 필요)
-const StoreTable = ({ columns, rows, onClickStoreRow }: TProps) => {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+const StoreTable = ({ storesRes, onClickStoreRow }: TProps) => {
+  const { mutate: mutateStoreActive, isLoading: isMutatingStoreActive } = usePatchStoreActive();
+  const { mutate: mutateStoreInactive, isLoading: isMutatingStoreInactive } =
+    usePatchStoreInactive();
 
-  const visibleRows = useMemo(
-    () => rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [page, rows, rowsPerPage]
-  );
+  const filterStoreTableData = storesRes.map((storeRes) => filterStoreTableView(storeRes));
+
+  const onMutateStoreActiveStatus = (storeRes: TStoreTableData, checked: boolean) => {
+    if (window.confirm(`${storeRes.name} 의 활성여부를 변경하시겠어요?`)) {
+      if (checked) {
+        // 활성화
+        mutateStoreActive(storeRes.id);
+        return;
+      }
+
+      // 비활성화
+      mutateStoreInactive(storeRes.id);
+    }
+  };
 
   return (
-    <Paper elevation={8}>
-      <TableContainer>
-        <Table stickyHeader>
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell key={column.id} align={column.align}>
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {visibleRows.map((row, i) => {
-              return (
-                <TableRow className="cursor-pointer" hover key={`${row.name} + ${i}`}>
-                  {columns.map((column) => {
-                    const value = row[column.id];
-                    const isImageCell = column.id === "imageUrls";
-
-                    return (
-                      <TableCell
-                        style={isImageCell ? { cursor: "default" } : {}}
-                        key={column.id}
-                        align={column.align}
-                        onClick={() => onClickStoreRow(row.id, isImageCell ? "image" : "store")}
-                      >
-                        {value && column.formatFn ? column.formatFn(value) : (value as string)}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      {/* table pagination */}
-      <TablePagination
-        rowsPerPageOptions={[5, 10]}
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        component="div"
-        onPageChange={(_, page) => setPage(page)}
-        onRowsPerPageChange={(e) => {
-          setRowsPerPage(parseInt(e.target.value, 10));
-          setPage(0);
+    <>
+      <CssDataTable
+        paginator
+        rows={10}
+        scrollable
+        showGridlines
+        style={{
+          cursor: "pointer",
         }}
-      />
-    </Paper>
+        stripedRows
+        value={filterStoreTableData}
+        emptyMessage={"결과가 없습니다."}
+        onRowClick={(e) => {
+          const storeRes = e.data as TStoreTableData;
+          onClickStoreRow(storeRes.id, "store");
+        }}
+        rowHover
+      >
+        {Object.keys(STORE_ADMIN_TABLE).map((key) => {
+          const field = key as TStoreTableKey;
+          const { label, minWidth } = STORE_ADMIN_TABLE[field];
+          return (
+            <Column
+              key={key}
+              style={{ minWidth }}
+              header={label}
+              field={field}
+              body={(data: TStoreTableData) => {
+                if (field === "activateStatus") {
+                  return (
+                    <InputSwitch
+                      disabled={isMutatingStoreActive || isMutatingStoreInactive}
+                      checked={data[field]}
+                      onChange={(e) => {
+                        onMutateStoreActiveStatus(data, e.value as boolean);
+                        e.stopPropagation();
+                      }}
+                    />
+                  );
+                }
+
+                if (field === "imageUrls") {
+                  return (
+                    <Button
+                      variant="outlined"
+                      onClick={(e) => {
+                        onClickStoreRow(data.id, "image");
+                        e.stopPropagation();
+                      }}
+                    >
+                      이미지 업로드 및 확인
+                    </Button>
+                  );
+                }
+
+                return data[field];
+              }}
+            />
+          );
+        })}
+      </CssDataTable>
+    </>
   );
 };
 
