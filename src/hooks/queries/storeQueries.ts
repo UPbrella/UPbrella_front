@@ -79,7 +79,6 @@ export const usePatchStoreActive = () => {
     mutationFn: patchStoreActive,
     onSuccess: () => queryClient.invalidateQueries([...STORE_QUERY_KEYS.stores()]),
     onError: () => {
-      // TODO: error 함수
       toast.error("지점 이미지가 존재하지 않으면 영업지점을 활성화할 수 없습니다.");
     },
   });
@@ -92,7 +91,6 @@ export const usePatchStoreInactive = () => {
     mutationFn: patchStoreInactive,
     onSuccess: () => queryClient.invalidateQueries([...STORE_QUERY_KEYS.stores()]),
     onError: () => {
-      // TODO: error 함수
       toast.error("서버 에러입니다.");
     },
   });
