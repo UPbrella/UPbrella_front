@@ -1,5 +1,6 @@
 import MypageFormContent from "@/components/atoms/Mypage/MypageFormContent";
 import MypageFormTitle from "@/components/atoms/Mypage/MypageFormTitle";
+import { formatPhoneNumber } from "@/utils/utils";
 
 export type MypageInfoSectionProps = {
   name: string;
@@ -8,6 +9,7 @@ export type MypageInfoSectionProps = {
 };
 
 const MypageInfoSection = ({ name, phoneNumber, email }: MypageInfoSectionProps) => {
+  const formattedPhoneNumber = formatPhoneNumber(phoneNumber);
   return (
     <section className="p-24 border border-solid border-gray-200 rounded-12">
       <div className="flex flex-col">
@@ -24,7 +26,7 @@ const MypageInfoSection = ({ name, phoneNumber, email }: MypageInfoSectionProps)
             <MypageFormTitle label="전화번호" />
           </div>
           <div className="">
-            <MypageFormContent label={phoneNumber} />
+            <MypageFormContent label={formattedPhoneNumber} />
           </div>
         </div>
         <div className="flex">
