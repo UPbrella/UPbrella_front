@@ -5,7 +5,7 @@ export type TUserRes = {
   bank: string | null;
   accountNumber: string | null;
   adminStatus: boolean;
-  email: string | null;
+  email: string;
 };
 
 export type TBlackUserRes = {
