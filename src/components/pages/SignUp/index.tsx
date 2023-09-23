@@ -108,6 +108,7 @@ const SignUpPage = () => {
     const res = await $axios.post("/users/join", { ...inputs }, { withCredentials: true });
     if (res) {
       navigate("/");
+      location.reload();
       alert("회원가입이 완료되었습니다.");
     } else {
       alert("다시 시도해주세요");
