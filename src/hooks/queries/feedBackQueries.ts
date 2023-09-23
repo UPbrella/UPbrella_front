@@ -1,4 +1,4 @@
-import { getHistoriesStatus, getHistoriesImprovements } from "@/api/feedbackApi";
+import { getHistoriesStatus, getHistoriesImprovements } from "@/api/feedBackApi";
 import { useQuery } from "react-query";
 export const useGetHistoriesStatus = () => {
   return useQuery({

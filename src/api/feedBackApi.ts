@@ -1,6 +1,6 @@
 import { $axios } from "@/lib/axios";
 import { TApiResponse } from "@/types/commonTypes";
-import { TConditionRes, TImprovementRes } from "@/types/admin/FeedbackTypes";
+import { TConditionRes, TImprovementRes } from "@/types/admin/FeedBackTypes";
 
 const API = {
   HISTORIES_STATUS: () => `/admin/rent/histories/status`,

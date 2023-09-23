@@ -1,17 +1,16 @@
-import { Typography } from "@mui/material";
-import { Column } from "primereact/column";
 import {
   useGetHistoriesImprovements,
   useGetHistoriesStatus,
-} from "@/hooks/queries/feedbackQueries";
-import { CssDataTable } from "../components/Table";
+} from "@/hooks/queries/feedBackQueries";
+import FeedBackDataTable from "@/components/atoms/FeedBackDataTable";
 
 const UmbrellaFeedBackPage = () => {
   // 신고 내역 조회
-  const { data: conditionReportsRes } = useGetHistoriesStatus();
+  const { data: conditionReportsRes, isLoading: isLoadingCondition } = useGetHistoriesStatus();
 
   // 개선 요청 내역 조회
-  const { data: improvementReportsRes } = useGetHistoriesImprovements();
+  const { data: improvementReportsRes, isLoading: isLoadingImprovement } =
+    useGetHistoriesImprovements();
 
   // 'content'가 null이 아닌 항목만 필터링
   const filteredConditionReports = conditionReportsRes?.conditionReports.filter(
@@ -23,24 +22,18 @@ const UmbrellaFeedBackPage = () => {
   );
 
   return (
-    <div>
-      <div>
-        <Typography>신고 내역 조회 - 대여폼</Typography>
-        <CssDataTable value={filteredConditionReports}>
-          <Column field="id" header="ID" />
-          <Column field="umbrellaUuid" header="umbrellaUuid" />
-          <Column field="content" header="content" />
-        </CssDataTable>
-      </div>
+    <div className="flex flex-col gap-8">
+      <FeedBackDataTable
+        title="신고 내역 조회 - 대여폼"
+        isLoading={isLoadingCondition}
+        value={filteredConditionReports}
+      />
 
-      <div>
-        <Typography>개선 요청 내역 조회 - 반납폼</Typography>
-        <CssDataTable value={filteredImprovementReports}>
-          <Column field="id" header="ID" />
-          <Column field="umbrellaUuid" header="umbrellaUuid" />
-          <Column field="content" header="content" />
-        </CssDataTable>
-      </div>
+      <FeedBackDataTable
+        title="개선 요청 내역 조회 - 반납폼"
+        isLoading={isLoadingImprovement}
+        value={filteredImprovementReports}
+      />
     </div>
   );
 };
