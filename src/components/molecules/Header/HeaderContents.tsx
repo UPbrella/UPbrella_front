@@ -46,7 +46,7 @@ const HeaderContents = ({ isLoading, name }: HeaderContentsProps) => {
 
   return (
     <>
-      <div className="flex justify-between items-center w-full px-40 my-8 relative lg:hidden">
+      <div className="flex justify-between items-center w-full my-8 relative lg:hidden">
         <Link to={"/"}>
           <img className="w-64 h-64 p-8" src={Logo} alt="Logo" />
         </Link>
@@ -95,7 +95,7 @@ const HeaderContents = ({ isLoading, name }: HeaderContentsProps) => {
       <div
         className={menuOpen ? "hidden" : "flex justify-center items-center mt-8 relative xl:hidden"}
       >
-        <div className="absolute left-0 mt-18 sm:pl-20 cursor-pointer" onClick={handleMenuOpen}>
+        <div className="absolute left-0 mt-18 cursor-pointer" onClick={handleMenuOpen}>
           <MenuIcon style={{ width: "28px", height: "28px" }} />
         </div>
         <Link to={"/"} className="mt-8">
