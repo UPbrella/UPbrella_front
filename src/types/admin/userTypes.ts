@@ -1,6 +1,5 @@
 export type TUserRes = {
   id: number;
-  socialId: number;
   name: string;
   phoneNumber: string;
   bank: string | null;
@@ -11,6 +10,5 @@ export type TUserRes = {
 
 export type TBlackUserRes = {
   id: number;
-  socialId: number;
   blockedAt: string;
 };

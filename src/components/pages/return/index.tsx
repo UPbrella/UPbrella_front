@@ -1,4 +1,3 @@
-import MobileHeader from "@/components/organisms/MobileHeader";
 import FormBasic from "@/components/atoms/Form/FormBasic";
 import FormStatus from "@/components/atoms/Form/FormStatus";
 import FormButton from "@/components/atoms/Form/FormButton";
@@ -10,12 +9,15 @@ import BankContent from "@/components/atoms/Form/BankContent";
 import FormModal from "@/components/molecules/FormModal";
 import ReturnModal from "@/components/atoms/Form/ReturnModal";
 import { useGetReturnFormData, useGetReturnUmbrella } from "@/hooks/queries/formQueries";
-import { useRecoilValue } from "recoil";
-import { loginInfo } from "@/recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { loginInfo, redirectUrl } from "@/recoil";
 import { formatPhoneNumber } from "@/utils/utils";
 import { useMutation } from "react-query";
 import { toast } from "react-hot-toast";
 import { patchReturn } from "@/api/formApi";
+import { useLocation } from "react-router-dom";
+import { HeaderContainer } from "@/components/organisms/Header/HeaderContainer";
+import ErrorComponent from "@/components/molecules/ErrorComponent";
 
 const ReturnPage = () => {
   // 반납전(false), 반납후(true)
@@ -24,13 +26,11 @@ const ReturnPage = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isActive, setIsActive] = useState(false);
 
-  // 로그인 유저 정보 조회 (이름, 전화번호, 은행명, 계좌번호)
+  const location = useLocation();
+  const storeId = new URLSearchParams(location.search).get("storeId");
+  const returnStoreId = storeId ? parseInt(storeId, 10) : 0;
+
   const userInfo = useRecoilValue(loginInfo);
-  useEffect(() => {
-    setName(userInfo.name);
-    const formattedPhone = formatPhoneNumber(userInfo.phoneNumber);
-    setPhone(formattedPhone);
-  }, [userInfo]);
 
   // 반납폼
   // const [storeId, setStoreId] = useState(0);
@@ -44,11 +44,31 @@ const ReturnPage = () => {
   const [improvementReportContent, setImprovementReportContent] = useState("");
   const [elapsedDay, setElapsedDay] = useState(0);
 
-  // TODO url (storeId)
-  const returnStoreId = 1;
+  const setRediretcUrl = useSetRecoilState(redirectUrl);
+  setRediretcUrl("/");
 
-  // 반납 폼 데이터 조회 (classificationName, rentStoreName)
-  const { data: formData } = useGetReturnFormData(returnStoreId);
+  // 로그인 유저 정보 조회 (이름, 전화번호, 은행명, 계좌번호)
+  useEffect(() => {
+    setName(userInfo.name);
+    const formattedPhone = formatPhoneNumber(userInfo.phoneNumber);
+    setPhone(formattedPhone);
+  }, [userInfo]);
+
+  // hook
+  const {
+    data: umbrellaData,
+    isError: getUmbrellaError,
+    isLoading: umbrellaDataLoading,
+  } = useGetReturnUmbrella();
+
+  const {
+    data: formData,
+    isError: getReturnFormError,
+    isLoading: returnFormLoading,
+  } = useGetReturnFormData(returnStoreId);
+
+  const { mutate: updateRent } = useMutation(patchReturn);
+
   useEffect(() => {
     if (formData) {
       setClassificationName(formData.classificationName);
@@ -56,8 +76,6 @@ const ReturnPage = () => {
     }
   }, [formData]);
 
-  // 사용자가 빌린 우산 조회 (umbrellaUuid, 대여일수)
-  const { data: umbrellaData } = useGetReturnUmbrella();
   useEffect(() => {
     if (umbrellaData) {
       setUmbrellaUuid(umbrellaData.uuid);
@@ -74,8 +92,39 @@ const ReturnPage = () => {
     }
   }, [bank, accountNumber]);
 
+  if (umbrellaDataLoading) {
+    return <></>;
+  }
+
+  if (returnFormLoading) {
+    return <></>;
+  }
+
+  // 사용자가 빌린 우산 조회 (umbrellaUuid, 대여일수)
+  if (getUmbrellaError) {
+    return (
+      <div>
+        <ErrorComponent
+          error="죄송합니다. 페이지를 찾을 수 없어요:("
+          subError="사용자가 빌린 우산이 없습니다."
+        />
+      </div>
+    );
+  }
+
+  // 반납 폼 데이터 조회 (classificationName, rentStoreName)
+  if (getReturnFormError) {
+    return (
+      <div>
+        <ErrorComponent
+          error="죄송합니다. 페이지를 찾을 수 없어요:("
+          subError="존재하지 않는 협업 지점 고유번호입니다."
+        />
+      </div>
+    );
+  }
+
   // POST 우산반납신청
-  const { mutate: updateRent } = useMutation(patchReturn);
   const onClickPatchBtn = () => {
     updateRent(
       {
@@ -100,7 +149,7 @@ const ReturnPage = () => {
 
   return (
     <div className="flex-col max-w-2xl mx-auto">
-      <MobileHeader />
+      <HeaderContainer />
       <div className="mt-20 text-24 font-semibold leading-32 text-black mb-32">
         {!isReturn ? "우산을 반납할까요?" : "우산을 반납했어요!"}
       </div>
@@ -160,7 +209,6 @@ const ReturnPage = () => {
               </BottomSheet>
             </div>
           )}
-
           {isReturn ? (
             <div className="w-full ml-4 rounded-8 p-12 text-15 text-gray-500 leading-22 bg-gray-100">
               {accountNumber}
@@ -174,7 +222,11 @@ const ReturnPage = () => {
             />
           )}
         </div>
-        <div className="mt-4 text-14 leading-20 text-gray-600">* ‘-’은 빼고 입력해주세요!</div>
+        <div className="mt-4 text-14 leading-20 text-gray-600">
+          * ‘-’은 빼고 입력해주세요! <br /> * 현재 ‘반납 페이지’에서 입력하신 은행, 계좌번호 정보는
+          보증금 환급이 완료됨에 따라 파기됩니다. <br /> * MYPAGE를 통해 정보를 저장하면 빠른 반납이
+          가능합니다.
+        </div>
       </div>
 
       <FormStatus

@@ -18,7 +18,6 @@ import { InputSwitch } from "primereact/inputswitch";
 import { replaceItemAtIndex } from "@/utils/utils";
 
 // TODO:user, black user 컴포넌트 분리
-// TODO: 관리자로 설정 기능
 const UserAdminPage = () => {
   // client
   const [searchWord, setSearchWord] = useState("");
@@ -59,7 +58,7 @@ const UserAdminPage = () => {
   };
 
   const handleDeleteUser = (user: TBlackUserRes) => {
-    if (window.confirm(`${user.socialId} 유저를 완전 탈퇴시키겠습니까 ?`)) {
+    if (window.confirm(`${user.id} 유저를 완전 탈퇴시키겠습니까 ?`)) {
       if (!user.id) {
         toast.error("클라이언트 에러가 발생했습니다.");
         return;
@@ -169,7 +168,7 @@ const UserAdminPage = () => {
                     ? (data, { rowIndex }) => {
                         return (
                           <InputSwitch
-                            disabled={isPatchingAdminUser}
+                            disabled={isPatchingAdminUser || data.phoneNumber === "deleted"}
                             checked={data[column]}
                             onChange={(e) =>
                               onChangeAdminStatus({
@@ -189,7 +188,7 @@ const UserAdminPage = () => {
             body={(data: TUserRes) => {
               return (
                 <Button
-                  disabled={isDeletingUser}
+                  disabled={isDeletingUser || data.phoneNumber === "deleted"}
                   variant="outlined"
                   color="error"
                   onClick={() => handleUpdateBlackUser(data)}
@@ -226,7 +225,6 @@ const UserAdminPage = () => {
             )
           }
         >
-          <Column header={"No"} body={(_, { rowIndex }) => userData.length - rowIndex} />
           {Object.keys(USER_BLACKLIST_TABLE).map((column) => {
             const key = column as keyof Omit<TBlackUserRes, "id">;
             return <Column key={key} header={USER_BLACKLIST_TABLE[key].label} field={column} />;
