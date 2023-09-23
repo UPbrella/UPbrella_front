@@ -29,17 +29,15 @@ const MobileCardInfo = () => {
   ];
 
   return (
-    <div>
-      <div className="mt-18 text-gray-700">
-        {labels.map((label, index) => (
-          <div key={index}>
-            <div className="flex my-4 text-gray-700">
-              {label.icon}
-              {label.text}
-            </div>
+    <div className="text-gray-700">
+      {labels.map((label, index) => (
+        <div key={index}>
+          <div className="flex my-4 text-gray-700">
+            {label.icon}
+            {label.text}
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   );
 };

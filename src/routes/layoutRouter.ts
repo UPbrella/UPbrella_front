@@ -5,6 +5,7 @@ import RentalOfficePage from "@/components/pages/rentalOffice/RentalOfficePage";
 import SignUpPage from "@/components/pages/SignUp";
 import LoginPage from "@/components/pages/Login/LoginPage";
 import LoginRedirect from "@/components/pages/Login/LoginRedirectPage";
+import InfoPage from "@/components/pages/Info/InfoPage";
 import MypageRentPage from "@/components/pages/Mypage/MypageRentPage";
 import MypageAccountPage from "@/components/pages/Mypage/MypageAccountPage";
 import MypageInfoPage from "@/components/pages/Mypage/MypageInfoPage";
@@ -43,6 +44,11 @@ export const LAYOUT_ROUTES: TRoute[] = [
     name: "회원가입 정보 입력 페이지",
     path: "/members/signup/info",
     component: SignUpPage,
+  },
+  {
+    name: "이용안내 페이지",
+    path: "/information",
+    component: InfoPage,
   },
   {
     name: "마이페이지_이용내역",
