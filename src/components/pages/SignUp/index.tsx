@@ -19,6 +19,8 @@ const SignUpPage = () => {
     bank: "",
     accountNumber: "",
   });
+  const [isNameValid, setIsNameValid] = useState(true);
+  const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(true);
   const [isAllAllow, setIsAllAllow] = useState(false);
   const [isFirstAllow, setIsFirstAllow] = useState(false);
   const [isSecondAllow, setIsSecondAllow] = useState(false);
@@ -33,9 +35,26 @@ const SignUpPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const isPass = !!name && !!phoneNumber && isFirstAllow && isSecondAllow;
+    const handleNameValid = () => {
+      if (!/^[가-힣a-zA-Z]{2,6}$/.test(name)) {
+        setIsNameValid(false);
+      } else {
+        setIsNameValid(true);
+      }
+    };
+    const handlePhoneNumberValid = () => {
+      if (phoneNumber.length < 13) {
+        setIsPhoneNumberValid(false);
+      } else {
+        setIsPhoneNumberValid(true);
+      }
+    };
+    const isPass =
+      !!name && !!phoneNumber && isNameValid && isPhoneNumberValid && isFirstAllow && isSecondAllow;
     setIsDone(isPass);
-  }, [name, phoneNumber, isFirstAllow, isSecondAllow]);
+    handleNameValid();
+    handlePhoneNumberValid();
+  }, [name, phoneNumber, isNameValid, isPhoneNumberValid, isFirstAllow, isSecondAllow]);
 
   const handleInputValue = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -129,6 +148,8 @@ const SignUpPage = () => {
           name={name}
           onChangeValue={handleInputValue}
           phoneNumber={phoneNumber}
+          isNameValid={isNameValid}
+          isPhoneNumberValid={isPhoneNumberValid}
           isAllAllow={isAllAllow}
           onClickAllAllow={handleIsAllAllows}
           isFirstAllow={isFirstAllow}

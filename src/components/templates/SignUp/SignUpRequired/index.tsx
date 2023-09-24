@@ -10,6 +10,8 @@ export type SignUpRequiredFormProps = {
   name: string;
   onChangeValue: (e: ChangeEvent<HTMLInputElement>) => void;
   phoneNumber: string;
+  isNameValid: boolean;
+  isPhoneNumberValid: boolean;
   isAllAllow?: boolean;
   onClickAllAllow: () => void;
   isFirstAllow?: boolean;
@@ -26,6 +28,8 @@ const SignUpRequiredForm = ({
   name,
   onChangeValue,
   phoneNumber,
+  isNameValid,
+  isPhoneNumberValid,
   isAllAllow,
   isFirstAllow,
   onClickAllAllow,
@@ -58,6 +62,8 @@ const SignUpRequiredForm = ({
                 name="name"
                 value={name}
                 onChangeValue={onChangeValue}
+                isValid={isNameValid}
+                validLabel={"국문, 영문만 입력 가능합니다."}
               />
             </div>
             <div>
@@ -67,6 +73,8 @@ const SignUpRequiredForm = ({
                 name="phoneNumber"
                 value={phoneNumber}
                 onChangeValue={onChangeValue}
+                isValid={isPhoneNumberValid}
+                validLabel={"010 뒤 8자리를 입력해주세요."}
               />
             </div>
           </section>
