@@ -55,7 +55,11 @@ const RentalInfoCard = ({ storeDetail }: TRentalCard) => {
     <div className={"border-gray-200 border h-600 rounded-20 px-24 pt-32 mt-16 sm:max-w-320"}>
       <RentalLocationTitle title={storeDetail.name} category={storeDetail.category} />
       <div className="pt-24 pb-6">
-        <NaverDirectionBtn />
+        <NaverDirectionBtn
+          elon={storeDetail.longitude}
+          elat={storeDetail.latitude}
+          address={storeDetail.address}
+        />
       </div>
       <div className="mt-18 text-gray-700">
         {labels.map((label, index) => (
