@@ -16,10 +16,10 @@ export type SignUpRequiredFormProps = {
   onClickFirstAllow: () => void;
   onClickSecondAllow: () => void;
   isSecondAllow?: boolean;
-  isFirstClicked?: boolean;
-  isSecondClicked?: boolean;
   isDone?: boolean;
   onClickButton?: () => void;
+  onClickDetailTOSPage: () => void;
+  onClickDetailPPPage: () => void;
 };
 
 const SignUpRequiredForm = ({
@@ -32,10 +32,10 @@ const SignUpRequiredForm = ({
   isSecondAllow,
   onClickFirstAllow,
   onClickSecondAllow,
-  isFirstClicked,
-  isSecondClicked,
   isDone,
   onClickButton,
+  onClickDetailTOSPage,
+  onClickDetailPPPage,
 }: SignUpRequiredFormProps) => {
   return (
     <main className="flex flex-1 flex-col justify-center items-center">
@@ -81,7 +81,7 @@ const SignUpRequiredForm = ({
                 isAllow={isFirstAllow}
                 onClickAllow={onClickFirstAllow}
                 label="(필수) 업브렐라 이용약관"
-                isClicked={isFirstClicked}
+                onClickDetailPage={onClickDetailTOSPage}
               />
             </div>
             <div className="mb-24">
@@ -89,7 +89,7 @@ const SignUpRequiredForm = ({
                 isAllow={isSecondAllow}
                 onClickAllow={onClickSecondAllow}
                 label="(필수) 개인정보 수집 및 이용동의"
-                isClicked={isSecondClicked}
+                onClickDetailPage={onClickDetailPPPage}
               />
             </div>
             <SignUpFormButton label="다음" isDone={isDone} onClick={onClickButton} />

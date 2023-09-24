@@ -5,11 +5,16 @@ import SignUpFormAllowText from "@/components/atoms/SignUp/SignUpFormAllowText";
 export type SignUpAllowBoxProps = {
   isAllow?: boolean;
   label: string;
-  isClicked?: boolean;
   onClickAllow: () => void;
+  onClickDetailPage: () => void;
 };
 
-const SignUpAllowBox = ({ isAllow, label, isClicked, onClickAllow }: SignUpAllowBoxProps) => {
+const SignUpAllowBox = ({
+  isAllow,
+  label,
+  onClickAllow,
+  onClickDetailPage,
+}: SignUpAllowBoxProps) => {
   return (
     <section className="flex justify-between px-8 py-12 items-center">
       <div className="flex">
@@ -19,7 +24,7 @@ const SignUpAllowBox = ({ isAllow, label, isClicked, onClickAllow }: SignUpAllow
         <SignUpFormAllowText label={label} />
       </div>
       <div>
-        <SignUpFormAllowChevron isClicked={isClicked} />
+        <SignUpFormAllowChevron onClick={onClickDetailPage} />
       </div>
     </section>
   );

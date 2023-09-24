@@ -11,12 +11,6 @@ export type TInputs = {
   accountNumber: string;
 };
 
-// export type TIsAllows = {
-//   isAllAllow: boolean;
-//   isFirstAllow: boolean;
-//   isSecondAllow: boolean;
-// };
-
 const SignUpPage = () => {
   const [inputs, setInputs] = useState<TInputs>({
     name: "",
@@ -24,11 +18,6 @@ const SignUpPage = () => {
     bank: "",
     accountNumber: "",
   });
-  //   const [isAllows, setIsAllows] = useState<TIsAllows>({
-  //     isAllAllow: false,
-  //     isFirstAllow: false,
-  //     isSecondAllow: false,
-  //   });
   const [isAllAllow, setIsAllAllow] = useState(false);
   const [isFirstAllow, setIsFirstAllow] = useState(false);
   const [isSecondAllow, setIsSecondAllow] = useState(false);
@@ -140,9 +129,8 @@ const SignUpPage = () => {
           isSecondAllow={isSecondAllow}
           onClickFirstAllow={handleIsFirstAllow}
           onClickSecondAllow={handleIsSecondAllow}
-          // TODO
-          // isFirstClicked={isFirstClicked}: 약관페이지로 이동
-          // isSecondClicked={isSecondClicked}: 개인정보이용동의페이지로 이동
+          onClickDetailTOSPage={() => navigate("/info/tos")}
+          onClickDetailPPPage={() => navigate("/info/pp")}
           isDone={isDone}
           onClickButton={onClickButton}
         />
