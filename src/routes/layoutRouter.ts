@@ -8,6 +8,7 @@ import LoginRedirect from "@/components/pages/Login/LoginRedirectPage";
 import InfoPage from "@/components/pages/Info/InfoPage";
 import MypageRentPage from "@/components/pages/Mypage/MypageRentPage";
 import MypageAccountPage from "@/components/pages/Mypage/MypageAccountPage";
+import ContactPage from "@/components/pages/contact/ContactPage";
 
 /**
  * Header, footer의 layout이 필요한 페이지
@@ -58,5 +59,10 @@ export const LAYOUT_ROUTES: TRoute[] = [
     name: "마이페이지_계좌등록변경",
     path: "/members/mypage/account",
     component: MypageAccountPage,
+  },
+  {
+    name: "CONTACT_US",
+    path: "/contact",
+    component: ContactPage,
   },
 ];
