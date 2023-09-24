@@ -21,7 +21,7 @@ const SignUpAllowBox = ({
         <div className="mr-8">
           <SignUpFormAllow isAllow={isAllow} onClick={onClickAllow} />
         </div>
-        <SignUpFormAllowText label={label} />
+        <SignUpFormAllowText label={label} onClick={onClickAllow} />
       </div>
       <div>
         <SignUpFormAllowChevron onClick={onClickDetailPage} />
