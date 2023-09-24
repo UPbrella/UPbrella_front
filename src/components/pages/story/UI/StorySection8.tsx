@@ -18,7 +18,13 @@ const StorySection8 = () => {
           <div className="w-155">
             <FormButton
               label="대여방법 알아보기"
-              handleOpen={() => navigate("/information")}
+              handleOpen={() => {
+                navigate("/information");
+                window.scrollTo({
+                  top: 0,
+                  behavior: "smooth",
+                });
+              }}
               isActive
             />
           </div>
