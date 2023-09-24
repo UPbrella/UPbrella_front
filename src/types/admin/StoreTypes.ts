@@ -98,7 +98,7 @@ export type TStoreTableData = Omit<
   | "thumbnail"
 >;
 
-export type TStoreTableKey = keyof TStoreTableData;
+export type TStoreTableKey = keyof TAdminStoreDetail;
 
 // 지역 태그 (대분류)
 export type TClassification = {
