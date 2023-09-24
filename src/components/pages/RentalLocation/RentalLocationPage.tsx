@@ -5,7 +5,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import LocationClassificationBtn from "@/components/atoms/LocationClassificationBtn";
 import MapBtn from "@/components/molecules/MapBtn";
 import "@/styles/markerLabel.css";
-import Card from "@/components/organisms/Card";
 import { useGetClassifications, useGetClassificationsStore } from "@/hooks/queries/storeQueries";
 import { useQueryClient } from "react-query";
 import BottomSheet from "@/components/atoms/BottomSheet";
@@ -127,9 +126,7 @@ export default function RentalInfo() {
       <div className="flex justify-center">
         {/* 태블렛 환경에서 대여지점 카드 hidden */}
 
-        <div className="md:hidden pr-24">
-          <Card />
-        </div>
+        <div className="md:hidden pr-24">{/* <Card /> */}</div>
         <div className="w-full max-w-936 rounded-20 relative">
           <Map ref={mapElement} width="100%" height="896px" borderRadius="20px" />
           <div className="absolute top-0 left-0 z-9 p-24">
@@ -152,7 +149,6 @@ export default function RentalInfo() {
           >
             <MobileCard />
           </BottomSheet>
-          ;
         </div>
       </div>
       <CardFooter />

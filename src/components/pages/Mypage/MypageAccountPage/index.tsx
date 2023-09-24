@@ -47,7 +47,7 @@ const MypageAccountPage = () => {
     };
 
     getBankAccountInfo();
-  }, [bank, accountNumber, loginInfoValue.state, loginInfoValue.contents]);
+  }, [loginInfoValue.state, loginInfoValue.contents]);
   const handleInputValue = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setInputs({ ...inputs, [name]: value });

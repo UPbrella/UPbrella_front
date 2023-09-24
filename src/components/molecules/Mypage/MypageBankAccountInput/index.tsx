@@ -19,7 +19,7 @@ const MypageBankAccountInput = ({
   bankRef,
 }: MypageBankAccountInputProps) => {
   return (
-    <section className="p-24 border border-solid border-gray-200 rounded-12">
+   <section className="p-24 border border-solid border-gray-200 rounded-12">
       <div className="flex flex-col">
         <div className="flex mb-8 items-center">
           <div className="mr-40">
