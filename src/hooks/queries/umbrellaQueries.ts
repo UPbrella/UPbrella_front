@@ -16,7 +16,7 @@ import {
   TUmbrellasStoreGetParams,
 } from "@/types/admin/umbrellaTypes";
 
-const UMBRELLAS_QUERY_KEYS = {
+export const UMBRELLAS_QUERY_KEYS = {
   getUmbrellas: (storeId?: number) => ["umbrellas", storeId],
   getUmbrellasStatistics: (storeId?: number) => ["umbrellas-statistics", storeId],
 } as const;
@@ -36,6 +36,7 @@ export const useGetUmbrellasStore = ({ storeId, page, size }: TUmbrellasStoreGet
     queryKey: [...UMBRELLAS_QUERY_KEYS.getUmbrellas(storeId), { page, size }],
     queryFn: () => getUmbrellasStore({ storeId, page, size }),
     select: (res) => res.data.umbrellaResponsePage,
+    enabled: storeId === 0 ? false : true,
   });
 };
 
@@ -44,7 +45,11 @@ export const useGetUmbrellasStatistics = () => {
     keepPreviousData: true,
     queryKey: [...UMBRELLAS_QUERY_KEYS.getUmbrellasStatistics()],
     queryFn: () => getUmbrellasStatistics(),
-    select: (res) => res.data,
+    select: (res) => ({
+      ...res.data,
+      missingRate: (Math.ceil(res.data.missingRate * 100) / 100).toFixed(2),
+    }),
+    retry: 0,
   });
 };
 
@@ -53,7 +58,12 @@ export const useGetUmbrellasStatisticsStore = (storeId: number) => {
     keepPreviousData: true,
     queryKey: [...UMBRELLAS_QUERY_KEYS.getUmbrellasStatistics(storeId)],
     queryFn: () => getUmbrellasStatisticsStore(storeId),
-    select: (res) => res.data,
+    select: (res) => ({
+      ...res.data,
+      missingRate: (Math.ceil(res.data.missingRate * 100) / 100).toFixed(2),
+    }),
+    enabled: storeId === 0 ? false : true,
+    retry: 0,
   });
 };
 
@@ -61,7 +71,6 @@ export const usePostUmbrellas = () => {
   return useMutation({
     mutationFn: (data: TUmbrellasPostReq) => postUmbrellas(data),
     onSuccess: () => {
-      // TODO: invalidate
       toast.success("우산 생성이 완료되었습니다.");
     },
   });
@@ -71,7 +80,6 @@ export const usePatchUmbrellas = () => {
   return useMutation({
     mutationFn: (params: TUmbrellasPatchParams) => patchUmbrellas(params),
     onSuccess: () => {
-      // TODO: invalidate
       toast.success("우산 수정이 완료되었습니다.");
     },
   });
@@ -81,7 +89,6 @@ export const useDeleteUmbrellas = () => {
   return useMutation({
     mutationFn: (umbrellaId: number) => deleteUmbrellas(umbrellaId),
     onSuccess: () => {
-      // TODO: invalidate
       toast.success("우산이 삭제 되었습니다.");
     },
   });

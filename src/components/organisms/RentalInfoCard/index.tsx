@@ -11,6 +11,7 @@ import { TStoreListDetail } from "@/types/admin/StoreTypes";
 export type TRentalCard = {
   storeDetail: TStoreListDetail;
 };
+
 const RentalInfoCard = ({ storeDetail }: TRentalCard) => {
   const labels = [
     {
