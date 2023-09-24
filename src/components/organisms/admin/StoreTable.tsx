@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { TStoreDetail, TStoreTableKey } from "@/types/admin/StoreTypes";
+import { TAdminStoreDetail, TStoreTableKey } from "@/types/admin/StoreTypes";
 import { TTableColumn } from "@/types/commonTypes";
 import {
   Paper,
@@ -14,7 +14,7 @@ import {
 
 type TProps = {
   columns: TTableColumn<TStoreTableKey>[];
-  rows: TStoreDetail[];
+  rows: TAdminStoreDetail[];
   onClickStoreRow: (id: number, type: "store" | "image") => void;
 };
 

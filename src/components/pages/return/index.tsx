@@ -1,4 +1,3 @@
-import MobileHeader from "@/components/organisms/MobileHeader";
 import FormBasic from "@/components/atoms/Form/FormBasic";
 import FormStatus from "@/components/atoms/Form/FormStatus";
 import FormButton from "@/components/atoms/Form/FormButton";
@@ -10,13 +9,15 @@ import BankContent from "@/components/atoms/Form/BankContent";
 import FormModal from "@/components/molecules/FormModal";
 import ReturnModal from "@/components/atoms/Form/ReturnModal";
 import { useGetReturnFormData, useGetReturnUmbrella } from "@/hooks/queries/formQueries";
-import { useRecoilValue } from "recoil";
-import { loginInfo } from "@/recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { loginInfo, redirectUrl } from "@/recoil";
 import { formatPhoneNumber } from "@/utils/utils";
 import { useMutation } from "react-query";
 import { toast } from "react-hot-toast";
 import { patchReturn } from "@/api/formApi";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { HeaderContainer } from "@/components/organisms/Header/HeaderContainer";
+import ErrorComponent from "@/components/molecules/ErrorComponent";
 
 const ReturnPage = () => {
   // 반납전(false), 반납후(true)
@@ -24,36 +25,12 @@ const ReturnPage = () => {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isActive, setIsActive] = useState(false);
-  const navigate = useNavigate();
 
-  // TODO url (storeId)
   const location = useLocation();
   const storeId = new URLSearchParams(location.search).get("storeId");
   const returnStoreId = storeId ? parseInt(storeId, 10) : 0;
 
-  // 반납 폼 데이터 조회 (classificationName, rentStoreName)
-  const {
-    data: formData,
-    isLoading: returnFormDataLoading,
-    isError: getReturnFormError,
-  } = useGetReturnFormData(returnStoreId);
-
-  if (returnFormDataLoading) {
-    <div>Loading..</div>;
-  }
-
-  if (getReturnFormError) {
-    navigate("/404");
-    toast.error("존재하지 않는 협업 지점 고유번호입니다.");
-  }
-
-  // 로그인 유저 정보 조회 (이름, 전화번호, 은행명, 계좌번호)
   const userInfo = useRecoilValue(loginInfo);
-  useEffect(() => {
-    setName(userInfo.name);
-    const formattedPhone = formatPhoneNumber(userInfo.phoneNumber);
-    setPhone(formattedPhone);
-  }, [userInfo]);
 
   // 반납폼
   // const [storeId, setStoreId] = useState(0);
@@ -67,19 +44,37 @@ const ReturnPage = () => {
   const [improvementReportContent, setImprovementReportContent] = useState("");
   const [elapsedDay, setElapsedDay] = useState(0);
 
+  const setRediretcUrl = useSetRecoilState(redirectUrl);
+  setRediretcUrl("/");
+
+  // 로그인 유저 정보 조회 (이름, 전화번호, 은행명, 계좌번호)
+  useEffect(() => {
+    setName(userInfo.name);
+    const formattedPhone = formatPhoneNumber(userInfo.phoneNumber);
+    setPhone(formattedPhone);
+  }, [userInfo]);
+
+  // hook
+  const {
+    data: umbrellaData,
+    isError: getUmbrellaError,
+    isLoading: umbrellaDataLoading,
+  } = useGetReturnUmbrella();
+
+  const {
+    data: formData,
+    isError: getReturnFormError,
+    isLoading: returnFormLoading,
+  } = useGetReturnFormData(returnStoreId);
+
+  const { mutate: updateRent } = useMutation(patchReturn);
+
   useEffect(() => {
     if (formData) {
       setClassificationName(formData.classificationName);
       setRentStoreName(formData.rentStoreName);
     }
   }, [formData]);
-
-  // 사용자가 빌린 우산 조회 (umbrellaUuid, 대여일수)
-  const { data: umbrellaData, isError: getUmbrellaError } = useGetReturnUmbrella();
-  if (getUmbrellaError) {
-    navigate("/404");
-    toast.error("사용자가 빌린 우산이 없습니다.");
-  }
 
   useEffect(() => {
     if (umbrellaData) {
@@ -97,8 +92,39 @@ const ReturnPage = () => {
     }
   }, [bank, accountNumber]);
 
+  if (umbrellaDataLoading) {
+    return <></>;
+  }
+
+  if (returnFormLoading) {
+    return <></>;
+  }
+
+  // 사용자가 빌린 우산 조회 (umbrellaUuid, 대여일수)
+  if (getUmbrellaError) {
+    return (
+      <div>
+        <ErrorComponent
+          error="죄송합니다. 페이지를 찾을 수 없어요:("
+          subError="사용자가 빌린 우산이 없습니다."
+        />
+      </div>
+    );
+  }
+
+  // 반납 폼 데이터 조회 (classificationName, rentStoreName)
+  if (getReturnFormError) {
+    return (
+      <div>
+        <ErrorComponent
+          error="죄송합니다. 페이지를 찾을 수 없어요:("
+          subError="존재하지 않는 협업 지점 고유번호입니다."
+        />
+      </div>
+    );
+  }
+
   // POST 우산반납신청
-  const { mutate: updateRent } = useMutation(patchReturn);
   const onClickPatchBtn = () => {
     updateRent(
       {
@@ -123,7 +149,7 @@ const ReturnPage = () => {
 
   return (
     <div className="flex-col max-w-2xl mx-auto">
-      <MobileHeader />
+      <HeaderContainer />
       <div className="mt-20 text-24 font-semibold leading-32 text-black mb-32">
         {!isReturn ? "우산을 반납할까요?" : "우산을 반납했어요!"}
       </div>

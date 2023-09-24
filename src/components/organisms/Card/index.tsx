@@ -18,8 +18,6 @@ const Card = ({ storeDetail, maxWidth, maxHeight }: TCard) => {
         images={storeDetail.imageUrls}
       />
       <RentalInfoCard storeDetail={storeDetail} />
-    </div>
-  );
 };
 
 export default Card;

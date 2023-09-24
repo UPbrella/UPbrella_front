@@ -11,7 +11,8 @@ import NotFound from "@/components/pages/not-found/NotFound";
 import "primereact/resources/themes/lara-light-indigo/theme.css"; //theme
 import "primereact/resources/primereact.min.css"; //core css
 import "primeicons/primeicons.css";
-import React from "react";
+import PrivateRoutes from "./utils/PrivateRoutes";
+import { Suspense } from "react";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,56 +28,62 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <RecoilRoot>
-      <QueryClientProvider client={queryClient}>
-        <Toaster
-          position="top-center"
-          toastOptions={{
-            style: { padding: "16px", color: "#fff", background: "#5DCF17" },
-            duration: 3000,
-            error: {
-              style: {
-                background: "#FF513E",
+      <Suspense>
+        <QueryClientProvider client={queryClient}>
+          <Toaster
+            position="top-center"
+            toastOptions={{
+              style: { padding: "16px", color: "#fff", background: "#5DCF17" },
+              duration: 3000,
+              error: {
+                style: {
+                  background: "#FF513E",
+                },
               },
-            },
-          }}
-        />
-        <div className="bg-cover bg-basic">
-          <div className="max-w-[1440px] min-h-[100vh] px-40 mx-auto flex flex-col sm:px-0">
-            <Routes>
-              {/* Not Found Page */}
-              {/* Route */}
-              <Route element={<MainLayout />}>
-                <>
-                  {LAYOUT_ROUTES.map((route) => {
+            }}
+          />
+          <div className="bg-cover bg-basic">
+            <div className="max-w-[1440px] min-h-[100vh] px-40 mx-auto flex flex-col sm:px-0">
+              <Routes>
+                {/* Not Found Page */}
+                {/* Route */}
+                <Route element={<MainLayout />}>
+                  <>
+                    {LAYOUT_ROUTES.map((route) => {
+                      return (
+                        <Route key={route.name} path={route.path} element={<route.component />} />
+                      );
+                    })}
+                    <Route path="/*" element={<NotFound />} />
+                  </>
+                </Route>
+                <Route element={<MainLayout />}>
+                  {ADMIN_ROUTES.map((route) => {
+                    return (
+                      <Route
+                        key={route.name}
+                        path={route.path}
+                        element={
+                          <AdminWrapper>
+                            <route.component />
+                          </AdminWrapper>
+                        }
+                      />
+                    );
+                  })}
+                </Route>
+                <Route element={<PrivateRoutes />}>
+                  {NOT_LAYOUT_ROUTES.map((route) => {
                     return (
                       <Route key={route.name} path={route.path} element={<route.component />} />
                     );
                   })}
-                  <Route path="/*" element={<NotFound />} />
-                </>
-              </Route>
-              <Route element={<MainLayout />}>
-                {ADMIN_ROUTES.map((route) => {
-                  return (
-                    <Route
-                      key={route.name}
-                      path={route.path}
-                      element={
-                        <AdminWrapper>
-                          <route.component />
-                        </AdminWrapper>
-                      }
-                    />
-                  );
-                })}
-              </Route>
-              {NOT_LAYOUT_ROUTES.map((route) => {
-                return <Route key={route.name} path={route.path} element={<route.component />} />;
-              })}
-            </Routes>
+                </Route>
+              </Routes>
+            </div>
           </div>
-        </div>
-      </QueryClientProvider>
+        </QueryClientProvider>
+      </Suspense>
     </RecoilRoot>
   );
 }

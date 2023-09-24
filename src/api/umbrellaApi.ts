@@ -56,9 +56,9 @@ export const postUmbrellas = async (data: TUmbrellasPostReq) => {
 };
 
 export const patchUmbrellas = async ({ data, umbrellaId }: TUmbrellasPatchParams) => {
-  await $axios.post(API.PATCH_UMBRELLAS(umbrellaId), data);
+  await $axios.patch(API.PATCH_UMBRELLAS(umbrellaId), data);
 };
 
 export const deleteUmbrellas = async (umbrellaId: number) => {
-  await $axios.post(API.DELETE_UMBRELLAS(umbrellaId));
+  await $axios.delete(API.DELETE_UMBRELLAS(umbrellaId));
 };
