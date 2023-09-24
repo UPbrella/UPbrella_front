@@ -36,14 +36,14 @@ const SignUpPage = () => {
 
   useEffect(() => {
     const handleNameValid = () => {
-      if (!/^[가-힣a-zA-Z]{2,6}$/.test(name)) {
+      if (!!name && !/^[가-힣a-zA-Z]{2,6}$/.test(name)) {
         setIsNameValid(false);
       } else {
         setIsNameValid(true);
       }
     };
     const handlePhoneNumberValid = () => {
-      if (phoneNumber.length < 13) {
+      if (!!phoneNumber && phoneNumber.length < 13) {
         setIsPhoneNumberValid(false);
       } else {
         setIsPhoneNumberValid(true);
