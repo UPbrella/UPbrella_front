@@ -1,6 +1,7 @@
 import SignUpNotRequiredForm from "@/components/templates/SignUp/SignUpNotRequired";
 import SignUpRequiredForm from "@/components/templates/SignUp/SignUpRequired";
 import { $axios } from "@/lib/axios";
+import { formatPhoneNumber } from "@/utils/utils";
 import { MouseEvent, ChangeEvent, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -38,7 +39,12 @@ const SignUpPage = () => {
 
   const handleInputValue = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setInputs({ ...inputs, [name]: value });
+    if (name === "phoneNumber") {
+      const phoneValue = formatPhoneNumber(value);
+      setInputs({ ...inputs, [name]: phoneValue });
+    } else {
+      setInputs({ ...inputs, [name]: value });
+    }
   };
 
   const handleIsAllAllows = () => {
