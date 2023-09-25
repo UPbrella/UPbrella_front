@@ -11,7 +11,11 @@ import NotFound from "@/components/pages/not-found/NotFound";
 import "primereact/resources/themes/lara-light-indigo/theme.css"; //theme
 import "primereact/resources/primereact.min.css"; //core css
 import "primeicons/primeicons.css";
-import React from "react";
+import PrivateRoutes from "./utils/PrivateRoutes";
+import { Suspense } from "react";
+import UpbrellaStoryPage from "@/components/pages/story/UpbrellaStoryPage";
+import AdminRoutes from "@/utils/AdminRoutes";
+import InfoPage from "@/components/pages/Info/InfoPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,7 +31,7 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <RecoilRoot>
-      <React.Suspense fallback={<div>Loading...</div>}>
+      <Suspense>
         <QueryClientProvider client={queryClient}>
           <Toaster
             position="top-center"
@@ -41,20 +45,29 @@ function App() {
               },
             }}
           />
-          <div className="bg-cover bg-basic">
-            <div className="max-w-[1440px] min-h-[100vh] px-40 mx-auto flex flex-col sm:px-0">
-              <Routes>
-                {/* Not Found Page */}
-                <Route path="/*" element={<NotFound />} />
-                {/* Route */}
-                <Route element={<MainLayout />}>
+
+          <div className="bg-cover">
+            <Routes>
+              {/* width full */}
+              <Route path={"/about"} element={<UpbrellaStoryPage />} />
+              <Route path="/" element={<UpbrellaStoryPage />} />
+              <Route path="/information" element={<InfoPage />} />
+
+              {/* width fix */}
+              <Route element={<MainLayout />}>
+                <>
                   {LAYOUT_ROUTES.map((route) => {
                     return (
                       <Route key={route.name} path={route.path} element={<route.component />} />
                     );
                   })}
-                </Route>
-                <Route element={<MainLayout />}>
+                  <Route path="/*" element={<NotFound />} />
+                </>
+              </Route>
+
+              {/* admin */}
+              <Route element={<MainLayout />}>
+                <Route element={<AdminRoutes />}>
                   {ADMIN_ROUTES.map((route) => {
                     return (
                       <Route
@@ -69,14 +82,18 @@ function App() {
                     );
                   })}
                 </Route>
+              </Route>
+
+              {/* login */}
+              <Route element={<PrivateRoutes />}>
                 {NOT_LAYOUT_ROUTES.map((route) => {
                   return <Route key={route.name} path={route.path} element={<route.component />} />;
                 })}
-              </Routes>
-            </div>
+              </Route>
+            </Routes>
           </div>
         </QueryClientProvider>
-      </React.Suspense>
+      </Suspense>
     </RecoilRoot>
   );
 }

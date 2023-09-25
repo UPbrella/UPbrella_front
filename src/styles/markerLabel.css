@@ -1,10 +1,3 @@
-.marker-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-}
-
 .marker {
   width: 32px;
   height: 40px;
@@ -15,10 +8,28 @@
   height: 60px;
 }
 
+.marker-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 32px;
+  height: 40px;
+  align-items: center;
+  position: relative;
+}
+
+.marker-wrapper-focus {
+  display: flex;
+  flex-direction: column;
+  width: 44px;
+  height: 60px;
+  align-items: center;
+  position: relative;
+}
+
 .umbrella-count {
   position: absolute;
   z-index: 10;
-  top: 10%;
+  top: 15%;
   left: 40%;
   text-align: center;
   color: white;

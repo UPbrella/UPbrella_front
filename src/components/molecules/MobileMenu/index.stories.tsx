@@ -6,7 +6,15 @@ export default {
   title: "Molecules/MobileMenu",
   component: MobileMenu,
   args: {
-    isLogin: true,
+    userRes: {
+      id: 10000,
+      name: "테스터",
+      phoneNumber: "010-1111-2222",
+      bank: null,
+      accountNumber: null,
+      email: "tester@gmail.com",
+      adminStatus: true,
+    },
     setMenuOpen: () => {
       // console.log("Menu is open:");
     },
@@ -20,8 +28,8 @@ export default {
   ],
 } as Meta;
 
-const Template: StoryFn<TMenu> = ({ isLogin, setMenuOpen }) => (
-  <MobileMenu isLogin={isLogin} setMenuOpen={setMenuOpen} />
+const Template: StoryFn<TMenu> = ({ userRes, setMenuOpen }) => (
+  <MobileMenu userRes={userRes} setMenuOpen={setMenuOpen} />
 );
 
 export const Default = Template.bind({});

@@ -20,13 +20,21 @@ export type TStoreListDetail = {
   id: number;
   name: string;
   category: string;
+  availableUmbrellaCount: number;
+  openStatus: boolean;
+  businessHours: string;
+  contactNumber: string;
+  instaUrl: string;
   address: string;
-  phone: string;
-  opening_hours: string;
+  umbrellaLocation: string;
+  description: string;
+  latitude: number;
+  longitude: number;
+  imageUrls: string[];
 };
 
 // admin 협업지점 조회(전체 조회, 이미 생성된)
-export type TStoreDetail = {
+export type TAdminStoreDetail = {
   id: number;
   name: string;
   category: string;
@@ -49,14 +57,24 @@ export type TStoreDetail = {
 };
 
 // api response
-export type TStoreAllRes = { stores: TStoreDetail[] };
+export type TStoreAllRes = { stores: TAdminStoreDetail[] };
 
 // client 협업지점 목록 조회 response
-export type TStoreListRes = { stores: TStoreListAll[] };
+export type TStoreListRes = { storesByClassification: TStoreListAll[] };
+
+// 대분류 태그 별 협업 지점 목록
+export type TClassificationStore = {
+  id: number;
+  name: string;
+  openStatus: boolean;
+  latitude: number;
+  longitude: number;
+  rentableUmbrellasCount: number;
+};
 
 // api request
 export type TStoreParams = Omit<
-  TStoreDetail,
+  TAdminStoreDetail,
   "id" | "classification" | "subClassification" | "thumbnail" | "imageUrls"
 > & {
   classificationId: number | null;
@@ -68,7 +86,19 @@ export type TStoreImageParams = {
   imageFile: FormData;
 };
 
-export type TStoreTableKey = keyof TStoreDetail;
+export type TStoreTableData = Omit<
+  TAdminStoreDetail,
+  | "addressDetail"
+  | "businessHours"
+  | "latitude"
+  | "longitude"
+  | "password"
+  | "subClassification"
+  | "classification"
+  | "thumbnail"
+>;
+
+export type TStoreTableKey = keyof TStoreTableData;
 
 // 지역 태그 (대분류)
 export type TClassification = {
@@ -77,16 +107,6 @@ export type TClassification = {
   name: string;
   latitude: number | null;
   longitude: number | null;
-};
-
-// 대분류 태그 별 협업 지점 목록
-export type TClassificationStore = {
-  id: number;
-  name: string;
-  openStatus: boolean;
-  latitude: number;
-  longitude: number;
-  rentableUmbrellasCount: number;
 };
 
 export type TStoreImage = {
@@ -103,11 +123,11 @@ export type TStoreBusinessHours = {
 // api response
 export type TClassificationAllRes = { classifications: TClassification[] };
 
-// api response (대분류 태그 별 협업 지점 목록)
-export type TClassificationAllStore = { stores: TClassificationStore[] };
-
 // api request
 export type TClassificationParams = Omit<TClassification, "id" | "type">;
+
+// api response (대분류 태그 별 협업 지점 목록)
+export type TClassificationAllStore = { stores: TClassificationStore[] };
 
 // 지역 태그 (소분류)
 export type TSubClassification = {

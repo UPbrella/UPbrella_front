@@ -1,5 +1,14 @@
 import { $axios } from "@/lib/axios";
-import { selector } from "recoil";
+import { atom, selector } from "recoil";
+import { recoilPersist } from "recoil-persist";
+
+const { persistAtom } = recoilPersist();
+
+export const loginState = atom({
+  key: "loginState",
+  default: false,
+  effects_UNSTABLE: [persistAtom],
+});
 
 export const loginInfo = selector({
   key: "loginInfo",
@@ -16,4 +25,10 @@ export const rentHistories = selector({
     const histories = response.data.data.histories;
     return histories;
   },
+});
+
+export const redirectUrl = atom({
+  key: "redirectUrl",
+  default: "/",
+  effects_UNSTABLE: [persistAtom],
 });

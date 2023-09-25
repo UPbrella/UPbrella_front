@@ -1,4 +1,4 @@
-import CardFooter from "@/components/organisms/CardFooter";
+import Footer from "@/components/organisms/Footer";
 import LoginForm from "@/components/organisms/LoginForm";
 
 export type LoginTemplateProps = {
@@ -8,10 +8,10 @@ export type LoginTemplateProps = {
 const LoginTemplate = ({ onClick }: LoginTemplateProps) => {
   return (
     <>
-      <main className="flex-1 flex flex-col items-center justify-center">
+      <main className="flex flex-col items-center justify-center flex-1">
         <LoginForm onClick={onClick} />
       </main>
-      <CardFooter />
+      <Footer />
     </>
   );
 };

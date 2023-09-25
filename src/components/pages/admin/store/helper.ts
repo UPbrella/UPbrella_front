@@ -1,16 +1,17 @@
 import { DEFAULT_COORDINATE } from "@/components/pages/admin/store/UI/StoreAddressInput";
 import {
-  TStoreDetail,
+  TAdminStoreDetail,
   TStoreParams,
   TClassification,
   TClassificationParams,
   TSubClassification,
   TSubClassificationParams,
+  TStoreTableData,
 } from "@/types/admin/StoreTypes";
 import { toast } from "react-hot-toast";
 
 // 협업지점 추가 시, 초기값 설정
-export const storeInitializer = (res?: TStoreDetail): TStoreParams => {
+export const storeInitializer = (res?: TAdminStoreDetail): TStoreParams => {
   if (res) {
     const {
       activateStatus,
@@ -56,7 +57,7 @@ export const storeInitializer = (res?: TStoreDetail): TStoreParams => {
     category: "",
     classificationId: null,
     subClassificationId: null,
-    activateStatus: true,
+    activateStatus: false,
     address: "",
     addressDetail: "",
     umbrellaLocation: "",
@@ -172,4 +173,32 @@ export const isValidateStoreSave = (params: TStoreParams) => {
   }
 
   return true;
+};
+
+export const filterStoreTableView = ({
+  id,
+  name,
+  category,
+  activateStatus,
+  address,
+  umbrellaLocation,
+  businessHour,
+  contactNumber,
+  instagramId,
+  content,
+  imageUrls,
+}: TAdminStoreDetail): TStoreTableData => {
+  return {
+    id,
+    name,
+    category,
+    activateStatus,
+    address,
+    umbrellaLocation,
+    businessHour,
+    contactNumber,
+    instagramId,
+    content,
+    imageUrls,
+  };
 };

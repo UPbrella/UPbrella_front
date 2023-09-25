@@ -36,7 +36,7 @@ const FormStatus = ({ label, placeholder, setStatus, status, isComplete }: FormS
   const textColor = isWriting ? "black" : "gray-400";
 
   return (
-    <div className="flex-col max-w-2xl p-5 mb-32">
+    <div className="flex-col max-w-2xl p-5 mb-32 h-full">
       <div className="flex items-center mb-4 text-gray-700 text-15 leading-22 font-normal">
         {label}
         <div className="ml-4 text-gray-500 text-12 font-normal">(선택)</div>
