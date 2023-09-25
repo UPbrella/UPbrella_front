@@ -121,6 +121,7 @@ const StoreAddressInput = ({ storeData, onChangeStoreData, setStoreData }: TProp
               },
             });
           }}
+          focusInput={false}
           autoClose={false}
         ></DaumPostcode>
         <div className="flex flex-col gap-5">

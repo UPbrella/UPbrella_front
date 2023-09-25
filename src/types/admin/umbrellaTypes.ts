@@ -1,10 +1,11 @@
 // get
 export type TUmbrellaRes = {
   id: number;
-  storeMetaId: number;
+  historyId: number | null; // storeId
+  storeMetaId: number; // storeId
   uuid: number;
   rentable: boolean;
-  etc?: string;
+  etc: string | null;
 };
 
 export type TUmbrellaStatisticsRes = {
@@ -26,10 +27,10 @@ export type TUmbrellasStoreGetParams = {
 } & TUmbrellasGetParams;
 
 // post
-export type TUmbrellasPostReq = Omit<TUmbrellaRes, "id">;
+export type TUmbrellasPostReq = Omit<TUmbrellaRes, "id" | "historyId">;
 
 // patch
-export type TUmbrellaPatchReq = TUmbrellaRes & { missed: boolean };
+export type TUmbrellaPatchReq = TUmbrellasPostReq & { missed: boolean };
 
 export type TUmbrellasPatchParams = {
   umbrellaId: number;

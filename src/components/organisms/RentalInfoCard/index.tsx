@@ -11,55 +11,55 @@ import { TStoreListDetail } from "@/types/admin/StoreTypes";
 export type TRentalCard = {
   storeDetail: TStoreListDetail;
 };
-const RentalInfoCard = (storeDetail: TRentalCard) => {
+
+const RentalInfoCard = ({ storeDetail }: TRentalCard) => {
   const labels = [
     {
       icon: <UmbrellaSharpIcon className="text-gray-400 mr-16" />,
       text: (
         <span>
           대여가능 우산{" "}
-          <span className="text-primary-500 font-bold">
-            {storeDetail.storeDetail.availableUmbrellaCount}
-          </span>{" "}
+          <span className="text-primary-500 font-bold">{storeDetail.availableUmbrellaCount}</span>{" "}
           개
         </span>
       ),
     },
     {
       icon: <AccessTimeSharpIcon className="text-gray-400 mr-16" />,
-      text: <span>{storeDetail.storeDetail.businessHours}</span>,
+      text: <span>{storeDetail.businessHours}</span>,
     },
     {
       icon: <CallOutlinedIcon className="text-gray-400 mr-16" />,
-      text: <span>{storeDetail.storeDetail.contactNumber}</span>,
+      text: <span>{storeDetail.contactNumber}</span>,
     },
     {
       icon: <InstagramIcon className="text-gray-400 mr-16" />,
-      text: <span>@{storeDetail.storeDetail.instaUrl}</span>,
+      text: <span>@{storeDetail.instaUrl}</span>,
     },
     {
       icon: <PlaceOutlinedIcon className="text-gray-400 mr-16" />,
       text: (
         <div className="flex flex-col">
-          {storeDetail.storeDetail.address}{" "}
-          <span className="text-primary-500">{storeDetail.storeDetail.umbrellaLocation}</span>
+          {storeDetail.address}{" "}
+          <span className="text-primary-500">{storeDetail.umbrellaLocation}</span>
         </div>
       ),
     },
     {
       icon: <WavingHandOutlinedIcon className="text-gray-400 mr-16" />,
-      text: <span>{storeDetail.storeDetail.description}</span>,
+      text: <span>{storeDetail.description}</span>,
     },
   ];
 
   return (
-    <div className="border-gray-200 border w-400 h-600 rounded-20 px-24 pt-32 mt-16">
-      <RentalLocationTitle
-        title={storeDetail.storeDetail.name}
-        category={storeDetail.storeDetail.category}
-      />
+    <div className={"border-gray-200 border h-600 rounded-20 px-24 pt-32 mt-16 sm:max-w-320"}>
+      <RentalLocationTitle title={storeDetail.name} category={storeDetail.category} />
       <div className="pt-24 pb-6">
-        <NaverDirectionBtn />
+        <NaverDirectionBtn
+          elon={storeDetail.longitude}
+          elat={storeDetail.latitude}
+          address={storeDetail.address}
+        />
       </div>
       <div className="mt-18 text-gray-700">
         {labels.map((label, index) => (

@@ -14,6 +14,7 @@ import "primeicons/primeicons.css";
 import PrivateRoutes from "./utils/PrivateRoutes";
 import { Suspense } from "react";
 import UpbrellaStoryPage from "@/components/pages/story/UpbrellaStoryPage";
+import AdminRoutes from "@/utils/AdminRoutes";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -64,19 +65,21 @@ function App() {
 
               {/* admin */}
               <Route element={<MainLayout />}>
-                {ADMIN_ROUTES.map((route) => {
-                  return (
-                    <Route
-                      key={route.name}
-                      path={route.path}
-                      element={
-                        <AdminWrapper>
-                          <route.component />
-                        </AdminWrapper>
-                      }
-                    />
-                  );
-                })}
+                <Route element={<AdminRoutes />}>
+                  {ADMIN_ROUTES.map((route) => {
+                    return (
+                      <Route
+                        key={route.name}
+                        path={route.path}
+                        element={
+                          <AdminWrapper>
+                            <route.component />
+                          </AdminWrapper>
+                        }
+                      />
+                    );
+                  })}
+                </Route>
               </Route>
 
               {/* login */}

@@ -7,7 +7,8 @@ import {
 } from "@/api/userApi";
 import { $axios } from "@/lib/axios";
 import { loginState, redirectUrl } from "@/recoil";
-import { TCustomError } from "@/types/commonTypes";
+import { TUserRes } from "@/types/admin/userTypes";
+import { TApiResponse, TCustomError } from "@/types/commonTypes";
 import { toast } from "react-hot-toast";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -87,7 +88,7 @@ export const useGetUserStatus = () => {
 
   return useQuery({
     queryKey: [...USER_QUERY_KEYS.userStatus()],
-    queryFn: async () => await $axios.get("/users/loggedIn"),
+    queryFn: async () => await $axios.get<TApiResponse<TUserRes>>("/users/loggedIn"),
     retry: 0,
     keepPreviousData: true,
     onError: () => {

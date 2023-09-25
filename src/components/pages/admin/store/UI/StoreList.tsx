@@ -6,7 +6,6 @@ import StoreTable from "@/components/organisms/admin/StoreTable";
 import ContentsTitle from "@/components/molecules/ContentsTitle";
 import StoreModal from "@/components/pages/admin/store/UI/StoreModal";
 import { storeInitializer } from "@/components/pages/admin/store/helper";
-import { StoreTableColumns } from "@/utils/admin/storeHelpers";
 import StoreImagesModal from "@/components/pages/admin/store/UI/StoreImagesModal";
 
 // 협업지점 리스트 + 모달
@@ -17,7 +16,7 @@ const StoreList = () => {
   const [modalType, setModalType] = useState<"store" | "image">("store");
 
   // server
-  const { data: storesRes } = useGetStores();
+  const { data: storesRes, isError } = useGetStores();
 
   const onClickStoreRow = (id: number, type: "store" | "image") => {
     setModalType(type);
@@ -49,11 +48,8 @@ const StoreList = () => {
         </ContentsTitle>
 
         {/* 협업 지점 테이블 */}
-        <StoreTable
-          columns={StoreTableColumns}
-          rows={storesRes ?? []}
-          onClickStoreRow={onClickStoreRow}
-        />
+        {storesRes && <StoreTable storesRes={storesRes} onClickStoreRow={onClickStoreRow} />}
+        {isError && <>서버 에러입니다.</>}
       </div>
 
       {/* store 생성 및 수정 Modal */}

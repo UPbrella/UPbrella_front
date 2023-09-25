@@ -13,14 +13,16 @@ type TProps = {
   value: string | number | null;
   onChange: TSelectBoxOnChange;
   menuItems: TMenuItem[];
+  disabled?: boolean;
 };
 
 // select box (dropdown)
-const SelectBox = ({ label, name, value, onChange, menuItems }: TProps) => {
+const SelectBox = ({ label, name, value, onChange, menuItems, disabled }: TProps) => {
   return (
     <FormControl fullWidth>
       <InputLabel>{label}</InputLabel>
       <Select
+        disabled={disabled ?? false}
         className="min-w-[195px]"
         name={name}
         value={value}

@@ -34,7 +34,7 @@ export type TStoreListDetail = {
 };
 
 // admin 협업지점 조회(전체 조회, 이미 생성된)
-export type TStoreDetail = {
+export type TAdminStoreDetail = {
   id: number;
   name: string;
   category: string;
@@ -57,7 +57,7 @@ export type TStoreDetail = {
 };
 
 // api response
-export type TStoreAllRes = { stores: TStoreDetail[] };
+export type TStoreAllRes = { stores: TAdminStoreDetail[] };
 
 // client 협업지점 목록 조회 response
 export type TStoreListRes = { storesByClassification: TStoreListAll[] };
@@ -74,7 +74,7 @@ export type TClassificationStore = {
 
 // api request
 export type TStoreParams = Omit<
-  TStoreDetail,
+  TAdminStoreDetail,
   "id" | "classification" | "subClassification" | "thumbnail" | "imageUrls"
 > & {
   classificationId: number | null;
@@ -86,7 +86,19 @@ export type TStoreImageParams = {
   imageFile: FormData;
 };
 
-export type TStoreTableKey = keyof TStoreDetail;
+export type TStoreTableData = Omit<
+  TAdminStoreDetail,
+  | "addressDetail"
+  | "businessHours"
+  | "latitude"
+  | "longitude"
+  | "password"
+  | "subClassification"
+  | "classification"
+  | "thumbnail"
+>;
+
+export type TStoreTableKey = keyof TStoreTableData;
 
 // 지역 태그 (대분류)
 export type TClassification = {
