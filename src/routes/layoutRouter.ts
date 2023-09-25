@@ -9,6 +9,8 @@ import InfoPage from "@/components/pages/Info/InfoPage";
 import MypageRentPage from "@/components/pages/Mypage/MypageRentPage";
 import MypageAccountPage from "@/components/pages/Mypage/MypageAccountPage";
 import MypageInfoPage from "@/components/pages/Mypage/MypageInfoPage";
+import TermsOfService from "@/components/pages/tos";
+import PrivacyPolicy from "@/components/pages/pp";
 
 /**
  * Header, footer의 layout이 필요한 페이지
@@ -65,5 +67,16 @@ export const LAYOUT_ROUTES: TRoute[] = [
     name: "마이페이지_개인정보조회",
     path: "/members/mypage/info",
     component: MypageInfoPage,
+
+  },
+  {
+    name: "이용약관 페이지",
+    path: "/info/tos",
+    component: TermsOfService,
+  },
+  {
+    name: "개인정보처리방침 페이지",
+    path: "/info/pp",
+    component: PrivacyPolicy,
   },
 ];
