@@ -13,6 +13,8 @@ import "primereact/resources/primereact.min.css"; //core css
 import "primeicons/primeicons.css";
 import PrivateRoutes from "./utils/PrivateRoutes";
 import { Suspense } from "react";
+import AdminRoutes from "@/utils/AdminRoutes";
+import TempPage from "@/components/pages/temp/TempPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -42,11 +44,13 @@ function App() {
               },
             }}
           />
-          <div className="bg-cover bg-basic">
+          <div className="bg-cover">
             <div className="max-w-[1440px] min-h-[100vh] px-40 mx-auto flex flex-col sm:px-20 lg:px-20 lg:bg-white md:bg-white">
               <Routes>
-                {/* Not Found Page */}
-                {/* Route */}
+                {/* hack */}
+                <Route path="/" element={<TempPage />} />
+
+                {/* include Header */}
                 <Route element={<MainLayout />}>
                   <>
                     {LAYOUT_ROUTES.map((route) => {
@@ -57,21 +61,27 @@ function App() {
                     <Route path="/*" element={<NotFound />} />
                   </>
                 </Route>
+
+                {/* Admin */}
                 <Route element={<MainLayout />}>
-                  {ADMIN_ROUTES.map((route) => {
-                    return (
-                      <Route
-                        key={route.name}
-                        path={route.path}
-                        element={
-                          <AdminWrapper>
-                            <route.component />
-                          </AdminWrapper>
-                        }
-                      />
-                    );
-                  })}
+                  <Route element={<AdminRoutes />}>
+                    {ADMIN_ROUTES.map((route) => {
+                      return (
+                        <Route
+                          key={route.name}
+                          path={route.path}
+                          element={
+                            <AdminWrapper>
+                              <route.component />
+                            </AdminWrapper>
+                          }
+                        />
+                      );
+                    })}
+                  </Route>
                 </Route>
+
+                {/* require login */}
                 <Route element={<PrivateRoutes />}>
                   {NOT_LAYOUT_ROUTES.map((route) => {
                     return (

@@ -18,13 +18,15 @@ const API = {
   ADMIN_IMAGE_UPLOAD: (id: number) => `/admin/stores/${id}/images`,
   ADMIN_IMAGE_DELETE: (id: number) => `/admin/stores/images/${id}`,
   ADMIN_CLASSIFICATIONS: (id?: number) =>
-    id ? `/admin/stores/classifications/${id}` : "/admin/stores/classifications/",
+    id ? `/stores/classifications/${id}` : "/stores/classifications/",
   CLASSIFICATIONS: () => "/stores/classifications",
   ADMIN_SUBCLASSIFICATIONS: (id?: number) =>
-    id ? `/admin/stores/subClassifications/${id}` : "/stores/subClassifications",
+    id ? `/stores/subClassifications/${id}` : "/stores/subClassifications",
   STORE_CLASSIFICATIONS: (id: number) => `/stores/classification/${id}`,
   STORE_LIST: () => "/stores/introductions",
   STORE_DETAIL: (id: number) => `/stores/${id}`,
+  ADMIN_STORES_PATCH_ACTIVE: (storeId: number) => `/admin/stores/${storeId}/activate`,
+  ADMIN_STORES_PATCH_INACTIVE: (storeId: number) => `/admin/stores/${storeId}/inactivate`,
 } as const;
 
 // 협업지점 소개 페이지에서의 협업지점 목록 조회
@@ -114,4 +116,13 @@ export const postSubClassification = async (params: TSubClassificationParams) =>
 
 export const deleteSubClassification = async (deleteId: number) => {
   await $axios.delete(API.ADMIN_SUBCLASSIFICATIONS(deleteId));
+};
+
+// 협업지점 활성화, 비활성화
+export const patchStoreActive = async (storeId: number) => {
+  await $axios.patch(API.ADMIN_STORES_PATCH_ACTIVE(storeId));
+};
+
+export const patchStoreInactive = async (storeId: number) => {
+  await $axios.patch(API.ADMIN_STORES_PATCH_INACTIVE(storeId));
 };

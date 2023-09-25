@@ -1,6 +1,7 @@
 import SignUpNotRequiredForm from "@/components/templates/SignUp/SignUpNotRequired";
 import SignUpRequiredForm from "@/components/templates/SignUp/SignUpRequired";
 import { $axios } from "@/lib/axios";
+import { formatPhoneNumber } from "@/utils/utils";
 import { MouseEvent, ChangeEvent, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -11,12 +12,6 @@ export type TInputs = {
   accountNumber: string;
 };
 
-// export type TIsAllows = {
-//   isAllAllow: boolean;
-//   isFirstAllow: boolean;
-//   isSecondAllow: boolean;
-// };
-
 const SignUpPage = () => {
   const [inputs, setInputs] = useState<TInputs>({
     name: "",
@@ -24,11 +19,8 @@ const SignUpPage = () => {
     bank: "",
     accountNumber: "",
   });
-  //   const [isAllows, setIsAllows] = useState<TIsAllows>({
-  //     isAllAllow: false,
-  //     isFirstAllow: false,
-  //     isSecondAllow: false,
-  //   });
+  const [isNameValid, setIsNameValid] = useState(true);
+  const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(true);
   const [isAllAllow, setIsAllAllow] = useState(false);
   const [isFirstAllow, setIsFirstAllow] = useState(false);
   const [isSecondAllow, setIsSecondAllow] = useState(false);
@@ -43,13 +35,35 @@ const SignUpPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const isPass = !!name && !!phoneNumber && isFirstAllow && isSecondAllow;
+    const handleNameValid = () => {
+      if (!!name && !/^[가-힣a-zA-Z]{2,6}$/.test(name)) {
+        setIsNameValid(false);
+      } else {
+        setIsNameValid(true);
+      }
+    };
+    const handlePhoneNumberValid = () => {
+      if (!!phoneNumber && phoneNumber.length < 13) {
+        setIsPhoneNumberValid(false);
+      } else {
+        setIsPhoneNumberValid(true);
+      }
+    };
+    const isPass =
+      !!name && !!phoneNumber && isNameValid && isPhoneNumberValid && isFirstAllow && isSecondAllow;
     setIsDone(isPass);
-  }, [name, phoneNumber, isFirstAllow, isSecondAllow]);
+    handleNameValid();
+    handlePhoneNumberValid();
+  }, [name, phoneNumber, isNameValid, isPhoneNumberValid, isFirstAllow, isSecondAllow]);
 
   const handleInputValue = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setInputs({ ...inputs, [name]: value });
+    if (name === "phoneNumber") {
+      const phoneValue = formatPhoneNumber(value);
+      setInputs({ ...inputs, [name]: phoneValue });
+    } else {
+      setInputs({ ...inputs, [name]: value });
+    }
   };
 
   const handleIsAllAllows = () => {
@@ -135,15 +149,16 @@ const SignUpPage = () => {
           name={name}
           onChangeValue={handleInputValue}
           phoneNumber={phoneNumber}
+          isNameValid={isNameValid}
+          isPhoneNumberValid={isPhoneNumberValid}
           isAllAllow={isAllAllow}
           onClickAllAllow={handleIsAllAllows}
           isFirstAllow={isFirstAllow}
           isSecondAllow={isSecondAllow}
           onClickFirstAllow={handleIsFirstAllow}
           onClickSecondAllow={handleIsSecondAllow}
-          // TODO
-          // isFirstClicked={isFirstClicked}: 약관페이지로 이동
-          // isSecondClicked={isSecondClicked}: 개인정보이용동의페이지로 이동
+          onClickDetailTOSPage={() => navigate("/info/tos")}
+          onClickDetailPPPage={() => navigate("/info/pp")}
           isDone={isDone}
           onClickButton={onClickButton}
         />

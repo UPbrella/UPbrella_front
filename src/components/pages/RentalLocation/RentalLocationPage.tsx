@@ -5,7 +5,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import LocationClassificationBtn from "@/components/atoms/LocationClassificationBtn";
 import MapBtn from "@/components/molecules/MapBtn";
 import "@/styles/markerLabel.css";
-import { useGetClassifications, useGetClassificationsStore } from "@/hooks/queries/storeQueries";
+import {
+  STORE_QUERY_KEYS,
+  useGetClassifications,
+  useGetClassificationsStore,
+} from "@/hooks/queries/storeQueries";
 import { useQueryClient } from "react-query";
 import BottomSheet from "@/components/atoms/BottomSheet";
 import MobileCard from "@/components/molecules/MobileCard";
@@ -48,7 +52,7 @@ export default function RentalInfo() {
   const handleClassificationSelection = (classificationId: number) => {
     // 해당 classificationId에 대한 캐시 무효화
     setSelectedClassification(classificationId);
-    queryClient.invalidateQueries(["classificationsStore", classificationId]);
+    queryClient.invalidateQueries([...STORE_QUERY_KEYS.classifications(classificationId)]);
   };
 
   // server

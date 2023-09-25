@@ -13,7 +13,7 @@ const SignUpAllAllowBox = ({ isAllow, label, onClickAllow }: SignUpAllAllowBoxPr
       <div className="mr-8">
         <SignUpFormAllow isAllow={isAllow} onClick={onClickAllow} />
       </div>
-      <SignUpFormAllAllowText label={label} />
+      <SignUpFormAllAllowText label={label} onClick={onClickAllow} />
     </section>
   );
 };
