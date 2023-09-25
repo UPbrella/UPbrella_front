@@ -156,7 +156,7 @@ const ReturnPage = () => {
       ) : (
         <>
           <HeaderContainer />
-          <div className="flex-col max-w-2xl mx-auto">
+          <div className="flex-col max-w-2xl mx-auto pb-50">
             <div className="mt-20 mb-32 font-semibold text-black text-24 leading-32">
               {!isReturn ? "우산을 반납할까요?" : "우산을 반납했어요!"}
             </div>
