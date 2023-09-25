@@ -5,6 +5,8 @@ import HowRent from "@/components/organisms/Info/HowRent";
 import HowReturn from "@/components/organisms/Info/HowReturn";
 import FAQ from "@/components/organisms/Info/FAQ";
 import Footer from "@/components/organisms/Footer";
+import { FixWidthWrapper } from "@/components/pages/story/UpbrellaStoryPage";
+import { HeaderContainer } from "@/components/organisms/Header/HeaderContainer";
 
 const mock: TClassification[] = [
   {
@@ -39,18 +41,23 @@ const InfoPage = () => {
 
   return (
     <>
-      <div className="px-120">
-        <div className="font-semibold text-24 pb-32 pt-24">이용안내</div>
-        <LocationClassificationBtn
-          classifications={mock}
-          setSelectedClassificationId={setSelectedClassificationIndex}
-          handleClassificationSelection={handleClassificationSelection}
-        />
-      </div>
+      <FixWidthWrapper>
+        <HeaderContainer />
+        <div className="px-120 lg:px-0">
+          <div className="pt-24 pb-32 font-semibold text-24">이용안내</div>
+          <LocationClassificationBtn
+            classifications={mock}
+            setSelectedClassificationId={setSelectedClassificationIndex}
+            handleClassificationSelection={handleClassificationSelection}
+          />
+        </div>
+      </FixWidthWrapper>
       {selectedClassificationIndex === 0 && <HowRent />}
       {selectedClassificationIndex === 1 && <HowReturn />}
       {selectedClassificationIndex === 2 && <FAQ />}
-      <Footer />
+      <FixWidthWrapper>
+        <Footer />
+      </FixWidthWrapper>
     </>
   );
 };

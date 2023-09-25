@@ -8,8 +8,22 @@ export default {
     screens: {
       sm: { max: "360px" },
       md: { max: "640px" },
+      mdMaxMin: { max: "640px", min: "360px" },
       lg: { max: "1024px" },
+      lgMaxMin: { max: "1024px", min: "360px" },
       xl: { min: "1025px" },
+    },
+    fontSize: {
+      h14: ["14px", "20px"],
+      h15: ["15px", "22px"],
+      h16: ["16px", "24px"],
+      h18: ["18px", "24px"],
+      h20: ["20px", "26px"],
+      h24: ["24px", "36px"],
+      h26: ["26px", "36px"],
+      h32: ["32px", "40px"],
+      h36: ["36px", "48px"],
+      h40: ["40px", "52px"],
     },
     extend: {
       maxWidth: px0_1000,
@@ -44,6 +58,7 @@ export default {
       },
       backgroundImage: {
         basic: "url('/src/assets/basicbackground.png')",
+        "main-section1": "url('/src/assets/main_section1_bg.png')",
       },
     },
   },

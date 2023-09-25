@@ -33,7 +33,6 @@ const RentModalAccount = ({
     navigator.clipboard.writeText(bankName + " " + accountNumber);
   };
 
-  // TODO: 계좌 어떻게 처리할지 논의
   const bankName = "카카오뱅크";
   const accountNumber = "7979-82-98201";
   const accountName = "이연우";

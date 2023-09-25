@@ -1,0 +1,17 @@
+<svg width="80" height="160" viewBox="0 0 80 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="empty_states_img" clip-path="url(#clip0_2300_17277)">
+<ellipse id="Ellipse 61" cx="39.064" cy="73.2344" rx="35" ry="6" fill="#DDDDDD"/>
+<g id="Group 3">
+<rect id="Rectangle 48" x="53.2437" y="26.0645" width="3.78297" height="29.4126" transform="rotate(15 53.2437 26.0645)" fill="#DDDDDD"/>
+<rect id="Rectangle 47" x="56.2139" y="7.66992" width="7.56594" height="18.9148" transform="rotate(15 56.2139 7.66992)" fill="#333333"/>
+<ellipse id="Ellipse 44" cx="59.8681" cy="8.64989" rx="3.78297" ry="1.89148" transform="rotate(15 59.8681 8.64989)" fill="#333333"/>
+<path id="Subtract" fill-rule="evenodd" clip-rule="evenodd" d="M61.2876 42.0261C59.2019 45.7921 54.7531 47.8047 50.4071 46.6402C46.0604 45.4755 43.2137 41.507 43.2915 37.2019C41.2062 40.9688 36.7568 42.982 32.4103 41.8174C28.904 40.8778 26.3737 38.1139 25.5672 34.8205C25.4885 35.1157 25.4424 35.426 25.4334 35.7478L22.7107 133.143C22.593 137.353 28.2245 138.862 30.2278 135.157L76.1524 50.2164C73.9448 51.6632 71.1534 52.1986 68.4032 51.4617C64.0574 50.2972 61.211 46.3302 61.2876 42.0261Z" fill="#E86F52"/>
+</g>
+<path id="Subtract_2" fill-rule="evenodd" clip-rule="evenodd" d="M4.00049 73.0508L11.4055 152.74C11.7877 156.854 15.2396 160 19.3711 160L58.789 160C62.9205 160 66.3724 156.854 66.7547 152.74L74.1596 73.0508C64.294 75.3499 52.177 76.7047 39.08 76.7047C25.983 76.7047 13.8661 75.3499 4.00049 73.0508Z" fill="#EEEEEE"/>
+</g>
+<defs>
+<clipPath id="clip0_2300_17277">
+<rect width="80" height="160.001" fill="white"/>
+</clipPath>
+</defs>
+</svg>
