@@ -9,6 +9,7 @@ import {
   STORE_QUERY_KEYS,
   useGetClassifications,
   useGetClassificationsStore,
+  useGetStoreDetail,
 } from "@/hooks/queries/storeQueries";
 import { useQueryClient } from "react-query";
 import BottomSheet from "@/components/atoms/BottomSheet";
@@ -167,10 +168,10 @@ const RentalInfo = () => {
     <div className="flex flex-col mt-24">
       <div className="flex justify-center">
         {/* 태블렛 환경에서 대여지점 카드 hidden  */}
-        <div className="md:hidden pr-24">{storeDetail && <Card storeDetail={storeDetail} />}</div>
-        <div className="w-full max-w-936 rounded-20 relative">
+        <div className="pr-24 md:hidden">{storeDetail && <Card storeDetail={storeDetail} />}</div>
+        <div className="relative w-full max-w-936 rounded-20">
           <Map ref={mapElement} width="100%" height="896px" borderRadius="20px" />
-          <div className="absolute top-0 left-0 z-9 p-24">
+          <div className="absolute top-0 left-0 p-24 z-9">
             {classificationsRes && (
               <LocationClassificationBtn
                 classifications={classificationsRes}
@@ -179,7 +180,7 @@ const RentalInfo = () => {
               />
             )}
           </div>
-          <div className="absolute top-0 right-7 z-10 pt-86 lg:hidden">
+          <div className="absolute top-0 z-10 right-7 pt-86 lg:hidden">
             <MapBtn map={map} />
             {isBottomOpen && mapWidth && storeDetail && (
               <BottomSheet

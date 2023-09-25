@@ -156,11 +156,11 @@ const ReturnPage = () => {
         <>
           <HeaderContainer />
           <div className="flex-col max-w-2xl mx-auto">
-            <div className="mt-20 text-24 font-semibold leading-32 text-black mb-32">
+            <div className="mt-20 mb-32 font-semibold text-black text-24 leading-32">
               {!isReturn ? "우산을 반납할까요?" : "우산을 반납했어요!"}
             </div>
-            <div className="mt-16 mb-32 max-w-2xl border border-gray-200 rounded-12 p-16">
-              <ul className="list-disc text-8 ml-16">
+            <div className="max-w-2xl p-16 mt-16 mb-32 border border-gray-200 rounded-12">
+              <ul className="ml-16 list-disc text-8">
                 <li className="text-14 leading-20 gray-700">
                   수집된 개인정보는{" "}
                   <span className="inline font-semibold">서비스 운영의 목적으로만</span> 사용됩니다.
@@ -169,7 +169,7 @@ const ReturnPage = () => {
                   대여 신청 시 정보를{" "}
                   <span className="inline text-red">
                     정확히 입력해주셔야{" "}
-                    <span className="inline text-14 font-semibold">원활한 보증금 환급</span>
+                    <span className="inline font-semibold text-14">원활한 보증금 환급</span>
                   </span>
                   이 가능합니다.
                 </li>
@@ -182,11 +182,11 @@ const ReturnPage = () => {
             <FormBasic label="우산번호" value={umbrellaUuid} />
 
             <div className="flex flex-col mb-32">
-              <div className="text-15 leading-22 text-gray-700 mb-8">환급받을 계좌</div>
+              <div className="mb-8 text-gray-700 text-15 leading-22">환급받을 계좌</div>
               <div className="flex justify-between w-full">
                 {isReturn ? (
-                  <div className="relative w-120 flex items-center rounded-8 p-12 text-15 text-gray-500 leading-22 bg-gray-100">
-                    <div className="w-120 text-15 leading-22 cursor-pointer focus:outline-none">
+                  <div className="relative flex items-center p-12 text-gray-500 bg-gray-100 w-120 rounded-8 text-15 leading-22">
+                    <div className="cursor-pointer w-120 text-15 leading-22 focus:outline-none">
                       {bank}
                     </div>
                     <ExpandMoreIcon
@@ -205,7 +205,7 @@ const ReturnPage = () => {
                     }`}
                     onClick={() => setIsBottomSheetOpen(true)}
                   >
-                    <div className="w-120 text-15 leading-22 cursor-pointer focus:outline-none">
+                    <div className="cursor-pointer w-120 text-15 leading-22 focus:outline-none">
                       {bank}
                     </div>
                     <ExpandMoreIcon
@@ -226,7 +226,7 @@ const ReturnPage = () => {
                   </div>
                 )}
                 {isReturn ? (
-                  <div className="w-full ml-4 rounded-8 p-12 text-15 text-gray-500 leading-22 bg-gray-100">
+                  <div className="w-full p-12 ml-4 text-gray-500 bg-gray-100 rounded-8 text-15 leading-22">
                     {accountNumber}
                   </div>
                 ) : (
@@ -238,7 +238,7 @@ const ReturnPage = () => {
                   />
                 )}
               </div>
-              <div className="mt-4 text-14 leading-20 text-gray-600">
+              <div className="mt-4 text-gray-600 text-14 leading-20">
                 * ‘-’은 빼고 입력해주세요! <br /> * 현재 ‘반납 페이지’에서 입력하신 은행, 계좌번호
                 정보는 보증금 환급이 완료됨에 따라 파기됩니다. <br /> * MYPAGE를 통해 정보를
                 저장하면 빠른 반납이 가능합니다.

@@ -1,10 +1,8 @@
-export type ButtonProps = {
+export type TButtonProps = {
   isActive: boolean;
-  isComplete: boolean;
-  setIsComplete: (value: boolean) => void;
 };
 
-const Button = ({ isActive, isComplete, setIsComplete }: ButtonProps) => {
+const Button = ({ isActive }: TButtonProps) => {
   return (
     <div>
       <button
@@ -13,7 +11,6 @@ const Button = ({ isActive, isComplete, setIsComplete }: ButtonProps) => {
           isActive ? "" : "opacity-50 cursor-not-allowed"
         }`}
         disabled={!isActive}
-        onClick={() => setIsComplete(!isComplete)}
       >
         문의하기
       </button>
