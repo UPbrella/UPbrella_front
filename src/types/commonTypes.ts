@@ -1,36 +1,11 @@
 import { DAY_OF_WEEK } from "@/constants/Date";
-import {
-  TClassification,
-  TStoreBusinessHours,
-  TStoreImage,
-  TSubClassification,
-} from "@/types/admin/StoreTypes";
 import { AxiosError } from "axios";
-import { ReactNode } from "react";
 
 // 라우트 type
 export type TRoute = {
   name: string;
   path: string;
   component: () => JSX.Element;
-};
-
-// 테이블 column type
-export type TTableColumn<T> = {
-  id: T;
-  label: string;
-  align: "left" | "right" | "center";
-  formatFn?: (
-    param:
-      | string
-      | number
-      | boolean
-      | TClassification
-      | TSubClassification
-      | TStoreImage[]
-      | TStoreBusinessHours[]
-      | string[]
-  ) => ReactNode;
 };
 
 // 서버에서 내려주는 응답 구조
