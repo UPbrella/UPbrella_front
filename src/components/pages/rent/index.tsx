@@ -135,77 +135,79 @@ const RentPage = () => {
       {subError ? (
         <ErrorComponent error="죄송합니다. 페이지를 찾을 수 없어요:(" subError={subError} />
       ) : (
-        <div className="flex-col max-w-2xl mx-auto">
+        <>
           <HeaderContainer />
-          <div className="mt-20 text-24 font-semibold leading-32 text-black">
-            {isRent ? "우산을 빌렸어요!" : "우산을 빌릴까요?"}
+          <div className="flex-col max-w-2xl mx-auto">
+            <div className="mt-20 font-semibold text-black text-24 leading-32">
+              {isRent ? "우산을 빌렸어요!" : "우산을 빌릴까요?"}
+            </div>
+            <div className="max-w-2xl p-16 mt-16 mb-32 border border-gray-200 rounded-12">
+              <ul className="ml-16 list-disc text-8">
+                <li className="text-14 leading-20 gray-700">
+                  수집된 개인정보는 <p className="inline font-semibold">서비스 운영의 목적으로만</p>{" "}
+                  사용됩니다.
+                </li>
+                <li className="text-14 leading-20 gray-700">
+                  우산을 빌린 지점이 아니더라도{" "}
+                  <p className="inline font-semibold">업브렐라 대여소 어디서나</p> 반납 가능합니다.
+                </li>
+              </ul>
+            </div>
+            <FormBasic label="이름" value={name} />
+            <FormBasic label="전화번호" value={phone} />
+            <FormLocationMolecules region={region} storeName={storeName} />
+            <FormBasic label="우산번호" value={umbrellaUuid} />
+            <FormStatus
+              label="상태신고"
+              placeholder="우산이나 대여 환경에 문제가 있다면 작성해주세요!"
+              setStatus={setConditionReport}
+              status={conditionReport}
+              isComplete={isRent}
+            />
+            {!isRent && (
+              <FormButton label="대여하기" isActive={true} handleOpen={handleOpenDepositModal} />
+            )}
+
+            {isOpenDepositModal && (
+              <FormModal height="286">
+                <RentModalAccount
+                  handleCloseDepositModal={handleCloseDepositModal}
+                  umbrellaUuid={umbrellaUuid}
+                  region={region}
+                  storeName={storeName}
+                  umbrellaId={umbrellaId}
+                  conditionReport={conditionReport}
+                  storeId={storeId}
+                  onClickPostBtn={onClickPostBtn}
+                  setLockNumber={setLockNumber}
+                  lockNumber={lockNumber}
+                  setIsOpenDepositModal={setIsOpenDepositModal}
+                />
+              </FormModal>
+            )}
+
+            {isOpenLockPwModal && (
+              <FormModal height="266">
+                <RentModalFinish
+                  handleCloseLockPwModal={handleCloseLockPwModal}
+                  lockNumber={lockNumber}
+                  setIsOpenStorageIssue={setIsOpenStorageIssue}
+                  setIsRent={setIsRent}
+                />
+              </FormModal>
+            )}
+
+            {isOpenStorageIssue && (
+              <FormModal height="184">
+                <RentModalStorageIssue
+                  setIsOpenStorageIssue={setIsOpenStorageIssue}
+                  setLockNumber={setLockNumber}
+                  setIsOpenLockPwModal={setIsOpenLockPwModal}
+                />
+              </FormModal>
+            )}
           </div>
-          <div className="mt-16 mb-32 max-w-2xl border border-gray-200 rounded-12 p-16">
-            <ul className="list-disc text-8 ml-16">
-              <li className="text-14 leading-20 gray-700">
-                수집된 개인정보는 <p className="inline font-semibold">서비스 운영의 목적으로만</p>{" "}
-                사용됩니다.
-              </li>
-              <li className="text-14 leading-20 gray-700">
-                우산을 빌린 지점이 아니더라도{" "}
-                <p className="inline font-semibold">업브렐라 대여소 어디서나</p> 반납 가능합니다.
-              </li>
-            </ul>
-          </div>
-          <FormBasic label="이름" value={name} />
-          <FormBasic label="전화번호" value={phone} />
-          <FormLocationMolecules region={region} storeName={storeName} />
-          <FormBasic label="우산번호" value={umbrellaUuid} />
-          <FormStatus
-            label="상태신고"
-            placeholder="우산이나 대여 환경에 문제가 있다면 작성해주세요!"
-            setStatus={setConditionReport}
-            status={conditionReport}
-            isComplete={isRent}
-          />
-          {!isRent && (
-            <FormButton label="대여하기" isActive={true} handleOpen={handleOpenDepositModal} />
-          )}
-
-          {isOpenDepositModal && (
-            <FormModal height="286">
-              <RentModalAccount
-                handleCloseDepositModal={handleCloseDepositModal}
-                umbrellaUuid={umbrellaUuid}
-                region={region}
-                storeName={storeName}
-                umbrellaId={umbrellaId}
-                conditionReport={conditionReport}
-                storeId={storeId}
-                onClickPostBtn={onClickPostBtn}
-                setLockNumber={setLockNumber}
-                lockNumber={lockNumber}
-                setIsOpenDepositModal={setIsOpenDepositModal}
-              />
-            </FormModal>
-          )}
-
-          {isOpenLockPwModal && (
-            <FormModal height="266">
-              <RentModalFinish
-                handleCloseLockPwModal={handleCloseLockPwModal}
-                lockNumber={lockNumber}
-                setIsOpenStorageIssue={setIsOpenStorageIssue}
-                setIsRent={setIsRent}
-              />
-            </FormModal>
-          )}
-
-          {isOpenStorageIssue && (
-            <FormModal height="184">
-              <RentModalStorageIssue
-                setIsOpenStorageIssue={setIsOpenStorageIssue}
-                setLockNumber={setLockNumber}
-                setIsOpenLockPwModal={setIsOpenLockPwModal}
-              />
-            </FormModal>
-          )}
-        </div>
+        </>
       )}
     </>
   );

@@ -22,7 +22,7 @@ const UmbrellaFeedBackPage = () => {
   );
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex gap-8">
       <FeedBackDataTable
         title="신고 내역 조회 - 대여폼"
         isLoading={isLoadingCondition}

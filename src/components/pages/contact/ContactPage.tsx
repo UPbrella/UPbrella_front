@@ -7,8 +7,6 @@ import emailjs from "@emailjs/browser";
 import Footer from "@/components/organisms/Footer";
 import { formatPhoneNumber } from "@/utils/utils";
 import toast from "react-hot-toast";
-import { TCustomError } from "@/types/commonTypes";
-import { getErrorMessage } from "@/utils/error";
 
 const ContactPage = () => {
   const [name, setName] = useState("");
@@ -42,104 +40,105 @@ const ContactPage = () => {
     e.preventDefault();
 
     if (isActive && form.current) {
-      emailjs
-        .sendForm(SERVICE_ID, TEMPLATE_ID, form.current, PUB_KEY)
-        .then(() => {
+      try {
+        emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form.current, PUB_KEY).then(() => {
           setName("");
           setPhone("");
           setEmail("");
           setTitle("");
           setContent("");
           setIsComplete(true);
-        })
-        .catch((err) => {
-          const error = err as TCustomError;
-          const errorMsg = getErrorMessage(error);
-          toast.error(errorMsg);
         });
+      } catch (e) {
+        toast.error("잘못된 요청이거나 서버 오류입니다.");
+      }
     }
   };
 
   // 토스트메시지
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsComplete(false);
+      if (isComplete) {
+        setIsComplete(false);
+      }
     }, 1500);
 
     return () => {
       clearTimeout(timer);
     };
-  }, []);
+  }, [isComplete]);
 
   return (
-    <div className="my-100 lg:my-20 flex justify-center items-center relative">
-      <div className="w-full h-full px-40 flex items-start lg:flex-col lg:px-20 md:px-0 sm:px-20">
-        <div className="w-full flex-col mr-32 px-40 py-24 lg:px-0 lg:py-0">
-          <div className="font-semibold text-24 leading-32 text-black mb-8">CONTACT US</div>
-          <div className="text-16 leading-24 text-gray-700 mb-40">
-            업브렐라와의 사업 제휴 관련 문의하시고 싶은 내용을 작성해주세요.
+    <>
+      <div>
+        <div className="relative flex items-center justify-center my-100 lg:my-20">
+          <div className="flex items-start w-full h-full px-40 lg:flex-col lg:px-20 md:px-0 sm:px-20">
+            <div className="flex-col w-full px-40 py-24 mr-32 lg:px-0 lg:py-0">
+              <div className="mb-8 font-semibold text-black text-24 leading-32">CONTACT US</div>
+              <div className="mb-40 text-gray-700 text-16 leading-24">
+                업브렐라와의 사업 제휴 관련 문의하시고 싶은 내용을 작성해주세요.
+              </div>
+              <Instagram />
+            </div>
+            <form
+              ref={form}
+              onSubmit={sendEmail}
+              className="w-full p-32 bg-white rounded-20 lg:p-0 md:mt-40"
+            >
+              <div className="flex">
+                <Input
+                  label="이름"
+                  placeholder="이름 입력"
+                  setValue={setName}
+                  name="name"
+                  value={name}
+                />
+                <Input
+                  label="연락처"
+                  optional
+                  placeholder="010-1234-5678"
+                  setValue={setPhone}
+                  name="phone"
+                  value={formattedPhone}
+                />
+              </div>
+              <Input
+                label="이메일"
+                placeholder="upbrella@gmail.com"
+                setValue={setEmail}
+                name="email"
+                value={email}
+              />
+              <Input
+                label="제목"
+                placeholder="제목 입력"
+                setValue={setTitle}
+                name="title"
+                value={title}
+              />
+              <TextArea
+                label="문의 사항"
+                placeholder="문의 사항을 작성해주세요!"
+                setValue={setContent}
+                name="content"
+                value={content}
+              />
+              <Button isActive={isActive} />
+            </form>
           </div>
-          <Instagram />
-        </div>
-        <form
-          ref={form}
-          onSubmit={sendEmail}
-          className="p-32 bg-white w-full rounded-20 lg:p-0 md:mt-40"
-        >
-          <div className="flex">
-            <Input
-              label="이름"
-              placeholder="이름 입력"
-              setValue={setName}
-              name="name"
-              value={name}
-            />
-            <Input
-              label="연락처"
-              optional
-              placeholder="010-1234-5678"
-              setValue={setPhone}
-              name="phone"
-              value={formattedPhone}
-            />
-          </div>
-          <Input
-            label="이메일"
-            placeholder="upbrella@gmail.com"
-            setValue={setEmail}
-            name="email"
-            value={email}
-          />
-          <Input
-            label="제목"
-            placeholder="제목 입력"
-            setValue={setTitle}
-            name="title"
-            value={title}
-          />
-          <TextArea
-            label="문의 사항"
-            placeholder="문의 사항을 작성해주세요!"
-            setValue={setContent}
-            name="content"
-            value={content}
-          />
-          <Button isActive={isActive} isComplete={isComplete} setIsComplete={setIsComplete} />
-        </form>
-      </div>
 
-      {isComplete && (
-        <div className="fixed right-[80px] bottom-[100px] md:left-0 md:right-0 md:bottom-[20px] flex items-end justify-end md:justify-center w-full h-full">
-          <div className="w-330 h-48 rounded-8 py-12 text-15 leading-24 bg-gray-700 text-white text-center">
-            문의 접수 완료!
-          </div>
+          {isComplete && (
+            <div className="fixed right-[80px] bottom-[100px] md:left-0 md:right-0 md:bottom-[20px] flex items-end justify-end md:justify-center w-full h-full">
+              <div className="h-48 py-12 text-center text-white bg-gray-700 w-330 rounded-8 text-15 leading-24">
+                문의 접수 완료!
+              </div>
+            </div>
+          )}
         </div>
-      )}
 
-      <div className="w-full fixed bottom-0 left-0">
         <Footer />
       </div>
-    </div>
+    </>
   );
 };
 
