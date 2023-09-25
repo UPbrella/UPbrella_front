@@ -12,11 +12,12 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { formatPhoneNumber } from "@/utils/utils";
 import { useMutation } from "react-query";
 import { postRent } from "@/api/formApi";
-import { toast } from "react-hot-toast";
 import RentModalStorageIssue from "@/components/atoms/Form/RentModalStorageIssue";
 import { useParams } from "react-router-dom";
 import { HeaderContainer } from "@/components/organisms/Header/HeaderContainer";
 import ErrorComponent from "@/components/molecules/ErrorComponent";
+import { TCustomError } from "@/types/commonTypes";
+import { getErrorMessage } from "@/utils/error";
 
 const RentPage = () => {
   // 대여 전(false), 대여 후(true)
@@ -37,6 +38,9 @@ const RentPage = () => {
   const [isOpenDepositModal, setIsOpenDepositModal] = useState(false);
   const [isOpenLockPwModal, setIsOpenLockPwModal] = useState(false);
   const [isOpenStorageIssue, setIsOpenStorageIssue] = useState(false);
+
+  // 에러메시지
+  const [subError, setSubError] = useState("");
 
   // hook
   const { data, isError, isLoading: rentFormDataLoading } = useGetRentFormData(umbrellaId);
@@ -62,17 +66,12 @@ const RentPage = () => {
     }
   }, [data]);
 
-  // 대여 폼 데이터 조회 (location, storeName, umbrellaNo)
-  if (rentFormDataLoading) {
-    return <></>;
-  }
-
-  if (umbrellaDataLoading) {
+  if (rentFormDataLoading || umbrellaDataLoading) {
     return <></>;
   }
 
   if (umbrellaData) {
-    // TODO - Error <1> 사용자가 이미 대여중인 우산이 있는 경우
+    // Error <1> 사용자가 이미 대여중인 우산이 있는 경우
     return (
       <div>
         <ErrorComponent
@@ -84,7 +83,7 @@ const RentPage = () => {
   }
 
   if (isError) {
-    // TODO - Error <2> 존재하지 않는 우산 고유 번호인 경우
+    // Error <2> 존재하지 않는 우산 고유 번호인 경우
     return (
       <div>
         <ErrorComponent
@@ -100,9 +99,10 @@ const RentPage = () => {
     createMutate(
       { region, storeId, umbrellaId, conditionReport },
       {
-        onError: () => {
-          // TODO - Error <3> 이미 대여한 우산이 있어 대여가 실패한 경우
-          toast.error("대여신청 실패");
+        onError: (err) => {
+          const error = err as TCustomError;
+          const errorMsg = getErrorMessage(error);
+          setSubError(errorMsg);
           return;
         },
         onSuccess: () => {
@@ -111,7 +111,6 @@ const RentPage = () => {
           if (lockNumber) {
             setIsOpenLockPwModal(true);
           } else {
-            toast.success("대여신청 성공");
             setIsRent(true);
             return;
           }
@@ -132,77 +131,83 @@ const RentPage = () => {
   const handleCloseLockPwModal = () => setIsOpenLockPwModal(false);
 
   return (
-    <div className="flex-col max-w-2xl mx-auto">
-      <HeaderContainer />
-      <div className="mt-20 text-24 font-semibold leading-32 text-black">
-        {isRent ? "우산을 빌렸어요!" : "우산을 빌릴까요?"}
-      </div>
-      <div className="mt-16 mb-32 max-w-2xl border border-gray-200 rounded-12 p-16">
-        <ul className="list-disc text-8 ml-16">
-          <li className="text-14 leading-20 gray-700">
-            수집된 개인정보는 <p className="inline font-semibold">서비스 운영의 목적으로만</p>{" "}
-            사용됩니다.
-          </li>
-          <li className="text-14 leading-20 gray-700">
-            우산을 빌린 지점이 아니더라도{" "}
-            <p className="inline font-semibold">업브렐라 대여소 어디서나</p> 반납 가능합니다.
-          </li>
-        </ul>
-      </div>
-      <FormBasic label="이름" value={name} />
-      <FormBasic label="전화번호" value={phone} />
-      <FormLocationMolecules region={region} storeName={storeName} />
-      <FormBasic label="우산번호" value={umbrellaUuid} />
-      <FormStatus
-        label="상태신고"
-        placeholder="우산이나 대여 환경에 문제가 있다면 작성해주세요!"
-        setStatus={setConditionReport}
-        status={conditionReport}
-        isComplete={isRent}
-      />
-      {!isRent && (
-        <FormButton label="대여하기" isActive={true} handleOpen={handleOpenDepositModal} />
-      )}
-
-      {isOpenDepositModal && (
-        <FormModal height="286">
-          <RentModalAccount
-            handleCloseDepositModal={handleCloseDepositModal}
-            umbrellaUuid={umbrellaUuid}
-            region={region}
-            storeName={storeName}
-            umbrellaId={umbrellaId}
-            conditionReport={conditionReport}
-            storeId={storeId}
-            onClickPostBtn={onClickPostBtn}
-            setLockNumber={setLockNumber}
-            lockNumber={lockNumber}
-            setIsOpenDepositModal={setIsOpenDepositModal}
+    <>
+      {subError ? (
+        <ErrorComponent error="죄송합니다. 페이지를 찾을 수 없어요:(" subError={subError} />
+      ) : (
+        <div className="flex-col max-w-2xl mx-auto">
+          <HeaderContainer />
+          <div className="mt-20 text-24 font-semibold leading-32 text-black">
+            {isRent ? "우산을 빌렸어요!" : "우산을 빌릴까요?"}
+          </div>
+          <div className="mt-16 mb-32 max-w-2xl border border-gray-200 rounded-12 p-16">
+            <ul className="list-disc text-8 ml-16">
+              <li className="text-14 leading-20 gray-700">
+                수집된 개인정보는 <p className="inline font-semibold">서비스 운영의 목적으로만</p>{" "}
+                사용됩니다.
+              </li>
+              <li className="text-14 leading-20 gray-700">
+                우산을 빌린 지점이 아니더라도{" "}
+                <p className="inline font-semibold">업브렐라 대여소 어디서나</p> 반납 가능합니다.
+              </li>
+            </ul>
+          </div>
+          <FormBasic label="이름" value={name} />
+          <FormBasic label="전화번호" value={phone} />
+          <FormLocationMolecules region={region} storeName={storeName} />
+          <FormBasic label="우산번호" value={umbrellaUuid} />
+          <FormStatus
+            label="상태신고"
+            placeholder="우산이나 대여 환경에 문제가 있다면 작성해주세요!"
+            setStatus={setConditionReport}
+            status={conditionReport}
+            isComplete={isRent}
           />
-        </FormModal>
-      )}
+          {!isRent && (
+            <FormButton label="대여하기" isActive={true} handleOpen={handleOpenDepositModal} />
+          )}
 
-      {isOpenLockPwModal && (
-        <FormModal height="266">
-          <RentModalFinish
-            handleCloseLockPwModal={handleCloseLockPwModal}
-            lockNumber={lockNumber}
-            setIsOpenStorageIssue={setIsOpenStorageIssue}
-            setIsRent={setIsRent}
-          />
-        </FormModal>
-      )}
+          {isOpenDepositModal && (
+            <FormModal height="286">
+              <RentModalAccount
+                handleCloseDepositModal={handleCloseDepositModal}
+                umbrellaUuid={umbrellaUuid}
+                region={region}
+                storeName={storeName}
+                umbrellaId={umbrellaId}
+                conditionReport={conditionReport}
+                storeId={storeId}
+                onClickPostBtn={onClickPostBtn}
+                setLockNumber={setLockNumber}
+                lockNumber={lockNumber}
+                setIsOpenDepositModal={setIsOpenDepositModal}
+              />
+            </FormModal>
+          )}
 
-      {isOpenStorageIssue && (
-        <FormModal height="184">
-          <RentModalStorageIssue
-            setIsOpenStorageIssue={setIsOpenStorageIssue}
-            setLockNumber={setLockNumber}
-            setIsOpenLockPwModal={setIsOpenLockPwModal}
-          />
-        </FormModal>
+          {isOpenLockPwModal && (
+            <FormModal height="266">
+              <RentModalFinish
+                handleCloseLockPwModal={handleCloseLockPwModal}
+                lockNumber={lockNumber}
+                setIsOpenStorageIssue={setIsOpenStorageIssue}
+                setIsRent={setIsRent}
+              />
+            </FormModal>
+          )}
+
+          {isOpenStorageIssue && (
+            <FormModal height="184">
+              <RentModalStorageIssue
+                setIsOpenStorageIssue={setIsOpenStorageIssue}
+                setLockNumber={setLockNumber}
+                setIsOpenLockPwModal={setIsOpenLockPwModal}
+              />
+            </FormModal>
+          )}
+        </div>
       )}
-    </div>
+    </>
   );
 };
 
