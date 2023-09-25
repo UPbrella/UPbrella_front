@@ -6,6 +6,9 @@ import Button from "@/components/atoms/Contact/Button";
 import emailjs from "@emailjs/browser";
 import Footer from "@/components/organisms/Footer";
 import { formatPhoneNumber } from "@/utils/utils";
+import toast from "react-hot-toast";
+import { TCustomError } from "@/types/commonTypes";
+import { getErrorMessage } from "@/utils/error";
 
 const ContactPage = () => {
   const [name, setName] = useState("");
@@ -39,14 +42,21 @@ const ContactPage = () => {
     e.preventDefault();
 
     if (isActive && form.current) {
-      emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form.current, PUB_KEY).then(() => {
-        setName("");
-        setPhone("");
-        setEmail("");
-        setTitle("");
-        setContent("");
-        setIsComplete(true);
-      });
+      emailjs
+        .sendForm(SERVICE_ID, TEMPLATE_ID, form.current, PUB_KEY)
+        .then(() => {
+          setName("");
+          setPhone("");
+          setEmail("");
+          setTitle("");
+          setContent("");
+          setIsComplete(true);
+        })
+        .catch((err) => {
+          const error = err as TCustomError;
+          const errorMsg = getErrorMessage(error);
+          toast.error(errorMsg);
+        });
     }
   };
 
