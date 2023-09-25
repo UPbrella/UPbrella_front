@@ -1,5 +1,4 @@
 import { TRoute } from "@/types/commonTypes";
-// import HomeMainPage from "@/components/pages/home/HomeMainPage";
 import RentalLocationPage from "@/components/pages/RentalLocation/RentalLocationPage";
 import RentalOfficePage from "@/components/pages/rentalOffice/RentalOfficePage";
 import SignUpPage from "@/components/pages/SignUp";
@@ -19,11 +18,6 @@ import PrivacyPolicy from "@/components/pages/pp";
  */
 // TODO: route 개선
 export const LAYOUT_ROUTES: TRoute[] = [
-  // {
-  //   name: "메인 페이지",
-  //   path: "/",
-  //   component: HomeMainPage,
-  // },
   {
     name: "대여소 위치 페이지",
     path: "/rentalLocation",
@@ -68,7 +62,6 @@ export const LAYOUT_ROUTES: TRoute[] = [
     name: "마이페이지_개인정보조회",
     path: "/members/mypage/info",
     component: MypageInfoPage,
-
   },
   {
     name: "이용약관 페이지",
