@@ -6,9 +6,9 @@ import LocationClassificationBtn from "@/components/atoms/LocationClassification
 import MapBtn from "@/components/molecules/MapBtn";
 import "@/styles/markerLabel.css";
 import {
+  STORE_QUERY_KEYS,
   useGetClassifications,
   useGetClassificationsStore,
-  useGetStoreDetail,
 } from "@/hooks/queries/storeQueries";
 import { useQueryClient } from "react-query";
 import BottomSheet from "@/components/atoms/BottomSheet";
@@ -59,7 +59,7 @@ const RentalInfo = () => {
   // 상태 업데이트 함수 정의
   const handleClassificationSelection = (classificationId: number) => {
     setSelectedClassification(classificationId);
-    queryClient.invalidateQueries(["classificationsStore", classificationId]);
+    queryClient.invalidateQueries([...STORE_QUERY_KEYS.classifications(classificationId)]);
   };
 
   // server

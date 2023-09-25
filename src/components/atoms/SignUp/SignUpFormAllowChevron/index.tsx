@@ -1,11 +1,13 @@
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
-export type SignUpFormAllowChevronProps = {
-  isClicked?: boolean;
+type SignUpFormAllowChevronProps = {
+  onClick: () => void;
 };
 
-const SignUpFormAllowChevron = ({ isClicked }: SignUpFormAllowChevronProps) => {
-  return <div>{isClicked ? <ExpandMoreIcon /> : <ChevronRightIcon />}</div>;
+const SignUpFormAllowChevron = ({ onClick }: SignUpFormAllowChevronProps) => {
+  return (
+    <div onClick={onClick}>
+      <ChevronRightIcon />
+    </div>
+  );
 };
 export default SignUpFormAllowChevron;

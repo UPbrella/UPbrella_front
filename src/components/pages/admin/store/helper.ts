@@ -6,6 +6,7 @@ import {
   TClassificationParams,
   TSubClassification,
   TSubClassificationParams,
+  TStoreTableData,
 } from "@/types/admin/StoreTypes";
 import { toast } from "react-hot-toast";
 
@@ -56,7 +57,7 @@ export const storeInitializer = (res?: TAdminStoreDetail): TStoreParams => {
     category: "",
     classificationId: null,
     subClassificationId: null,
-    activateStatus: true,
+    activateStatus: false,
     address: "",
     addressDetail: "",
     umbrellaLocation: "",
@@ -172,4 +173,32 @@ export const isValidateStoreSave = (params: TStoreParams) => {
   }
 
   return true;
+};
+
+export const filterStoreTableView = ({
+  id,
+  name,
+  category,
+  activateStatus,
+  address,
+  umbrellaLocation,
+  businessHour,
+  contactNumber,
+  instagramId,
+  content,
+  imageUrls,
+}: TAdminStoreDetail): TStoreTableData => {
+  return {
+    id,
+    name,
+    category,
+    activateStatus,
+    address,
+    umbrellaLocation,
+    businessHour,
+    contactNumber,
+    instagramId,
+    content,
+    imageUrls,
+  };
 };

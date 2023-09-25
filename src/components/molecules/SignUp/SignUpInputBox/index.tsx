@@ -8,6 +8,8 @@ export type SignUpInputBoxProps = {
   name: string;
   value: string;
   onChangeValue: (e: ChangeEvent<HTMLInputElement>) => void;
+  isValid: boolean;
+  validLabel: string;
 };
 
 const SignUpInputBox = ({
@@ -16,6 +18,8 @@ const SignUpInputBox = ({
   name,
   value,
   onChangeValue,
+  isValid,
+  validLabel,
 }: SignUpInputBoxProps) => {
   return (
     <section>
@@ -23,6 +27,7 @@ const SignUpInputBox = ({
         <SignUpFormInputTitle label={labelTitle} isRequired={false} />
       </div>
       <SignUpFormInput label={labelInput} name={name} value={value} onChange={onChangeValue} />
+      {!isValid && <div className="mt-4 text-red text-14 text-normal leading-20">{validLabel}</div>}
     </section>
   );
 };

@@ -10,32 +10,36 @@ export type SignUpRequiredFormProps = {
   name: string;
   onChangeValue: (e: ChangeEvent<HTMLInputElement>) => void;
   phoneNumber: string;
+  isNameValid: boolean;
+  isPhoneNumberValid: boolean;
   isAllAllow?: boolean;
   onClickAllAllow: () => void;
   isFirstAllow?: boolean;
   onClickFirstAllow: () => void;
   onClickSecondAllow: () => void;
   isSecondAllow?: boolean;
-  isFirstClicked?: boolean;
-  isSecondClicked?: boolean;
   isDone?: boolean;
   onClickButton?: () => void;
+  onClickDetailTOSPage: () => void;
+  onClickDetailPPPage: () => void;
 };
 
 const SignUpRequiredForm = ({
   name,
   onChangeValue,
   phoneNumber,
+  isNameValid,
+  isPhoneNumberValid,
   isAllAllow,
   isFirstAllow,
   onClickAllAllow,
   isSecondAllow,
   onClickFirstAllow,
   onClickSecondAllow,
-  isFirstClicked,
-  isSecondClicked,
   isDone,
   onClickButton,
+  onClickDetailTOSPage,
+  onClickDetailPPPage,
 }: SignUpRequiredFormProps) => {
   return (
     <main className="flex flex-1 flex-col justify-center items-center">
@@ -58,6 +62,8 @@ const SignUpRequiredForm = ({
                 name="name"
                 value={name}
                 onChangeValue={onChangeValue}
+                isValid={isNameValid}
+                validLabel={"국문, 영문만 입력 가능합니다."}
               />
             </div>
             <div>
@@ -67,6 +73,8 @@ const SignUpRequiredForm = ({
                 name="phoneNumber"
                 value={phoneNumber}
                 onChangeValue={onChangeValue}
+                isValid={isPhoneNumberValid}
+                validLabel={"010 뒤 8자리를 입력해주세요."}
               />
             </div>
           </section>
@@ -81,7 +89,7 @@ const SignUpRequiredForm = ({
                 isAllow={isFirstAllow}
                 onClickAllow={onClickFirstAllow}
                 label="(필수) 업브렐라 이용약관"
-                isClicked={isFirstClicked}
+                onClickDetailPage={onClickDetailTOSPage}
               />
             </div>
             <div className="mb-24">
@@ -89,7 +97,7 @@ const SignUpRequiredForm = ({
                 isAllow={isSecondAllow}
                 onClickAllow={onClickSecondAllow}
                 label="(필수) 개인정보 수집 및 이용동의"
-                isClicked={isSecondClicked}
+                onClickDetailPage={onClickDetailPPPage}
               />
             </div>
             <SignUpFormButton label="다음" isDone={isDone} onClick={onClickButton} />
