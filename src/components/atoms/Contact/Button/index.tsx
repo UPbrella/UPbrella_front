@@ -1,8 +1,10 @@
 export type ButtonProps = {
   isActive: boolean;
+  isComplete: boolean;
+  setIsComplete: (value: boolean) => void;
 };
 
-const Button = ({ isActive }: ButtonProps) => {
+const Button = ({ isActive, isComplete, setIsComplete }: ButtonProps) => {
   return (
     <div>
       <button
@@ -11,6 +13,7 @@ const Button = ({ isActive }: ButtonProps) => {
           isActive ? "" : "opacity-50 cursor-not-allowed"
         }`}
         disabled={!isActive}
+        onClick={() => setIsComplete(!isComplete)}
       >
         문의하기
       </button>

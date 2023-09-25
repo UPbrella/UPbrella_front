@@ -4,7 +4,6 @@ import Input from "@/components/atoms/Contact/Input";
 import TextArea from "@/components/atoms/Contact/TextArea";
 import Button from "@/components/atoms/Contact/Button";
 import emailjs from "@emailjs/browser";
-import toast from "react-hot-toast";
 import Footer from "@/components/organisms/Footer";
 
 const ContactPage = () => {
@@ -37,21 +36,27 @@ const ContactPage = () => {
     e.preventDefault();
 
     if (isActive && form.current) {
-      emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form.current, PUB_KEY).then(
-        () => {
-          setName("");
-          setPhone("");
-          setEmail("");
-          setTitle("");
-          setContent("");
-          setIsComplete(true);
-        },
-        (error) => {
-          toast.error(error);
-        }
-      );
+      emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form.current, PUB_KEY).then(() => {
+        setName("");
+        setPhone("");
+        setEmail("");
+        setTitle("");
+        setContent("");
+        setIsComplete(true);
+      });
     }
   };
+
+  // 토스트메시지
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsComplete(false);
+    }, 1500);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
 
   return (
     <div className="my-100 lg:my-20 flex justify-center items-center relative">
@@ -106,7 +111,7 @@ const ContactPage = () => {
             name="content"
             value={content}
           />
-          <Button isActive={isActive} />
+          <Button isActive={isActive} isComplete={isComplete} setIsComplete={setIsComplete} />
         </form>
       </div>
 
