@@ -187,7 +187,7 @@ export const filterStoreTableView = ({
   instagramId,
   content,
   imageUrls,
-}: TStoreDetail): TStoreTableData => {
+}: TAdminStoreDetail): TStoreTableData => {
   return {
     id,
     name,
