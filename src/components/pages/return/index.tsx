@@ -44,6 +44,7 @@ const ReturnPage = () => {
   const [accountNumber, setAccountNumber] = useState(userInfo.accountNumber || "");
   const [improvementReportContent, setImprovementReportContent] = useState("");
   const [elapsedDay, setElapsedDay] = useState(0);
+  const maxCharLimit = 400;
 
   // 에러메시지
   const [subError, setSubError] = useState("");
@@ -251,6 +252,7 @@ const ReturnPage = () => {
               setStatus={setImprovementReportContent}
               status={improvementReportContent}
               isComplete={isReturn}
+              maxCharLimit={maxCharLimit}
             />
 
             {!isReturn && (
