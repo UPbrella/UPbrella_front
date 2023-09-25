@@ -8,7 +8,6 @@ import toast from "react-hot-toast";
 import Footer from "@/components/organisms/Footer";
 
 const ContactPage = () => {
-  // 필드
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -55,16 +54,20 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="mt-100">
-      <div className="w-full h-full px-40 flex items-start">
-        <div className="w-full flex-col mr-32 px-40 py-24">
+    <div className="my-100 lg:my-20 flex justify-center items-center relative">
+      <div className="w-full h-full px-40 flex items-start lg:flex-col lg:px-20 md:px-0 sm:px-20">
+        <div className="w-full flex-col mr-32 px-40 py-24 lg:px-0 lg:py-0">
           <div className="font-semibold text-24 leading-32 text-black mb-8">CONTACT US</div>
           <div className="text-16 leading-24 text-gray-700 mb-40">
             업브렐라와의 사업 제휴 관련 문의하시고 싶은 내용을 작성해주세요.
           </div>
           <Instagram />
         </div>
-        <form ref={form} onSubmit={sendEmail} className="p-32 bg-white w-full rounded-20">
+        <form
+          ref={form}
+          onSubmit={sendEmail}
+          className="p-32 bg-white w-full rounded-20 lg:p-0 md:mt-40"
+        >
           <div className="flex">
             <Input
               label="이름"
@@ -108,8 +111,10 @@ const ContactPage = () => {
       </div>
 
       {isComplete && (
-        <div className="fixed right-[80px] bottom-[100px] w-320 rounded-8 py-12 text-15 leading-22 bg-gray-700 text-white text-center">
-          문의 접수 완료!
+        <div className="fixed right-[80px] bottom-[100px] md:left-0 md:right-0 md:bottom-[20px] flex items-end justify-end md:justify-center w-full h-full">
+          <div className="w-330 h-48 rounded-8 py-12 text-15 leading-24 bg-gray-700 text-white text-center">
+            문의 접수 완료!
+          </div>
         </div>
       )}
 

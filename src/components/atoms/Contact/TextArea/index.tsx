@@ -36,7 +36,7 @@ const TextArea = ({ label, placeholder, setValue, name, value }: TextAreaProps) 
   const textColor = isWriting ? "black" : "gray-400";
 
   return (
-    <div className="flex-col max-w-2xl p-5 mb-32">
+    <div className="flex-col p-5 mb-32">
       <div className="flex items-center mb-4 text-gray-700 text-15 leading-22 font-normal">
         {label}
       </div>

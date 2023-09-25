@@ -43,7 +43,7 @@ function App() {
             }}
           />
           <div className="bg-cover bg-basic">
-            <div className="max-w-[1440px] min-h-[100vh] px-40 mx-auto flex flex-col sm:px-0">
+            <div className="max-w-[1440px] min-h-[100vh] px-40 mx-auto flex flex-col sm:px-20 lg:px-20 lg:bg-white md:bg-white">
               <Routes>
                 {/* Not Found Page */}
                 {/* Route */}
