@@ -19,10 +19,12 @@ const MypageBankAccountInput = ({
   bankRef,
 }: MypageBankAccountInputProps) => {
   return (
-    <section className="p-24 border border-solid border-gray-200 rounded-12">
+   <section className="p-24 border border-solid border-gray-200 rounded-12">
       <div className="flex flex-col">
-        <div className="flex mb-8">
-          <MypageFormTitle label="은행" />
+        <div className="flex mb-8 items-center">
+          <div className="mr-40">
+            <MypageFormTitle label="은행" />
+          </div>
           <div className="mr-4">
             <MypageBankInput
               label="은행명"
@@ -34,8 +36,10 @@ const MypageBankAccountInput = ({
             />
           </div>
         </div>
-        <div className="flex mb-4">
-          <MypageFormTitle label="계좌번호" />
+        <div className="flex mb-4 items-center">
+          <div className="mr-40">
+            <MypageFormTitle label="계좌번호" />
+          </div>
           <div className="w-224">
             <SignUpFormInput
               label="계좌번호"
@@ -45,8 +49,10 @@ const MypageBankAccountInput = ({
             />
           </div>
         </div>
-        <div className="flex">
-          <MypageFormTitle label="" />
+        <div className="flex items-center">
+          <div className="mr-40">
+            <MypageFormTitle label="" />
+          </div>
           <div className="text-gray-600 text-14 font-normal leading-20 mt-4">
             * ‘-’은 빼고 입력해주세요!
           </div>
