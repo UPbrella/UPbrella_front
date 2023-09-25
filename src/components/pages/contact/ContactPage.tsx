@@ -5,6 +5,7 @@ import TextArea from "@/components/atoms/Contact/TextArea";
 import Button from "@/components/atoms/Contact/Button";
 import emailjs from "@emailjs/browser";
 import Footer from "@/components/organisms/Footer";
+import { formatPhoneNumber } from "@/utils/utils";
 
 const ContactPage = () => {
   const [name, setName] = useState("");
@@ -14,6 +15,8 @@ const ContactPage = () => {
   const [content, setContent] = useState("");
   const [isActive, setIsActive] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
+
+  const formattedPhone = formatPhoneNumber(phone);
 
   // 필수조건 입력 => setIsActive(true)
   useEffect(() => {
@@ -87,7 +90,7 @@ const ContactPage = () => {
               placeholder="010-1234-5678"
               setValue={setPhone}
               name="phone"
-              value={phone}
+              value={formattedPhone}
             />
           </div>
           <Input
