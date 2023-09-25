@@ -43,8 +43,8 @@ const RentPage = () => {
   const { data: umbrellaData, isLoading: umbrellaDataLoading } = useGetReturnUmbrella();
   const { mutate: createMutate } = useMutation(postRent);
 
-  const setRediretcUrl = useSetRecoilState(redirectUrl);
-  setRediretcUrl("/");
+  const setRedirectUrl = useSetRecoilState(redirectUrl);
+  setRedirectUrl("/");
 
   // 로그인 유저 정보 조회 (name, phone)
   useEffect(() => {
@@ -72,6 +72,7 @@ const RentPage = () => {
   }
 
   if (umbrellaData) {
+    // TODO - Error <1> 사용자가 이미 대여중인 우산이 있는 경우
     return (
       <div>
         <ErrorComponent
@@ -83,6 +84,7 @@ const RentPage = () => {
   }
 
   if (isError) {
+    // TODO - Error <2> 존재하지 않는 우산 고유 번호인 경우
     return (
       <div>
         <ErrorComponent
@@ -99,6 +101,7 @@ const RentPage = () => {
       { region, storeId, umbrellaId, conditionReport },
       {
         onError: () => {
+          // TODO - Error <3> 이미 대여한 우산이 있어 대여가 실패한 경우
           toast.error("대여신청 실패");
           return;
         },
