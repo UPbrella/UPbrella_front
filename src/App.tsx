@@ -44,51 +44,55 @@ function App() {
               },
             }}
           />
-          <div className="bg-cover bg-basic">
-            {/* Routes */}
-            <Routes>
-              {/* width full */}
-              <Route path={"/about"} element={<UpbrellaStoryPage />} />
-              <Route path={"/"} element={<UpbrellaStoryPage />} />
 
-              {/* width fix */}
-              <Route element={<MainLayout />}>
-                <>
-                  {LAYOUT_ROUTES.map((route) => {
+          <div className="bg-cover">
+            <div className="max-w-[1440px] min-h-[100vh] px-40 mx-auto flex flex-col sm:px-20 lg:px-20 lg:bg-white md:bg-white">
+              <Routes>
+                {/* width full */}
+                <Route path={"/about"} element={<UpbrellaStoryPage />} />
+                <Route path="/" element={<TempPage />} />
+
+                {/* width fix */}
+                <Route element={<MainLayout />}>
+                  <>
+                    {LAYOUT_ROUTES.map((route) => {
+                      return (
+                        <Route key={route.name} path={route.path} element={<route.component />} />
+                      );
+                    })}
+                    <Route path="/*" element={<NotFound />} />
+                  </>
+                </Route>
+
+                {/* admin */}
+                <Route element={<MainLayout />}>
+                  <Route element={<AdminRoutes />}>
+                    {ADMIN_ROUTES.map((route) => {
+                      return (
+                        <Route
+                          key={route.name}
+                          path={route.path}
+                          element={
+                            <AdminWrapper>
+                              <route.component />
+                            </AdminWrapper>
+                          }
+                        />
+                      );
+                    })}
+                  </Route>
+                </Route>
+
+                {/* login */}
+                <Route element={<PrivateRoutes />}>
+                  {NOT_LAYOUT_ROUTES.map((route) => {
                     return (
                       <Route key={route.name} path={route.path} element={<route.component />} />
                     );
                   })}
-                  <Route path="/*" element={<NotFound />} />
-                </>
-              </Route>
-
-              {/* admin */}
-              <Route element={<MainLayout />}>
-                <Route element={<AdminRoutes />}>
-                  {ADMIN_ROUTES.map((route) => {
-                    return (
-                      <Route
-                        key={route.name}
-                        path={route.path}
-                        element={
-                          <AdminWrapper>
-                            <route.component />
-                          </AdminWrapper>
-                        }
-                      />
-                    );
-                  })}
                 </Route>
-              </Route>
-
-              {/* login */}
-              <Route element={<PrivateRoutes />}>
-                {NOT_LAYOUT_ROUTES.map((route) => {
-                  return <Route key={route.name} path={route.path} element={<route.component />} />;
-                })}
-              </Route>
-            </Routes>
+              </Routes>
+            </div>
           </div>
         </QueryClientProvider>
       </Suspense>
