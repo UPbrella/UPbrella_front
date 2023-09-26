@@ -4,8 +4,9 @@ import { $axios } from "@/lib/axios";
 import { loginInfo, loginState } from "@/recoil";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState, useRecoilValueLoadable } from "recoil";
+import { useRecoilState, useRecoilValueLoadable } from "recoil";
 
 type TInfos = {
   name: string;
@@ -19,7 +20,7 @@ const MypageInfoPage = () => {
     phoneNumber: "",
     email: "",
   });
-  const setIsLogin = useSetRecoilState<boolean>(loginState);
+  const [isLogin, setIsLogin] = useRecoilState<boolean>(loginState);
   const loginInfoValue = useRecoilValueLoadable(loginInfo);
 
   const navigate = useNavigate();
@@ -44,7 +45,12 @@ const MypageInfoPage = () => {
       }
     };
     getInfos();
-  }, [loginInfoValue.contents, loginInfoValue.state]);
+    if (!isLogin) {
+      toast.error(`로그인 세션이 만료되었습니다. 
+      다시 로그인해주세요.`);
+      navigate("/");
+    }
+  }, [isLogin, loginInfoValue.contents, loginInfoValue.state, navigate]);
   const handleDeleteUser = async () => {
     try {
       await $axios.get("/users/loggedIn/umbrella", { withCredentials: true });
