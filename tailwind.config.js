@@ -12,7 +12,6 @@ export default {
       lg: { max: "1024px" },
       smMaxLg: { max: "1024px", min: "360px" },
       mdMaxlg: { max: "1279px", min: "1025px" },
-      lgMaxMin: { max: "1024px", min: "360px" },
       xl: { min: "1025px" },
     },
     fontSize: {
