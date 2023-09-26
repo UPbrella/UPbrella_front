@@ -36,7 +36,7 @@ const Store = ({
   }, [selectedClassificationName, classifications]);
 
   return (
-    <>
+    <div className="flex flex-col justify-center items-start lg:items-center">
       {storeList.map((store, index) => (
         <div key={index}>
           <div
@@ -49,7 +49,7 @@ const Store = ({
                 )?.name
               : ""}
           </div>
-          <div className="grid grid-cols-3 grid-flow-row lg:grid-cols-2 gap-4">
+          <div className="grid grid-cols-3 grid-flow-row gap-4 lg:grid-cols-2 mdMaxlg:grid-cols-2">
             {store.stores.map((storeItem, itemIndex) => (
               <div
                 className="flex mb-12"
@@ -67,12 +67,12 @@ const Store = ({
                   }
                 }}
               >
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center justify-center">
                   {storeItem.thumbnail ? (
                     <img
                       src={`${storeItem.thumbnail}`}
                       alt="Image"
-                      className="w-248 h-174 rounded-12 sm:h-106 "
+                      className="w-248 h-174 rounded-12 sm:h-106 lg:h-204 lg:w-292"
                     />
                   ) : (
                     <img
@@ -89,7 +89,7 @@ const Store = ({
           </div>
         </div>
       ))}
-    </>
+    </div>
   );
 };
 

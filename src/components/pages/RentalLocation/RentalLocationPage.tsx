@@ -9,6 +9,7 @@ import {
   STORE_QUERY_KEYS,
   useGetClassifications,
   useGetClassificationsStore,
+  useGetStoreDetail,
 } from "@/hooks/queries/storeQueries";
 import { useQueryClient } from "react-query";
 import BottomSheet from "@/components/atoms/BottomSheet";
@@ -28,6 +29,7 @@ const RentalInfo = () => {
 
   const [selectedClassification, setSelectedClassification] = useState(221);
   const [selectedStoreId, setSelectedStoreId] = useState<number | null>(null);
+  const [showInitialCard, setShowInitialCard] = useState(true);
 
   const [map, setMap] = useState<naver.maps.Map>();
   const [, setMarkers] = useState<naver.maps.Marker[]>([]);
@@ -92,7 +94,6 @@ const RentalInfo = () => {
         });
         return marker;
       });
-
       setMarkers(newMarkers);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -103,38 +104,40 @@ const RentalInfo = () => {
   }, [map, storeMarker.data, updateMapMarkers]);
 
   useEffect(() => {
+    if (storeMarker.data && storeMarker.data.length > 0 && showInitialCard) {
+      const randomIndex = Math.floor(Math.random() * storeMarker.data.length);
+      const randomStore = storeMarker.data[randomIndex].id;
+      setSelectedStoreId(randomStore);
+      setShowInitialCard(false);
+    }
+  }, [storeMarker.data, showInitialCard]);
+
+  useEffect(() => {
+    if (userPosition && storeMarker.data && storeMarker.data.length > 0) {
+      const distances = storeMarker.data.map((store) =>
+        getDistanceFromLatLonInKm(
+          userPosition.lat,
+          userPosition.lng,
+          store.latitude,
+          store.longitude
+        )
+      );
+
+      const minDistanceIndex = distances.indexOf(Math.min(...distances));
+
+      if (!showInitialCard) {
+        setSelectedStoreId(storeMarker.data[minDistanceIndex].id);
+      }
+    }
+  }, [userPosition, storeMarker.data, showInitialCard]);
+
+  useEffect(() => {
     getUserPosition().then(
       (position) =>
         position &&
         setUserPosition({ lat: position.coords.latitude, lng: position.coords.longitude })
     );
   }, []);
-
-  useEffect(() => {
-    if (storeMarker.data && storeMarker.data.length > 0) {
-      let selectedStore;
-
-      if (userPosition) {
-        const distances = storeMarker.data.map((store) =>
-          getDistanceFromLatLonInKm(
-            userPosition.lat,
-            userPosition.lng,
-            store.latitude,
-            store.longitude
-          )
-        );
-
-        const minDistanceIndex = distances.indexOf(Math.min(...distances));
-
-        selectedStore = storeMarker.data[minDistanceIndex];
-      } else {
-        const randomIndex = Math.floor(Math.random() * storeMarker.data.length);
-        selectedStore = storeMarker.data[randomIndex];
-      }
-
-      setSelectedStoreId(selectedStore.id);
-    }
-  }, [userPosition, storeMarker]);
 
   const handleMarkerClick = (
     marker: naver.maps.Marker,
@@ -167,7 +170,9 @@ const RentalInfo = () => {
     <div className="flex flex-col mt-24">
       <div className="flex justify-center">
         {/* 태블렛 환경에서 대여지점 카드 hidden  */}
-        <div className="md:hidden pr-24">{storeDetail && <Card storeDetail={storeDetail} />}</div>
+        <div className="md:hidden pr-24">
+          {storeDetail && !showInitialCard && <Card storeDetail={storeDetail} />}
+        </div>
         <div className="w-full max-w-936 rounded-20 relative">
           <Map ref={mapElement} width="100%" height="896px" borderRadius="20px" />
           <div className="absolute top-0 left-0 z-9 p-24">
