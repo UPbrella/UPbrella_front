@@ -27,7 +27,7 @@ const MypageRentSection = ({ rentInfo, isProfile, isRecent }: MypageRentSectionP
   ];
 
   const color = isRecent ? `bg-primary-100 border-primary-300` : `bg-white border-gray-200`;
-  const padding = isProfile ? `p-20` : `p-24`;
+  const padding = isProfile ? `p-20` : `xl:p-24 lg:p-20`;
 
   return (
     <div className={`flex ${padding} ${color} border text-gray-700 border-solid rounded-12 w-full`}>
