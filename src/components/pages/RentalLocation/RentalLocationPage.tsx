@@ -1,107 +1,123 @@
 import CardFooter from "@/components/organisms/CardFooter";
 import webMarker from "@/assets/webMarker.svg";
 import Map from "../admin/store/UI/Map";
-import { useCallback, useEffect, useRef, useState } from "react";
-import LocationClassificationBtn from "@/components/atoms/LocationClassificationBtn";
+import { useEffect, useRef, useState } from "react";
 import MapBtn from "@/components/molecules/MapBtn";
 import "@/styles/markerLabel.css";
 import {
-  STORE_QUERY_KEYS,
   useGetClassifications,
   useGetClassificationsStore,
   useGetStoreDetail,
 } from "@/hooks/queries/storeQueries";
-import { useQueryClient } from "react-query";
 import BottomSheet from "@/components/atoms/BottomSheet";
 import MobileCard from "@/components/molecules/MobileCard";
 import Card from "@/components/organisms/Card";
 import { getUserPosition, getDistanceFromLatLonInKm } from "@/utils/locationUtils";
-
-// 기본 위치 좌표
-export const DEFAULT_COORDINATE = {
-  lat: 37.5608393877042,
-  lng: 126.93545258588699,
-};
+import { TClassification } from "@/types/admin/StoreTypes";
+import ClassificationsButtons from "@/components/pages/RentalLocation/ClassificationsButtons";
 
 const RentalInfo = () => {
   const { naver } = window;
   const mapElement = useRef<HTMLDivElement | null>(null);
-
-  const [selectedClassification, setSelectedClassification] = useState(221);
-  const [selectedStoreId, setSelectedStoreId] = useState<number | null>(null);
-
-  const [map, setMap] = useState<naver.maps.Map>();
-  const [, setMarkers] = useState<naver.maps.Marker[]>([]);
-  const [prevMarker, setPrevMarker] = useState<naver.maps.Marker | null>(null);
-
   // Ref를 사용하여 맵의 너비 동적으로 가져오기
   const mapWidth = mapElement.current?.offsetWidth ?? null;
 
-  const [isBottomOpen, setIsBottomOpen] = useState(false);
+  // client
+  // 선택 대분류
+  const [selectedClassification, setSelectedClassification] = useState<TClassification>();
+  // 선택 지점
+  const [selectedStoreId, setSelectedStoreId] = useState<number>();
+  const [map, setMap] = useState<naver.maps.Map>();
+  const [markers, setMarkers] = useState<naver.maps.Marker[]>([]);
   const [userPosition, setUserPosition] = useState<{ lat: number; lng: number } | null>(null);
+  const [isBottomOpen, setIsBottomOpen] = useState(false);
+
+  // server
+  const { data: classificationsRes } = useGetClassifications();
+  const { data: storeDetail } = useGetStoreDetail(selectedStoreId ?? 0);
+  const { data: storeListRes } = useGetClassificationsStore(selectedClassification?.id ?? 0);
+
+  // 대분류 초깃값 설정
+  useEffect(() => {
+    if (classificationsRes && !!classificationsRes.length) {
+      setSelectedClassification(classificationsRes[0]);
+    }
+  }, [classificationsRes]);
 
   // map 처음 한번 생성
   useEffect(() => {
-    if (!mapElement.current || !naver) return;
+    if (!mapElement.current || !naver || map) return;
+    if (!selectedClassification) return;
+    const { latitude, longitude } = selectedClassification;
+    if (!latitude || !longitude) return;
 
-    const _location = new naver.maps.LatLng(DEFAULT_COORDINATE.lat, DEFAULT_COORDINATE.lng);
-
+    const _location = new naver.maps.LatLng(latitude, longitude);
     const mapOptions: naver.maps.MapOptions = {
       center: _location,
-      zoom: 17,
+      zoom: 15,
     };
 
     const _map = new naver.maps.Map(mapElement.current, mapOptions);
-
     setMap(_map);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [naver]);
+  }, [classificationsRes, map, naver, selectedClassification]);
 
-  // 상태 업데이트 함수 정의
-  const handleClassificationSelection = (classificationId: number) => {
-    setSelectedClassification(classificationId);
-    queryClient.invalidateQueries([...STORE_QUERY_KEYS.classifications(classificationId)]);
-  };
+  // 대분류 변경시 지도 position 움직임
+  useEffect(() => {
+    if (map && selectedClassification) {
+      const { latitude, longitude } = selectedClassification;
+      if (!latitude || !longitude) return;
 
-  // server
-  const queryClient = useQueryClient();
-  const { data: classificationsRes } = useGetClassifications();
-  const { data: storeDetail } = useGetStoreDetail(selectedStoreId ?? 1);
-  const storeMarker = useGetClassificationsStore(selectedClassification);
+      const _location = new naver.maps.LatLng(latitude, longitude);
+      map.setCenter(_location);
+    }
+  }, [map, naver.maps.LatLng, selectedClassification]);
 
-  const updateMapMarkers = useCallback(() => {
-    if (!map || !window.naver.maps || !storeMarker.data) return; // 분류 ID가 없으면 아무것도 하지 않음
-    const storeMarkerList = storeMarker.data; // 가게 목록 데이터
+  // 마커 생성
+  useEffect(() => {
+    if (!storeListRes) return;
 
-    // 조회한 가게 목록을 기반으로 마커를 생성하고 지도에 표시
-    if (window.naver && window.naver.maps && storeMarkerList) {
-      const newMarkers = storeMarkerList.map((store) => {
+    // 기존 마커 삭제
+    markers.map((e) => e.setMap(null));
+
+    // 새로 생성 후 setState (여기에서 선택한 지점과 비교 후 아이콘 변경)
+    const _markers = storeListRes.map(
+      ({ id, latitude, longitude, name, rentableUmbrellasCount }) => {
+        // TODO: openStatus 처리
+        const isSelected = id === selectedStoreId;
+        const iconContent = isSelected
+          ? `<div class="marker-wrapper-focus"><img class="marker-focus" alt="webMarkerFocus" src="${webMarker}" /><div class="umbrella-count-focus">${rentableUmbrellasCount}</div><div class="custom-label-focus">${name}</div></div>`
+          : `<div class="marker-wrapper"><img class="marker" alt="webMarker" src="${webMarker}" /><div class="umbrella-count">${rentableUmbrellasCount}</div><div class="custom-label">${name}</div></div>`;
+
         const marker = new naver.maps.Marker({
-          position: new naver.maps.LatLng(store.latitude, store.longitude),
+          position: new naver.maps.LatLng(latitude, longitude),
           map: map,
           icon: {
-            content: `<div class="marker-wrapper"><img class="marker" alt="webMarker" src="${webMarker}" /><div class="umbrella-count">${store.rentableUmbrellasCount}</div><div class="custom-label">${store.name}</div></div>`,
+            content: iconContent,
             size: new naver.maps.Size(32, 40),
             anchor: new naver.maps.Point(12, 35),
           },
         });
-        // 사용자 지정 데이터 저장
-        marker.set("storeName", store.name);
-        marker.set("umbrella", store.rentableUmbrellasCount);
+
         naver.maps.Event.addListener(marker, "click", () => {
-          handleMarkerClick(marker, store.name, store.rentableUmbrellasCount, store.id);
+          setSelectedStoreId(id);
+          setIsBottomOpen(true);
         });
         return marker;
-      });
+      }
+    );
 
-      setMarkers(newMarkers);
-    }
+    setMarkers(_markers);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [map, storeMarker.data]);
-
-  useEffect(() => {
-    updateMapMarkers();
-  }, [map, storeMarker.data, updateMapMarkers]);
+  }, [
+    map,
+    naver.maps.Event,
+    naver.maps.LatLng,
+    naver.maps.Marker,
+    naver.maps.Point,
+    naver.maps.Size,
+    selectedStoreId,
+    storeListRes,
+  ]);
 
   useEffect(() => {
     getUserPosition().then(
@@ -112,11 +128,11 @@ const RentalInfo = () => {
   }, []);
 
   useEffect(() => {
-    if (storeMarker.data && storeMarker.data.length > 0) {
+    if (storeListRes && storeListRes.length > 0) {
       let selectedStore;
 
       if (userPosition) {
-        const distances = storeMarker.data.map((store) =>
+        const distances = storeListRes.map((store) =>
           getDistanceFromLatLonInKm(
             userPosition.lat,
             userPosition.lng,
@@ -127,56 +143,31 @@ const RentalInfo = () => {
 
         const minDistanceIndex = distances.indexOf(Math.min(...distances));
 
-        selectedStore = storeMarker.data[minDistanceIndex];
+        selectedStore = storeListRes[minDistanceIndex];
       } else {
-        const randomIndex = Math.floor(Math.random() * storeMarker.data.length);
-        selectedStore = storeMarker.data[randomIndex];
+        const randomIndex = Math.floor(Math.random() * storeListRes.length);
+        selectedStore = storeListRes[randomIndex];
       }
 
       setSelectedStoreId(selectedStore.id);
     }
-  }, [userPosition, storeMarker]);
-
-  const handleMarkerClick = (
-    marker: naver.maps.Marker,
-    storeName: string,
-    umbrella: number,
-    storeId: number
-  ) => {
-    // 이전 활성화된 마커가 있으면 스타일 제거
-    if (prevMarker) {
-      const prevStoreName = prevMarker.get("storeName");
-      const prevUmbrella = prevMarker.get("umbrella");
-      prevMarker.setIcon({
-        content: `<div class="marker-wrapper"><img class="marker" alt="webMarker" src="${webMarker}" /><div class="umbrella-count">${prevUmbrella}</div><div class="custom-label">${prevStoreName}</div></div>`,
-        anchor: new naver.maps.Point(12, 35),
-      });
-    }
-
-    // 현재 클릭한 마커의 스타일 변경
-    marker.setIcon({
-      content: `<div class="marker-wrapper-focus"><img class="marker-focus" alt="webMarkerFocus" src="${webMarker}" /><div class="umbrella-count-focus">${umbrella}</div><div class="custom-label-focus">${storeName}</div></div>`,
-      anchor: new naver.maps.Point(12, 35),
-    });
-
-    setPrevMarker(marker); // Set this as the previous Marker
-    setSelectedStoreId(storeId);
-    setIsBottomOpen(true);
-  };
+  }, [storeListRes, userPosition]);
 
   return (
     <div className="flex flex-col mt-24">
       <div className="flex justify-center">
         {/* 태블렛 환경에서 대여지점 카드 hidden  */}
-        <div className="pr-24 md:hidden">{storeDetail && <Card storeDetail={storeDetail} />}</div>
+        <div className="pr-24 min-w-[400px] md:hidden">
+          {storeDetail && <Card storeDetail={storeDetail} />}
+        </div>
         <div className="relative w-full max-w-936 rounded-20">
           <Map ref={mapElement} width="100%" height="896px" borderRadius="20px" />
           <div className="absolute top-0 left-0 p-24 z-9">
             {classificationsRes && (
-              <LocationClassificationBtn
-                classifications={classificationsRes}
-                handleClassificationSelection={handleClassificationSelection}
-                map={map}
+              <ClassificationsButtons
+                classificationsRes={classificationsRes}
+                selectedClassification={selectedClassification}
+                setSelectedClassification={setSelectedClassification}
               />
             )}
           </div>
