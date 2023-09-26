@@ -35,7 +35,7 @@ const MypageAccountCard = ({
 }: MypageAccountCardProps) => {
   const banks = Object.entries(BankIcon);
   return (
-    <div className="py-24">
+    <div className="xl:py-24 lg:pt-8">
       <div className="text-black text-32 font-semibold leading-40 mb-24 lg:hidden">
         환급계좌 등록/변경
       </div>
