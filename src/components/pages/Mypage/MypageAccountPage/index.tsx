@@ -1,9 +1,11 @@
 import MypageAccountCard from "@/components/organisms/Mypage/MypageAccountCard";
 import MypageLeftCard from "@/components/organisms/Mypage/MypageLeftCard";
 import { $axios } from "@/lib/axios";
-import { loginInfo } from "@/recoil";
+import { loginInfo, loginState } from "@/recoil";
 import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from "react";
-import { useRecoilValueLoadable } from "recoil";
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { useRecoilState, useRecoilValueLoadable } from "recoil";
 
 export type TAccountPageInputs = {
   bank: string;
@@ -18,8 +20,11 @@ const MypageAccountPage = () => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [hasBankAccountInfo, setHasBankAccountInfo] = useState<boolean>(false);
 
+  const [isLogin] = useRecoilState<boolean>(loginState);
   const loginInfoValue = useRecoilValueLoadable(loginInfo);
   const bankInput = useRef<HTMLInputElement>(null);
+
+  const navigate = useNavigate();
 
   const { bank, accountNumber } = inputs;
 
@@ -47,7 +52,12 @@ const MypageAccountPage = () => {
     };
 
     getBankAccountInfo();
-  }, [loginInfoValue.state, loginInfoValue.contents]);
+    if (!isLogin) {
+      toast.error(`로그인 세션이 만료되었습니다. 
+      다시 로그인해주세요.`);
+      navigate("/");
+    }
+  }, [loginInfoValue.state, loginInfoValue.contents, isLogin, navigate]);
   const handleInputValue = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setInputs({ ...inputs, [name]: value });
