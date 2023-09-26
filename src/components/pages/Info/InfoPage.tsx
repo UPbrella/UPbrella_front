@@ -43,8 +43,8 @@ const InfoPage = () => {
     <>
       <FixWidthWrapper>
         <HeaderContainer />
-        <div className="flex items-center lg:w-680 md:px-10">
-          <div className="flex flex-1 flex-col justify-center px-120 sm:px-0 smMaxLg:px-0">
+        <div className="flex items-center lg:w-680 lg:mx-auto md:px-10">
+          <div className="flex flex-1 flex-col justify-center sm:px-0 xl:px-40">
             <div className="font-semibold text-24 pb-32 pt-24">이용안내</div>
             <LocationClassificationBtn
               classifications={mock}
