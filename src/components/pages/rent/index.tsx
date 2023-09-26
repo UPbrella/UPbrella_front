@@ -157,6 +157,7 @@ const RentPage = () => {
             <FormBasic label="이름" value={name} />
             <FormBasic label="전화번호" value={phone} />
             <FormLocationMolecules region={region} storeName={storeName} />
+            <FormLocationMolecules region="가나다라마" storeName={storeName} />
             <FormBasic label="우산번호" value={umbrellaUuid} />
             <FormStatus
               label="상태신고"

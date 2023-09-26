@@ -248,7 +248,7 @@ const ReturnPage = () => {
 
             <FormStatus
               label="개선 요청 사항"
-              placeholder="개선이 필요하다고 느낀 점이 있다면 작성해주세요!"
+              placeholder={`개선이 필요하다고 느낀 점이 있다면 ${maxCharLimit}자 이내로 작성해주세요`}
               setStatus={setImprovementReportContent}
               status={improvementReportContent}
               isComplete={isReturn}
