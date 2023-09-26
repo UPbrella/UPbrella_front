@@ -36,7 +36,9 @@ const MypageAccountCard = ({
   const banks = Object.entries(BankIcon);
   return (
     <div className="py-24">
-      <div className="text-black text-32 font-semibold leading-40 mb-24">환급계좌 등록/변경</div>
+      <div className="text-black text-32 font-semibold leading-40 mb-24 lg:hidden">
+        환급계좌 등록/변경
+      </div>
       <MypageBankAccountInput
         bank={bank}
         accountNumber={accountNumber}
@@ -67,7 +69,7 @@ const MypageAccountCard = ({
       <div className="flex justify-end mt-8">
         {hasBankAccountInfo ? (
           <button
-            className="h-56 border border-solid border-gray-300 rounded-8 text-gray-700 text-18 font-semibold leadin-24 px-32 mr-8"
+            className="xl:h-56 lg:h-48 border border-solid border-gray-300 rounded-8 text-gray-700 xl:text-18 lg:text-16 font-semibold leading-24 xl:px-32 lg:px-20 mr-8"
             onClick={onClickDeleteButton}
           >
             계좌 삭제
@@ -78,27 +80,27 @@ const MypageAccountCard = ({
         {hasBankAccountInfo
           ? (isInputCompleted && (
               <button
-                className="h-56 border border-solid bg-primary-200 rounded-8 text-primary-500 text-18 font-semibold leadin-24 px-32"
+                className="xl:h-56 lg:h-48 border border-solid bg-primary-200 rounded-8 text-primary-500 xl:text-18 lg:text-16 font-semibold leading-24 xl:px-32 lg:px-20"
                 onClick={onClickChangeButton}
               >
                 계좌 변경
               </button>
             )) ||
             (!isInputCompleted && (
-              <button className="h-56 border border-solid bg-primary-100 rounded-8 text-primary-300 text-18 font-semibold leadin-24 px-32 disabled:hover">
+              <button className="xl:h-56 lg:h-48 border border-solid bg-primary-100 rounded-8 text-primary-300 xl:text-18 lg:text-16 font-semibold leadin-24 xl:px-32 lg:px-20 disabled:hover">
                 계좌 변경
               </button>
             ))
           : (isInputCompleted && (
               <button
-                className="h-56 border border-solid bg-primary-200 rounded-8 text-primary-500 text-18 font-semibold leadin-24 px-32"
+                className="xl:h-56 lg:h-48 border border-solid bg-primary-200 rounded-8 text-primary-500 xl:text-18 lg:text-16 font-semibold leading-24 xl:px-32 lg:px-20"
                 onClick={onClickRegisterButton}
               >
                 계좌 등록
               </button>
             )) ||
             (!isInputCompleted && (
-              <button className="h-56 border border-solid bg-primary-100 rounded-8 text-primary-300 text-18 font-semibold leadin-24 px-32 disabled:hover">
+              <button className="xl:h-56 lg:h-48 border border-solid bg-primary-100 rounded-8 text-primary-300 xl:text-18 lg:text-16 font-semibold leading-24 xl:px-32 lg:px-20 disabled:hover">
                 계좌 등록
               </button>
             ))}
