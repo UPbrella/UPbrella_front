@@ -13,7 +13,7 @@ const StorySection8 = () => {
             <div className="text-h32 lg:text-h24">
               지구를 지키는 작은 우산, 업브렐라를 펼쳐주세요!
             </div>
-            <div className="text-h18 lg:text-h15 text-gray-200">A Better Choice, UPbrella</div>
+            <div className="text-gray-200 text-h18 lg:text-h15">A Better Choice, UPbrella</div>
           </div>
           <div className="w-155">
             <FormButton
@@ -35,7 +35,7 @@ const StorySection8 = () => {
 };
 
 const CssSectionBg = styled.section`
-  background-image: url("/src/assets/Story/section8_bg.png");
+  background-image: url("/assets/section8_bg.png");
   background-repeat: no-repeat;
   background-size: cover;
 `;
