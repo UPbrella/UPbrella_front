@@ -10,6 +10,7 @@ export default {
       md: { max: "640px" },
       mdMaxMin: { max: "640px", min: "360px" },
       lg: { max: "1024px" },
+      smMaxLg: { max: "1024px", min: "360px" },
       mdMaxlg: { max: "1279px", min: "1025px" },
       lgMaxMin: { max: "1024px", min: "360px" },
       xl: { min: "1025px" },
