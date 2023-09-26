@@ -54,12 +54,15 @@ const MypageNav = () => {
         })}
       </section>
       <section className="flex flex-col w-full xl:hidden">
-        <div className="h-48 px-20 flex justify-between items-center rounded-8 bg-primary-300 mb-8">
+        <div
+          className="h-48 px-20 flex justify-between items-center rounded-8 bg-primary-300 mb-8"
+          onClick={onClickExpandButton}
+        >
           <p className="text-black text-18 font-semibold leading-24">{navList[0].name}</p>
           {isExpanded ? (
-            <ExpandLess className="text-gray-700" onClick={onClickExpandButton} />
+            <ExpandLess className="text-gray-700" />
           ) : (
-            <ExpandMore className="text-gray-700" onClick={onClickExpandButton} />
+            <ExpandMore className="text-gray-700" />
           )}
         </div>
         <div className="relative">
