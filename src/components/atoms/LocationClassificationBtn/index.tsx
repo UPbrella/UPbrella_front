@@ -45,7 +45,7 @@ const LocationClassificationBtn = ({
   };
 
   return (
-    <div>
+    <div className="flex flex-wrap lg:max-w-640 lg:px-10 gap-2">
       {classifications.map((item, index) => (
         <button
           key={item.id}
