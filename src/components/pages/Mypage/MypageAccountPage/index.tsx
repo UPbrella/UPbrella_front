@@ -1,3 +1,6 @@
+import MypageModal from "@/components/molecules/Mypage/MypageModal";
+import MypageModalChildren from "@/components/molecules/Mypage/MypageModalChildren";
+import MypageModalTwoBtnChildren from "@/components/molecules/Mypage/MypageModalTwoBtnChildren";
 import MypageAccountCard from "@/components/organisms/Mypage/MypageAccountCard";
 import MypageLeftCard from "@/components/organisms/Mypage/MypageLeftCard";
 import { $axios } from "@/lib/axios";
@@ -11,6 +14,11 @@ export type TAccountPageInputs = {
   bank: string;
   accountNumber: string;
 };
+export type TStatus = {
+  isDeleted: boolean;
+  isChanged: boolean;
+  isRegistered: boolean;
+};
 
 const MypageAccountPage = () => {
   const [inputs, setInputs] = useState<TAccountPageInputs>({
@@ -19,6 +27,11 @@ const MypageAccountPage = () => {
   });
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [hasBankAccountInfo, setHasBankAccountInfo] = useState<boolean>(false);
+  const [status, setStatus] = useState<TStatus>({
+    isDeleted: false,
+    isChanged: false,
+    isRegistered: false,
+  });
 
   const [isLogin] = useRecoilState<boolean>(loginState);
   const loginInfoValue = useRecoilValueLoadable(loginInfo);
@@ -87,7 +100,7 @@ const MypageAccountPage = () => {
       };
       setInputs({ ...data });
       setHasBankAccountInfo(false);
-      alert("계좌 삭제 완료!");
+      setStatus({ ...status, isDeleted: false });
     });
   };
   //   계좌 등록과 수정 모두 같은 patch api 요청
@@ -95,14 +108,14 @@ const MypageAccountPage = () => {
     await $axios.patch("/users/bankAccount", { ...inputs }, { withCredentials: true }).then(() => {
       setInputs({ ...inputs });
       setHasBankAccountInfo(true);
-      alert("계좌 변경 완료!");
+      setStatus({ ...status, isChanged: true });
     });
   };
   const handleRegisterAccount = async () => {
     await $axios.patch("/users/bankAccount", { ...inputs }, { withCredentials: true }).then(() => {
       setInputs({ ...inputs });
       setHasBankAccountInfo(true);
-      alert("계좌 등록 완료!");
+      setStatus({ ...status, isRegistered: true });
     });
   };
 
@@ -126,11 +139,45 @@ const MypageAccountPage = () => {
               handleClickBank={handleClickBank}
               hasBankAccountInfo={hasBankAccountInfo}
               isInputCompleted={bank !== "" && accountNumber !== ""}
-              onClickDeleteButton={handleDeleteAccount}
+              onClickDeleteButton={() => {
+                setStatus({ ...status, isDeleted: true });
+              }}
               onClickChangeButton={handleChangeAccount}
               onClickRegisterButton={handleRegisterAccount}
             />
           </div>
+          {status.isDeleted ? (
+            <MypageModal>
+              <MypageModalTwoBtnChildren
+                label="계좌를 삭제하시겠어요?"
+                btnLabel="삭제"
+                onClickCancel={() => {
+                  setStatus({ ...status, isDeleted: false });
+                }}
+                onClickOkay={handleDeleteAccount}
+              />
+            </MypageModal>
+          ) : null}
+          {status.isChanged ? (
+            <MypageModal>
+              <MypageModalChildren
+                label="계좌 변경 완료!"
+                onClickBtn={() => {
+                  setStatus({ ...status, isChanged: false });
+                }}
+              />
+            </MypageModal>
+          ) : null}
+          {status.isRegistered ? (
+            <MypageModal>
+              <MypageModalChildren
+                label="계좌 등록 완료!"
+                onClickBtn={() => {
+                  setStatus({ ...status, isRegistered: false });
+                }}
+              />
+            </MypageModal>
+          ) : null}
         </div>
       </div>
     </div>
