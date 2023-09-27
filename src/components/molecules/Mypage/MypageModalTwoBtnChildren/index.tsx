@@ -14,9 +14,11 @@ const MypageModalTwoBtnChildren = ({
 }: MypageModalTwoBtnChildrenProps) => {
   return (
     <div className="flex flex-col justify-center">
-      <div className="text-gray-700 text-24 font-semibold leading-32 mb-16">{label}</div>
+      <div className="text-gray-700 text-24 font-semibold leading-32 xl:mb-24 lg:mb-16">
+        {label}
+      </div>
       {content ? (
-        <div className="mb-24">
+        <div className="xl:mb-24 lg:mb-16">
           <div className="mb-8">
             <div>{content[0]}</div>
             <div>{content[1]}</div>
