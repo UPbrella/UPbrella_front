@@ -40,7 +40,7 @@ const InfoPage = () => {
   };
 
   return (
-    <>
+    <div className="bg-white">
       <FixWidthWrapper>
         <HeaderContainer />
         <div className="flex items-center lg:w-680 lg:mx-auto md:px-10">
@@ -58,9 +58,11 @@ const InfoPage = () => {
       {selectedClassificationIndex === 1 && <HowReturn />}
       {selectedClassificationIndex === 2 && <FAQ />}
       <FixWidthWrapper>
-        <Footer />
+        <div className="lg:hidden md:hidden sm:hidden">
+          <Footer />
+        </div>
       </FixWidthWrapper>
-    </>
+    </div>
   );
 };
 

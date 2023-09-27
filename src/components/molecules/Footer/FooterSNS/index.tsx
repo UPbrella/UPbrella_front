@@ -3,7 +3,7 @@ import instagram from "@/assets/instagram.svg";
 
 const FooterSns = () => {
   return (
-    <div className="flex items-center gap-x-3 pt-16">
+    <div className="flex items-center gap-x-3 py-20">
       <div className="text-gray-500 text-sm">FOLLOW US</div>
       <a
         className="bg-kakao rounded-99 w-40 h-40 flex justify-center items-center"

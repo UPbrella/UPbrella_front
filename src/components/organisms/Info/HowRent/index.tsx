@@ -19,7 +19,7 @@ const HowRent = () => {
         <img src={rental_step1} className="w-240 h-394 mt-126 lg:mt-40 lg:mx-auto" />
       </section>
       <div className="bg-primary-100 w-full">
-        <section className="flex flex-row-reverse justify-center lg:flex-col md:flex-col sm:flex-col w-full gap-10 lg:max-w-680 xl:h-520 lg:px-40 sm:px-20">
+        <section className="flex flex-row-reverse justify-center lg:flex-col md:flex-col sm:flex-col w-full gap-10 lg:items-center lg:max-w-680 xl:h-520 lg:px-40 sm:px-20">
           <div className="flex flex-col mt-230 lg:mt-80">
             <InformTitle stepTitle="STEP 2" title="우산 손잡이 상단 혹은 측면의 QR코드 스캔" />
           </div>
@@ -42,7 +42,7 @@ const HowRent = () => {
         </div>
       </section>
       <div className="bg-primary-100 w-full">
-        <section className="flex flex-row-reverse justify-center lg:flex-col md:flex-col sm:flex-col w-full gap-10 lg:max-w-680 xl:h-520 lg:px-40 sm:px-20">
+        <section className="flex flex-row-reverse justify-center lg:flex-col lg:items-center md:flex-col sm:flex-col w-full gap-10 lg:max-w-680 xl:h-520 lg:px-40 sm:px-20">
           <div className="flex flex-col mt-194 lg:mt-80">
             <InformTitle stepTitle="STEP 4" title="업브렐라 계좌 복사 후 보증금 1만원 이체!" />
             <div className="text-gray-600 pt-24 whitespace-pre-line	lg:text-15">

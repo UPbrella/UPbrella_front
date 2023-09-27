@@ -20,7 +20,7 @@ const HowReturn = () => {
         <img src={rental_step1} className="w-240 h-394 mt-126 lg:mt-40 lg:mx-auto" />
       </section>
       <div className="bg-primary-100 w-full">
-        <section className="flex flex-row-reverse justify-center lg:flex-col md:flex-col sm:flex-col w-full gap-10 lg:max-w-680 xl:h-520 lg:px-40 sm:px-20">
+        <section className="flex flex-row-reverse justify-center lg:flex-col lg:items-center md:flex-col sm:flex-col w-full gap-10 lg:max-w-680 xl:h-520 lg:px-40 sm:px-20">
           <div className="flex flex-col mt-206 lg:mt-80">
             <InformTitle stepTitle="STEP 2" title="우산 반납" />
             <div className="pt-24 text-gray-600">우산을 먼저 우산 보관함에 반납해주세요!</div>
@@ -40,8 +40,8 @@ const HowReturn = () => {
         </div>
         <img src={return_step3} className="w-347 h-320 mt-200 lg:mt-62 lg:mx-auto" />
       </section>
-      <div className="bg-primary-100 w-full">
-        <section className="flex flex-row-reverse justify-center lg:flex-col md:flex-col sm:flex-col w-full gap-10 lg:max-w-680 lg:px-40 sm:px-20">
+      <div className="bg-primary-100 w-full lg:max-w-680 flex justify-center items-center">
+        <section className="flex flex-row-reverse justify-center lg:flex-col lg:items-center md:flex-col sm:flex-col w-full gap-10  sm:px-20">
           <div className="flex flex-col mt-194 lg:mt-80">
             <InformTitle stepTitle="STEP 4" title="카카오 로그인 & 반납폼 자동완성" />
             <div className="text-gray-600 pt-24 whitespace-pre-line	lg:text-15">
