@@ -1,4 +1,5 @@
 import MypageModal from "@/components/molecules/Mypage/MypageModal";
+import MypageModalNotAllowedChildren from "@/components/molecules/Mypage/MypageModalNotAllowedChildren";
 import MypageModalTwoBtnChildren from "@/components/molecules/Mypage/MypageModalTwoBtnChildren";
 import MypageInfoCard from "@/components/organisms/Mypage/MypageInfoCard";
 import MypageLeftCard from "@/components/organisms/Mypage/MypageLeftCard";
@@ -23,6 +24,7 @@ const MypageInfoPage = () => {
     email: "",
   });
   const [isDeleted, setIsDeleted] = useState<boolean>(false);
+  const [isDeleteAllowed, setIsDeleteAllowed] = useState<boolean>(true);
   const [isLogin, setIsLogin] = useRecoilState<boolean>(loginState);
   const loginInfoValue = useRecoilValueLoadable(loginInfo);
 
@@ -57,7 +59,8 @@ const MypageInfoPage = () => {
   const handleDeleteUser = async () => {
     try {
       await $axios.get("/users/loggedIn/umbrella", { withCredentials: true });
-      toast.error("지금은 탈퇴가 불가능합니다. 대여중인 우산이 있습니다.");
+      setIsDeleted(false);
+      setIsDeleteAllowed(false);
     } catch {
       await axios
         .all([
@@ -111,6 +114,17 @@ const MypageInfoPage = () => {
               />
             </MypageModal>
           ) : null}
+          {isDeleteAllowed ? null : (
+            <MypageModal width="320">
+              <MypageModalNotAllowedChildren
+                label="지금은 탈퇴가 불가합니다"
+                notAllowedMessage="현재 대여 중인 우산이 있어 탈퇴가 불가하오니, 인스타그램 DM 문의 바랍니다."
+                onClickBtn={() => {
+                  setIsDeleteAllowed(true);
+                }}
+              />
+            </MypageModal>
+          )}
         </div>
       </div>
     </div>
