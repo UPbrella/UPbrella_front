@@ -147,7 +147,7 @@ const MypageAccountPage = () => {
             />
           </div>
           {status.isDeleted ? (
-            <MypageModal>
+            <MypageModal width="320">
               <MypageModalTwoBtnChildren
                 label="계좌를 삭제하시겠어요?"
                 btnLabel="삭제"
@@ -159,7 +159,7 @@ const MypageAccountPage = () => {
             </MypageModal>
           ) : null}
           {status.isChanged ? (
-            <MypageModal>
+            <MypageModal width="320">
               <MypageModalChildren
                 label="계좌 변경 완료!"
                 onClickBtn={() => {
@@ -169,7 +169,7 @@ const MypageAccountPage = () => {
             </MypageModal>
           ) : null}
           {status.isRegistered ? (
-            <MypageModal>
+            <MypageModal width="320">
               <MypageModalChildren
                 label="계좌 등록 완료!"
                 onClickBtn={() => {
