@@ -1,3 +1,5 @@
+import MypageModal from "@/components/molecules/Mypage/MypageModal";
+import MypageModalTwoBtnChildren from "@/components/molecules/Mypage/MypageModalTwoBtnChildren";
 import MypageInfoCard from "@/components/organisms/Mypage/MypageInfoCard";
 import MypageLeftCard from "@/components/organisms/Mypage/MypageLeftCard";
 import { $axios } from "@/lib/axios";
@@ -20,6 +22,7 @@ const MypageInfoPage = () => {
     phoneNumber: "",
     email: "",
   });
+  const [isDeleted, setIsDeleted] = useState<boolean>(false);
   const [isLogin, setIsLogin] = useRecoilState<boolean>(loginState);
   const loginInfoValue = useRecoilValueLoadable(loginInfo);
 
@@ -54,7 +57,7 @@ const MypageInfoPage = () => {
   const handleDeleteUser = async () => {
     try {
       await $axios.get("/users/loggedIn/umbrella", { withCredentials: true });
-      alert("지금은 탈퇴가 불가능합니다. 대여중인 우산이 있습니다.");
+      toast.error("지금은 탈퇴가 불가능합니다. 대여중인 우산이 있습니다.");
     } catch {
       await axios
         .all([
@@ -62,13 +65,15 @@ const MypageInfoPage = () => {
           $axios.delete("/users/loggedIn", { withCredentials: true }),
         ])
         .then(() => {
+          setIsDeleted(false);
           setIsLogin(false);
           navigate("/");
           location.reload();
-          alert("회원탈퇴 완료했습니다!");
+          toast.success("회원탈퇴 완료했습니다!");
         })
         .catch(() => {
-          alert("오류가 발생했습니다. 다시 시도해주세요.");
+          setIsDeleted(false);
+          toast.error("오류가 발생했습니다. 다시 시도해주세요.");
         });
     }
   };
@@ -84,8 +89,28 @@ const MypageInfoPage = () => {
             name={infos.name}
             phoneNumber={infos.phoneNumber}
             email={infos.email}
-            onClickButton={handleDeleteUser}
+            onClickButton={() => {
+              setIsDeleted(true);
+            }}
           />
+          {isDeleted ? (
+            <MypageModal width="520">
+              <MypageModalTwoBtnChildren
+                label="정말 탈퇴하시겠어요?"
+                content={[
+                  "그동안 업브렐라를 이용해주셔서 감사합니다.",
+                  "회원탈퇴를 하실 경우, 아래와 같이 회원정보가 처리됩니다.",
+                  "탈퇴 신청 즉시 회원 탈퇴 처리되며, 회원 정보는 삭제 처리됩니다.",
+                  "대여 중인 우산이 남아있는 경우, 즉시 탈퇴가 불가하니 문의 바랍니다.",
+                ]}
+                btnLabel="탈퇴"
+                onClickCancel={() => {
+                  setIsDeleted(false);
+                }}
+                onClickOkay={handleDeleteUser}
+              />
+            </MypageModal>
+          ) : null}
         </div>
       </div>
     </div>
