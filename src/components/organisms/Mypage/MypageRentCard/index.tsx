@@ -7,8 +7,8 @@ export type MypageRentCardProps = {
 
 const MypageRentCard = ({ rentList }: MypageRentCardProps) => {
   return (
-    <section className="py-24 flex flex-col flex-1">
-      <div className="text-32 font-semibold leading-40 text-black mb-24">이용 내역</div>
+    <section className="xl:py-24 lg:pt-8 flex flex-col flex-1">
+      <div className="text-32 font-semibold leading-40 text-black mb-24 lg:hidden">이용 내역</div>
       <div className="flex-1">
         {rentList.length > 0 ? <MypageRentList rentList={rentList} /> : <MypageRentEmptyList />}
       </div>
