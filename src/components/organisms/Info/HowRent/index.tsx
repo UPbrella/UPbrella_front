@@ -7,8 +7,8 @@ import rental_step4 from "@/assets/Rental/rental_step4.png";
 import rental_step5 from "@/assets/Rental/rental_step5.png";
 const HowRent = () => {
   return (
-    <div className="flex flex-col items-center">
-      <section className="flex flex-row lg:flex-col md:flex-col sm:flex-col justify-center w-full gap-10 lg:max-w-680 lg:px-40 sm:px-20">
+    <div className="flex flex-col items-center justify-center">
+      <section className="flex flex-row lg:flex-col md:flex-col sm:flex-col justify-center w-full gap-10 lg:max-w-700 lg:justify-center xl:h-520 lg:px-40">
         <div className="flex flex-col xl:pt-194 lg:mt-48">
           <InformTitle stepTitle="STEP 1" title="가까운 협업 지점 방문하기" />
           <div className="text-gray-600 pt-24  whitespace-pre-line lg:text-15">
@@ -18,8 +18,9 @@ const HowRent = () => {
         </div>
         <img src={rental_step1} className="w-240 h-394 mt-126 lg:mt-40 lg:mx-auto" />
       </section>
-      <div className="bg-primary-100 w-full">
-        <section className="flex flex-row-reverse justify-center lg:flex-col md:flex-col sm:flex-col w-full gap-10 lg:items-center lg:max-w-680 xl:h-520 lg:px-40 sm:px-20">
+
+      <div className="bg-primary-100 w-full lg:flex lg:justify-center">
+        <section className="flex flex-row-reverse lg:flex-col md:flex-col sm:flex-col justify-center w-full gap-10 lg:max-w-700 xl:h-520 lg:px-40">
           <div className="flex flex-col mt-230 lg:mt-80">
             <InformTitle stepTitle="STEP 2" title="우산 손잡이 상단 혹은 측면의 QR코드 스캔" />
           </div>
@@ -29,7 +30,7 @@ const HowRent = () => {
           />
         </section>
       </div>
-      <section className="flex flex-row lg:flex-col md:flex-col sm:flex-col justify-center w-full gap-10 lg:max-w-680 xl:h-520 lg:px-40 sm:px-20">
+      <section className="flex flex-row lg:flex-col md:flex-col sm:flex-col justify-center w-full gap-10 lg:max-w-700 xl:h-520 lg:px-40">
         <div className="flex flex-col mt-206 lg:mt-80">
           <InformTitle stepTitle="STEP 3" title="카카오 로그인 & 대여폼 자동완성" />
           <div className="text-gray-600 pt-24 lg:text-15">
@@ -41,8 +42,8 @@ const HowRent = () => {
           <img src={rental_step3_2} className="w-240 h-425 lg:mx-auto" />
         </div>
       </section>
-      <div className="bg-primary-100 w-full">
-        <section className="flex flex-row-reverse justify-center lg:flex-col lg:items-center md:flex-col sm:flex-col w-full gap-10 lg:max-w-680 xl:h-520 lg:px-40 sm:px-20">
+      <div className="bg-primary-100 w-full lg:flex lg:justify-center">
+        <section className="flex flex-row-reverse lg:flex-col md:flex-col sm:flex-col justify-center w-full gap-10 lg:max-w-700 xl:h-520 lg:px-40">
           <div className="flex flex-col mt-194 lg:mt-80">
             <InformTitle stepTitle="STEP 4" title="업브렐라 계좌 복사 후 보증금 1만원 이체!" />
             <div className="text-gray-600 pt-24 whitespace-pre-line	lg:text-15">
@@ -53,7 +54,7 @@ const HowRent = () => {
           <img src={rental_step4} className="w-240 h-425 mt-95 lg:mt-40 lg:mx-auto" />
         </section>
       </div>
-      <section className="flex flex-row justify-center lg:flex-col md:flex-col sm:flex-col w-full gap-10 lg:max-w-680 xl:h-520 lg:px-40 sm:px-20">
+      <section className="flex flex-row lg:flex-col md:flex-col sm:flex-col justify-center w-full gap-10 lg:max-w-700 xl:h-520 lg:px-40">
         <div className="flex flex-col mt-194 lg:mt-80">
           <InformTitle stepTitle="STEP 5" title="우산 대여 완료!" />
           <div className="text-gray-600 pt-24 whitespace-pre-line	lg:text-15">

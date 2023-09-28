@@ -8,8 +8,8 @@ import return_step5 from "@/assets/Return/return_step5.png";
 
 const HowReturn = () => {
   return (
-    <div className="flex flex-col items-center">
-      <section className="flex flex-row justify-center w-full gap-10 lg:flex-col md:flex-col sm:flex-col lg:max-w-680 lg:px-40 sm:px-20">
+    <div className="flex flex-col items-center justify-center">
+      <section className="flex flex-row lg:flex-col md:flex-col sm:flex-col justify-center w-full gap-10 lg:max-w-700 lg:justify-center xl:h-520">
         <div className="flex flex-col xl:pt-194 lg:mt-48">
           <InformTitle stepTitle="STEP 1" title="가까운 협업 지점 방문하기" />
           <div className="text-gray-600 pt-24 whitespace-pre-line	lg:text-15">
@@ -19,8 +19,8 @@ const HowReturn = () => {
         </div>
         <img src={rental_step1} className="w-240 h-394 mt-126 lg:mt-40 lg:mx-auto" />
       </section>
-      <div className="bg-primary-100 w-full">
-        <section className="flex flex-row-reverse justify-center lg:flex-col lg:items-center md:flex-col sm:flex-col w-full gap-10 lg:max-w-680 xl:h-520 lg:px-40 sm:px-20">
+      <div className="bg-primary-100 w-full lg:flex lg:justify-center">
+        <section className="flex flex-row-reverse lg:flex-col md:flex-col sm:flex-col justify-center w-full gap-10 lg:max-w-700 xl:h-520 lg:px-40">
           <div className="flex flex-col mt-206 lg:mt-80">
             <InformTitle stepTitle="STEP 2" title="우산 반납" />
             <div className="pt-24 text-gray-600">우산을 먼저 우산 보관함에 반납해주세요!</div>
@@ -31,7 +31,7 @@ const HowReturn = () => {
           />
         </section>
       </div>
-      <section className="flex flex-row-reverse lg:flex-col md:flex-col sm:flex-col justify-center w-full gap-10 lg:max-w-680 lg:px-40 sm:px-20">
+      <section className="flex flex-row-reverse lg:flex-col md:flex-col sm:flex-col justify-center w-full gap-10 lg:max-w-700 xl:h-520 lg:px-40">
         <div className="flex flex-col mt-206 lg:mt-80">
           <InformTitle stepTitle="STEP 3" title="우산 보관함 혹은 보관대 옆 가판대 QR 스캔" />
           <div className="text-gray-600 pt-24">
@@ -40,8 +40,8 @@ const HowReturn = () => {
         </div>
         <img src={return_step3} className="w-347 h-320 mt-200 lg:mt-62 lg:mx-auto" />
       </section>
-      <div className="bg-primary-100 w-full lg:max-w-680 flex justify-center items-center">
-        <section className="flex flex-row-reverse justify-center lg:flex-col lg:items-center md:flex-col sm:flex-col w-full gap-10  sm:px-20">
+      <div className="bg-primary-100 w-full lg:flex lg:justify-center">
+        <section className="flex flex-row-reverse lg:flex-col md:flex-col sm:flex-col justify-center w-full gap-10 lg:max-w-700">
           <div className="flex flex-col mt-194 lg:mt-80">
             <InformTitle stepTitle="STEP 4" title="카카오 로그인 & 반납폼 자동완성" />
             <div className="text-gray-600 pt-24 whitespace-pre-line	lg:text-15">
@@ -55,7 +55,7 @@ const HowReturn = () => {
           </div>
         </section>
       </div>
-      <section className="flex flex-row justify-center lg:flex-col md:flex-col sm:flex-col w-full gap-10	lg:max-w-680 xl:h-520 lg:px-40 sm:px-20">
+      <section className="flex flex-row lg:flex-col md:flex-col sm:flex-col justify-center w-full gap-10 lg:max-w-700 xl:h-520 lg:px-40">
         <div className="flex flex-col mt-194 lg:mt-80">
           <InformTitle stepTitle="STEP 5" title="담당자 확인 후 보증급 환급 완료!" />
           <div className="text-gray-600 pt-24 whitespace-pre-line	lg:text-15">
