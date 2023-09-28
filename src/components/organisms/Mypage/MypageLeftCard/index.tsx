@@ -18,6 +18,7 @@ const MypageLeftCard = () => {
     returned: false,
     refunded: false,
   });
+  const [isReturned, setIsReturned] = useState<boolean>(true);
   const loginInfoValue = useRecoilValueLoadable(loginInfo);
   const umbrellaHistories = useRecoilValueLoadable(rentHistories);
   const umbrellaNum = useRecoilValueLoadable(rentHistories);
@@ -53,7 +54,10 @@ const MypageLeftCard = () => {
           const profileRent: TRentInfo = umbrellaHistories.contents.find(
             (history: TRentInfo) => !history.returned
           );
-          setProfileRentInfo({ ...profileRent });
+          if (profileRent) {
+            setProfileRentInfo({ ...profileRent });
+            setIsReturned(false);
+          }
           break;
         }
         case "loading":
@@ -72,7 +76,7 @@ const MypageLeftCard = () => {
         <div className="mb-24">
           <ProfileName userName={userName} totalRentNum={totalRentNum} />
         </div>
-        <ProfileRent profileInfo={profileRentInfo} isReturned={profileRentInfo.returned} />
+        <ProfileRent profileInfo={profileRentInfo} isReturned={isReturned} />
       </section>
       <MypageNav />
     </section>

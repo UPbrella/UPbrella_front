@@ -12,11 +12,15 @@ export type FeedBackDataTableProps = {
 
 const FeedBackDataTable = ({ title, isLoading, value }: FeedBackDataTableProps) => {
   return (
-    <>
-      <Typography variant="h5">{title}</Typography>
-      <div className="flex gap-8">
-        <div>
+    <div className="flex-1">
+      <Typography variant="h5" className="!mb-8">
+        {title}
+      </Typography>
+      <div className="flex w-full gap-8">
+        <div className="w-full">
           <CssDataTable
+            paginator
+            rows={10}
             emptyMessage={
               isLoading ? (
                 <div>
@@ -40,14 +44,12 @@ const FeedBackDataTable = ({ title, isLoading, value }: FeedBackDataTableProps) 
               const maxWidth = minWidth;
               const header = FEEDBACK_TABLE[field].label;
 
-              return (
-                <Column key={key} style={{ minWidth, maxWidth }} field={field} header={header} />
-              );
+              return <Column key={key} style={{ maxWidth }} field={field} header={header} />;
             })}
           </CssDataTable>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

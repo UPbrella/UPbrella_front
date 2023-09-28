@@ -15,6 +15,7 @@ import PrivateRoutes from "./utils/PrivateRoutes";
 import { Suspense } from "react";
 import UpbrellaStoryPage from "@/components/pages/story/UpbrellaStoryPage";
 import AdminRoutes from "@/utils/AdminRoutes";
+import InfoPage from "@/components/pages/Info/InfoPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -44,12 +45,13 @@ function App() {
               },
             }}
           />
-          <div className="bg-cover bg-basic">
-            {/* Routes */}
+
+          <div className="bg-cover">
             <Routes>
               {/* width full */}
               <Route path={"/about"} element={<UpbrellaStoryPage />} />
-              <Route path={"/"} element={<UpbrellaStoryPage />} />
+              <Route path="/" element={<UpbrellaStoryPage />} />
+              <Route path="/information" element={<InfoPage />} />
 
               {/* width fix */}
               <Route element={<MainLayout />}>

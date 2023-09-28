@@ -60,7 +60,6 @@ export default {
       },
       backgroundImage: {
         basic: "url('/src/assets/basicbackground.png')",
-        "main-section1": "url('/src/assets/main_section1_bg.png')",
       },
     },
   },
