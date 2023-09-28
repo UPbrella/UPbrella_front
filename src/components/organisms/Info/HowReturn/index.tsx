@@ -9,7 +9,7 @@ import return_step5 from "@/assets/Return/return_step5.png";
 const HowReturn = () => {
   return (
     <div className="flex flex-col items-center justify-center">
-      <section className="flex flex-row lg:flex-col md:flex-col sm:flex-col justify-center w-full gap-10 lg:max-w-700 lg:justify-center xl:h-520">
+      <section className="flex flex-row lg:flex-col md:flex-col sm:flex-col justify-center w-full gap-10 lg:max-w-700 lg:justify-center xl:h-520 lg:px-40">
         <div className="flex flex-col xl:pt-194 lg:mt-48">
           <InformTitle stepTitle="STEP 1" title="가까운 협업 지점 방문하기" />
           <div className="text-gray-600 pt-24 whitespace-pre-line	lg:text-15">
@@ -41,7 +41,7 @@ const HowReturn = () => {
         <img src={return_step3} className="w-347 h-320 mt-200 lg:mt-62 lg:mx-auto" />
       </section>
       <div className="bg-primary-100 w-full lg:flex lg:justify-center">
-        <section className="flex flex-row-reverse lg:flex-col md:flex-col sm:flex-col justify-center w-full gap-10 lg:max-w-700">
+        <section className="flex flex-row-reverse lg:flex-col md:flex-col sm:flex-col justify-center w-full gap-10 lg:max-w-700 lg:px-40">
           <div className="flex flex-col mt-194 lg:mt-80">
             <InformTitle stepTitle="STEP 4" title="카카오 로그인 & 반납폼 자동완성" />
             <div className="text-gray-600 pt-24 whitespace-pre-line	lg:text-15">
