@@ -8,15 +8,15 @@ import { SectionBullet } from "@/components/pages/story/UI/SectionBullet";
 const StorySection4 = () => {
   return (
     <CssSectionBg
-      className={`mt-80 p-80 px-80 lgMaxMin:px-80 sm:px-20  flex justify-center items-center gap-[40px]`}
+      className={`mt-80 p-80 px-80 smMaxLg:px-80 sm:px-20  flex justify-center items-center gap-[40px]`}
     >
-      <div className="lg:hidden flex-1">
+      <div className="flex-1 lg:hidden">
         <Images />
       </div>
 
       <div className="flex-1 flex flex-col gap-[24px] font-semibold">
         <header className="text-h18 lg:text-h15 text-primary-500">지역 공동체 의식 강화</header>
-        <div className="text-h32 lg:text-h24 text-gray-700">
+        <div className="text-gray-700 text-h32 lg:text-h24">
           ‘공유 우산’을 매개로 <br /> 학생과 지역 공동체가 <br /> 긴밀히 협업하는 플랫폼
         </div>
 
@@ -24,7 +24,7 @@ const StorySection4 = () => {
           <Images />
         </div>
 
-        <div className="text-h18 lg:text-h15 text-gray-600">
+        <div className="text-gray-600 text-h18 lg:text-h15">
           현재 신촌, 한양대 인근 협업 지점의 인지도를 높이고,
           <br className="lg:hidden" /> 업브렐라와 협업 지점 간 시너지를 창출하여
           <br className="lg:hidden" /> 지역 상권을 활성화하고자 합니다.
