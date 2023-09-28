@@ -5,7 +5,7 @@ import HowRent from "@/components/organisms/Info/HowRent";
 import HowReturn from "@/components/organisms/Info/HowReturn";
 import FAQ from "@/components/organisms/Info/FAQ";
 import Footer from "@/components/organisms/Footer";
-import { FixWidthWrapper } from "../story/UpbrellaStoryPage";
+import { FixWidthWrapper } from "@/components/pages/story/UpbrellaStoryPage";
 import { HeaderContainer } from "@/components/organisms/Header/HeaderContainer";
 
 const mock: TClassification[] = [

@@ -19,13 +19,13 @@ const MypageBankAccountInput = ({
   bankRef,
 }: MypageBankAccountInputProps) => {
   return (
-   <section className="p-24 border border-solid border-gray-200 rounded-12">
+    <section className="p-24 border border-solid border-gray-200 rounded-12">
       <div className="flex flex-col">
         <div className="flex mb-8 items-center">
           <div className="mr-40">
             <MypageFormTitle label="은행" />
           </div>
-          <div className="mr-4">
+          <div className="xl:w-224 lg:w-full">
             <MypageBankInput
               label="은행명"
               name="bank"
@@ -40,7 +40,7 @@ const MypageBankAccountInput = ({
           <div className="mr-40">
             <MypageFormTitle label="계좌번호" />
           </div>
-          <div className="w-224">
+          <div className="xl:w-224 lg:w-full">
             <SignUpFormInput
               label="계좌번호"
               name="accountNumber"

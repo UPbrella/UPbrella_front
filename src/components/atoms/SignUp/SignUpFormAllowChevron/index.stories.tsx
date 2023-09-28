@@ -1,5 +1,4 @@
 import SignUpFormAllowChevron from "./index";
-import { SignUpFormAllowChevronProps } from "./index";
 import { Meta, StoryFn } from "@storybook/react";
 
 export default {
@@ -7,16 +6,12 @@ export default {
   component: SignUpFormAllowChevron,
 } as Meta<typeof SignUpFormAllowChevron>;
 
-const Template: StoryFn<typeof SignUpFormAllowChevron> = (args: SignUpFormAllowChevronProps) => (
+const Template: StoryFn<typeof SignUpFormAllowChevron> = (args) => (
   <SignUpFormAllowChevron {...args} />
 );
 
 export const Clicked = Template.bind({});
-Clicked.args = {
-  isClicked: true,
-};
+Clicked.args = {};
 
 export const NotClicked = Template.bind({});
-NotClicked.args = {
-  isClicked: false,
-};
+NotClicked.args = {};

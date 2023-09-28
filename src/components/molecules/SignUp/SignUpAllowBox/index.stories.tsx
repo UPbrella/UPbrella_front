@@ -15,5 +15,4 @@ export const Required = Template.bind({});
 Required.args = {
   isAllow: false,
   label: "(필수) 업브렐라 이용약관",
-  isClicked: false,
 };

@@ -18,6 +18,7 @@ const MypageLeftCard = () => {
     returned: false,
     refunded: false,
   });
+  const [isReturned, setIsReturned] = useState<boolean>(true);
   const loginInfoValue = useRecoilValueLoadable(loginInfo);
   const umbrellaHistories = useRecoilValueLoadable(rentHistories);
   const umbrellaNum = useRecoilValueLoadable(rentHistories);
@@ -53,7 +54,10 @@ const MypageLeftCard = () => {
           const profileRent: TRentInfo = umbrellaHistories.contents.find(
             (history: TRentInfo) => !history.returned
           );
-          setProfileRentInfo({ ...profileRent });
+          if (profileRent) {
+            setProfileRentInfo({ ...profileRent });
+            setIsReturned(false);
+          }
           break;
         }
         case "loading":
@@ -67,12 +71,12 @@ const MypageLeftCard = () => {
     getCurrentUmbrellaId();
   }, [loginInfoValue, umbrellaNum, umbrellaHistories]);
   return (
-    <section className="flex flex-col items-center w-320">
+    <section className="flex flex-col items-center w-320 lg:w-full">
       <section className="flex flex-col items-center w-full px-24 pt-32 pb-24 mb-24 border border-solid border-gray-200 rounded-12">
-        <div className="mb-24">
+        <div className="mb-24 w-full">
           <ProfileName userName={userName} totalRentNum={totalRentNum} />
         </div>
-        <ProfileRent profileInfo={profileRentInfo} isReturned={profileRentInfo.returned} />
+        <ProfileRent profileInfo={profileRentInfo} isReturned={isReturned} />
       </section>
       <MypageNav />
     </section>

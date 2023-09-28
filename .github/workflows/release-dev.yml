@@ -37,11 +37,17 @@ jobs:
           VITE_NAVER_MAP_API_KEY: ${{ secrets.VITE_NAVER_MAP_API_KEY }}
           VITE_KAKAO_MAP_API_KEY: ${{ secrets.VITE_KAKAO_MAP_API_KEY }}
           VITE_KAKAO_LOGIN_REST_API_KEY: ${{ secrets.VITE_KAKAO_LOGIN_REST_API_KEY }}
+          VITE_EMAIL_SERVICE_ID: ${{ secrets.VITE_EMAIL_SERVICE_ID }}
+          VITE_EMAIL_TEMPLATE_ID: ${{ secrets.VITE_EMAIL_TEMPLATE_ID}}
+          VITE_EMAIL_PUB_KEY: ${{ secrets.VITE_EMAIL_PUB_KEY}}
         run: |
           echo "VITE_UPBRELLA_API_BASE_URL=${VITE_UPBRELLA_API_BASE_URL}" >> .env
           echo "VITE_NAVER_MAP_API_KEY=${VITE_NAVER_MAP_API_KEY}" >> .env
           echo "VITE_KAKAO_MAP_API_KEY=${VITE_KAKAO_MAP_API_KEY}" >> .env
           echo "VITE_KAKAO_LOGIN_REST_API_KEY=${VITE_KAKAO_LOGIN_REST_API_KEY}" >> .env
+          echo "VITE_EMAIL_SERVICE_ID"=${VITE_EMAIL_SERVICE_ID} >> .env
+          echo "VITE_EMAIL_TEMPLATE_ID"=${VITE_EMAIL_TEMPLATE_ID} >> .env
+          echo "VITE_EMAIL_PUB_KEY"=${VITE_EMAIL_PUB_KEY} >> .env
 
       - name: Set node@v1
         uses: actions/setup-node@v3
