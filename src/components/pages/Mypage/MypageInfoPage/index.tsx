@@ -1,6 +1,7 @@
 import MypageModal from "@/components/molecules/Mypage/MypageModal";
 import MypageModalNotAllowedChildren from "@/components/molecules/Mypage/MypageModalNotAllowedChildren";
 import MypageModalTwoBtnChildren from "@/components/molecules/Mypage/MypageModalTwoBtnChildren";
+import Footer from "@/components/organisms/Footer";
 import MypageInfoCard from "@/components/organisms/Mypage/MypageInfoCard";
 import MypageLeftCard from "@/components/organisms/Mypage/MypageLeftCard";
 import { $axios } from "@/lib/axios";
@@ -81,7 +82,7 @@ const MypageInfoPage = () => {
     }
   };
   return (
-    <div className="flex justify-center">
+    <div className="flex flex-col justify-center items-center">
       <div className="flex flex-col w-full xl:w-[1280px] xl:mt-24 xl:px-40 lg:max-w-640 lg:py-20 lg:w-full lg:px-20">
         <div className="text-black text-24 font-semibold leading-32 mb-32">MYPAGE</div>
         <div className="xl:flex">
@@ -126,6 +127,9 @@ const MypageInfoPage = () => {
             </MypageModal>
           )}
         </div>
+      </div>
+      <div className="w-full">
+        <Footer />
       </div>
     </div>
   );
