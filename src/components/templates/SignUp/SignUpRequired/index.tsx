@@ -42,11 +42,11 @@ const SignUpRequiredForm = ({
   onClickDetailPPPage,
 }: SignUpRequiredFormProps) => {
   return (
-    <main className="flex flex-1 flex-col justify-center items-center">
-      <article className="flex flex-1 flex-col justify-center items-center w-440 max-h-640 p-20">
+    <main className="flex flex-1 flex-col items-center">
+      <article className="flex flex-1 flex-col justify-center items-center max-h-760 xl:max-w-440 xl:w-full lg:max-w-640 lg:w-full md:w-full p-20">
         <SignUpProgress isInProgress1={true} isInProgress2={false} />
-        <section className="flex flex-1 flex-col justify-between mt-40">
-          <section>
+        <section className="flex flex-1 flex-col justify-between mt-40 w-full">
+          <section className="w-full">
             <div className="mb-28">
               <SignUpText
                 labelTitle="이름과 전화번호를 입력해주세요!"
@@ -78,7 +78,7 @@ const SignUpRequiredForm = ({
               />
             </div>
           </section>
-          <section>
+          <section className="mt-32">
             <SignUpAllAllowBox
               isAllow={isAllAllow}
               onClickAllow={onClickAllAllow}
