@@ -19,6 +19,7 @@ import ClassificationsButtons from "@/components/pages/RentalLocation/Classifica
 const RentalInfo = () => {
   const { naver } = window;
   const mapElement = useRef<HTMLDivElement | null>(null);
+  
   // Ref를 사용하여 맵의 너비 동적으로 가져오기
   const mapWidth = mapElement.current?.offsetWidth ?? null;
 
@@ -120,6 +121,34 @@ const RentalInfo = () => {
   ]);
 
   useEffect(() => {
+    if (storeMarker.data && storeMarker.data.length > 0 && showInitialCard) {
+      const randomIndex = Math.floor(Math.random() * storeMarker.data.length);
+      const randomStore = storeMarker.data[randomIndex].id;
+      setSelectedStoreId(randomStore);
+      setShowInitialCard(false);
+    }
+  }, [storeMarker.data, showInitialCard]);
+
+  useEffect(() => {
+    if (userPosition && storeMarker.data && storeMarker.data.length > 0) {
+      const distances = storeMarker.data.map((store) =>
+        getDistanceFromLatLonInKm(
+          userPosition.lat,
+          userPosition.lng,
+          store.latitude,
+          store.longitude
+        )
+      );
+
+      const minDistanceIndex = distances.indexOf(Math.min(...distances));
+
+      if (!showInitialCard) {
+        setSelectedStoreId(storeMarker.data[minDistanceIndex].id);
+      }
+    }
+  }, [userPosition, storeMarker.data, showInitialCard]);
+
+  useEffect(() => {
     getUserPosition().then(
       (position) =>
         position &&
@@ -152,6 +181,7 @@ const RentalInfo = () => {
       setSelectedStoreId(selectedStore.id);
     }
   }, [storeListRes, userPosition]);
+
 
   return (
     <div className="flex flex-col mt-24">
