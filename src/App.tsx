@@ -16,6 +16,8 @@ import { Suspense } from "react";
 import UpbrellaStoryPage from "@/components/pages/story/UpbrellaStoryPage";
 import AdminRoutes from "@/utils/AdminRoutes";
 import InfoPage from "@/components/pages/Info/InfoPage";
+import BackgroundLayout from "@/components/templates/common/BackgroundLayout";
+import { BACKGROUND_ROUTES } from "@/routes/backgroundRouter";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -57,6 +59,18 @@ function App() {
               <Route element={<MainLayout />}>
                 <>
                   {LAYOUT_ROUTES.map((route) => {
+                    return (
+                      <Route key={route.name} path={route.path} element={<route.component />} />
+                    );
+                  })}
+                  <Route path="/*" element={<NotFound />} />
+                </>
+              </Route>
+
+              {/* width fix, has bg */}
+              <Route element={<BackgroundLayout />}>
+                <>
+                  {BACKGROUND_ROUTES.map((route) => {
                     return (
                       <Route key={route.name} path={route.path} element={<route.component />} />
                     );
