@@ -4,7 +4,6 @@ import Input from "@/components/atoms/Contact/Input";
 import TextArea from "@/components/atoms/Contact/TextArea";
 import Button from "@/components/atoms/Contact/Button";
 import emailjs from "@emailjs/browser";
-import Footer from "@/components/organisms/Footer";
 import { formatPhoneNumber } from "@/utils/utils";
 import toast from "react-hot-toast";
 
@@ -135,8 +134,6 @@ const ContactPage = () => {
             </div>
           )}
         </div>
-
-        <Footer />
       </div>
     </>
   );
