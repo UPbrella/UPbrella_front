@@ -11,7 +11,7 @@ export type TCard = {
 const Card = ({ storeDetail, maxWidth, maxHeight }: TCard) => {
   // 매개변수를 객체로 받아야 함
   return (
-    <div className="flex-col justify-center items-center">
+    <div className="flex-col justify-center items-center gap-[16px]">
       <ImgSwiper
         maxWidth={maxWidth ?? 400}
         maxHeight={maxHeight ?? 280}

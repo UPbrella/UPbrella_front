@@ -6,11 +6,24 @@ export type FormStatusProps = {
   setStatus: (conditionReport: string) => void;
   status: string;
   isComplete: boolean;
+  maxCharLimit: number;
 };
 
-const FormStatus = ({ label, placeholder, setStatus, status, isComplete }: FormStatusProps) => {
+const FormStatus = ({
+  label,
+  placeholder,
+  setStatus,
+  status,
+  isComplete,
+  maxCharLimit,
+}: FormStatusProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [isWriting, setIsWriting] = useState(false);
+  const [charCount, setCharCount] = useState(status.length);
+
+  useEffect(() => {
+    setCharCount(status.length);
+  }, [status]);
 
   useEffect(() => {
     // 컴포넌트가 마운트될 때마다 textarea의 높이를 자동으로 설정
@@ -29,7 +42,8 @@ const FormStatus = ({ label, placeholder, setStatus, status, isComplete }: FormS
 
     const { value } = event.target;
     setIsWriting(Boolean(value));
-    setStatus(event.target.value);
+    setStatus(value);
+    setCharCount(value.length);
   };
 
   const borderColor = isWriting ? "gray-600" : "gray-300";
@@ -46,14 +60,20 @@ const FormStatus = ({ label, placeholder, setStatus, status, isComplete }: FormS
           {status}
         </div>
       ) : (
-        <textarea
-          ref={textareaRef}
-          onChange={handleTextareaChange}
-          rows={1}
-          className={`w-full mt-4 rounded-8 border border-${borderColor} p-10 text-15 text-${textColor} leading-22 placeholder-gray-300 resize-none overflow-hidden focus:border-gray-600 focus:outline-none`}
-          placeholder={placeholder}
-          spellCheck={false}
-        />
+        <div className="flex flex-col items-end">
+          <textarea
+            ref={textareaRef}
+            onChange={handleTextareaChange}
+            rows={1}
+            className={`w-full mt-4 rounded-8 border border-${borderColor} p-10 text-15 text-${textColor} leading-22 placeholder-gray-300 resize-none overflow-hidden focus:border-gray-600 focus:outline-none`}
+            placeholder={placeholder}
+            spellCheck={false}
+            maxLength={maxCharLimit}
+          />
+          <div className="text-sm text-gray-400 mt-2">
+            {charCount}/{maxCharLimit}
+          </div>
+        </div>
       )}
     </div>
   );

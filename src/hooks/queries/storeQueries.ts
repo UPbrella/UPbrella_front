@@ -49,6 +49,7 @@ export const useGetClassificationsStore = (classificationId: number) => {
     queryKey: [...STORE_QUERY_KEYS.classifications(classificationId)],
     queryFn: () => getClassificationsStore(classificationId),
     select: (res) => res.data.stores,
+    enabled: !!classificationId,
   });
 };
 
@@ -57,7 +58,7 @@ export const useGetStoreDetail = (storeId: number) => {
   return useQuery({
     queryKey: [...STORE_QUERY_KEYS.stores(storeId)],
     queryFn: () => getStoreDetail(storeId),
-    enabled: storeId !== null, // storeId가 null이면 쿼리 비활성화
+    enabled: !!storeId, // storeId가 null이면 쿼리 비활성화
     select: (res) => res.data,
   });
 };
