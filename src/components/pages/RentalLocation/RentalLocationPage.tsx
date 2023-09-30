@@ -19,7 +19,6 @@ import ClassificationsButtons from "@/components/pages/RentalLocation/Classifica
 const RentalInfo = () => {
   const { naver } = window;
   const mapElement = useRef<HTMLDivElement | null>(null);
-
   // Ref를 사용하여 맵의 너비 동적으로 가져오기
   const mapWidth = mapElement.current?.offsetWidth ?? null;
 
