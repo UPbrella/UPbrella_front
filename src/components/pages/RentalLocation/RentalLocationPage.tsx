@@ -1,4 +1,3 @@
-import CardFooter from "@/components/organisms/CardFooter";
 import webMarker from "@/assets/webMarker.svg";
 import webMarker_inactive from "@/assets/webMarker_inactive.svg";
 import Map from "../admin/store/UI/Map";
@@ -192,10 +191,10 @@ const RentalInfo = () => {
     <div className="flex flex-col mt-24">
       <div className="flex justify-center">
         {/* 태블렛 환경에서 대여지점 카드 hidden  */}
-        <div className="pr-24 min-w-[400px] md:hidden">
+        <div className="pr-24 min-w-[400px] smMaxLg:hidden">
           {storeDetail && <Card storeDetail={storeDetail} />}
         </div>
-        <div className="relative w-full max-w-936 rounded-20">
+        <div className="relative w-full max-w-936 rounded-20 smMaxLg:max-w-640">
           <Map ref={mapElement} width="100%" height="896px" borderRadius="20px" />
           <div className="absolute top-0 left-0 p-24 z-9">
             {classificationsRes && (
@@ -213,7 +212,7 @@ const RentalInfo = () => {
                 isBottomSheetOpen={isBottomOpen}
                 setIsBottomSheetOpen={setIsBottomOpen}
                 snapPoints={[280, 280, 0]}
-                _className="hidden md:block sm:block"
+                _className="hidden smMaxLg:block"
               >
                 <MobileCard storeDetail={storeDetail} />
               </BottomSheet>
@@ -221,7 +220,6 @@ const RentalInfo = () => {
           </div>
         </div>
       </div>
-      <CardFooter />
     </div>
   );
 };

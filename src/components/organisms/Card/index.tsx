@@ -1,6 +1,7 @@
 import ImgSwiper from "@/components/organisms/ImgSwiper/index";
 import RentalInfoCard from "@/components/organisms/RentalInfoCard/index";
 import { TStoreListDetail } from "@/types/admin/StoreTypes";
+import CardFooter from "../CardFooter";
 
 export type TCard = {
   storeDetail: TStoreListDetail;
@@ -18,6 +19,7 @@ const Card = ({ storeDetail, maxWidth, maxHeight }: TCard) => {
         images={storeDetail.imageUrls}
       />
       <RentalInfoCard storeDetail={storeDetail} />
+      <CardFooter />
     </div>
   );
 };

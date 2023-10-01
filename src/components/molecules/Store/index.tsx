@@ -36,7 +36,7 @@ const Store = ({
   }, [selectedClassificationName, classifications]);
 
   return (
-    <div className="flex flex-col justify-center items-start lg:items-center">
+    <div className="flex flex-col justify-center items-start smMaxLg:items-center">
       {storeList.map((store, index) => (
         <div key={index}>
           <div
