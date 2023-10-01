@@ -212,7 +212,7 @@ const RentalInfo = () => {
                 isBottomSheetOpen={isBottomOpen}
                 setIsBottomSheetOpen={setIsBottomOpen}
                 snapPoints={[280, 280, 0]}
-                _className="hidden smMaxLg:block"
+                _className="hidden md:block sm:block"
               >
                 <MobileCard storeDetail={storeDetail} />
               </BottomSheet>
