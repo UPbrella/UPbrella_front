@@ -8,6 +8,7 @@ import { headerNavItems } from "@/components/molecules/Header/HeaderContents";
 import { useLogout } from "@/hooks/queries/userQueries";
 import { TUserRes } from "@/types/admin/userTypes";
 import { Fragment } from "react";
+import CardFooter from "@/components/organisms/CardFooter";
 
 export type TMenu = {
   userRes: TUserRes | null;
@@ -33,7 +34,7 @@ const MobileMenu: React.FC<TMenu> = ({ userRes, setMenuOpen }) => {
   };
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full h-full flex flex-col justify-between">
       <div className="bg-white z-100">
         <div className="flex justify-between items-center py-16">
           <Link to={"/"}>
@@ -104,6 +105,7 @@ const MobileMenu: React.FC<TMenu> = ({ userRes, setMenuOpen }) => {
           )}
         </div>
       </div>
+      <CardFooter />
     </div>
   );
 };
