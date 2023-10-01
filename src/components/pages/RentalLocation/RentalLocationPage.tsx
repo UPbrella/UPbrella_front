@@ -1,5 +1,6 @@
 import CardFooter from "@/components/organisms/CardFooter";
 import webMarker from "@/assets/webMarker.svg";
+import webMarker_inactive from "@/assets/webMarker_inactive.svg";
 import Map from "../admin/store/UI/Map";
 import { useEffect, useRef, useState } from "react";
 import MapBtn from "@/components/molecules/MapBtn";
@@ -31,6 +32,7 @@ const RentalInfo = () => {
   const [markers, setMarkers] = useState<naver.maps.Marker[]>([]);
   const [userPosition, setUserPosition] = useState<{ lat: number; lng: number } | null>(null);
   const [isBottomOpen, setIsBottomOpen] = useState(false);
+  const [showInitialCard, setShowInitialCard] = useState(true);
 
   // server
   const { data: classificationsRes } = useGetClassifications();
@@ -81,12 +83,17 @@ const RentalInfo = () => {
 
     // 새로 생성 후 setState (여기에서 선택한 지점과 비교 후 아이콘 변경)
     const _markers = storeListRes.map(
-      ({ id, latitude, longitude, name, rentableUmbrellasCount }) => {
+      ({ id, latitude, longitude, name, rentableUmbrellasCount, openStatus }) => {
         // TODO: openStatus 처리
+        // console.log(openStatus + "결과 ");
         const isSelected = id === selectedStoreId;
         const iconContent = isSelected
-          ? `<div class="marker-wrapper-focus"><img class="marker-focus" alt="webMarkerFocus" src="${webMarker}" /><div class="umbrella-count-focus">${rentableUmbrellasCount}</div><div class="custom-label-focus">${name}</div></div>`
-          : `<div class="marker-wrapper"><img class="marker" alt="webMarker" src="${webMarker}" /><div class="umbrella-count">${rentableUmbrellasCount}</div><div class="custom-label">${name}</div></div>`;
+          ? `<div class="marker-wrapper-focus"><img class="marker-focus" alt="webMarkerFocus" src="${
+              openStatus ? webMarker : webMarker_inactive
+            }" /><div class="umbrella-count-focus">${rentableUmbrellasCount}</div><div class="custom-label-focus">${name}</div></div>`
+          : `<div class="marker-wrapper"><img class="marker" alt="webMarker" src="${
+              openStatus ? webMarker : webMarker_inactive
+            }" /><div class="umbrella-count">${rentableUmbrellasCount}</div><div class="custom-label">${name}</div></div>`;
 
         const marker = new naver.maps.Marker({
           position: new naver.maps.LatLng(latitude, longitude),
@@ -120,17 +127,17 @@ const RentalInfo = () => {
   ]);
 
   useEffect(() => {
-    if (storeMarker.data && storeMarker.data.length > 0 && showInitialCard) {
-      const randomIndex = Math.floor(Math.random() * storeMarker.data.length);
-      const randomStore = storeMarker.data[randomIndex].id;
+    if (storeListRes && storeListRes.length > 0 && showInitialCard) {
+      const randomIndex = Math.floor(Math.random() * storeListRes.length);
+      const randomStore = storeListRes[randomIndex].id;
       setSelectedStoreId(randomStore);
       setShowInitialCard(false);
     }
-  }, [storeMarker.data, showInitialCard]);
+  }, [storeListRes, showInitialCard]);
 
   useEffect(() => {
-    if (userPosition && storeMarker.data && storeMarker.data.length > 0) {
-      const distances = storeMarker.data.map((store) =>
+    if (userPosition && storeListRes && storeListRes.length > 0) {
+      const distances = storeListRes.map((store) =>
         getDistanceFromLatLonInKm(
           userPosition.lat,
           userPosition.lng,
@@ -142,10 +149,10 @@ const RentalInfo = () => {
       const minDistanceIndex = distances.indexOf(Math.min(...distances));
 
       if (!showInitialCard) {
-        setSelectedStoreId(storeMarker.data[minDistanceIndex].id);
+        setSelectedStoreId(storeListRes[minDistanceIndex].id);
       }
     }
-  }, [userPosition, storeMarker.data, showInitialCard]);
+  }, [userPosition, storeListRes, showInitialCard]);
 
   useEffect(() => {
     getUserPosition().then(
@@ -181,7 +188,6 @@ const RentalInfo = () => {
     }
   }, [storeListRes, userPosition]);
 
-
   return (
     <div className="flex flex-col mt-24">
       <div className="flex justify-center">
@@ -207,6 +213,7 @@ const RentalInfo = () => {
                 isBottomSheetOpen={isBottomOpen}
                 setIsBottomSheetOpen={setIsBottomOpen}
                 snapPoints={[280, 280, 0]}
+                _className="hidden md:block sm:block"
               >
                 <MobileCard storeDetail={storeDetail} />
               </BottomSheet>
