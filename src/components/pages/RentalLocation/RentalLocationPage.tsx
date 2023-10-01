@@ -194,7 +194,7 @@ const RentalInfo = () => {
         <div className="pr-24 min-w-[400px] smMaxLg:hidden">
           {storeDetail && <Card storeDetail={storeDetail} />}
         </div>
-        <div className="relative w-full max-w-936 rounded-20 smMaxLg:max-w-640">
+        <div className="relative w-full max-w-936 rounded-20 smMaxLg:max-w-640 smMaxLg:flex smMaxLg:justify-center">
           <Map ref={mapElement} width="100%" height="896px" borderRadius="20px" />
           <div className="absolute top-0 left-0 p-24 z-9">
             {classificationsRes && (

@@ -43,8 +43,8 @@ const InfoPage = () => {
     <div className="bg-white">
       <FixWidthWrapper>
         <HeaderContainer />
-        <div className="flex items-center lg:w-680 lg:mx-auto md:px-10">
-          <div className="flex flex-1 flex-col justify-center lg:px-0 sm:px-0 xl:px-40">
+        <div className="flex items-center smMaxLg:w-680 smMaxLg:mx-auto px-10">
+          <div className="flex flex-1 flex-col justify-center px-0 xl:px-40">
             <div className="font-semibold text-24 pb-32 pt-24">이용안내</div>
             <LocationClassificationBtn
               classifications={mock}
@@ -58,9 +58,7 @@ const InfoPage = () => {
       {selectedClassificationIndex === 1 && <HowReturn />}
       {selectedClassificationIndex === 2 && <FAQ />}
       <FixWidthWrapper>
-        <div className="lg:hidden md:hidden sm:hidden">
-          <Footer />
-        </div>
+        <Footer />
       </FixWidthWrapper>
     </div>
   );

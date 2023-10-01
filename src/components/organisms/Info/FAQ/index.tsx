@@ -1,7 +1,7 @@
 const FAQ = () => {
   return (
-    <div className="mx-auto mb-194 px-120 md:px-40 mdMaxlg:px-80 items-center justify-center pt-32 flex flex-col gap-4 lg:px-40 sm:px-20">
-      <section className="bg-gray-100 rounded-20 p-32 w-full lg:max-w-680 ">
+    <div className="mx-auto mb-194 px-120 mdMaxlg:px-80 items-center justify-center pt-32 flex flex-col gap-4 smMaxLg:px-20">
+      <section className="bg-gray-100 rounded-20 p-32 w-full smMaxLg:max-w-680 ">
         <div className="font-semibold	text-18">
           <span className="mr-16 font-semibold text-18">Q</span>우산 대여와 반납 지점이 일치해야
           하나요?
@@ -15,7 +15,7 @@ const FAQ = () => {
           </div>
         </div>
       </section>
-      <section className="bg-gray-100 rounded-20 p-32 w-1200 w-full lg:max-w-680">
+      <section className="bg-gray-100 rounded-20 p-32 w-1200 w-full smMaxLg:max-w-680">
         <div className="font-semibold	text-18">
           <span className="mr-16 font-semibold text-18">Q</span>영업시간은 어떻게 확인하나요?
         </div>
@@ -31,7 +31,7 @@ const FAQ = () => {
           </div>
         </div>
       </section>
-      <section className="bg-gray-100 rounded-20 p-32 w-1200 w-full lg:max-w-680">
+      <section className="bg-gray-100 rounded-20 p-32 w-1200 w-full smMaxLg:max-w-680">
         <div className="font-semibold	text-18">
           <span className="mr-16 font-semibold text-18">Q</span>보증급 환급은 언제 이루어지나요?
         </div>
