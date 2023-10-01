@@ -1,11 +1,15 @@
+import MypageModal from "@/components/molecules/Mypage/MypageModal";
+import MypageModalNotAllowedChildren from "@/components/molecules/Mypage/MypageModalNotAllowedChildren";
+import MypageModalTwoBtnChildren from "@/components/molecules/Mypage/MypageModalTwoBtnChildren";
 import MypageInfoCard from "@/components/organisms/Mypage/MypageInfoCard";
 import MypageLeftCard from "@/components/organisms/Mypage/MypageLeftCard";
 import { $axios } from "@/lib/axios";
 import { loginInfo, loginState } from "@/recoil";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState, useRecoilValueLoadable } from "recoil";
+import { useRecoilState, useRecoilValueLoadable } from "recoil";
 
 type TInfos = {
   name: string;
@@ -19,7 +23,9 @@ const MypageInfoPage = () => {
     phoneNumber: "",
     email: "",
   });
-  const setIsLogin = useSetRecoilState<boolean>(loginState);
+  const [isDeleted, setIsDeleted] = useState<boolean>(false);
+  const [isDeleteAllowed, setIsDeleteAllowed] = useState<boolean>(true);
+  const [isLogin, setIsLogin] = useRecoilState<boolean>(loginState);
   const loginInfoValue = useRecoilValueLoadable(loginInfo);
 
   const navigate = useNavigate();
@@ -44,11 +50,17 @@ const MypageInfoPage = () => {
       }
     };
     getInfos();
-  }, [loginInfoValue.contents, loginInfoValue.state]);
+    if (!isLogin) {
+      toast.error(`로그인 세션이 만료되었습니다. 
+      다시 로그인해주세요.`);
+      navigate("/");
+    }
+  }, [isLogin, loginInfoValue.contents, loginInfoValue.state, navigate]);
   const handleDeleteUser = async () => {
     try {
       await $axios.get("/users/loggedIn/umbrella", { withCredentials: true });
-      alert("지금은 탈퇴가 불가능합니다. 대여중인 우산이 있습니다.");
+      setIsDeleted(false);
+      setIsDeleteAllowed(false);
     } catch {
       await axios
         .all([
@@ -56,30 +68,63 @@ const MypageInfoPage = () => {
           $axios.delete("/users/loggedIn", { withCredentials: true }),
         ])
         .then(() => {
+          setIsDeleted(false);
           setIsLogin(false);
           navigate("/");
           location.reload();
-          alert("회원탈퇴 완료했습니다!");
+          toast.success("회원탈퇴 완료했습니다!");
         })
         .catch(() => {
-          alert("오류가 발생했습니다. 다시 시도해주세요.");
+          setIsDeleted(false);
+          toast.error("오류가 발생했습니다. 다시 시도해주세요.");
         });
     }
   };
   return (
-    <div className="flex justify-center w-[1280px] mt-24 px-40">
-      <div className="flex flex-col w-full">
+    <div className="flex justify-center">
+      <div className="flex flex-col w-full xl:w-[1280px] xl:mt-24 xl:px-40 lg:max-w-640 lg:py-20 lg:w-full lg:px-20">
         <div className="text-black text-24 font-semibold leading-32 mb-32">MYPAGE</div>
-        <div className="flex">
-          <div className="mr-32">
+        <div className="xl:flex">
+          <div className="xl:mr-32">
             <MypageLeftCard />
           </div>
           <MypageInfoCard
             name={infos.name}
             phoneNumber={infos.phoneNumber}
             email={infos.email}
-            onClickButton={handleDeleteUser}
+            onClickButton={() => {
+              setIsDeleted(true);
+            }}
           />
+          {isDeleted ? (
+            <MypageModal width="520">
+              <MypageModalTwoBtnChildren
+                label="정말 탈퇴하시겠어요?"
+                content={[
+                  "그동안 업브렐라를 이용해주셔서 감사합니다.",
+                  "회원탈퇴를 하실 경우, 아래와 같이 회원정보가 처리됩니다.",
+                  "탈퇴 신청 즉시 회원 탈퇴 처리되며, 회원 정보는 삭제 처리됩니다.",
+                  "대여 중인 우산이 남아있는 경우, 즉시 탈퇴가 불가하니 문의 바랍니다.",
+                ]}
+                btnLabel="탈퇴"
+                onClickCancel={() => {
+                  setIsDeleted(false);
+                }}
+                onClickOkay={handleDeleteUser}
+              />
+            </MypageModal>
+          ) : null}
+          {isDeleteAllowed ? null : (
+            <MypageModal width="320">
+              <MypageModalNotAllowedChildren
+                label="지금은 탈퇴가 불가합니다"
+                notAllowedMessage="현재 대여 중인 우산이 있어 탈퇴가 불가하오니, 인스타그램 DM 문의 바랍니다."
+                onClickBtn={() => {
+                  setIsDeleteAllowed(true);
+                }}
+              />
+            </MypageModal>
+          )}
         </div>
       </div>
     </div>

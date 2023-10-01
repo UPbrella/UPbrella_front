@@ -50,7 +50,6 @@ function App() {
             <Routes>
               {/* width full */}
               <Route path={"/about"} element={<UpbrellaStoryPage />} />
-              <Route path="/" element={<UpbrellaStoryPage />} />
               <Route path="/information" element={<InfoPage />} />
 
               {/* width fix */}
