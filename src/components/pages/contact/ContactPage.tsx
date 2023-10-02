@@ -138,7 +138,9 @@ const ContactPage = () => {
           )}
         </div>
 
-        <Footer />
+        <div className="absolute left-0 right-0 bottom-0 bg-white">
+          <Footer />
+        </div>
       </div>
     </>
   );
