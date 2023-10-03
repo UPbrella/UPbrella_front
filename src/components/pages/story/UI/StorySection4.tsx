@@ -8,7 +8,7 @@ import { SectionBullet } from "@/components/pages/story/UI/SectionBullet";
 const StorySection4 = () => {
   return (
     <CssSectionBg
-      className={`mt-80 p-80 px-80 smMaxLg:px-80 sm:px-20  flex justify-center items-center gap-[40px]`}
+      className={`mt-80 p-80 px-80 md:px-20  flex justify-center items-center gap-[40px]`}
     >
       <div className="flex-1 lg:hidden">
         <Images />
