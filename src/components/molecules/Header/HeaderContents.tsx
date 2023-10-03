@@ -67,7 +67,7 @@ const HeaderContents = ({ isLoading, userRes }: HeaderContentsProps) => {
 
   return (
     <>
-      <div className="flex justify-between items-center w-full my-8 relative smMaxLg:hidden">
+      <div className="flex justify-between items-center w-full my-8 relative lg:hidden">
         <Link to={"/"}>
           <img className="w-64 h-64 p-8" src={Logo} alt="Logo" />
         </Link>
