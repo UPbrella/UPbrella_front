@@ -92,7 +92,7 @@ const UmbrellaAdminPage = () => {
 
   return (
     <div className="flex flex-col gap-8 mb-24">
-      <div className="w-500 flex gap-16 items-center">
+      <div className="flex items-center gap-16 w-500 md:w-auto md:gap-4 md:flex-col md:items-start">
         {/* filter */}
         <div>
           <SelectBox
@@ -139,7 +139,12 @@ const UmbrellaAdminPage = () => {
             {Object.keys(UMBRELLA_STATISTICS_TABLE).map((key) => {
               const field = key as keyof TUmbrellaStatisticsRes;
               return (
-                <Column key={key} header={UMBRELLA_STATISTICS_TABLE[field].label} field={field} />
+                <Column
+                  style={{ minWidth: "100px" }}
+                  key={key}
+                  header={UMBRELLA_STATISTICS_TABLE[field].label}
+                  field={field}
+                />
               );
             })}
           </CssDataTable>
@@ -169,12 +174,12 @@ const UmbrellaAdminPage = () => {
             >
               {Object.keys(UMBRELLA_TABLE).map((key) => {
                 const field = key as keyof TUmbrellaRes;
-                // TODO: m-w
                 return (
                   <Column
                     key={field}
                     header={UMBRELLA_TABLE[field].label}
                     field={field}
+                    style={{ minWidth: "150px" }}
                     body={(data: TUmbrellaRes) => {
                       if (field === "storeMetaId") {
                         return `${storeRes.find((e) => e.id === data[field])?.name} (${
@@ -196,6 +201,7 @@ const UmbrellaAdminPage = () => {
                 );
               })}
               <Column
+                style={{ minWidth: "150px" }}
                 body={(data: TUmbrellaRes) => {
                   return (
                     <Button

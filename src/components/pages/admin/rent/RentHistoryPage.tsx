@@ -89,7 +89,7 @@ const RentHistoryPage = () => {
   return (
     <div className="flex flex-col gap-8">
       <Typography variant="h5">{"대여, 반납 현황 조회"}</Typography>
-      <div className="flex gap-8 items-center">
+      <div className="flex items-center gap-8">
         <div>
           <SelectBox
             label="보증금 환급 여부"

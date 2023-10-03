@@ -198,7 +198,7 @@ export const filterStoreTableView = ({
     businessHour,
     contactNumber,
     instagramId,
-    content,
+    content: content.length > 50 ? `${content.slice(0, 50)}...` : content,
     imageUrls,
   };
 };
