@@ -2,20 +2,28 @@ import ImgSwiper from "@/components/organisms/ImgSwiper/index";
 import RentalInfoCard from "@/components/organisms/RentalInfoCard/index";
 import { TStoreListDetail } from "@/types/admin/StoreTypes";
 import CardFooter from "../CardFooter";
+import { useEffect, useState } from "react";
 
 export type TCard = {
   storeDetail: TStoreListDetail;
-  maxWidth?: number;
-  maxHeight?: number;
 };
 
-const Card = ({ storeDetail, maxWidth, maxHeight }: TCard) => {
-  // 매개변수를 객체로 받아야 함
+const Card = ({ storeDetail }: TCard) => {
+  const [width, setWidth] = useState(600);
+  const [height, setHeight] = useState(420);
+
+  useEffect(() => {
+    if (window.innerWidth < 640) {
+      setWidth(320);
+      setHeight(224);
+    }
+  }, []);
+
   return (
     <div className="flex-col justify-center items-center gap-[16px]">
       <ImgSwiper
-        maxWidth={maxWidth ?? 400}
-        maxHeight={maxHeight ?? 280}
+        maxWidth={window.innerWidth > 1024 ? 400 : width}
+        maxHeight={window.innerWidth > 1024 ? 280 : height}
         images={storeDetail.imageUrls}
       />
       <RentalInfoCard storeDetail={storeDetail} />
