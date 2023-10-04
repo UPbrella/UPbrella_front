@@ -31,6 +31,7 @@ const RentalInfo = () => {
   const [markers, setMarkers] = useState<naver.maps.Marker[]>([]);
   const [userPosition, setUserPosition] = useState<{ lat: number; lng: number } | null>(null);
   const [isBottomOpen, setIsBottomOpen] = useState(false);
+  const [showInitialCard, setShowInitialCard] = useState(true);
 
   // server
   const { data: classificationsRes } = useGetClassifications();
@@ -120,17 +121,17 @@ const RentalInfo = () => {
   ]);
 
   useEffect(() => {
-    if (storeMarker.data && storeMarker.data.length > 0 && showInitialCard) {
-      const randomIndex = Math.floor(Math.random() * storeMarker.data.length);
-      const randomStore = storeMarker.data[randomIndex].id;
+    if (storeListRes && storeListRes.length > 0 && showInitialCard) {
+      const randomIndex = Math.floor(Math.random() * storeListRes.length);
+      const randomStore = storeListRes[randomIndex].id;
       setSelectedStoreId(randomStore);
       setShowInitialCard(false);
     }
-  }, [storeMarker.data, showInitialCard]);
+  }, [storeListRes, showInitialCard]);
 
   useEffect(() => {
-    if (userPosition && storeMarker.data && storeMarker.data.length > 0) {
-      const distances = storeMarker.data.map((store) =>
+    if (userPosition && storeListRes && storeListRes.length > 0) {
+      const distances = storeListRes.map((store) =>
         getDistanceFromLatLonInKm(
           userPosition.lat,
           userPosition.lng,
@@ -142,10 +143,10 @@ const RentalInfo = () => {
       const minDistanceIndex = distances.indexOf(Math.min(...distances));
 
       if (!showInitialCard) {
-        setSelectedStoreId(storeMarker.data[minDistanceIndex].id);
+        setSelectedStoreId(storeListRes[minDistanceIndex].id);
       }
     }
-  }, [userPosition, storeMarker.data, showInitialCard]);
+  }, [userPosition, storeListRes, showInitialCard]);
 
   useEffect(() => {
     getUserPosition().then(
@@ -180,7 +181,6 @@ const RentalInfo = () => {
       setSelectedStoreId(selectedStore.id);
     }
   }, [storeListRes, userPosition]);
-
 
   return (
     <div className="flex flex-col mt-24">
