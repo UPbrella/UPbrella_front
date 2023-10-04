@@ -11,6 +11,7 @@ import ContactPage from "@/components/pages/contact/ContactPage";
 import MypageInfoPage from "@/components/pages/Mypage/MypageInfoPage";
 import TermsOfService from "@/components/pages/tos";
 import PrivacyPolicy from "@/components/pages/pp";
+import OfficeDetailPage from "@/components/pages/officeDetail/OfficeDetailPage";
 
 /**
  * Header, footer의 layout이 필요한 페이지
@@ -27,6 +28,11 @@ export const LAYOUT_ROUTES: TRoute[] = [
     name: "협업지점 소개 페이지",
     path: "/rentalOffice",
     component: RentalOfficePage,
+  },
+  {
+    name: "협업 지점 상세 페이지",
+    path: "/rentalOffice/:id",
+    component: OfficeDetailPage,
   },
   {
     name: "로그인 페이지",
