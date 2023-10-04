@@ -1,5 +1,6 @@
 import CardFooter from "@/components/organisms/CardFooter";
 import webMarker from "@/assets/webMarker.svg";
+import webMarker_inactive from "@/assets/webMarker_inactive.svg";
 import Map from "../admin/store/UI/Map";
 import { useEffect, useRef, useState } from "react";
 import MapBtn from "@/components/molecules/MapBtn";
@@ -82,12 +83,17 @@ const RentalInfo = () => {
 
     // 새로 생성 후 setState (여기에서 선택한 지점과 비교 후 아이콘 변경)
     const _markers = storeListRes.map(
-      ({ id, latitude, longitude, name, rentableUmbrellasCount }) => {
+      ({ id, latitude, longitude, name, rentableUmbrellasCount, openStatus }) => {
         // TODO: openStatus 처리
+        // console.log(openStatus + "결과 ");
         const isSelected = id === selectedStoreId;
         const iconContent = isSelected
-          ? `<div class="marker-wrapper-focus"><img class="marker-focus" alt="webMarkerFocus" src="${webMarker}" /><div class="umbrella-count-focus">${rentableUmbrellasCount}</div><div class="custom-label-focus">${name}</div></div>`
-          : `<div class="marker-wrapper"><img class="marker" alt="webMarker" src="${webMarker}" /><div class="umbrella-count">${rentableUmbrellasCount}</div><div class="custom-label">${name}</div></div>`;
+          ? `<div class="marker-wrapper-focus"><img class="marker-focus" alt="webMarkerFocus" src="${
+              openStatus ? webMarker : webMarker_inactive
+            }" /><div class="umbrella-count-focus">${rentableUmbrellasCount}</div><div class="custom-label-focus">${name}</div></div>`
+          : `<div class="marker-wrapper"><img class="marker" alt="webMarker" src="${
+              openStatus ? webMarker : webMarker_inactive
+            }" /><div class="umbrella-count">${rentableUmbrellasCount}</div><div class="custom-label">${name}</div></div>`;
 
         const marker = new naver.maps.Marker({
           position: new naver.maps.LatLng(latitude, longitude),
@@ -207,6 +213,7 @@ const RentalInfo = () => {
                 isBottomSheetOpen={isBottomOpen}
                 setIsBottomSheetOpen={setIsBottomOpen}
                 snapPoints={[280, 280, 0]}
+                _className="hidden md:block sm:block"
               >
                 <MobileCard storeDetail={storeDetail} />
               </BottomSheet>
