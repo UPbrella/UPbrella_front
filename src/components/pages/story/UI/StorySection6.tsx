@@ -1,6 +1,6 @@
 const StorySection6 = () => {
   return (
-    <section className="mt-80 flex gap-[16px] lg:flex-col">
+    <section className="mt-80 flex gap-[16px] lg:flex-col px-40 md:px-0">
       <Card
         header={"서비스고도화팀"}
         content={
@@ -35,8 +35,8 @@ const Card = ({
       style={{ background: bgColor }}
       className="flex-1 rounded-[20px] p-40 lg:p-32 flex flex-col gap-[24px] font-semibold"
     >
-      <div className="text-h24 text-gray-700 lg:text-h20">{header}</div>
-      <div className="text-h18 text-gray-600 lg:text-h15 whitespace-pre-wrap">{content}</div>
+      <div className="text-gray-700 text-h24 lg:text-h20">{header}</div>
+      <div className="text-gray-600 whitespace-pre-wrap text-h18 lg:text-h15">{content}</div>
     </div>
   );
 };

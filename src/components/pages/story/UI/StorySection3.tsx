@@ -4,7 +4,7 @@ import { SectionBullet } from "@/components/pages/story/UI/SectionBullet";
 const StorySection3 = () => {
   return (
     <section
-      className={`mt-80 py-80 lg:py-40 px-40 smMaxLg:px-20 sm:px-0  flex justify-center items-center gap-[40px]`}
+      className={`mt-80 py-80 lg:py-40 px-40 md:px-0 flex justify-center items-center gap-[40px]`}
     >
       <div className="flex flex-col gap-[24px] font-semibold lg:w-full">
         <header className="text-h18 lg:text-h15 text-primary-500">환경적 임팩트 창출</header>
