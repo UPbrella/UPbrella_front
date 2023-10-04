@@ -1,3 +1,5 @@
+import BottomSheet from "@/components/atoms/BottomSheet";
+import BankContent from "@/components/atoms/Form/BankContent";
 import MypageBankAccountInput from "@/components/molecules/Mypage/MypageBankAccountInput";
 import BankModal from "@/components/organisms/BankModal";
 import { BankIcon } from "@/constants/BankIcon";
@@ -10,6 +12,9 @@ export type MypageAccountCardProps = {
   onClickBankArrow: () => void;
   bankRef: React.RefObject<HTMLInputElement>;
   isOpenModal: boolean;
+  isBottomSheetOpen: boolean;
+  setIsBottomSheetOpen: (value: boolean) => void;
+  setBank: (value: string) => void;
   handleClose: () => void;
   handleClickBank: (event: MouseEvent<HTMLDivElement>) => void;
   hasBankAccountInfo: boolean;
@@ -25,6 +30,9 @@ const MypageAccountCard = ({
   onClickBankArrow,
   bankRef,
   isOpenModal,
+  isBottomSheetOpen,
+  setIsBottomSheetOpen,
+  setBank,
   handleClose,
   handleClickBank,
   hasBankAccountInfo,
@@ -46,26 +54,37 @@ const MypageAccountCard = ({
         onClick={onClickBankArrow}
         bankRef={bankRef}
       />
-      <BankModal
-        titleText="은행을 선택해주세요"
-        isOpen={isOpenModal}
-        handleClose={handleClose}
-        children={
-          <div className="grid grid-cols-3 gap-4">
-            {banks.map(([bankName, icon]) => (
-              <div key={bankName}>
-                <div
-                  className="w-full mb-8 p-12 flex flex-col items-center justify-center  cursor-pointer"
-                  onClick={handleClickBank}
-                >
-                  <div className="w-24 h-24">{icon}</div>
-                  <div className={`mt-4 text-15 leading-22 text-gray-700`}>{bankName}</div>
+      {window.innerWidth > 1025 ? (
+        <BankModal
+          titleText="은행을 선택해주세요"
+          isOpen={isOpenModal}
+          handleClose={handleClose}
+          children={
+            <div className="grid grid-cols-3 gap-4">
+              {banks.map(([bankName, icon]) => (
+                <div key={bankName}>
+                  <div
+                    className="w-full mb-8 p-12 flex flex-col items-center justify-center  cursor-pointer"
+                    onClick={handleClickBank}
+                  >
+                    <div className="w-24 h-24">{icon}</div>
+                    <div className={`mt-4 text-15 leading-22 text-gray-700`}>{bankName}</div>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        }
-      />
+              ))}
+            </div>
+          }
+        />
+      ) : (
+        <BottomSheet
+          isBottomSheetOpen={isBottomSheetOpen}
+          setIsBottomSheetOpen={setIsBottomSheetOpen}
+          snapPoints={[484, 272, 0]}
+        >
+          <BankContent setBank={setBank} setIsBottomSheetOpen={setIsBottomSheetOpen} />
+        </BottomSheet>
+      )}
+
       <div className="flex justify-end mt-8">
         {hasBankAccountInfo ? (
           <button
