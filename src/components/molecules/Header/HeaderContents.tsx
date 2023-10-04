@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "@/assets/main_logo.svg";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
@@ -8,6 +8,7 @@ import { NavLink } from "react-router-dom";
 import MobileMenu from "../MobileMenu";
 import { ADMIN_ROUTES_URL } from "@/routes/adminRouter";
 import { TUserRes } from "@/types/admin/userTypes";
+import ArrowBackIosNewSharpIcon from "@mui/icons-material/ArrowBackIosNewSharp";
 
 export type HeaderContentsProps = {
   isLoading: boolean;
@@ -56,6 +57,7 @@ const HeaderContents = ({ isLoading, userRes }: HeaderContentsProps) => {
   const navigate = useNavigate();
   const [infoBubbleOpen, setInfoBubbleOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isDetailPage, setIsDetailPage] = useState(false);
 
   const handleMyPageOpen = () => {
     setInfoBubbleOpen(!infoBubbleOpen);
@@ -64,6 +66,17 @@ const HeaderContents = ({ isLoading, userRes }: HeaderContentsProps) => {
   const handleMenuOpen = () => {
     setMenuOpen(true);
   };
+
+  useEffect(() => {
+    const url = window.location.pathname;
+    const pattern = /^\/rentalOffice\/\d+$/; // 정규식을 사용하여 "/rentalOffice/:id" 패턴 확인
+
+    if (pattern.test(url)) {
+      setIsDetailPage(true);
+    } else {
+      setIsDetailPage(false);
+    }
+  }, []);
 
   return (
     <>
@@ -123,8 +136,21 @@ const HeaderContents = ({ isLoading, userRes }: HeaderContentsProps) => {
       <div
         className={menuOpen ? "hidden" : "flex justify-center items-center mt-8 relative xl:hidden"}
       >
-        <div className="absolute left-0 mt-18 cursor-pointer" onClick={handleMenuOpen}>
-          <MenuIcon style={{ width: "28px", height: "28px" }} />
+        <div
+          className="absolute left-0 mt-18 cursor-pointer"
+          onClick={() => {
+            if (isDetailPage) {
+              navigate(-1);
+            } else {
+              handleMenuOpen();
+            }
+          }}
+        >
+          {isDetailPage ? (
+            <ArrowBackIosNewSharpIcon style={{ width: "28px", height: "28px" }} />
+          ) : (
+            <MenuIcon style={{ width: "28px", height: "28px" }} />
+          )}
         </div>
         <Link to={"/"} className="mt-8">
           <img className="w-48 h-48" src={Logo} alt="Logo" />
