@@ -3,6 +3,7 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import MyLocationOutlinedIcon from "@mui/icons-material/MyLocationOutlined";
 import { ReactNode } from "react";
 import { getUserPosition } from "@/utils/map/mapHelper";
+import { useNavigate } from "react-router-dom";
 
 const mapIcons: ReactNode[] = [
   <MyLocationOutlinedIcon />,
@@ -16,6 +17,7 @@ export type MapBtnProps = {
 
 const MapBtn = ({ map }: MapBtnProps) => {
   const { naver } = window;
+  const navigate = useNavigate();
 
   const handleIconClick = async (index: number) => {
     // 각 버튼에 대한 클릭 동작 정의
@@ -23,7 +25,7 @@ const MapBtn = ({ map }: MapBtnProps) => {
       case 0:
         // 사용자의 현재 위치를 가져오는 함수 호출
         try {
-          const position = await getUserPosition(); // getCurrentPosition 함수는 실제 구현에 맞게 수정해야 합니다.
+          const position = await getUserPosition();
           map?.setCenter(
             new naver.maps.LatLng(position.coords.latitude, position.coords.longitude)
           );
@@ -32,12 +34,10 @@ const MapBtn = ({ map }: MapBtnProps) => {
         }
         break;
       case 1:
-        // RestartAltIcon 클릭 시 동작
-        // console.log("Restart Clicked");
+        window.location.reload();
         break;
       case 2:
-        // QuestionMarkIcon 클릭 시 동작
-        // console.log("Question Mark Clicked");
+        navigate("/info/tos");
         break;
       default:
         break;

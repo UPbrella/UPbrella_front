@@ -1,7 +1,6 @@
 import ForbiddenPage from "@/components/pages/forbidden/ForbiddenPage";
 import RentPage from "@/components/pages/rent";
 import ReturnPage from "@/components/pages/return";
-import TempPage from "@/components/pages/temp/TempPage";
 import { TRoute } from "@/types/commonTypes";
 
 /**
@@ -24,10 +23,5 @@ export const NOT_LAYOUT_ROUTES: TRoute[] = [
     name: "접근 금지 페이지",
     path: "/forbidden",
     component: ForbiddenPage,
-  },
-  {
-    name: "메인 페이지",
-    path: "/",
-    component: TempPage,
   },
 ];

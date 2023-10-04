@@ -132,7 +132,7 @@ const HeaderContents = ({ isLoading, userRes }: HeaderContentsProps) => {
       </div>
       {menuOpen && (
         <div className="fixed top-0 left-0 right-0 bottom-0 flex justify-center bg-white p-20 xl:hidden">
-          <div className="xl:hidden lg:w-full lg:max-w-640 sm:w-full sm:max-w-360">
+          <div className="xl:hidden smMaxLg:w-full smMaxLg:max-w-640">
             <MobileMenu userRes={userRes} setMenuOpen={setMenuOpen} />
           </div>
         </div>

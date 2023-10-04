@@ -28,13 +28,11 @@ const RentalOfficePage = () => {
       </div>
       <div>
         {subClassificationsRes && !isMobileCardOpen && (
-          <div className="md:hidden">
-            <LocationClassificationBtn
-              classifications={subClassificationsRes}
-              setSelectedClassificationId={setSelectedClassificationId}
-              setSelectedClassificationName={setSelectedClassificationName}
-            />
-          </div>
+          <LocationClassificationBtn
+            classifications={subClassificationsRes}
+            setSelectedClassificationId={setSelectedClassificationId}
+            setSelectedClassificationName={setSelectedClassificationName}
+          />
         )}
         <div>
           {storeListRes && !isMobileCardOpen && (
