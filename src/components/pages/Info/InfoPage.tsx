@@ -40,25 +40,29 @@ const InfoPage = () => {
   };
 
   return (
-    <>
+    <div className="bg-white">
       <FixWidthWrapper>
         <HeaderContainer />
-        <div className="px-120 lg:px-0">
-          <div className="pt-24 pb-32 font-semibold text-24">이용안내</div>
-          <LocationClassificationBtn
-            classifications={mock}
-            setSelectedClassificationId={setSelectedClassificationIndex}
-            handleClassificationSelection={handleClassificationSelection}
-          />
+        <div className="flex items-center lg:w-680 lg:mx-auto md:px-10">
+          <div className="flex flex-1 flex-col justify-center lg:px-0 sm:px-0 xl:px-40">
+            <div className="font-semibold text-24 pb-32 pt-24">이용안내</div>
+            <LocationClassificationBtn
+              classifications={mock}
+              setSelectedClassificationId={setSelectedClassificationIndex}
+              handleClassificationSelection={handleClassificationSelection}
+            />
+          </div>
         </div>
       </FixWidthWrapper>
       {selectedClassificationIndex === 0 && <HowRent />}
       {selectedClassificationIndex === 1 && <HowReturn />}
       {selectedClassificationIndex === 2 && <FAQ />}
       <FixWidthWrapper>
-        <Footer />
+        <div className="lg:hidden md:hidden sm:hidden">
+          <Footer />
+        </div>
       </FixWidthWrapper>
-    </>
+    </div>
   );
 };
 

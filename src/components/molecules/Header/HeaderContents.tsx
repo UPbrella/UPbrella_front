@@ -42,7 +42,7 @@ export const headerNavItems = [
   },
   {
     name: "대여폼테스트(어드민)",
-    path: "/rent/form/1",
+    path: "/rent/form/3",
     isAdmin: true,
   },
   {

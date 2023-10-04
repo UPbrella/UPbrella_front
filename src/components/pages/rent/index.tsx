@@ -38,6 +38,7 @@ const RentPage = () => {
   const [isOpenDepositModal, setIsOpenDepositModal] = useState(false);
   const [isOpenLockPwModal, setIsOpenLockPwModal] = useState(false);
   const [isOpenStorageIssue, setIsOpenStorageIssue] = useState(false);
+  const maxCharLimit = 400;
 
   // 에러메시지
   const [subError, setSubError] = useState("");
@@ -137,7 +138,7 @@ const RentPage = () => {
       ) : (
         <>
           <HeaderContainer />
-          <div className="flex-col max-w-2xl mx-auto">
+          <div className="flex-col max-w-2xl mx-auto pb-50">
             <div className="mt-20 font-semibold text-black text-24 leading-32">
               {isRent ? "우산을 빌렸어요!" : "우산을 빌릴까요?"}
             </div>
@@ -159,10 +160,11 @@ const RentPage = () => {
             <FormBasic label="우산번호" value={umbrellaUuid} />
             <FormStatus
               label="상태신고"
-              placeholder="우산이나 대여 환경에 문제가 있다면 작성해주세요!"
+              placeholder={`우산이나 대여 환경에 문제가 있다면 ${maxCharLimit}자 이내로 작성해주세요`}
               setStatus={setConditionReport}
               status={conditionReport}
               isComplete={isRent}
+              maxCharLimit={maxCharLimit}
             />
             {!isRent && (
               <FormButton label="대여하기" isActive={true} handleOpen={handleOpenDepositModal} />
