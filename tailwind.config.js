@@ -27,6 +27,7 @@ export default {
       h40: ["40px", "52px"],
     },
     extend: {
+      minHeight: px0_1000,
       maxWidth: px0_1000,
       maxHeight: px0_1000,
       width: px0_1000,
