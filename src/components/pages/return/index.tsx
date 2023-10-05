@@ -19,6 +19,7 @@ import { HeaderContainer } from "@/components/organisms/Header/HeaderContainer";
 import ErrorComponent from "@/components/molecules/ErrorComponent";
 import { TCustomError } from "@/types/commonTypes";
 import { getErrorMessage } from "@/utils/error";
+import toast from "react-hot-toast";
 
 const ReturnPage = () => {
   // 반납전(false), 반납후(true)
@@ -143,6 +144,7 @@ const ReturnPage = () => {
         },
         onSuccess: () => {
           setIsReturn(true);
+          toast.success("반납 완료되었습니다.");
           return;
         },
       }

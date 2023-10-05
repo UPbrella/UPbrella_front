@@ -6,7 +6,7 @@ import SubClassificationTagList from "@/components/pages/admin/store/UI/SubClass
 // 어드민 > 협업지점 관리 페이지 (+ 위치 태그 관리)
 const StoreManagePage = () => {
   return (
-    <div className="flex flex-col gap-8 min-w-[1360px]">
+    <div className="flex flex-col gap-8">
       {/* 협업 지점 리스트 */}
       <StoreList />
       <Divider />

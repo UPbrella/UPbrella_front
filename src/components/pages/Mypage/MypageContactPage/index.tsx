@@ -31,7 +31,7 @@ const MypageContactPage = () => {
           <MypageContactCard />
         </div>
       </div>
-      <div className="w-full">
+      <div className="absolute left-0 right-0 bottom-0 bg-white">
         <Footer />
       </div>
     </div>

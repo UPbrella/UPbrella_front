@@ -1,14 +1,17 @@
 import { TRoute } from "@/types/commonTypes";
 import RentalLocationPage from "@/components/pages/RentalLocation/RentalLocationPage";
 import RentalOfficePage from "@/components/pages/rentalOffice/RentalOfficePage";
-import LoginRedirect from "@/components/pages/Login/LoginRedirectPage";
 import InfoPage from "@/components/pages/Info/InfoPage";
 import MypageRentPage from "@/components/pages/Mypage/MypageRentPage";
 import MypageAccountPage from "@/components/pages/Mypage/MypageAccountPage";
 import MypageInfoPage from "@/components/pages/Mypage/MypageInfoPage";
 import TermsOfService from "@/components/pages/tos";
 import PrivacyPolicy from "@/components/pages/pp";
+import OfficeDetailPage from "@/components/pages/officeDetail/OfficeDetailPage";
 import MypageContactPage from "@/components/pages/Mypage/MypageContactPage";
+import LoginPage from "@/components/pages/Login/LoginPage";
+import LoginRedirect from "@/components/pages/Login/LoginRedirectPage";
+import SignUpPage from "@/components/pages/SignUp";
 
 /**
  * Header, footer의 layout이 필요한 페이지
@@ -26,7 +29,16 @@ export const LAYOUT_ROUTES: TRoute[] = [
     path: "/rentalOffice",
     component: RentalOfficePage,
   },
-
+  {
+    name: "협업 지점 상세 페이지",
+    path: "/rentalOffice/:id",
+    component: OfficeDetailPage,
+  },
+  {
+    name: "로그인 페이지",
+    path: "/login",
+    component: LoginPage,
+  },
   {
     name: "로그인 리다이렉트 페이지",
     path: "/auth",

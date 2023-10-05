@@ -71,13 +71,15 @@ const ContactPage = () => {
     <>
       <div>
         <div className="relative flex items-center justify-center my-100 lg:my-20">
-          <div className="flex items-start w-full h-full px-40 lg:flex-col lg:px-20 md:px-0 sm:px-20">
+          <div className="flex items-start w-full h-full px-40 lg:flex-col lg:px-0">
             <div className="flex-col w-full px-40 py-24 mr-32 lg:px-0 lg:py-0">
               <div className="mb-8 font-semibold text-black text-24 leading-32">CONTACT US</div>
-              <div className="mb-40 text-gray-700 text-16 leading-24">
+              <div className="mb-40 text-gray-700 text-16 leading-24 lg:mb-20">
                 업브렐라와의 사업 제휴 관련 문의하시고 싶은 내용을 작성해주세요.
               </div>
-              <Instagram />
+              <div className="mb-40">
+                <Instagram />
+              </div>
             </div>
             <form
               ref={form}
@@ -133,6 +135,9 @@ const ContactPage = () => {
               </div>
             </div>
           )}
+        </div>
+        <div className="absolute left-0 right-0 bottom-0 bg-white">
+          <Footer />
         </div>
       </div>
     </>

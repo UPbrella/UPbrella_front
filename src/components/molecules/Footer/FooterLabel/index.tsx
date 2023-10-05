@@ -26,7 +26,16 @@ const FooterLabel = () => {
       >
         개인정보처리방침
       </button>
-      <button className="font-semibold" onClick={() => navigate("/contact")}>
+      <button
+        className="font-semibold"
+        onClick={() => {
+          navigate("/contact");
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+          });
+        }}
+      >
         CONTACT_US
       </button>
     </div>

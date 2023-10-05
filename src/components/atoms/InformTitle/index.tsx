@@ -7,7 +7,7 @@ const InformTitle = ({ stepTitle, title }: TInformTitle) => {
   return (
     <>
       <div className="text-primary-500 text-16 mb-4">{stepTitle}</div>
-      <div className="font-semibold text-24">{title}</div>
+      <div className="font-semibold text-24 lg:text-18">{title}</div>
     </>
   );
 };
