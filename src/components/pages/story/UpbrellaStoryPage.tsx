@@ -78,11 +78,9 @@ const UpbrellaStoryPage = () => {
       </SectionBulletContext.Provider>
 
       {/* footer */}
-      <footer className="lg:hidden">
-        <FixWidthWrapper>
-          <Footer />
-        </FixWidthWrapper>
-      </footer>
+      <FixWidthWrapper>
+        <Footer />
+      </FixWidthWrapper>
     </div>
   );
 };

@@ -21,7 +21,7 @@ const MypageBankInput = ({
   return (
     <div>
       <div
-        className="flex items-center justify-between w-224 h-48 p-12 rounded-8 border border-solid border-gray-300"
+        className="flex items-center justify-between h-48 p-12 rounded-8 border border-solid border-gray-300"
         onClick={onClick}
       >
         <input

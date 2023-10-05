@@ -27,7 +27,12 @@ const AdminMenu = () => {
 
   return (
     <>
-      <Tabs className="mt-16" value={value} onChange={(_, value) => handleChange(value)}>
+      <Tabs
+        variant="scrollable"
+        className="mt-16"
+        value={value}
+        onChange={(_, value) => handleChange(value)}
+      >
         {ADMIN_ROUTES.map(({ name }) => (
           <Tab key={name} label={name} />
         ))}

@@ -10,7 +10,8 @@ export default {
       md: { max: "640px" },
       mdMaxMin: { max: "640px", min: "360px" },
       lg: { max: "1024px" },
-      lgMaxMin: { max: "1024px", min: "360px" },
+      smMaxLg: { max: "1024px", min: "360px" },
+      mdMaxlg: { max: "1279px", min: "1025px" },
       xl: { min: "1025px" },
     },
     fontSize: {
@@ -26,6 +27,8 @@ export default {
       h40: ["40px", "52px"],
     },
     extend: {
+      minWidth: px0_1000,
+      minHeight: px0_1000,
       maxWidth: px0_1000,
       maxHeight: px0_1000,
       width: px0_1000,

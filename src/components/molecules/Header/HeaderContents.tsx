@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Logo from "@/assets/main_logo.svg";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import HeaderMyPage from "@/components/atoms/Header/HeaderMyPage";
@@ -8,6 +8,7 @@ import { NavLink } from "react-router-dom";
 import MobileMenu from "../MobileMenu";
 import { ADMIN_ROUTES_URL } from "@/routes/adminRouter";
 import { TUserRes } from "@/types/admin/userTypes";
+import ArrowBackIosNewSharpIcon from "@mui/icons-material/ArrowBackIosNewSharp";
 
 export type HeaderContentsProps = {
   isLoading: boolean;
@@ -42,7 +43,7 @@ export const headerNavItems = [
   },
   {
     name: "대여폼테스트(어드민)",
-    path: "/rent/form/1",
+    path: "/rent/form/3",
     isAdmin: true,
   },
   {
@@ -56,6 +57,8 @@ const HeaderContents = ({ isLoading, userRes }: HeaderContentsProps) => {
   const navigate = useNavigate();
   const [infoBubbleOpen, setInfoBubbleOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isDetailPage, setIsDetailPage] = useState(false);
+  const location = useLocation();
 
   const handleMyPageOpen = () => {
     setInfoBubbleOpen(!infoBubbleOpen);
@@ -65,9 +68,20 @@ const HeaderContents = ({ isLoading, userRes }: HeaderContentsProps) => {
     setMenuOpen(true);
   };
 
+  useEffect(() => {
+    const url = location.pathname;
+    const pattern = /^\/rentalOffice\/\d+$/; // 정규식을 사용하여 "/rentalOffice/:id" 패턴 확인
+
+    if (pattern.test(url)) {
+      setIsDetailPage(true);
+    } else {
+      setIsDetailPage(false);
+    }
+  }, [location]);
+
   return (
     <>
-      <div className="flex justify-between items-center w-full my-8 relative lg:hidden">
+      <div className="flex justify-between items-center w-full my-8 relative smMaxLg:hidden">
         <Link to={"/"}>
           <img className="w-64 h-64 p-8" src={Logo} alt="Logo" />
         </Link>
@@ -121,10 +135,27 @@ const HeaderContents = ({ isLoading, userRes }: HeaderContentsProps) => {
       </div>
 
       <div
-        className={menuOpen ? "hidden" : "flex justify-center items-center mt-8 relative xl:hidden"}
+        className={
+          menuOpen
+            ? "hidden"
+            : "flex justify-center items-center mt-8 cursor-pointer relative xl:hidden"
+        }
       >
-        <div className="absolute left-0 mt-18 cursor-pointer" onClick={handleMenuOpen}>
-          <MenuIcon style={{ width: "28px", height: "28px" }} />
+        <div
+          className="absolute left-0 mt-18 cursor-pointer"
+          onClick={() => {
+            if (isDetailPage) {
+              navigate(-1);
+            } else {
+              handleMenuOpen();
+            }
+          }}
+        >
+          {isDetailPage ? (
+            <ArrowBackIosNewSharpIcon style={{ width: "28px", height: "28px" }} />
+          ) : (
+            <MenuIcon style={{ width: "28px", height: "28px" }} />
+          )}
         </div>
         <Link to={"/"} className="mt-8">
           <img className="w-48 h-48" src={Logo} alt="Logo" />
@@ -132,7 +163,7 @@ const HeaderContents = ({ isLoading, userRes }: HeaderContentsProps) => {
       </div>
       {menuOpen && (
         <div className="fixed top-0 left-0 right-0 bottom-0 flex justify-center bg-white p-20 xl:hidden">
-          <div className="xl:hidden lg:w-full lg:max-w-640 sm:w-full sm:max-w-360">
+          <div className="xl:hidden smMaxLg:w-full smMaxLg:max-w-640">
             <MobileMenu userRes={userRes} setMenuOpen={setMenuOpen} />
           </div>
         </div>

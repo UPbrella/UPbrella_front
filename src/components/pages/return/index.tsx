@@ -19,6 +19,7 @@ import { HeaderContainer } from "@/components/organisms/Header/HeaderContainer";
 import ErrorComponent from "@/components/molecules/ErrorComponent";
 import { TCustomError } from "@/types/commonTypes";
 import { getErrorMessage } from "@/utils/error";
+import toast from "react-hot-toast";
 
 const ReturnPage = () => {
   // 반납전(false), 반납후(true)
@@ -44,6 +45,7 @@ const ReturnPage = () => {
   const [accountNumber, setAccountNumber] = useState(userInfo.accountNumber || "");
   const [improvementReportContent, setImprovementReportContent] = useState("");
   const [elapsedDay, setElapsedDay] = useState(0);
+  const maxCharLimit = 400;
 
   // 에러메시지
   const [subError, setSubError] = useState("");
@@ -142,6 +144,7 @@ const ReturnPage = () => {
         },
         onSuccess: () => {
           setIsReturn(true);
+          toast.success("반납 완료되었습니다.");
           return;
         },
       }
@@ -155,7 +158,7 @@ const ReturnPage = () => {
       ) : (
         <>
           <HeaderContainer />
-          <div className="flex-col max-w-2xl mx-auto">
+          <div className="flex-col max-w-2xl mx-auto pb-50">
             <div className="mt-20 mb-32 font-semibold text-black text-24 leading-32">
               {!isReturn ? "우산을 반납할까요?" : "우산을 반납했어요!"}
             </div>
@@ -247,10 +250,11 @@ const ReturnPage = () => {
 
             <FormStatus
               label="개선 요청 사항"
-              placeholder="개선이 필요하다고 느낀 점이 있다면 작성해주세요!"
+              placeholder={`개선이 필요하다고 느낀 점이 있다면 ${maxCharLimit}자 이내로 작성해주세요`}
               setStatus={setImprovementReportContent}
               status={improvementReportContent}
               isComplete={isReturn}
+              maxCharLimit={maxCharLimit}
             />
 
             {!isReturn && (

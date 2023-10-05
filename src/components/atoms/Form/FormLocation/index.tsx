@@ -5,7 +5,7 @@ export type FormLocationProps = {
 };
 
 const FormLocation = ({ label, isTitle, value }: FormLocationProps) => {
-  const ratioWidth = isTitle ? "30%" : "70%";
+  const ratioWidth = isTitle ? "35%" : "65%";
 
   return (
     <div className="flex-col p-5 mb-32 " style={{ width: ratioWidth }}>

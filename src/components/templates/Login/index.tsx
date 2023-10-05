@@ -11,7 +11,9 @@ const LoginTemplate = ({ onClick }: LoginTemplateProps) => {
       <main className="flex flex-col items-center justify-center flex-1">
         <LoginForm onClick={onClick} />
       </main>
-      <Footer />
+      <div className="w-full">
+        <Footer />
+      </div>
     </>
   );
 };

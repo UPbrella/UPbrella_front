@@ -28,7 +28,6 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
 
   // client
   const [storeData, setStoreData] = useState(selectedStore);
-  // const [selectedStoreId, setSelectedStoreId] = useState<number>();
 
   // server
   const queryClient = useQueryClient();
@@ -41,8 +40,6 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
       setStoreData(selectedStore);
     }
   }, [selectedStore]);
-
-  // useEffect(() => {
 
   // 주소에 따라 위도, 경도 저장
   const getCoordinateByAddress = (address: string) => {
@@ -61,6 +58,7 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
             }));
           } else {
             // console.error("위도, 경도 정보를 못 받아왔습니다.");
+            toast.error("위도, 경도 정보를 못 받아왔습니다. 다시 주소를 입력해주세요.");
           }
         }
       });
