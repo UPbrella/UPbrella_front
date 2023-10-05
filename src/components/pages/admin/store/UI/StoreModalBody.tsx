@@ -72,7 +72,7 @@ const StoreModalContents = ({ storeData, setStoreData, onChangeStoreData }: TPro
 
   /* 협업지점 관련 내용 입력 폼 */
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 min-w-[700px]">
       {/* 협업 지점명 */}
       <StoreFormWrapper label="협업 지점명" isRequired>
         <TextField
@@ -139,7 +139,7 @@ const StoreModalContents = ({ storeData, setStoreData, onChangeStoreData }: TPro
       {/* 영업 시간 - 마커 활성화 여부용 */}
       <StoreFormWrapper label="영업 시간(마커 활성화 여부용)" isRequired>
         <div>
-          <div className="flex items-center gap-4 w-[600px]">
+          <div className="flex items-center gap-4 w-[600px] lg:flex-col lg:w-auto">
             <SelectBox
               label="요일"
               value={dayInputState.date}
@@ -147,21 +147,23 @@ const StoreModalContents = ({ storeData, setStoreData, onChangeStoreData }: TPro
               onChange={onChangeDayInput}
               menuItems={createSelectItems(DAY_OF_WEEK)}
             />
-            {/* TODO: openAt < closeAt 검증 필요 */}
-            <TextField
-              placeholder="10:00"
-              value={dayInputState.openAt}
-              name="openAt"
-              onChange={({ target: { name, value } }) => onChangeDayInput(name, value)}
-            />
-            ~
-            <TextField
-              placeholder="18:00"
-              value={dayInputState.closeAt}
-              name="closeAt"
-              onChange={({ target: { name, value } }) => onChangeDayInput(name, value)}
-            />
-            <Button onClick={onClickHourAdd}>추가</Button>
+            <div className="flex items-center gap-2">
+              {/* TODO: openAt < closeAt 검증 필요 */}
+              <TextField
+                placeholder="10:00"
+                value={dayInputState.openAt}
+                name="openAt"
+                onChange={({ target: { name, value } }) => onChangeDayInput(name, value)}
+              />
+              ~
+              <TextField
+                placeholder="18:00"
+                value={dayInputState.closeAt}
+                name="closeAt"
+                onChange={({ target: { name, value } }) => onChangeDayInput(name, value)}
+              />
+              <Button onClick={onClickHourAdd}>추가</Button>
+            </div>
           </div>
           <div className="mt-6">
             {storeData.businessHours.map(({ date, openAt, closeAt }) => {
@@ -189,7 +191,7 @@ const StoreModalContents = ({ storeData, setStoreData, onChangeStoreData }: TPro
 
       {/* 우산 위치 설명 */}
       <StoreFormWrapper label="우산 위치 설명" isRequired>
-        <div className="flex gap-2 items-center">
+        <div className="flex items-center gap-2">
           <TextField
             placeholder="upbrella"
             value={storeData.umbrellaLocation}
@@ -201,7 +203,7 @@ const StoreModalContents = ({ storeData, setStoreData, onChangeStoreData }: TPro
 
       {/* 연락처 */}
       <StoreFormWrapper label="자물쇠 비밀번호">
-        <div className="flex gap-2 items-center">
+        <div className="flex items-center gap-2">
           <TextField
             placeholder="1234"
             value={storeData.password}
@@ -213,7 +215,7 @@ const StoreModalContents = ({ storeData, setStoreData, onChangeStoreData }: TPro
 
       {/* 연락처 */}
       <StoreFormWrapper label="연락처">
-        <div className="flex gap-2 items-center">
+        <div className="flex items-center gap-2">
           <TextField
             placeholder="숫자만 입력해주세요."
             value={storeData.contactNumber}
@@ -225,7 +227,7 @@ const StoreModalContents = ({ storeData, setStoreData, onChangeStoreData }: TPro
 
       {/* 인스타그램 계정 */}
       <StoreFormWrapper label="인스타그램 계정">
-        <div className="flex gap-2 items-center">
+        <div className="flex items-center gap-2">
           <TextField
             placeholder="upbrella"
             value={storeData.instagramId}

@@ -1,16 +1,16 @@
 import { TRoute } from "@/types/commonTypes";
 import RentalLocationPage from "@/components/pages/RentalLocation/RentalLocationPage";
 import RentalOfficePage from "@/components/pages/rentalOffice/RentalOfficePage";
-import SignUpPage from "@/components/pages/SignUp";
-import LoginPage from "@/components/pages/Login/LoginPage";
-import LoginRedirect from "@/components/pages/Login/LoginRedirectPage";
 import InfoPage from "@/components/pages/Info/InfoPage";
 import MypageRentPage from "@/components/pages/Mypage/MypageRentPage";
 import MypageAccountPage from "@/components/pages/Mypage/MypageAccountPage";
-import ContactPage from "@/components/pages/contact/ContactPage";
 import MypageInfoPage from "@/components/pages/Mypage/MypageInfoPage";
 import TermsOfService from "@/components/pages/tos";
 import PrivacyPolicy from "@/components/pages/pp";
+import OfficeDetailPage from "@/components/pages/officeDetail/OfficeDetailPage";
+import MypageContactPage from "@/components/pages/Mypage/MypageContactPage";
+import LoginPage from "@/components/pages/Login/LoginPage";
+import LoginRedirect from "@/components/pages/Login/LoginRedirectPage";
 
 /**
  * Header, footer의 layout이 필요한 페이지
@@ -29,6 +29,11 @@ export const LAYOUT_ROUTES: TRoute[] = [
     component: RentalOfficePage,
   },
   {
+    name: "협업 지점 상세 페이지",
+    path: "/rentalOffice/:id",
+    component: OfficeDetailPage,
+  },
+  {
     name: "로그인 페이지",
     path: "/login",
     component: LoginPage,
@@ -38,11 +43,7 @@ export const LAYOUT_ROUTES: TRoute[] = [
     path: "/auth",
     component: LoginRedirect,
   },
-  {
-    name: "회원가입 정보 입력 페이지",
-    path: "/members/signup/info",
-    component: SignUpPage,
-  },
+
   {
     name: "이용안내 페이지",
     path: "/information",
@@ -64,6 +65,11 @@ export const LAYOUT_ROUTES: TRoute[] = [
     component: MypageInfoPage,
   },
   {
+    name: "마이페이지_문의하기",
+    path: "/members/mypage/contact",
+    component: MypageContactPage,
+  },
+  {
     name: "이용약관 페이지",
     path: "/info/tos",
     component: TermsOfService,
@@ -72,10 +78,5 @@ export const LAYOUT_ROUTES: TRoute[] = [
     name: "개인정보처리방침 페이지",
     path: "/info/pp",
     component: PrivacyPolicy,
-  },
-  {
-    name: "CONTACT_US",
-    path: "/contact",
-    component: ContactPage,
   },
 ];

@@ -3,7 +3,7 @@ import FooterSns from "@/components/molecules/Footer/FooterSNS";
 
 const CardFooter = () => {
   return (
-    <div className="mt-44 mb-54">
+    <div className="mt-44 lg:hidden">
       <FooterLabel />
       <FooterSns />
     </div>

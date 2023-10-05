@@ -27,6 +27,7 @@ const SignUpPage = () => {
   const [isDone, setIsDone] = useState<boolean>(false);
   const [isNext, setIsNext] = useState<boolean>(false);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
   const bankInput = useRef<HTMLInputElement>(null);
 
@@ -94,7 +95,6 @@ const SignUpPage = () => {
 
   const onClickButton = () => {
     if (isDone) {
-      alert("됐다.");
       setIsNext(true);
     }
   };
@@ -104,6 +104,7 @@ const SignUpPage = () => {
 
   const onClickBankArrow = () => {
     setIsOpenModal(!isOpenModal);
+    setIsBottomSheetOpen(!isBottomSheetOpen);
   };
 
   const handleClickBank = (event: MouseEvent<HTMLDivElement>) => {
@@ -113,7 +114,9 @@ const SignUpPage = () => {
       setIsOpenModal(!isOpenModal);
     }
   };
-
+  const setBank = (value: string) => {
+    setInputs({ ...inputs, bank: value });
+  };
   const handleClose = () => {
     setIsOpenModal(!isOpenModal);
   };
@@ -139,6 +142,9 @@ const SignUpPage = () => {
           onChangeValue={handleInputValue}
           onClickBankArrow={onClickBankArrow}
           isOpenModal={isOpenModal}
+          isBottomSheetOpen={isBottomSheetOpen}
+          setIsBottomSheetOpen={setIsBottomSheetOpen}
+          setBank={setBank}
           handleClose={handleClose}
           handleClickBank={handleClickBank}
           onClickButton={onSubmitButton}

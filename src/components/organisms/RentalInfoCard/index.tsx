@@ -15,29 +15,29 @@ export type TRentalCard = {
 const RentalInfoCard = ({ storeDetail }: TRentalCard) => {
   const labels = [
     {
-      icon: <UmbrellaSharpIcon className="text-gray-400 mr-16" />,
+      icon: <UmbrellaSharpIcon className="mr-16 text-gray-400" />,
       text: (
         <span>
           대여가능 우산{" "}
-          <span className="text-primary-500 font-bold">{storeDetail.availableUmbrellaCount}</span>{" "}
+          <span className="font-bold text-primary-500">{storeDetail.availableUmbrellaCount}</span>{" "}
           개
         </span>
       ),
     },
     {
-      icon: <AccessTimeSharpIcon className="text-gray-400 mr-16" />,
+      icon: <AccessTimeSharpIcon className="mr-16 text-gray-400" />,
       text: <span>{storeDetail.businessHours}</span>,
     },
     {
-      icon: <CallOutlinedIcon className="text-gray-400 mr-16" />,
+      icon: <CallOutlinedIcon className="mr-16 text-gray-400" />,
       text: <span>{storeDetail.contactNumber}</span>,
     },
     {
-      icon: <InstagramIcon className="text-gray-400 mr-16" />,
+      icon: <InstagramIcon className="mr-16 text-gray-400" />,
       text: <span>@{storeDetail.instaUrl}</span>,
     },
     {
-      icon: <PlaceOutlinedIcon className="text-gray-400 mr-16" />,
+      icon: <PlaceOutlinedIcon className="mr-16 text-gray-400" />,
       text: (
         <div className="flex flex-col">
           {storeDetail.address}{" "}
@@ -46,13 +46,13 @@ const RentalInfoCard = ({ storeDetail }: TRentalCard) => {
       ),
     },
     {
-      icon: <WavingHandOutlinedIcon className="text-gray-400 mr-16" />,
+      icon: <WavingHandOutlinedIcon className="mr-16 text-gray-400" />,
       text: <span>{storeDetail.description}</span>,
     },
   ];
 
   return (
-    <div className={"border-gray-200 border h-600 rounded-20 px-24 pt-32 mt-16 sm:max-w-320"}>
+    <div className="w-full min-h-600 lg:min-w-400 border-gray-200 border rounded-20 px-24 pt-32 xl:max-w-400 lg:max-w-600">
       <RentalLocationTitle title={storeDetail.name} category={storeDetail.category} />
       <div className="pt-24 pb-6">
         <NaverDirectionBtn
@@ -61,7 +61,7 @@ const RentalInfoCard = ({ storeDetail }: TRentalCard) => {
           address={storeDetail.address}
         />
       </div>
-      <div className="mt-18 text-gray-700">
+      <div className="text-gray-700 mt-18">
         {labels.map((label, index) => (
           <div key={index}>
             <div className="flex mb-16 text-gray-700">

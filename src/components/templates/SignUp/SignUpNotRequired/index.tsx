@@ -7,6 +7,9 @@ import { ChangeEvent } from "react";
 import { BankIcon } from "@/constants/BankIcon";
 import { MouseEvent } from "react";
 import BankModal from "@/components/organisms/BankModal";
+import BottomSheet from "@/components/atoms/BottomSheet";
+import BankContent from "@/components/atoms/Form/BankContent";
+import Footer from "@/components/organisms/Footer";
 
 export type SignUpNotRequiredFormProps = {
   bank: string;
@@ -16,6 +19,9 @@ export type SignUpNotRequiredFormProps = {
   onClickBankArrow: () => void;
   onClickButton?: () => void;
   isOpenModal: boolean;
+  isBottomSheetOpen: boolean;
+  setIsBottomSheetOpen: (value: boolean) => void;
+  setBank: (value: string) => void;
   handleClose: () => void;
   handleClickBank: (event: MouseEvent<HTMLDivElement>) => void;
   bankRef: React.RefObject<HTMLInputElement>;
@@ -29,6 +35,9 @@ const SignUpNotRequiredForm = ({
   onClickBankArrow,
   onClickButton,
   isOpenModal,
+  isBottomSheetOpen,
+  setIsBottomSheetOpen,
+  setBank,
   handleClose,
   handleClickBank,
   bankRef,
@@ -36,16 +45,16 @@ const SignUpNotRequiredForm = ({
   const banks = Object.entries(BankIcon);
 
   return (
-    <main className="flex flex-1 flex-col justify-center items-center bg-basic">
-      <article className="flex flex-1 flex-col justify-center items-center w-440 max-h-640 p-20">
+    <main className="flex flex-1 flex-col items-center">
+      <article className="flex flex-1 flex-col justify-center items-center xl:h-760 xl:max-w-440 xl:w-full lg:max-w-640 lg:w-full md:w-full lg:max-h-720 p-20">
         <div className="flex justify-between w-full">
           <ChevronLeftIcon onClick={handleBackClick} />
           <div className="flex justify-center w-full">
             <SignUpProgress isInProgress1={false} isInProgress2={true} />
           </div>
         </div>
-        <section className="flex flex-1 flex-col justify-between mt-40">
-          <section>
+        <section className="flex flex-1 flex-col justify-between mt-40 w-full">
+          <section className="w-full">
             <div className="mb-28">
               <SignUpText
                 labelTitle="환급받을 계좌를 입력해주세요!"
@@ -65,32 +74,45 @@ const SignUpNotRequiredForm = ({
                 bankRef={bankRef}
               />
             </div>
-            <BankModal
-              titleText="은행을 선택해주세요"
-              isOpen={isOpenModal}
-              handleClose={handleClose}
-              children={
-                <div className="grid grid-cols-3 gap-4">
-                  {banks.map(([bankName, icon]) => (
-                    <div key={bankName}>
-                      <div
-                        className="w-full mb-8 p-12 flex flex-col items-center justify-center  cursor-pointer"
-                        onClick={handleClickBank}
-                      >
-                        <div className="w-24 h-24">{icon}</div>
-                        <div className={`mt-4 text-15 leading-22 text-gray-700`}>{bankName}</div>
+            {window.innerWidth > 1025 ? (
+              <BankModal
+                titleText="은행을 선택해주세요"
+                isOpen={isOpenModal}
+                handleClose={handleClose}
+                children={
+                  <div className="grid grid-cols-3 gap-4">
+                    {banks.map(([bankName, icon]) => (
+                      <div key={bankName}>
+                        <div
+                          className="w-full mb-8 p-12 flex flex-col items-center justify-center  cursor-pointer"
+                          onClick={handleClickBank}
+                        >
+                          <div className="w-24 h-24">{icon}</div>
+                          <div className={`mt-4 text-15 leading-22 text-gray-700`}>{bankName}</div>
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              }
-            />
+                    ))}
+                  </div>
+                }
+              />
+            ) : (
+              <BottomSheet
+                isBottomSheetOpen={isBottomSheetOpen}
+                setIsBottomSheetOpen={setIsBottomSheetOpen}
+                snapPoints={[484, 272, 0]}
+              >
+                <BankContent setBank={setBank} setIsBottomSheetOpen={setIsBottomSheetOpen} />
+              </BottomSheet>
+            )}
           </section>
           <section>
             <SignUpFormButton label="가입하기!" isDone={true} onClick={onClickButton} />
           </section>
         </section>
       </article>
+      <div className="w-full">
+        <Footer />
+      </div>
     </main>
   );
 };

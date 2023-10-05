@@ -13,7 +13,7 @@ const SignUpFormSubTitle = ({
 }: SignUpFormSubTitleProps) => {
   return (
     <div>
-      <div className="flex">
+      <div className="flex flex-wrap">
         <p>{label1}</p>
         <p className="font-semibold px-5">{labelBold}</p>
         <p>{label2}</p>

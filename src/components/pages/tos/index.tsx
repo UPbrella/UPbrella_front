@@ -1,3 +1,5 @@
+import Footer from "@/components/organisms/Footer";
+
 export type DetailedTitleProps = {
   title: string;
 };
@@ -143,7 +145,7 @@ const TermsOfService = () => {
     },
   };
   return (
-    <div className="flex justify-center">
+    <div className="flex flex-col justify-center items-center">
       <div className="flex flex-col justify-center items-start w-640 px-20 py-24">
         <div className="mb-40 text-gray-700 text-24 font-bold leading-32">업브렐라 이용약관</div>
         <div>
@@ -161,6 +163,9 @@ const TermsOfService = () => {
             );
           })}
         </div>
+      </div>
+      <div className="w-full">
+        <Footer />
       </div>
     </div>
   );
