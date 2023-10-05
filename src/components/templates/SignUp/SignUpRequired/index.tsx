@@ -5,6 +5,7 @@ import SignUpAllAllowBox from "@/components/molecules/SignUp/SignUpAllAllowBox";
 import SignUpAllowBox from "@/components/molecules/SignUp/SignUpAllowBox";
 import SignUpFormButton from "@/components/atoms/SignUp/SignUpFormButton";
 import { ChangeEvent } from "react";
+import Footer from "@/components/organisms/Footer";
 
 export type SignUpRequiredFormProps = {
   name: string;
@@ -104,6 +105,9 @@ const SignUpRequiredForm = ({
           </section>
         </section>
       </article>
+      <div className="w-full">
+        <Footer />
+      </div>
     </main>
   );
 };

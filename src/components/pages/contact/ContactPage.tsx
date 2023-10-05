@@ -6,6 +6,7 @@ import Button from "@/components/atoms/Contact/Button";
 import emailjs from "@emailjs/browser";
 import { formatPhoneNumber } from "@/utils/utils";
 import toast from "react-hot-toast";
+import Footer from "@/components/organisms/Footer";
 
 const ContactPage = () => {
   const [name, setName] = useState("");
