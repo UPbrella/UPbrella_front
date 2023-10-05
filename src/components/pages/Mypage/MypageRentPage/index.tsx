@@ -1,4 +1,5 @@
 import { TRentContentInfo } from "@/components/molecules/Mypage/MypageRentList";
+import Footer from "@/components/organisms/Footer";
 import MypageLeftCard from "@/components/organisms/Mypage/MypageLeftCard";
 import MypageRentCard from "@/components/organisms/Mypage/MypageRentCard";
 import { loginState, rentHistories } from "@/recoil";
@@ -38,7 +39,7 @@ const MypageRentPage = () => {
   }, [umbrellaHistories, navigate, isLogin]);
 
   return (
-    <div className="flex justify-center">
+    <div className="flex flex-col flex-1 justify-between items-center">
       <div className="flex flex-col w-full xl:w-[1280px] xl:mt-24 xl:px-40 lg:max-w-640 lg:py-20 lg:w-full lg:px-20">
         <div className="text-black text-24 font-semibold leading-32 mb-32">MYPAGE</div>
         <div className="xl:flex">
@@ -48,6 +49,9 @@ const MypageRentPage = () => {
           <MypageRentCard rentList={rentList} />
           {/*//TODO: 이부분의 components만 상황에 따라 바뀌도록 할 수 있으면 더 깔끔할텐데..? */}
         </div>
+      </div>
+      <div className="w-full">
+        <Footer />
       </div>
     </div>
   );

@@ -1,3 +1,4 @@
+import Footer from "@/components/organisms/Footer";
 import MypageContactCard from "@/components/organisms/Mypage/MypageContactCard";
 import MypageLeftCard from "@/components/organisms/Mypage/MypageLeftCard";
 import { loginState } from "@/recoil";
@@ -20,7 +21,7 @@ const MypageContactPage = () => {
   }, [isLogin, navigate]);
 
   return (
-    <div className="flex justify-center">
+    <div className="flex flex-col flex-1 justify-between items-center">
       <div className="flex flex-col w-full xl:w-[1280px] xl:mt-24 xl:px-40 lg:max-w-640 lg:py-20 lg:w-full lg:px-20">
         <div className="text-black text-24 font-semibold leading-32 mb-32">MYPAGE</div>
         <div className="xl:flex">
@@ -29,6 +30,9 @@ const MypageContactPage = () => {
           </div>
           <MypageContactCard />
         </div>
+      </div>
+      <div className="absolute left-0 right-0 bottom-0 bg-white">
+        <Footer />
       </div>
     </div>
   );

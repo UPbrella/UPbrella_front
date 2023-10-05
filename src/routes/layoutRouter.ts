@@ -44,11 +44,7 @@ export const LAYOUT_ROUTES: TRoute[] = [
     path: "/auth",
     component: LoginRedirect,
   },
-  {
-    name: "회원가입 정보 입력 페이지",
-    path: "/members/signup/info",
-    component: SignUpPage,
-  },
+
   {
     name: "이용안내 페이지",
     path: "/information",

@@ -79,6 +79,18 @@ function App() {
                 </>
               </Route>
 
+              {/* width fix, has bg */}
+              <Route element={<BackgroundLayout />}>
+                <>
+                  {BACKGROUND_ROUTES.map((route) => {
+                    return (
+                      <Route key={route.name} path={route.path} element={<route.component />} />
+                    );
+                  })}
+                  <Route path="/*" element={<NotFound />} />
+                </>
+              </Route>
+
               {/* admin */}
               <Route element={<MainLayout />}>
                 <Route element={<AdminRoutes />}>
