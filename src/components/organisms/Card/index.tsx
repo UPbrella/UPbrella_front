@@ -4,6 +4,7 @@ import { TStoreListDetail } from "@/types/admin/StoreTypes";
 import CardFooter from "../CardFooter";
 import { useEffect, useState } from "react";
 
+
 export type TCard = {
   storeDetail: TStoreListDetail;
 };

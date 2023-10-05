@@ -1,13 +1,9 @@
 import { TRoute } from "@/types/commonTypes";
 import RentalLocationPage from "@/components/pages/RentalLocation/RentalLocationPage";
 import RentalOfficePage from "@/components/pages/rentalOffice/RentalOfficePage";
-import SignUpPage from "@/components/pages/SignUp";
-import LoginPage from "@/components/pages/Login/LoginPage";
-import LoginRedirect from "@/components/pages/Login/LoginRedirectPage";
 import InfoPage from "@/components/pages/Info/InfoPage";
 import MypageRentPage from "@/components/pages/Mypage/MypageRentPage";
 import MypageAccountPage from "@/components/pages/Mypage/MypageAccountPage";
-import ContactPage from "@/components/pages/contact/ContactPage";
 import MypageInfoPage from "@/components/pages/Mypage/MypageInfoPage";
 import TermsOfService from "@/components/pages/tos";
 import PrivacyPolicy from "@/components/pages/pp";
@@ -30,7 +26,6 @@ export const LAYOUT_ROUTES: TRoute[] = [
     path: "/rentalOffice",
     component: RentalOfficePage,
   },
-  {
     name: "협업 지점 상세 페이지",
     path: "/rentalOffice/:id",
     component: OfficeDetailPage,
@@ -84,10 +79,5 @@ export const LAYOUT_ROUTES: TRoute[] = [
     name: "개인정보처리방침 페이지",
     path: "/info/pp",
     component: PrivacyPolicy,
-  },
-  {
-    name: "CONTACT_US",
-    path: "/contact",
-    component: ContactPage,
   },
 ];

@@ -11,5 +11,5 @@ export const STORE_ADMIN_TABLE: Record<TStoreTableKey, { label: string; minWidth
   businessHour: { label: "영업시간", minWidth: "200px" },
   contactNumber: { label: "연락처", minWidth: "200px" },
   instagramId: { label: "인스타", minWidth: "180px" },
-  content: { label: "소개", minWidth: "150px" },
+  content: { label: "소개", minWidth: "200px" },
 };

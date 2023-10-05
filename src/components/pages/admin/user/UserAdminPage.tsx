@@ -117,7 +117,7 @@ const UserAdminPage = () => {
         <Typography className="!mb-8" variant="h5">
           {"유저 조회"}
         </Typography>
-        <div className="flex justify-between items-center mb-16">
+        <div className="flex items-center justify-between mb-16 md:flex-col">
           <Typography variant="h6">사용자 수 : {userRes?.length}</Typography>
 
           <form className="flex gap-3" onSubmit={onClickSearch}>
@@ -188,6 +188,9 @@ const UserAdminPage = () => {
             body={(data: TUserRes) => {
               return (
                 <Button
+                  style={{
+                    width: "130px",
+                  }}
                   disabled={isDeletingUser || data.phoneNumber === "deleted"}
                   variant="outlined"
                   color="error"

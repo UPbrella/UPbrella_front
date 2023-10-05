@@ -26,6 +26,7 @@ const MypageAccountPage = () => {
     accountNumber: "",
   });
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const [hasBankAccountInfo, setHasBankAccountInfo] = useState<boolean>(false);
   const [status, setStatus] = useState<TStatus>({
     isDeleted: false,
@@ -78,6 +79,7 @@ const MypageAccountPage = () => {
 
   const onClickBankArrow = () => {
     setIsOpenModal(!isOpenModal);
+    setIsBottomSheetOpen(!isBottomSheetOpen);
   };
 
   const handleClose = () => {
@@ -90,6 +92,9 @@ const MypageAccountPage = () => {
       setInputs({ ...inputs, [bankInput.current.name]: bankName });
       setIsOpenModal(!isOpenModal);
     }
+  };
+  const setBank = (value: string) => {
+    setInputs({ ...inputs, bank: value });
   };
 
   const handleDeleteAccount = async () => {
@@ -135,6 +140,9 @@ const MypageAccountPage = () => {
               onClickBankArrow={onClickBankArrow}
               bankRef={bankInput}
               isOpenModal={isOpenModal}
+              isBottomSheetOpen={isBottomSheetOpen}
+              setIsBottomSheetOpen={setIsBottomSheetOpen}
+              setBank={setBank}
               handleClose={handleClose}
               handleClickBank={handleClickBank}
               hasBankAccountInfo={hasBankAccountInfo}
