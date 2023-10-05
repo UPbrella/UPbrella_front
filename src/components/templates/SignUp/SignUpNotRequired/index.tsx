@@ -9,6 +9,7 @@ import { MouseEvent } from "react";
 import BankModal from "@/components/organisms/BankModal";
 import BottomSheet from "@/components/atoms/BottomSheet";
 import BankContent from "@/components/atoms/Form/BankContent";
+import Footer from "@/components/organisms/Footer";
 
 export type SignUpNotRequiredFormProps = {
   bank: string;
@@ -109,6 +110,9 @@ const SignUpNotRequiredForm = ({
           </section>
         </section>
       </article>
+      <div className="w-full">
+        <Footer />
+      </div>
     </main>
   );
 };
