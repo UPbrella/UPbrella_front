@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Logo from "@/assets/main_logo.svg";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import HeaderMyPage from "@/components/atoms/Header/HeaderMyPage";
@@ -58,6 +58,7 @@ const HeaderContents = ({ isLoading, userRes }: HeaderContentsProps) => {
   const [infoBubbleOpen, setInfoBubbleOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isDetailPage, setIsDetailPage] = useState(false);
+  const location = useLocation();
 
   const handleMyPageOpen = () => {
     setInfoBubbleOpen(!infoBubbleOpen);
@@ -68,7 +69,7 @@ const HeaderContents = ({ isLoading, userRes }: HeaderContentsProps) => {
   };
 
   useEffect(() => {
-    const url = window.location.pathname;
+    const url = location.pathname;
     const pattern = /^\/rentalOffice\/\d+$/; // 정규식을 사용하여 "/rentalOffice/:id" 패턴 확인
 
     if (pattern.test(url)) {
@@ -76,7 +77,7 @@ const HeaderContents = ({ isLoading, userRes }: HeaderContentsProps) => {
     } else {
       setIsDetailPage(false);
     }
-  }, []);
+  }, [location]);
 
   return (
     <>
@@ -134,7 +135,11 @@ const HeaderContents = ({ isLoading, userRes }: HeaderContentsProps) => {
       </div>
 
       <div
-        className={menuOpen ? "hidden" : "flex justify-center items-center mt-8 relative xl:hidden"}
+        className={
+          menuOpen
+            ? "hidden"
+            : "flex justify-center items-center mt-8 cursor-pointer relative xl:hidden"
+        }
       >
         <div
           className="absolute left-0 mt-18 cursor-pointer"
