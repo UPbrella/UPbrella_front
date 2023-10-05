@@ -9,6 +9,9 @@ import TermsOfService from "@/components/pages/tos";
 import PrivacyPolicy from "@/components/pages/pp";
 import OfficeDetailPage from "@/components/pages/officeDetail/OfficeDetailPage";
 import MypageContactPage from "@/components/pages/Mypage/MypageContactPage";
+import LoginPage from "@/components/pages/Login/LoginPage";
+import LoginRedirect from "@/components/pages/Login/LoginRedirectPage";
+import SignUpPage from "@/components/pages/SignUp";
 
 /**
  * Header, footer의 layout이 필요한 페이지
@@ -26,6 +29,7 @@ export const LAYOUT_ROUTES: TRoute[] = [
     path: "/rentalOffice",
     component: RentalOfficePage,
   },
+  {
     name: "협업 지점 상세 페이지",
     path: "/rentalOffice/:id",
     component: OfficeDetailPage,

@@ -4,7 +4,6 @@ import { TStoreListDetail } from "@/types/admin/StoreTypes";
 import CardFooter from "../CardFooter";
 import { useEffect, useState } from "react";
 
-
 export type TCard = {
   storeDetail: TStoreListDetail;
 };
@@ -21,7 +20,7 @@ const Card = ({ storeDetail }: TCard) => {
   }, []);
 
   return (
-    <div className="flex-col justify-center items-center gap-[16px]">
+    <div className="flex-col justify-center items-center gap-[16px] lg:px-20">
       <ImgSwiper
         maxWidth={window.innerWidth > 1024 ? 400 : width}
         maxHeight={window.innerWidth > 1024 ? 280 : height}

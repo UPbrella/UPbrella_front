@@ -18,7 +18,7 @@ const ImgSwiper = ({ maxWidth, maxHeight, images }: TImgSwiper) => {
     maxHeight: maxHeight ? `${maxHeight}px` : "100%", // maxHeight props에 따라 설정
   };
   return (
-    <div className="flex justify-start w-full h-full" style={swiperStyles}>
+    <div className="flex justify-start w-full h-full lg:min-w-400" style={swiperStyles}>
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, A11y]}
         spaceBetween={10}
