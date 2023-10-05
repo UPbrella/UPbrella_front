@@ -52,11 +52,7 @@ const RentalInfoCard = ({ storeDetail }: TRentalCard) => {
   ];
 
   return (
-    <div
-      className={
-        "border-gray-200 border h-600 rounded-20 px-24 pt-32 w-full max-w-400 sm:max-w-320"
-      }
-    >
+    <div className="w-full min-h-600 lg:min-w-400 border-gray-200 border rounded-20 px-24 pt-32 xl:max-w-400 lg:max-w-600">
       <RentalLocationTitle title={storeDetail.name} category={storeDetail.category} />
       <div className="pt-24 pb-6">
         <NaverDirectionBtn

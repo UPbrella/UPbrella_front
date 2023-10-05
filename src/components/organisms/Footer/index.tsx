@@ -3,7 +3,7 @@ import FooterSns from "@/components/molecules/Footer/FooterSNS";
 
 const Footer = () => {
   return (
-    <div className="flex justify-between px-40 py-20 lg:hidden md:hidden border-t border-gray-100">
+    <div className="flex justify-between px-40 py-20 smMaxLg:hidden border-t border-gray-100">
       <FooterLabel />
       <FooterSns />
     </div>

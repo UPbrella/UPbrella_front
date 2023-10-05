@@ -7,7 +7,11 @@ import MypageAccountPage from "@/components/pages/Mypage/MypageAccountPage";
 import MypageInfoPage from "@/components/pages/Mypage/MypageInfoPage";
 import TermsOfService from "@/components/pages/tos";
 import PrivacyPolicy from "@/components/pages/pp";
+import OfficeDetailPage from "@/components/pages/officeDetail/OfficeDetailPage";
 import MypageContactPage from "@/components/pages/Mypage/MypageContactPage";
+import LoginPage from "@/components/pages/Login/LoginPage";
+import LoginRedirect from "@/components/pages/Login/LoginRedirectPage";
+import SignUpPage from "@/components/pages/SignUp";
 
 /**
  * Header, footer의 layout이 필요한 페이지
@@ -24,6 +28,26 @@ export const LAYOUT_ROUTES: TRoute[] = [
     name: "협업지점 소개 페이지",
     path: "/rentalOffice",
     component: RentalOfficePage,
+  },
+  {
+    name: "협업 지점 상세 페이지",
+    path: "/rentalOffice/:id",
+    component: OfficeDetailPage,
+  },
+  {
+    name: "로그인 페이지",
+    path: "/login",
+    component: LoginPage,
+  },
+  {
+    name: "로그인 리다이렉트 페이지",
+    path: "/auth",
+    component: LoginRedirect,
+  },
+  {
+    name: "회원가입 정보 입력 페이지",
+    path: "/members/signup/info",
+    component: SignUpPage,
   },
   {
     name: "이용안내 페이지",
