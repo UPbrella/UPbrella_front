@@ -1,9 +1,8 @@
-import React from "react";
 import NaverDirectionBtn, { TNaverDirectionBtn } from "@/components/atoms/NaverDirectionBtn/index";
 import { Meta, StoryFn } from "@storybook/react";
 
 export default {
-  title: "Example/NaverDirectionBtn",
+  title: "atoms/NaverDirectionBtn",
   component: NaverDirectionBtn,
   tags: ["autodocs"],
 } as Meta;
