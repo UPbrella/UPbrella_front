@@ -8,6 +8,7 @@ import { deleteStores, patchStores, postStores } from "@/api/storeApi";
 import toast from "react-hot-toast";
 import { isValidateStoreSave } from "@/components/pages/admin/store/helper";
 import { formatPhoneNumber } from "@/utils/utils";
+import { STORE_QUERY_KEYS } from "@/hooks/queries/storeQueries";
 
 // 그 외의 데이터가 더 있지만, type 지정은 일단 하지 않음.
 type TKakaoAddressResult = {
@@ -92,7 +93,6 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
     });
   };
 
-  // TODO: 생성 수정 조건 달기 필수값 검증 백엔드한테도 물어보기 (수정, 삭제 작동 안하는듯, 수정과 생성 조건이 같은지?)
   const onClickSaveStore = () => {
     if (!isValidateStoreSave(storeData)) return;
 
@@ -103,7 +103,10 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
         {
           onSuccess: () => {
             toast.success("지점이 수정 되었습니다.");
-            queryClient.invalidateQueries(["stores"]);
+            queryClient.invalidateQueries([...STORE_QUERY_KEYS.stores()]);
+            queryClient.invalidateQueries([
+              ...STORE_QUERY_KEYS.storeBusinessHours(selectedStoreId),
+            ]);
             onCloseModal();
             return;
           },
@@ -120,7 +123,7 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
     createStore(storeData, {
       onSuccess: () => {
         toast.success("지점이 생성 되었습니다.");
-        queryClient.invalidateQueries(["stores"]);
+        queryClient.invalidateQueries([...STORE_QUERY_KEYS.stores()]);
         onCloseModal();
         return;
       },
@@ -198,6 +201,7 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
         storeData={storeData}
         setStoreData={setStoreData}
         onChangeStoreData={onChangeStoreData}
+        selectedStoreId={selectedStoreId}
       />
     </CustomModal>
   );
