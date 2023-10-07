@@ -2,7 +2,7 @@ import StoreFormWrapper from "@/components/pages/admin/store/UI/StoreFormWrapper
 import { TStoreBusinessHours, TStoreParams } from "@/types/admin/StoreTypes";
 import { Button, TextField, TextareaAutosize, Typography } from "@mui/material";
 import SelectBox from "@/components/molecules/SelectBox";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { createSelectItems } from "@/utils/selectBox";
 import { DAY_OF_WEEK } from "@/constants/Date";
 import {
@@ -10,7 +10,11 @@ import {
   getFilterBusinessTime,
 } from "@/components/pages/admin/store/helper";
 import { TDayOfWeek } from "@/types/commonTypes";
-import { useGetClassifications, useGetSubClassifications } from "@/hooks/queries/storeQueries";
+import {
+  useGetClassifications,
+  useGetStoreBusinessHours,
+  useGetSubClassifications,
+} from "@/hooks/queries/storeQueries";
 import StoreAddressInput from "@/components/pages/admin/store/UI/StoreAddressInput";
 
 type TProps = {
@@ -19,9 +23,15 @@ type TProps = {
   onChangeStoreData: (e: {
     target: { name: string; value: string | number | null | TStoreBusinessHours[] };
   }) => void;
+  selectedStoreId?: number;
 };
 
-const StoreModalContents = ({ storeData, setStoreData, onChangeStoreData }: TProps) => {
+const StoreModalContents = ({
+  storeData,
+  setStoreData,
+  onChangeStoreData,
+  selectedStoreId,
+}: TProps) => {
   const [dayInputState, setDayInputState] = useState<TStoreBusinessHours>({
     date: "MONDAY",
     openAt: "11:00",
@@ -31,6 +41,21 @@ const StoreModalContents = ({ storeData, setStoreData, onChangeStoreData }: TPro
   // server
   const { data: classifiRes } = useGetClassifications();
   const { data: subClassifiRes } = useGetSubClassifications();
+  const {
+    data: businessHoursRes,
+    isLoading: isBusinessHLoading,
+    isError: isBusinessHError,
+    refetch: refetchBusinessH,
+  } = useGetStoreBusinessHours(selectedStoreId ?? 0);
+
+  useEffect(() => {
+    if (businessHoursRes) {
+      setStoreData((prev) => ({
+        ...prev,
+        businessHours: businessHoursRes,
+      }));
+    }
+  }, [businessHoursRes, setStoreData]);
 
   const classifiOptions = createClassificationsOptions(classifiRes);
   const subClassifiOptions = createClassificationsOptions(subClassifiRes);
@@ -138,46 +163,57 @@ const StoreModalContents = ({ storeData, setStoreData, onChangeStoreData }: TPro
 
       {/* 영업 시간 - 마커 활성화 여부용 */}
       <StoreFormWrapper label="영업 시간(마커 활성화 여부용)" isRequired>
-        <div>
-          <div className="flex items-center gap-4 w-[600px] lg:flex-col lg:w-auto">
-            <SelectBox
-              label="요일"
-              value={dayInputState.date}
-              name="date"
-              onChange={onChangeDayInput}
-              menuItems={createSelectItems(DAY_OF_WEEK)}
-            />
-            <div className="flex items-center gap-2">
-              {/* TODO: openAt < closeAt 검증 필요 */}
-              <TextField
-                placeholder="10:00"
-                value={dayInputState.openAt}
-                name="openAt"
-                onChange={({ target: { name, value } }) => onChangeDayInput(name, value)}
+        {isBusinessHError ? (
+          <div className="flex items-center gap-8">
+            서버 에러입니다.
+            <Button variant="contained" color="warning" onClick={() => refetchBusinessH()}>
+              다시 시도
+            </Button>
+          </div>
+        ) : (
+          <div>
+            <div className="flex items-center gap-4 w-[600px] lg:flex-col lg:w-auto">
+              <SelectBox
+                label="요일"
+                value={dayInputState.date}
+                name="date"
+                onChange={onChangeDayInput}
+                menuItems={createSelectItems(DAY_OF_WEEK)}
               />
-              ~
-              <TextField
-                placeholder="18:00"
-                value={dayInputState.closeAt}
-                name="closeAt"
-                onChange={({ target: { name, value } }) => onChangeDayInput(name, value)}
-              />
-              <Button onClick={onClickHourAdd}>추가</Button>
+              <div className="flex items-center gap-2">
+                {/* TODO: openAt < closeAt 검증 필요 */}
+                <TextField
+                  placeholder="10:00"
+                  value={dayInputState.openAt}
+                  name="openAt"
+                  onChange={({ target: { name, value } }) => onChangeDayInput(name, value)}
+                />
+                ~
+                <TextField
+                  placeholder="18:00"
+                  value={dayInputState.closeAt}
+                  name="closeAt"
+                  onChange={({ target: { name, value } }) => onChangeDayInput(name, value)}
+                />
+                <Button onClick={onClickHourAdd} disabled={isBusinessHLoading}>
+                  추가
+                </Button>
+              </div>
+            </div>
+            <div className="mt-6">
+              {storeData.businessHours.map(({ date, openAt, closeAt }) => {
+                return (
+                  <Typography align="right" variant="subtitle1" key={date}>
+                    {`${DAY_OF_WEEK[date]} ${openAt} ~ ${closeAt}`}{" "}
+                    <Button color="error" onClick={() => onClickHourRemove(date)}>
+                      X
+                    </Button>
+                  </Typography>
+                );
+              })}
             </div>
           </div>
-          <div className="mt-6">
-            {storeData.businessHours.map(({ date, openAt, closeAt }) => {
-              return (
-                <Typography align="right" variant="subtitle1" key={date}>
-                  {`${DAY_OF_WEEK[date]} ${openAt} ~ ${closeAt}`}{" "}
-                  <Button color="error" onClick={() => onClickHourRemove(date)}>
-                    X
-                  </Button>
-                </Typography>
-              );
-            })}
-          </div>
-        </div>
+        )}
       </StoreFormWrapper>
 
       {/* 주소, 상세주소 */}

@@ -43,17 +43,21 @@ export type TAdminStoreDetail = {
   activateStatus: boolean; // 활성화 여부
   address: string;
   addressDetail: string;
-  thumbnail: string; // 썸네일
   umbrellaLocation: string;
   businessHour: string; // 화면 출력용
-  businessHours: TStoreBusinessHours[]; // 마커 활성화 여부용
   contactNumber?: string; // "010-0000-0000";
   instagramId?: string; // "upbrella";
   latitude: number | null;
   longitude: number | null;
   content: string;
-  imageUrls: TStoreImage[];
   password: string; // 자물쇠 비밀번호
+};
+
+export type TStoreBusinessHoursRes = {
+  id: number;
+  date: TDayOfWeek;
+  openAt: string;
+  closeAt: string;
 };
 
 // api response
@@ -75,10 +79,12 @@ export type TClassificationStore = {
 // api request
 export type TStoreParams = Omit<
   TAdminStoreDetail,
-  "id" | "classification" | "subClassification" | "thumbnail" | "imageUrls"
+  "id" | "classification" | "subClassification" | "activateStatus"
 > & {
   classificationId: number | null;
   subClassificationId: number | null;
+  activateStatus?: boolean;
+  businessHours: TStoreBusinessHours[];
 };
 
 export type TStoreImageParams = {
@@ -88,17 +94,10 @@ export type TStoreImageParams = {
 
 export type TStoreTableData = Omit<
   TAdminStoreDetail,
-  | "addressDetail"
-  | "businessHours"
-  | "latitude"
-  | "longitude"
-  | "password"
-  | "subClassification"
-  | "classification"
-  | "thumbnail"
+  "addressDetail" | "latitude" | "longitude" | "password" | "subClassification" | "classification"
 >;
 
-export type TStoreTableKey = keyof TStoreTableData;
+export type TStoreTableKey = keyof TStoreTableData & "imageUrls";
 
 // 지역 태그 (대분류)
 export type TClassification = {
@@ -109,7 +108,7 @@ export type TClassification = {
   longitude: number | null;
 };
 
-export type TStoreImage = {
+export type TStoreImageRes = {
   id: number;
   imageUrl: string;
 };
