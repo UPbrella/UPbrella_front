@@ -11,6 +11,8 @@ import {
   TClassificationAllStore,
   TStoreListDetail,
   TStoreListRes,
+  TStoreBusinessHoursRes,
+  TStoreImageRes,
 } from "@/types/admin/StoreTypes";
 
 const API = {
@@ -27,6 +29,8 @@ const API = {
   STORE_DETAIL: (id: number) => `/stores/${id}`,
   ADMIN_STORES_PATCH_ACTIVE: (storeId: number) => `/admin/stores/${storeId}/activate`,
   ADMIN_STORES_PATCH_INACTIVE: (storeId: number) => `/admin/stores/${storeId}/inactivate`,
+  ADMIN_STORES_GET_IMAGE: (storeId: number) => `/admin/stores/${storeId}/images`,
+  ADMIN_STORES_GET_BUSINESS_HOURS: (storeId: number) => `/admin/stores/${storeId}/businessHours`,
 } as const;
 
 // 협업지점 소개 페이지에서의 협업지점 목록 조회
@@ -47,7 +51,21 @@ export const getStoreDetail = async (id: number) => {
   return res.data;
 };
 
-// 협업지점 이미지 업로드
+// 협업지점 영업시간 조회
+export const getStoreBusinessHours = async (storeId: number) => {
+  const res = await $axios.get<TApiResponse<{ businessHours: TStoreBusinessHoursRes[] }>>(
+    API.ADMIN_STORES_GET_BUSINESS_HOURS(storeId)
+  );
+  return res.data;
+};
+
+// 협업지점 이미지 조회
+export const getStoreImages = async (storeId: number) => {
+  const res = await $axios.get<TApiResponse<{ storeId: number; images: TStoreImageRes[] }>>(
+    API.ADMIN_STORES_GET_IMAGE(storeId)
+  );
+  return res.data;
+};
 
 // 협업지점 생성
 export const postStores = async (params: TStoreParams) => {
@@ -60,7 +78,7 @@ export const patchStores = async ({
   params,
 }: {
   storeId: number;
-  params: TStoreParams;
+  params: Omit<TStoreParams, "activateStatus">;
 }) => {
   await $axios.patch(API.ADMIN_STORES(storeId), params);
 };

@@ -7,6 +7,8 @@ import {
   getStoreDetail,
   patchStoreActive,
   patchStoreInactive,
+  getStoreBusinessHours,
+  getStoreImages,
 } from "@/api/storeApi";
 import toast from "react-hot-toast";
 
@@ -17,6 +19,8 @@ export const STORE_QUERY_KEYS = {
   classifications: (classificationId?: number) => ["classifications", classificationId],
   subClassifications: () => ["subClassifications"],
   storeList: () => ["storeList"],
+  storeBusinessHours: (storeId?: number) => ["storeBusinessHours", storeId],
+  storeImages: (storeId?: number) => ["storeImages", storeId],
 } as const;
 
 export const useGetStores = () => {
@@ -69,6 +73,26 @@ export const useGetStoreList = () => {
     queryKey: [...STORE_QUERY_KEYS.storeList()],
     queryFn: () => getStoreList(),
     select: (res) => res.data.storesByClassification,
+  });
+};
+
+// 협업지점 영업시간 개별 조회
+export const useGetStoreBusinessHours = (storeId: number) => {
+  return useQuery({
+    enabled: !!storeId,
+    queryKey: [...STORE_QUERY_KEYS.storeBusinessHours(storeId)],
+    queryFn: () => getStoreBusinessHours(storeId),
+    select: (res) => res.data.businessHours,
+  });
+};
+
+// 협업지점 이미지 개별 조회
+export const useGetStoreImages = (storeId: number) => {
+  return useQuery({
+    enabled: !!storeId,
+    queryKey: [...STORE_QUERY_KEYS.storeImages(storeId)],
+    queryFn: () => getStoreImages(storeId),
+    select: (res) => res.data.images,
   });
 };
 

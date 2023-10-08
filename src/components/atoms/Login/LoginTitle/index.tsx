@@ -7,8 +7,14 @@ export type LoginTitleProps = {
 const LoginTitle = ({ label }: LoginTitleProps) => {
   return (
     <div className="flex flex-col items-center w-68">
-      <img className="w-full h-68 mb-16" src={Logo} />
-      <div className="w-full h-32 text-gray-700 text-24 leading-32 font-bold">{label}</div>
+      <img
+        className="w-full mb-16 h-68"
+        src={Logo}
+        onError={(e) => {
+          e.currentTarget.src = Logo;
+        }}
+      />
+      <div className="w-full h-32 font-bold text-gray-700 text-24 leading-32">{label}</div>
     </div>
   );
 };

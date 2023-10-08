@@ -69,7 +69,6 @@ const StoreList = () => {
           selectedStore={{
             id: selectedStore.id,
             name: selectedStore.name,
-            imageUrls: selectedStore.imageUrls,
           }}
         />
       )}
