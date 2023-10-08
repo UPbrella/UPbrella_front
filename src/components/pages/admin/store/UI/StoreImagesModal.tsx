@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { deleteStoreImage, postStoreImage } from "@/api/storeApi";
 import CloseIcon from "@mui/icons-material/Close";
 import { TAdminStoreDetail } from "@/types/admin/StoreTypes";
+import { STORE_QUERY_KEYS, useGetStoreImages } from "@/hooks/queries/storeQueries";
 import {
   Button,
   IconButton,
@@ -17,28 +18,36 @@ import {
 type TProps = {
   isOpen: boolean;
   onCloseModal: () => void;
-  selectedStore: Pick<TAdminStoreDetail, "id" | "name" | "imageUrls">;
+  selectedStore: Pick<TAdminStoreDetail, "id" | "name">;
 };
 
 const StoreImagesModal = ({ isOpen, onCloseModal, selectedStore }: TProps) => {
   const queryClient = useQueryClient();
   const { mutate: saveMutate, isLoading: isSaveLoading } = useMutation(postStoreImage);
   const { mutate: removeMutate, isLoading: isRemoveLoading } = useMutation(deleteStoreImage);
+  const { data: imagesRes, isLoading, isError } = useGetStoreImages(selectedStore.id);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     if (!files) return;
 
+    const MAX_SIZE = 1024 * 1024; // 1MB
+
     const formData = new FormData();
     for (let i = 0; i < files.length; i++) {
       formData.append("image", files[i]);
+      const fileSize = files[i].size;
+      if (fileSize > MAX_SIZE) {
+        toast.error("이미지 업로드 용량은 최대 1MB 입니다.");
+        return;
+      }
     }
 
     saveMutate(
       { storeId: selectedStore.id, imageFile: formData },
       {
         onSuccess: () => {
-          queryClient.invalidateQueries(["stores"]);
+          queryClient.invalidateQueries([...STORE_QUERY_KEYS.storeImages(selectedStore.id)]);
           toast.success("이미지 업로드 성공 !");
           return;
         },
@@ -54,7 +63,7 @@ const StoreImagesModal = ({ isOpen, onCloseModal, selectedStore }: TProps) => {
     if (window.confirm("정말 삭제하시겠습니까 ?")) {
       removeMutate(imageId, {
         onSuccess: () => {
-          queryClient.invalidateQueries(["stores"]);
+          queryClient.invalidateQueries([...STORE_QUERY_KEYS.storeImages(selectedStore.id)]);
           toast.success("이미지 삭제 성공 !");
           return;
         },
@@ -86,14 +95,14 @@ const StoreImagesModal = ({ isOpen, onCloseModal, selectedStore }: TProps) => {
       }
     >
       <div>
-        {selectedStore.imageUrls.length ? (
+        {imagesRes && imagesRes.length ? (
           <ImageList
             sx={{
               maxWidth: "700px",
             }}
             gap={5}
           >
-            {selectedStore.imageUrls.map(({ id, imageUrl }, i) => {
+            {imagesRes.map(({ id, imageUrl }, i) => {
               // 현재는 첫번째 요소가 썸네일
               const isThumbnail = i === 0; // hack
               return (
@@ -133,7 +142,7 @@ const StoreImagesModal = ({ isOpen, onCloseModal, selectedStore }: TProps) => {
           </ImageList>
         ) : (
           <Typography variant="h6" className="text-center min-w-[500px] my-16">
-            이미지를 업로드 해주세요.
+            {isLoading ? "Loading..." : isError ? "Server Error" : "이미지를 업로드 해주세요."}
           </Typography>
         )}
       </div>

@@ -14,11 +14,9 @@ import { toast } from "react-hot-toast";
 export const storeInitializer = (res?: TAdminStoreDetail): TStoreParams => {
   if (res) {
     const {
-      activateStatus,
       address,
       addressDetail,
       businessHour,
-      businessHours,
       category,
       classification,
       content,
@@ -37,7 +35,6 @@ export const storeInitializer = (res?: TAdminStoreDetail): TStoreParams => {
       category,
       classificationId: classification.id,
       subClassificationId: subClassification.id,
-      activateStatus,
       address,
       addressDetail,
       umbrellaLocation,
@@ -47,7 +44,7 @@ export const storeInitializer = (res?: TAdminStoreDetail): TStoreParams => {
       latitude,
       longitude,
       content,
-      businessHours,
+      businessHours: [],
       password,
     } satisfies TStoreParams;
   }
@@ -61,7 +58,7 @@ export const storeInitializer = (res?: TAdminStoreDetail): TStoreParams => {
     address: "",
     addressDetail: "",
     umbrellaLocation: "",
-    businessHour: "",
+    businessHour: "매일 12:30 ~ 23:00",
     contactNumber: "",
     instagramId: "",
     latitude: null,
@@ -147,7 +144,7 @@ export const isValidateStoreSave = (params: TStoreParams) => {
     name,
     address,
     businessHour,
-    businessHours,
+    // businessHours,
     category,
     classificationId,
     subClassificationId,
@@ -160,7 +157,7 @@ export const isValidateStoreSave = (params: TStoreParams) => {
     !name ||
     !address ||
     !businessHour ||
-    !businessHours ||
+    // !businessHours ||
     !category ||
     !classificationId ||
     !subClassificationId ||
@@ -186,7 +183,6 @@ export const filterStoreTableView = ({
   contactNumber,
   instagramId,
   content,
-  imageUrls,
 }: TAdminStoreDetail): TStoreTableData => {
   return {
     id,
@@ -199,6 +195,5 @@ export const filterStoreTableView = ({
     contactNumber,
     instagramId,
     content: content.length > 50 ? `${content.slice(0, 50)}...` : content,
-    imageUrls,
   };
 };

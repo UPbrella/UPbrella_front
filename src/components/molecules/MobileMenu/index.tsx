@@ -4,11 +4,11 @@ import Logo from "@/assets/main_logo.svg";
 import CloseSharpIcon from "@mui/icons-material/CloseSharp";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import { headerNavItems } from "@/components/molecules/Header/HeaderContents";
 import { useLogout } from "@/hooks/queries/userQueries";
 import { TUserRes } from "@/types/admin/userTypes";
 import { Fragment } from "react";
 import CardFooter from "@/components/organisms/CardFooter";
+import { headerNavItems } from "@/components/organisms/Header/HeaderContainer";
 
 export type TMenu = {
   userRes: TUserRes | null;
@@ -34,11 +34,18 @@ const MobileMenu: React.FC<TMenu> = ({ userRes, setMenuOpen }) => {
   };
 
   return (
-    <div className="relative w-full h-full flex flex-col justify-between">
+    <div className="relative flex flex-col justify-between w-full h-full">
       <div className="bg-white z-100">
-        <div className="flex justify-between items-center py-16">
+        <div className="flex items-center justify-between py-16">
           <Link to={"/"}>
-            <img className="w-32 h-32" src={Logo} alt="Logo" />
+            <img
+              className="w-32 h-32"
+              src={Logo}
+              alt="Logo"
+              onError={(e) => {
+                e.currentTarget.src = Logo;
+              }}
+            />
           </Link>
           <div className="cursor-pointer" onClick={handleMenuClose}>
             <CloseSharpIcon />
@@ -53,7 +60,7 @@ const MobileMenu: React.FC<TMenu> = ({ userRes, setMenuOpen }) => {
                 <span className="ml-8">{userRes.name}</span>
               </div>
               <button
-                className="flex items-center justify-center text-primary-500  transition-all bg-primary-200 rounded-99 pl-16 pr-6 py-8 text-14 font-semibold"
+                className="flex items-center justify-center py-8 pl-16 pr-6 font-semibold transition-all text-primary-500 bg-primary-200 rounded-99 text-14"
                 onClick={() => handleNavToUrl("/members/mypage/rent")}
               >
                 마이페이지 <NavigateNextIcon fontSize="small" />
@@ -61,11 +68,11 @@ const MobileMenu: React.FC<TMenu> = ({ userRes, setMenuOpen }) => {
             </div>
           ) : (
             <div className="mb-4">
-              <div className="font-semibold text-20 text-gray-700 mb-16">
+              <div className="mb-16 font-semibold text-gray-700 text-20">
                 업브렐라를 찾아주셔서 감사해요!
               </div>
               <button
-                className="rounded-8 font-semibold w-full py-12 text-white bg-primary-500"
+                className="w-full py-12 font-semibold text-white rounded-8 bg-primary-500"
                 onClick={() => handleNavToUrl("/login")}
               >
                 로그인
@@ -80,13 +87,13 @@ const MobileMenu: React.FC<TMenu> = ({ userRes, setMenuOpen }) => {
 
             return (
               <Fragment key={name}>
-                <div className="bg-gray-200 w-full h-1 my-16"></div>
+                <div className="w-full h-1 my-16 bg-gray-200"></div>
                 <div>
                   <NavLink
                     onClick={() => handleMenuClose()}
                     key={name}
                     to={path}
-                    className="px-16 text-15 text-gray-700 hover:text-primary-500  transition-all font-semibold"
+                    className="px-16 font-semibold text-gray-700 transition-all text-15 hover:text-primary-500"
                   >
                     {name}
                   </NavLink>
@@ -94,10 +101,10 @@ const MobileMenu: React.FC<TMenu> = ({ userRes, setMenuOpen }) => {
               </Fragment>
             );
           })}
-          <div className="bg-gray-200 w-full h-1 my-16"></div>
+          <div className="w-full h-1 my-16 bg-gray-200"></div>
           {userRes && (
             <button
-              className="flex mx-16 text-14 font-semibold hover:text-primary-500  transition-all"
+              className="flex mx-16 font-semibold transition-all text-14 hover:text-primary-500"
               onClick={onClickLogout}
             >
               로그아웃
