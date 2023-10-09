@@ -83,8 +83,6 @@ const RentalInfo = () => {
     // 새로 생성 후 setState (여기에서 선택한 지점과 비교 후 아이콘 변경)
     const _markers = storeListRes.map(
       ({ id, latitude, longitude, name, rentableUmbrellasCount, openStatus }) => {
-        // TODO: openStatus 처리
-        // console.log(openStatus + "결과 ");
         const isSelected = id === selectedStoreId;
         const iconContent = isSelected
           ? `<div class="marker-wrapper-focus"><img class="marker-focus" alt="webMarkerFocus" src="${
@@ -188,15 +186,15 @@ const RentalInfo = () => {
   }, [storeListRes, userPosition]);
 
   return (
-    <div className="flex flex-col mt-24">
-      <div className="flex justify-center">
-        {/* 태블렛 환경에서 대여지점 카드 hidden  */}
-        <div className="pr-24 min-w-[400px] smMaxLg:hidden">
+    <div className="flex flex-col flex-1">
+      <div className="flex justify-center gap-[24px] flex-1">
+        <div className="min-w-[400px] max-w-[400px] hidden xl:block">
           {storeDetail && <Card storeDetail={storeDetail} />}
         </div>
-        <div className="relative w-full max-w-936 rounded-20 smMaxLg:max-w-640 smMaxLg:flex smMaxLg:justify-center">
-          <Map ref={mapElement} width="100%" height="896px" borderRadius="20px" />
-          <div className="absolute top-0 left-0 p-24 pr-60 z-9">
+
+        <div className="relative flex-1 rounded-20 smMaxLg:max-w-640 smMaxLg:flex smMaxLg:justify-center">
+          <Map ref={mapElement} width="100%" height="100%" borderRadius="20px" />
+          <div className="absolute top-0 left-0 w-full p-24 z-9 pr-60">
             {classificationsRes && (
               <ClassificationsButtons
                 classificationsRes={classificationsRes}

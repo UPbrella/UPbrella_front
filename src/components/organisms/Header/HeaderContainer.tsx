@@ -74,7 +74,14 @@ const DesktopHeader = ({ isLoading, userRes }: THeaderProps) => {
   return (
     <div className="relative items-center justify-between hidden w-full my-8 xl:flex">
       <Link to={"/"}>
-        <img className="w-64 h-64 p-8" src={Logo} alt="Logo" />
+        <img
+          className="w-64 h-64 p-8"
+          src={Logo}
+          alt="Logo"
+          onError={(e) => {
+            e.currentTarget.src = Logo;
+          }}
+        />
       </Link>
       <div className="flex justify-between font-semibold text-gray-700 text-16 leading-24">
         {headerNavItems.map(({ name, path, isAdmin }) => {

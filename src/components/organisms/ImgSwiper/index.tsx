@@ -1,39 +1,43 @@
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
-
 import { Swiper, SwiperSlide } from "swiper/react";
-
 import "swiper/css";
 import "swiper/css/navigation";
 import "@/components/organisms/ImgSwiper/styles.css";
+import DefaultImg from "@/assets/Story/section4-1.jpeg";
 
 export type TImgSwiper = {
-  maxWidth?: number;
-  maxHeight?: number;
   images: Array<string>;
 };
 
-const ImgSwiper = ({ maxWidth, maxHeight, images }: TImgSwiper) => {
-  const swiperStyles = {
-    maxWidth: maxWidth ? `${maxWidth}px` : "100%", // maxWidth props에 따라 설정
-    maxHeight: maxHeight ? `${maxHeight}px` : "100%", // maxHeight props에 따라 설정
-  };
+const ImgSwiper = ({ images }: TImgSwiper) => {
   return (
-    <div className="flex justify-start w-full h-full lg:min-w-400" style={swiperStyles}>
-      <Swiper
-        modules={[Navigation, Pagination, Scrollbar, A11y]}
-        spaceBetween={10}
-        slidesPerView={1}
-        navigation
-        loop
-        scrollbar={{ draggable: true }}
-      >
-        {images.map((image) => (
-          <SwiperSlide key={image}>
-            <img src={image} alt="Image" />
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </div>
+    <Swiper
+      modules={[Navigation, Pagination, Scrollbar, A11y]}
+      spaceBetween={10}
+      slidesPerView={1}
+      navigation
+      loop
+      scrollbar={{ draggable: true }}
+      className="w-full aspect-storeImg max-w-[1024px]"
+    >
+      {!images.length && (
+        <SwiperSlide>
+          <img src={DefaultImg} alt="Image" />
+        </SwiperSlide>
+      )}
+      {images.map((image) => (
+        <SwiperSlide key={image}>
+          <img
+            src={image}
+            alt="Image"
+            onError={(e) => {
+              e.currentTarget.src = DefaultImg;
+            }}
+            className="object-cover w-full aspect-storeImg"
+          />
+        </SwiperSlide>
+      ))}
+    </Swiper>
   );
 };
 

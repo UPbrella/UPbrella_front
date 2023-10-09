@@ -20,11 +20,11 @@ const RentalOfficePage = () => {
   const { data: useGetStoreDetailData } = useGetStoreDetail(selectedStoreId ?? 1);
 
   return (
-    <div className="flex justify-center mt-20">
-      <div className="flex mr-24 lg:hidden">
+    <div className="block xl:flex gap-[24px]">
+      <div className="hidden xl:block max-w-[400px] min-w-[400px]">
         {useGetStoreDetailData && <Card storeDetail={useGetStoreDetailData} />}
       </div>
-      <div>
+      <div className="flex flex-col items-center flex-1 xl:block">
         {subClassificationsRes && (
           <LocationClassificationBtn
             classifications={subClassificationsRes}
