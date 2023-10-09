@@ -27,6 +27,9 @@ export default {
       h40: ["40px", "52px"],
     },
     extend: {
+      aspectRatio: {
+        storeImg: "10 / 7",
+      },
       minWidth: px0_1000,
       minHeight: px0_1000,
       maxWidth: px0_1000,

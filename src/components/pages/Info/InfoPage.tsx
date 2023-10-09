@@ -43,9 +43,9 @@ const InfoPage = () => {
     <div className="bg-white">
       <FixWidthWrapper>
         <HeaderContainer />
-        <div className="flex items-center smMaxLg:w-680 smMaxLg:mx-auto px-10">
-          <div className="flex flex-1 flex-col justify-center px-0 xl:px-40">
-            <div className="font-semibold text-24 pb-32 pt-24">이용안내</div>
+        <div className="flex items-center px-10">
+          <div className="flex flex-col justify-center flex-1 px-0 xl:px-40">
+            <div className="pt-24 pb-32 font-semibold text-24">이용안내</div>
             <LocationClassificationBtn
               classifications={mock}
               setSelectedClassificationId={setSelectedClassificationIndex}
