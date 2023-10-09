@@ -6,6 +6,11 @@ import { filterStoreTableView } from "@/components/pages/admin/store/helper";
 import { STORE_ADMIN_TABLE } from "@/utils/admin/storeHelpers";
 import { InputSwitch } from "primereact/inputswitch";
 import { usePatchStoreActive, usePatchStoreInactive } from "@/hooks/queries/storeQueries";
+import CustomModal from "@/components/organisms/Modal";
+import useModalStatus from "@/hooks/custom/useModalStatus";
+import { useState } from "react";
+import { QRCodeCanvas } from "qrcode.react";
+import logo from "@/assets/main_logo.svg";
 
 type TProps = {
   storesRes: TAdminStoreDetail[];
@@ -13,6 +18,9 @@ type TProps = {
 };
 
 const StoreTable = ({ storesRes, onClickStoreRow }: TProps) => {
+  const { isOpen, handleOpen, handleClose } = useModalStatus();
+  const [selectedStore, setSelectedStore] = useState<TStoreTableData>();
+
   const { mutate: mutateStoreActive, isLoading: isMutatingStoreActive } = usePatchStoreActive();
   const { mutate: mutateStoreInactive, isLoading: isMutatingStoreInactive } =
     usePatchStoreInactive();
@@ -34,6 +42,16 @@ const StoreTable = ({ storesRes, onClickStoreRow }: TProps) => {
 
   return (
     <>
+      {/* QR Modal */}
+      {selectedStore && isOpen && (
+        <StoreQRModal
+          selectedStore={selectedStore}
+          isOpen={isOpen}
+          handleCloseModal={handleClose}
+        />
+      )}
+
+      {/* Table */}
       <CssDataTable
         paginator
         rows={10}
@@ -51,6 +69,23 @@ const StoreTable = ({ storesRes, onClickStoreRow }: TProps) => {
         }}
         rowHover
       >
+        <Column
+          header="QR 코드"
+          style={{ minWidth: "90px" }}
+          body={(data: TStoreTableData) => (
+            <Button
+              variant="outlined"
+              color="warning"
+              onClick={(e) => {
+                setSelectedStore(data);
+                handleOpen();
+                e.stopPropagation();
+              }}
+            >
+              확인
+            </Button>
+          )}
+        />
         {Object.keys(STORE_ADMIN_TABLE).map((key) => {
           const field = key as TStoreTableKey;
           const { label, minWidth } = STORE_ADMIN_TABLE[field];
@@ -99,3 +134,50 @@ const StoreTable = ({ storesRes, onClickStoreRow }: TProps) => {
 };
 
 export default StoreTable;
+
+const StoreQRModal = ({
+  isOpen,
+  handleCloseModal,
+  selectedStore,
+}: {
+  isOpen: boolean;
+  handleCloseModal: () => void;
+  selectedStore: TStoreTableData;
+}) => {
+  const QR_CODE_URL = `${window.location.origin}/return/form?storeId=${selectedStore.id}`;
+
+  const handleDownloadClick = () => {
+    const canvas = document.querySelector("canvas");
+    const url = canvas ? canvas.toDataURL("image/png") : "";
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `qr-${selectedStore.name}-storeId:${selectedStore.id}.png`;
+    link.click();
+  };
+
+  return (
+    <CustomModal
+      isOpen={isOpen}
+      handleClose={handleCloseModal}
+      titleText={`"${selectedStore.name}" QR 코드`}
+    >
+      <div className="flex flex-col items-center gap-[4px] p-16">
+        <QRCodeCanvas
+          size={200}
+          includeMargin
+          value={QR_CODE_URL}
+          imageSettings={{
+            src: logo,
+            height: 50,
+            width: 50,
+            excavate: false,
+          }}
+        />
+        <Button variant="contained" onClick={handleDownloadClick}>
+          QR 이미지 다운로드
+        </Button>
+        <div>{QR_CODE_URL}</div>
+      </div>
+    </CustomModal>
+  );
+};

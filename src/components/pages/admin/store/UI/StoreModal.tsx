@@ -157,7 +157,11 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
   return (
     <CustomModal
       isOpen={isOpen}
-      handleClose={onCloseModal}
+      handleClose={() => {
+        if (window.confirm("작성중인 내용이 모두 사라집니다.")) {
+          onCloseModal();
+        }
+      }}
       titleText={`협업지점 ${!selectedStoreId ? "추가" : "수정"}`}
       footerContents={
         !selectedStoreId ? (

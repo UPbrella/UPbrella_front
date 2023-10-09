@@ -3,10 +3,10 @@ import instagram from "@/assets/instagram.svg";
 
 const FooterSns = () => {
   return (
-    <div className="flex items-center gap-x-3 py-20">
-      <div className="text-gray-500 text-sm">FOLLOW US</div>
+    <div className="flex items-center gap-x-3 ">
+      <div className="text-sm text-gray-500">FOLLOW US</div>
       <a
-        className="bg-kakao rounded-99 w-40 h-40 flex justify-center items-center"
+        className="flex items-center justify-center w-40 h-40 bg-kakao rounded-99"
         href="https://pf.kakao.com/_sxeXFb"
       >
         <img alt="message" src={message} />

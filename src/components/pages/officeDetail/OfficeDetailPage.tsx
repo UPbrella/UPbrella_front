@@ -10,7 +10,7 @@ const OfficeDetailPage = () => {
   return (
     <>
       {useGetStoreDetailData && (
-        <div className="flex justify-center items-center xl:mr-8">
+        <div className="flex items-center justify-center h-full xl:mr-8">
           <Card storeDetail={useGetStoreDetailData} />
         </div>
       )}
