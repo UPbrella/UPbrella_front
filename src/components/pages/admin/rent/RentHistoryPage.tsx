@@ -104,7 +104,9 @@ const RentHistoryPage = () => {
         </div>
 
         <div>
-          <RentHistoryExcelButton />
+          {rentHistoriesRes && (
+            <RentHistoryExcelButton historiesCount={rentHistoriesRes.countOfAllHistories} />
+          )}
         </div>
       </div>
 
@@ -197,9 +199,10 @@ const RentHistoryPage = () => {
 
 export default RentHistoryPage;
 
-export const RentHistoryExcelButton = () => {
+export const RentHistoryExcelButton = ({ historiesCount }: { historiesCount: number }) => {
   const { data: rentHistoriesRes, isLoading } = useRentHistories({
     refunded: "all",
+    size: historiesCount,
   });
 
   // 한글 매핑

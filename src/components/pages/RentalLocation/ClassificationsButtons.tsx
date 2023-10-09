@@ -22,7 +22,7 @@ const ClassificationsButtons = ({
   }, [classificationsRes, selectedClassification?.id]);
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex gap-2 overflow-auto flex-nowrap">
       {classificationsRes.map((item, index) => (
         <button
           key={item.id}
@@ -32,6 +32,9 @@ const ClassificationsButtons = ({
               : "text-gray-700 border-gray-300"
           } font-semibold px-16 py-8 rounded-999 border text-15 bg-white`}
           onClick={() => setSelectedClassification(item)}
+          style={{
+            flex: "0 0 auto",
+          }}
         >
           {item.name}
         </button>

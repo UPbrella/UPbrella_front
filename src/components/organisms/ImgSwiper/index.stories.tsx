@@ -9,4 +9,4 @@ export default {
 const Template: StoryFn<TImgSwiper> = (args) => <ImgSwiper {...args} />;
 
 export const Default = Template.bind({});
-Default.args = { maxWidth: 400, maxHeight: 280 };
+Default.args = {};
