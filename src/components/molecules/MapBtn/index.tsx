@@ -5,10 +5,10 @@ import { ReactNode } from "react";
 import { getUserPosition } from "@/utils/map/mapHelper";
 import { useNavigate } from "react-router-dom";
 
-const mapIcons: ReactNode[] = [
-  <MyLocationOutlinedIcon />,
-  <RestartAltIcon />,
-  <QuestionMarkIcon />,
+const mapIcons: { icon: ReactNode; title: string }[] = [
+  { icon: <MyLocationOutlinedIcon />, title: "현재 위치 검색" },
+  { icon: <RestartAltIcon />, title: "정보 다시 가져오기" },
+  { icon: <QuestionMarkIcon />, title: "이용안내 확인" },
 ];
 
 export type MapBtnProps = {
@@ -37,7 +37,7 @@ const MapBtn = ({ map }: MapBtnProps) => {
         window.location.reload();
         break;
       case 2:
-        navigate("/info/tos");
+        navigate("/information");
         break;
       default:
         break;
@@ -45,13 +45,14 @@ const MapBtn = ({ map }: MapBtnProps) => {
   };
   return (
     <div className="flex flex-col gap-2">
-      {mapIcons.map((item, index) => (
+      {mapIcons.map(({ icon, title }, index) => (
         <div
           key={index + "key"}
-          className="bg-white w-44 h-44 rounded-99 border border-gray-300 text-28 grid place-content-center hover:pointer"
+          title={title}
+          className="grid bg-white border border-gray-300 w-44 h-44 rounded-99 text-28 place-content-center hover:cursor-pointer"
           onClick={() => handleIconClick(index)}
         >
-          {item}
+          {icon}
         </div>
       ))}
     </div>

@@ -196,7 +196,7 @@ const RentalInfo = () => {
         </div>
         <div className="relative w-full max-w-936 rounded-20 smMaxLg:max-w-640 smMaxLg:flex smMaxLg:justify-center">
           <Map ref={mapElement} width="100%" height="896px" borderRadius="20px" />
-          <div className="absolute top-0 left-0 p-24 z-9">
+          <div className="absolute top-0 left-0 p-24 pr-60 z-9">
             {classificationsRes && (
               <ClassificationsButtons
                 classificationsRes={classificationsRes}
@@ -205,19 +205,19 @@ const RentalInfo = () => {
               />
             )}
           </div>
-          <div className="absolute top-0 z-10 right-7 pt-86 lg:hidden">
+          <div className="absolute top-0 z-10 right-7 pt-86">
             <MapBtn map={map} />
-            {isBottomOpen && mapWidth && storeDetail && (
-              <BottomSheet
-                isBottomSheetOpen={isBottomOpen}
-                setIsBottomSheetOpen={setIsBottomOpen}
-                snapPoints={[280, 280, 0]}
-                _className="hidden lg:block"
-              >
-                <MobileCard storeDetail={storeDetail} />
-              </BottomSheet>
-            )}
           </div>
+          {isBottomOpen && mapWidth && storeDetail && (
+            <BottomSheet
+              isBottomSheetOpen={isBottomOpen}
+              setIsBottomSheetOpen={setIsBottomOpen}
+              snapPoints={[280, 280, 0]}
+              _className="hidden lg:block"
+            >
+              <MobileCard storeDetail={storeDetail} />
+            </BottomSheet>
+          )}
         </div>
       </div>
     </div>
