@@ -309,8 +309,8 @@ const UmbrellaModal = ({ isOpen, handleClose, storeRes, umbrellaRes, storeId }: 
                 value={QR_CODE_URL}
                 imageSettings={{
                   src: logo,
-                  height: 80,
-                  width: 80,
+                  height: 50,
+                  width: 50,
                   excavate: false,
                 }}
               />
