@@ -70,8 +70,8 @@ const ContactPage = () => {
 
   return (
     <>
-      <div>
-        <div className="relative flex items-center justify-center my-100 lg:my-20">
+      <div className="h-screen relative">
+        <div className="flex items-center justify-center my-100 lg:my-20 ">
           <div className="flex items-start w-full h-full px-40 lg:flex-col lg:px-0">
             <div className="flex-col w-full px-40 py-24 mr-32 lg:px-0 lg:py-0">
               <div className="mb-8 font-semibold text-black text-24 leading-32">CONTACT US</div>
@@ -137,7 +137,8 @@ const ContactPage = () => {
             </div>
           )}
         </div>
-        <div className="absolute left-0 right-0 bottom-0 bg-white">
+
+        <div className="absolute bottom-[100px] left-0 right-0 bg-white">
           <Footer />
         </div>
       </div>
