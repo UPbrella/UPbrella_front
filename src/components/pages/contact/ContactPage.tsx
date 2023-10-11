@@ -8,6 +8,7 @@ import { formatPhoneNumber } from "@/utils/utils";
 import toast from "react-hot-toast";
 import Footer from "@/components/organisms/Footer";
 import { HeaderContainer } from "@/components/organisms/Header/HeaderContainer";
+import { FixWidthWrapper } from "@/components/pages/story/UpbrellaStoryPage";
 
 const ContactPage = () => {
   const [name, setName] = useState("");
@@ -71,12 +72,14 @@ const ContactPage = () => {
 
   return (
     <>
-      <div className="w-full h-full flex flex-col justify-between bg-cover px-40 mdMaxMin:pr-0">
-        <HeaderContainer />
+      <div className="flex flex-col justify-between w-full h-full px-40 bg-cover mdMaxMin:pr-0">
+        <div className="min-w-[1440px] px-40 mx-auto md:px-20 sm:mx-0">
+          <HeaderContainer />
+        </div>
         <div className="flex flex-col items-center ">
           <div className="max-w-[1440px] min-h-[100vh] pb-20 w-full px-40 mdMaxMin:px-0 lg:px-0 lg:pr-40 mdMaxMin:pr-0">
             <div className="flex items-center justify-center my-100 lg:my-20">
-              <div className="flex items-start w-full  h-full lg:flex-col lg:px-0 justify-between ">
+              <div className="flex items-start justify-between w-full h-full lg:flex-col lg:px-0 ">
                 <div className="flex flex-col w-full py-24 lg:py-0 lgMaxMin:pl-40">
                   <div className="mb-8 font-semibold text-black text-24 leading-32">CONTACT US</div>
                   <div className="mb-40 text-gray-700 text-16 leading-24 lg:mb-20">
@@ -89,7 +92,7 @@ const ContactPage = () => {
                 <form
                   ref={form}
                   onSubmit={sendEmail}
-                  className="w-full p-32 rounded-20 lg:p-0 md:mt-40 ml-32 bg-white mdMaxMin:ml-0 mdMaxMin:w-full"
+                  className="w-full p-32 ml-32 bg-white rounded-20 lg:p-0 md:mt-40 mdMaxMin:ml-0 mdMaxMin:w-full"
                 >
                   <div className="flex">
                     <Input
@@ -144,8 +147,10 @@ const ContactPage = () => {
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 bg-white">
-          <Footer />
+        <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-100">
+          <FixWidthWrapper>
+            <Footer />
+          </FixWidthWrapper>
         </div>
       </div>
     </>
