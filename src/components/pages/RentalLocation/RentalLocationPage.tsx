@@ -15,6 +15,7 @@ import Card from "@/components/organisms/Card";
 import { getUserPosition, getDistanceFromLatLonInKm } from "@/utils/locationUtils";
 import { TClassification } from "@/types/admin/StoreTypes";
 import ClassificationsButtons from "@/components/pages/RentalLocation/ClassificationsButtons";
+import { CircularProgress } from "@mui/material";
 
 const RentalInfo = () => {
   const { naver } = window;
@@ -32,11 +33,14 @@ const RentalInfo = () => {
   const [userPosition, setUserPosition] = useState<{ lat: number; lng: number } | null>(null);
   const [isBottomOpen, setIsBottomOpen] = useState(false);
   const [showInitialCard, setShowInitialCard] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   // server
   const { data: classificationsRes } = useGetClassifications();
   const { data: storeDetail } = useGetStoreDetail(selectedStoreId ?? 0);
-  const { data: storeListRes } = useGetClassificationsStore(selectedClassification?.id ?? 0);
+  const { data: storeListRes, isFetching } = useGetClassificationsStore(
+    selectedClassification?.id ?? 0
+  );
 
   // 대분류 초깃값 설정
   useEffect(() => {
@@ -192,7 +196,18 @@ const RentalInfo = () => {
           {storeDetail && <Card storeDetail={storeDetail} />}
         </div>
 
-        <div className="relative flex-1 rounded-20 smMaxLg:max-w-640 smMaxLg:flex smMaxLg:justify-center">
+        <div className="relative flex justify-center flex-1 rounded-20 max-w-640 xl:max-w-full">
+          {(isFetching || isLoading) && (
+            <div className="absolute w-full h-full z-[101] bg-gray-50 bg-opacity-40 flex justify-center items-center">
+              <CircularProgress
+                size={70}
+                sx={{
+                  color: "#E86F52",
+                }}
+              />
+            </div>
+          )}
+
           <Map ref={mapElement} width="100%" height="100%" borderRadius="20px" />
           <div className="absolute top-0 left-0 w-full p-24 z-9 pr-60">
             {classificationsRes && (
@@ -204,7 +219,7 @@ const RentalInfo = () => {
             )}
           </div>
           <div className="absolute top-0 z-10 right-7 pt-86">
-            <MapBtn map={map} />
+            <MapBtn map={map} setIsLoading={setIsLoading} />
           </div>
           {isBottomOpen && mapWidth && storeDetail && (
             <BottomSheet

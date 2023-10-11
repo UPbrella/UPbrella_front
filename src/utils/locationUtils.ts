@@ -1,5 +1,3 @@
-import { toast } from "react-hot-toast";
-
 export const getUserPosition = (): Promise<GeolocationPosition | null> => {
   return new Promise((resolve) => {
     if (!navigator.geolocation) {
@@ -8,7 +6,6 @@ export const getUserPosition = (): Promise<GeolocationPosition | null> => {
       navigator.geolocation.getCurrentPosition(
         (position) => resolve(position),
         () => {
-          toast.error("위치를 찾을 수 없습니다.");
           resolve(null);
         }
       );

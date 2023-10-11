@@ -1,7 +1,7 @@
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import MyLocationOutlinedIcon from "@mui/icons-material/MyLocationOutlined";
-import { ReactNode } from "react";
+import { Dispatch, ReactNode, SetStateAction } from "react";
 import { getUserPosition } from "@/utils/map/mapHelper";
 import { useNavigate } from "react-router-dom";
 
@@ -13,9 +13,10 @@ const mapIcons: { icon: ReactNode; title: string }[] = [
 
 export type MapBtnProps = {
   map: naver.maps.Map | undefined;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 };
 
-const MapBtn = ({ map }: MapBtnProps) => {
+const MapBtn = ({ map, setIsLoading }: MapBtnProps) => {
   const { naver } = window;
   const navigate = useNavigate();
 
@@ -25,12 +26,24 @@ const MapBtn = ({ map }: MapBtnProps) => {
       case 0:
         // 사용자의 현재 위치를 가져오는 함수 호출
         try {
+          setIsLoading(true);
           const position = await getUserPosition();
           map?.setCenter(
             new naver.maps.LatLng(position.coords.latitude, position.coords.longitude)
           );
-        } catch (error) {
-          // console.log("Error getting user's current position:", error);
+          new naver.maps.Marker({
+            position: new naver.maps.LatLng(position.coords.latitude, position.coords.longitude),
+            map: map,
+            icon: {
+              url: "https://navermaps.github.io/maps.js.ncp/docs/img/example/ico_pin.jpg",
+              size: new naver.maps.Size(32, 40),
+              scaledSize: new naver.maps.Size(25, 34),
+              origin: new naver.maps.Point(0, 0),
+              anchor: new naver.maps.Point(12, 35),
+            },
+          });
+        } finally {
+          setIsLoading(false);
         }
         break;
       case 1:
