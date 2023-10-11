@@ -18,6 +18,7 @@ import AdminRoutes from "@/utils/AdminRoutes";
 import InfoPage from "@/components/pages/Info/InfoPage";
 import BackgroundLayout from "./components/templates/common/BackgroundLayout";
 import { BACKGROUND_IMAGE_ROUTES } from "./routes/backgroundImageRouter";
+import ContactPage from "./components/pages/contact/ContactPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -54,6 +55,7 @@ function App() {
               <Route path={"/"} element={<UpbrellaStoryPage />} />
               <Route path={"/about"} element={<UpbrellaStoryPage />} />
               <Route path="/information" element={<InfoPage />} />
+              <Route path="/contact" element={<ContactPage />} />
 
               {/* background basic */}
               <Route element={<BackgroundLayout />}>
