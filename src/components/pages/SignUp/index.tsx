@@ -4,6 +4,7 @@ import { $axios } from "@/lib/axios";
 import { formatPhoneNumber } from "@/utils/utils";
 import { MouseEvent, ChangeEvent, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 export type TInputs = {
   name: string;
@@ -126,9 +127,9 @@ const SignUpPage = () => {
     if (res) {
       navigate("/");
       location.reload();
-      alert("회원가입이 완료되었습니다.");
+      toast.success("회원가입이 완료되었습니다.");
     } else {
-      alert("다시 시도해주세요");
+      toast.error("다시 시도해주세요");
     }
   };
 
