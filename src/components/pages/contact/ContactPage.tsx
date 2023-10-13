@@ -72,7 +72,7 @@ const ContactPage = () => {
 
   return (
     <>
-      <div className="h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col">
         <div className="h-full bg-cover px-40 mdMaxMin:pr-0 flex-1">
           <FixWidthWrapper>
             <HeaderContainer />
