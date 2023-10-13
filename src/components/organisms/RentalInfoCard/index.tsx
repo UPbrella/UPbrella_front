@@ -18,6 +18,7 @@ const RentalInfoCard = ({ storeDetail }: TRentalCard) => {
       <RentalLocationTitle title={storeDetail.name} category={storeDetail.category} />
       <div className="pt-24 pb-6">
         <NaverDirectionBtn
+          mobile={false}
           elon={storeDetail.longitude}
           elat={storeDetail.latitude}
           address={storeDetail.address}
