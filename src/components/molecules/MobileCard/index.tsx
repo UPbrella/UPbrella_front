@@ -21,6 +21,7 @@ const MobileCard = ({ storeDetail }: TMobileCard) => {
       <div className="grid grid-cols-2 gap-4">
         <DetailBtn id={storeDetail.id} />
         <NaverDirectionBtn
+          mobile={true}
           elon={storeDetail.longitude}
           elat={storeDetail.latitude}
           address={storeDetail.address}
