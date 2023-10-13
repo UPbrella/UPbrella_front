@@ -7,6 +7,8 @@ import emailjs from "@emailjs/browser";
 import { formatPhoneNumber } from "@/utils/utils";
 import toast from "react-hot-toast";
 import Footer from "@/components/organisms/Footer";
+import { HeaderContainer } from "@/components/organisms/Header/HeaderContainer";
+import { FixWidthWrapper } from "@/components/pages/story/UpbrellaStoryPage";
 
 const ContactPage = () => {
   const [name, setName] = useState("");
@@ -70,75 +72,88 @@ const ContactPage = () => {
 
   return (
     <>
-      <div>
-        <div className="relative flex items-center justify-center my-100 lg:my-20">
-          <div className="flex items-start w-full h-full px-40 lg:flex-col lg:px-0">
-            <div className="flex-col w-full px-40 py-24 mr-32 lg:px-0 lg:py-0">
-              <div className="mb-8 font-semibold text-black text-24 leading-32">CONTACT US</div>
-              <div className="mb-40 text-gray-700 text-16 leading-24 lg:mb-20">
-                업브렐라와의 사업 제휴 관련 문의하시고 싶은 내용을 작성해주세요.
-              </div>
-              <div className="mb-40">
-                <Instagram />
-              </div>
-            </div>
-            <form
-              ref={form}
-              onSubmit={sendEmail}
-              className="w-full p-32 bg-white rounded-20 lg:p-0 md:mt-40"
-            >
-              <div className="flex">
-                <Input
-                  label="이름"
-                  placeholder="이름 입력"
-                  setValue={setName}
-                  name="name"
-                  value={name}
-                />
-                <Input
-                  label="연락처"
-                  optional
-                  placeholder="010-1234-5678"
-                  setValue={setPhone}
-                  name="phone"
-                  value={formattedPhone}
-                />
-              </div>
-              <Input
-                label="이메일"
-                placeholder="upbrella@gmail.com"
-                setValue={setEmail}
-                name="email"
-                value={email}
-              />
-              <Input
-                label="제목"
-                placeholder="제목 입력"
-                setValue={setTitle}
-                name="title"
-                value={title}
-              />
-              <TextArea
-                label="문의 사항"
-                placeholder="문의 사항을 작성해주세요!"
-                setValue={setContent}
-                name="content"
-                value={content}
-              />
-              <Button isActive={isActive} />
-            </form>
-          </div>
+      <div className="min-h-screen flex flex-col">
+        <div className="h-full bg-cover px-40 mdMaxMin:pr-0 flex-1">
+          <FixWidthWrapper>
+            <HeaderContainer />
 
-          {isComplete && (
-            <div className="fixed right-[80px] bottom-[100px] md:left-0 md:right-0 md:bottom-[20px] flex items-end justify-end md:justify-center w-full h-full">
-              <div className="h-48 py-12 text-center text-white bg-gray-700 w-330 rounded-8 text-15 leading-24">
-                문의 접수 완료!
+            <div className="h-full max-w-[1440px] pb-20 w-full px-40 mdMaxMin:px-0 lg:px-0 lg:pr-40 mdMaxMin:pr-0 flex flex-col justify-between">
+              <div className="h-full flex items-center justify-center mt-100 lg:my-20">
+                <div className="h-full flex items-start justify-between w-full lg:flex-col lg:px-0 ">
+                  <div className="flex flex-col w-full py-24 lg:py-0 lgMaxMin:pl-40">
+                    <div className="mb-8 font-semibold text-black text-24 leading-32">
+                      CONTACT US
+                    </div>
+                    <div className="mb-40 text-gray-700 text-16 leading-24 lg:mb-20">
+                      업브렐라와의 사업 제휴 관련 문의하시고 싶은 내용을 작성해주세요.
+                    </div>
+                    <div className="lgMaxMin:mb-40">
+                      <Instagram />
+                    </div>
+                  </div>
+                  <form
+                    ref={form}
+                    onSubmit={sendEmail}
+                    className="h-full w-full p-32 ml-32 bg-white rounded-20 lg:p-0 md:mt-40 mdMaxMin:ml-0 mdMaxMin:w-full"
+                  >
+                    <div className="flex">
+                      <Input
+                        label="이름"
+                        placeholder="이름 입력"
+                        setValue={setName}
+                        name="name"
+                        value={name}
+                      />
+                      <Input
+                        label="연락처"
+                        optional
+                        placeholder="010-1234-5678"
+                        setValue={setPhone}
+                        name="phone"
+                        value={formattedPhone}
+                      />
+                    </div>
+                    <Input
+                      label="이메일"
+                      placeholder="upbrella@gmail.com"
+                      setValue={setEmail}
+                      name="email"
+                      value={email}
+                    />
+                    <Input
+                      label="제목"
+                      placeholder="제목 입력"
+                      setValue={setTitle}
+                      name="title"
+                      value={title}
+                    />
+                    <TextArea
+                      label="문의 사항"
+                      placeholder="문의 사항을 작성해주세요!"
+                      setValue={setContent}
+                      name="content"
+                      value={content}
+                    />
+                    <Button isActive={isActive} />
+                  </form>
+                </div>
+
+                {isComplete && (
+                  <div className="fixed right-[80px] bottom-[100px] md:left-0 md:right-0 md:bottom-[20px] flex items-end justify-end md:justify-center w-full h-full">
+                    <div className="h-48 py-12 text-center text-white bg-gray-700 w-330 rounded-8 text-15 leading-24">
+                      문의 접수 완료!
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
-          )}
+          </FixWidthWrapper>
         </div>
-        <div className="absolute left-0 right-0 bottom-0 bg-white">
-          <Footer />
+
+        <div className="w-full m-auto">
+          <FixWidthWrapper>
+            <Footer />
+          </FixWidthWrapper>
         </div>
       </div>
     </>
