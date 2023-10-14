@@ -31,7 +31,7 @@ const StoreImagesModal = ({ isOpen, onCloseModal, selectedStore }: TProps) => {
     const { files } = e.target;
     if (!files) return;
 
-    const MAX_SIZE = 1024 * 1024 * 10; // 1MB
+    const MAX_SIZE = 1024 * 1024 * 10; // 10MB
 
     const formData = new FormData();
     for (let i = 0; i < files.length; i++) {
