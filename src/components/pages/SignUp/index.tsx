@@ -1,7 +1,7 @@
 import SignUpNotRequiredForm from "@/components/templates/SignUp/SignUpNotRequired";
 import SignUpRequiredForm from "@/components/templates/SignUp/SignUpRequired";
 import { $axios } from "@/lib/axios";
-import { formatPhoneNumber } from "@/utils/utils";
+import { formatPhoneNumber, validateNumber } from "@/utils/utils";
 import { MouseEvent, ChangeEvent, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
@@ -60,6 +60,14 @@ const SignUpPage = () => {
 
   const handleInputValue = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+
+    if (name === "accountNumber") {
+      if (validateNumber(value)) {
+        setInputs({ ...inputs, [name]: value });
+      }
+      return;
+    }
+
     if (name === "phoneNumber") {
       const phoneValue = formatPhoneNumber(value);
       setInputs({ ...inputs, [name]: phoneValue });
@@ -164,8 +172,14 @@ const SignUpPage = () => {
           isSecondAllow={isSecondAllow}
           onClickFirstAllow={handleIsFirstAllow}
           onClickSecondAllow={handleIsSecondAllow}
-          onClickDetailTOSPage={() => navigate("/info/tos")}
-          onClickDetailPPPage={() => navigate("/info/pp")}
+          onClickDetailTOSPage={() => {
+            const url = `${window.location.origin}/info/tos`;
+            window.open(url, "_blank", "noopener, noreferrer");
+          }}
+          onClickDetailPPPage={() => {
+            const url = `${window.location.origin}/info/pp`;
+            window.open(url, "_blank", "noopener, noreferrer");
+          }}
           isDone={isDone}
           onClickButton={onClickButton}
         />

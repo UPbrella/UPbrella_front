@@ -27,3 +27,8 @@ export const replaceItemAtIndex = <T>({
 export const deleteItemAtIndex = <T>({ arr, index }: { arr: T[]; index: number }) => {
   return [...arr.slice(0, index), ...arr.slice(index + 1)];
 };
+
+// 숫자 입력 검증 함수
+export const validateNumber = (num: string) => {
+  return /^\d+$/.test(num) || num === "";
+};

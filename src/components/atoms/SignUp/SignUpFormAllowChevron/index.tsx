@@ -5,7 +5,7 @@ type SignUpFormAllowChevronProps = {
 
 const SignUpFormAllowChevron = ({ onClick }: SignUpFormAllowChevronProps) => {
   return (
-    <div onClick={onClick}>
+    <div onClick={onClick} className="cursor-pointer">
       <ChevronRightIcon />
     </div>
   );

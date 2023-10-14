@@ -6,6 +6,7 @@ import MypageAccountCard from "@/components/organisms/Mypage/MypageAccountCard";
 import MypageLeftCard from "@/components/organisms/Mypage/MypageLeftCard";
 import { $axios } from "@/lib/axios";
 import { loginInfo, loginState } from "@/recoil";
+import { validateNumber } from "@/utils/utils";
 import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -75,6 +76,14 @@ const MypageAccountPage = () => {
   }, [loginInfoValue.state, loginInfoValue.contents, isLogin, navigate]);
   const handleInputValue = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+
+    if (name === "accountNumber") {
+      if (validateNumber(value)) {
+        setInputs({ ...inputs, [name]: value });
+      }
+      return;
+    }
+
     setInputs({ ...inputs, [name]: value });
   };
 
@@ -126,9 +135,9 @@ const MypageAccountPage = () => {
   };
 
   return (
-    <div className="flex flex-col flex-1 justify-between items-center">
+    <div className="flex flex-col items-center justify-between flex-1">
       <div className="flex flex-col w-full xl:w-[1280px] xl:mt-24 xl:px-40 lg:max-w-640 lg:py-20 lg:w-full lg:px-20">
-        <div className="text-black text-24 font-semibold leading-32 mb-32">MYPAGE</div>
+        <div className="mb-32 font-semibold text-black text-24 leading-32">MYPAGE</div>
         <div className="xl:flex">
           <div className="xl:mr-32">
             <MypageLeftCard />
