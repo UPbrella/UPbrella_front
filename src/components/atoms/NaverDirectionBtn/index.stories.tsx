@@ -12,8 +12,7 @@ const Template: StoryFn<TNaverDirectionBtn> = (args) => <NaverDirectionBtn {...a
 
 export const Default = Template.bind({});
 Default.args = {
-  slon: 126.92122654,
-  slat: 37.58612725,
   elon: 126.92122654,
   elat: 37.58612725,
+  address: "테스트",
 };
