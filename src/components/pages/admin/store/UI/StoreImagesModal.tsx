@@ -31,14 +31,14 @@ const StoreImagesModal = ({ isOpen, onCloseModal, selectedStore }: TProps) => {
     const { files } = e.target;
     if (!files) return;
 
-    const MAX_SIZE = 1024 * 1024; // 1MB
+    const MAX_SIZE = 1024 * 1024 * 10; // 10MB
 
     const formData = new FormData();
     for (let i = 0; i < files.length; i++) {
       formData.append("image", files[i]);
       const fileSize = files[i].size;
       if (fileSize > MAX_SIZE) {
-        toast.error("이미지 업로드 용량은 최대 1MB 입니다.");
+        toast.error("이미지 업로드 용량은 최대 10MB 입니다.");
         return;
       }
     }
