@@ -1,3 +1,5 @@
+import { BASIC_ROUTES_URL } from "@/routes/basicRouter";
+import { LAYOUT_ROUTES_URL } from "@/routes/layoutRouter";
 import { useNavigate } from "react-router-dom";
 
 const FooterLabel = () => {
@@ -6,7 +8,7 @@ const FooterLabel = () => {
     <div className="flex gap-6 text-sm text-gray-700">
       <button
         onClick={() => {
-          navigate("/info/tos");
+          navigate(LAYOUT_ROUTES_URL.infoTos.path());
           window.scrollTo({
             top: 0,
             behavior: "smooth",
@@ -17,7 +19,7 @@ const FooterLabel = () => {
       </button>
       <button
         onClick={() => {
-          navigate("/info/pp");
+          navigate(LAYOUT_ROUTES_URL.infoPp.path());
           window.scrollTo({
             top: 0,
             behavior: "smooth",
@@ -29,7 +31,7 @@ const FooterLabel = () => {
       <button
         className="font-semibold"
         onClick={() => {
-          navigate("/contact");
+          navigate(BASIC_ROUTES_URL.contact.path());
           window.scrollTo({
             top: 0,
             behavior: "smooth",

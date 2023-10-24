@@ -20,10 +20,11 @@ const API = {
   ADMIN_IMAGE_UPLOAD: (id: number) => `/admin/stores/${id}/images`,
   ADMIN_IMAGE_DELETE: (id: number) => `/admin/stores/images/${id}`,
   ADMIN_CLASSIFICATIONS: (id?: number) =>
-    id ? `/stores/classifications/${id}` : "/stores/classifications/",
+    id ? `/admin/stores/classifications/${id}` : "/admin/stores/classifications",
   CLASSIFICATIONS: () => "/stores/classifications",
+  SUBCLASSIFICATIONS: () => "/stores/subClassifications",
   ADMIN_SUBCLASSIFICATIONS: (id?: number) =>
-    id ? `/stores/subClassifications/${id}` : "/stores/subClassifications",
+    id ? `/admin/stores/subClassifications/${id}` : "/admin/stores/subClassifications",
   STORE_CLASSIFICATIONS: (id: number) => `/stores/classification/${id}`,
   STORE_LIST: () => "/stores/introductions",
   STORE_DETAIL: (id: number) => `/stores/${id}`,
@@ -100,7 +101,7 @@ export const deleteStoreImage = async (storeId: number) => {
 
 // 대분류 태그
 export const getClassifications = async () => {
-  const res = await $axios.get<TApiResponse<TClassificationAllRes>>(API.ADMIN_CLASSIFICATIONS());
+  const res = await $axios.get<TApiResponse<TClassificationAllRes>>(API.CLASSIFICATIONS());
   return res.data;
 };
 
@@ -122,9 +123,7 @@ export const getClassificationsStore = async (classificationId: number) => {
 
 // 소분류 태그
 export const getSubClassifications = async () => {
-  const res = await $axios.get<TApiResponse<TSubClassificationAllRes>>(
-    API.ADMIN_SUBCLASSIFICATIONS()
-  );
+  const res = await $axios.get<TApiResponse<TSubClassificationAllRes>>(API.SUBCLASSIFICATIONS());
   return res.data;
 };
 

@@ -1,3 +1,4 @@
+import { LAYOUT_ROUTES_URL } from "@/routes/layoutRouter";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
@@ -8,19 +9,19 @@ const MypageNav = () => {
   const navList = [
     {
       name: "이용내역",
-      path: "/members/mypage/rent",
+      path: LAYOUT_ROUTES_URL.myPageRent.path(),
     },
     {
       name: "환급계좌 등록/변경",
-      path: "/members/mypage/account",
+      path: LAYOUT_ROUTES_URL.myPageAccount.path(),
     },
     {
       name: "개인정보 조회",
-      path: "/members/mypage/info",
+      path: LAYOUT_ROUTES_URL.myPageInfo.path(),
     },
     {
       name: "문의하기",
-      path: "/members/mypage/contact",
+      path: LAYOUT_ROUTES_URL.myPageContact.path(),
     },
   ] as const;
   const navRepresent = navList.find((nav) => nav.path === location.pathname);
@@ -57,17 +58,17 @@ const MypageNav = () => {
                 return defaultClassName;
               }}
             >
-              <p className="text-black text-18 font-semibold leading-24">{navInfo.name}</p>
+              <p className="font-semibold text-black text-18 leading-24">{navInfo.name}</p>
             </NavLink>
           );
         })}
       </section>
       <section className="flex flex-col w-full xl:hidden">
         <div
-          className="h-48 px-20 flex justify-between items-center rounded-8 bg-primary-300 mb-8"
+          className="flex items-center justify-between h-48 px-20 mb-8 rounded-8 bg-primary-300"
           onClick={onClickExpandButton}
         >
-          <p className="text-black text-18 font-semibold leading-24">{navRepresent?.name}</p>
+          <p className="font-semibold text-black text-18 leading-24">{navRepresent?.name}</p>
           {isExpanded ? (
             <ExpandLess className="text-gray-700" />
           ) : (
@@ -76,7 +77,7 @@ const MypageNav = () => {
         </div>
         <div className="relative">
           {isExpanded ? (
-            <div className="border border-solid border-gray-200 rounded-8 shadow-md absolute left-0 right-0">
+            <div className="absolute left-0 right-0 border border-gray-200 border-solid shadow-md rounded-8">
               {navDropDown.map((navInfo) => {
                 return (
                   <div>
@@ -84,9 +85,9 @@ const MypageNav = () => {
                       <NavLink
                         key={navInfo.name}
                         to={navInfo.path}
-                        className="w-full h-48 px-20 flex items-center bg-white rounded-8"
+                        className="flex items-center w-full h-48 px-20 bg-white rounded-8"
                       >
-                        <p className="text-black text-18 font-semibold leading-24">
+                        <p className="font-semibold text-black text-18 leading-24">
                           {navInfo.name}
                         </p>
                       </NavLink>

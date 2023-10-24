@@ -7,6 +7,8 @@ import {
 } from "@/api/userApi";
 import { $axios } from "@/lib/axios";
 import { loginState, redirectUrl } from "@/recoil";
+import { BACKGROUND_IMAGE_ROUTES_URL } from "@/routes/backgroundImageRouter";
+import { BASIC_ROUTES_URL } from "@/routes/basicRouter";
 import { TUserRes } from "@/types/admin/userTypes";
 import { TApiResponse, TCustomError } from "@/types/commonTypes";
 import { toast } from "react-hot-toast";
@@ -41,19 +43,19 @@ const useUpbrellaLogin = () => {
           return;
         }
 
-        navigate("/login");
+        navigate(BACKGROUND_IMAGE_ROUTES_URL.login.path());
         toast.error("회원 정보를 가져오지 못했습니다.");
       });
     },
     onError: (err: TCustomError) => {
       if (err.response?.data.code === 400) {
         // signup
-        navigate("/members/signup/info");
+        navigate(BACKGROUND_IMAGE_ROUTES_URL.signup.path());
         return;
       }
 
       toast.error("잘못된 요청입니다. 다시 로그인 해주세요.");
-      navigate("/login");
+      navigate(BACKGROUND_IMAGE_ROUTES_URL.login.path());
       setIsLogin(false);
 
       return;
@@ -76,7 +78,7 @@ export const useKakaoLogin = () => {
     },
     onError: () => {
       toast.error("카카오 계정을 확인해주세요.");
-      navigate("/login");
+      navigate(BACKGROUND_IMAGE_ROUTES_URL.login.path());
       setIsLogin(false);
     },
   });
@@ -109,7 +111,7 @@ export const useLogout = () => {
       toast.success("로그아웃 되었습니다.");
       queryClient.setQueryData([...USER_QUERY_KEYS.userStatus()], undefined, undefined);
       setIsLogin(false);
-      navigate("/"); // hack
+      navigate(BASIC_ROUTES_URL.root.path());
     },
     onError: () => {
       toast.error("서버 에러입니다.");

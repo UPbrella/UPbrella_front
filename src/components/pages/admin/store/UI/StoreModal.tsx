@@ -86,6 +86,16 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
       return;
     }
 
+    // 주소
+    if (name === "content") {
+      if ((value as string).length > 200) return;
+      setStoreData({
+        ...storeData,
+        content: value as string,
+      });
+      return;
+    }
+
     // 그외
     setStoreData({
       ...storeData,

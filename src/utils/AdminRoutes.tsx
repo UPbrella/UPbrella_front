@@ -1,6 +1,7 @@
 import { useLayoutEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useGetUserStatus } from "@/hooks/queries/userQueries";
+import { NOT_LAYOUT_ROUTES_URL } from "@/routes/notLayoutRouter";
 
 // adminStatus checking
 const AdminRoutes = () => {
@@ -9,7 +10,7 @@ const AdminRoutes = () => {
 
   useLayoutEffect(() => {
     if (isError || (data && !data.data.data.adminStatus))
-      return navigate("/forbidden", { replace: true });
+      return navigate(NOT_LAYOUT_ROUTES_URL.forbidden.path(), { replace: true });
   }, [data, isError, navigate]);
 
   // hack

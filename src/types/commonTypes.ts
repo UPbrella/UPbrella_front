@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { DAY_OF_WEEK } from "@/constants/Date";
 import { AxiosError } from "axios";
 
 // 라우트 type
 export type TRoute = {
   name: string;
-  path: string;
+  path: (params?: any) => string;
   component: () => JSX.Element;
 };
 

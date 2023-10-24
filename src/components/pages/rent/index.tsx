@@ -50,7 +50,10 @@ const RentPage = () => {
   const { mutate: createMutate } = useMutation(postRent);
 
   const setRedirectUrl = useSetRecoilState(redirectUrl);
-  setRedirectUrl("/");
+
+  useEffect(() => {
+    setRedirectUrl("/");
+  }, [setRedirectUrl]);
 
   // 로그인 유저 정보 조회 (name, phone)
   useEffect(() => {

@@ -9,6 +9,10 @@ import MobileMenu from "@/components/molecules/MobileMenu";
 import MenuIcon from "@mui/icons-material/Menu";
 import ArrowBackIosNewSharpIcon from "@mui/icons-material/ArrowBackIosNewSharp";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import { BASIC_ROUTES_URL } from "@/routes/basicRouter";
+import { LAYOUT_ROUTES_URL } from "@/routes/layoutRouter";
+import { NOT_LAYOUT_ROUTES_URL } from "@/routes/notLayoutRouter";
+import { BACKGROUND_IMAGE_ROUTES_URL } from "@/routes/backgroundImageRouter";
 
 type THeaderProps = {
   isLoading: boolean;
@@ -18,36 +22,38 @@ type THeaderProps = {
 export const headerNavItems = [
   {
     name: "업브렐라 이야기",
-    path: "/about",
+    path: BASIC_ROUTES_URL.story.path(),
     isAdmin: false,
   },
   {
     name: "대여소 위치",
-    path: "/rentalLocation",
+    path: LAYOUT_ROUTES_URL.rentalLocation.path(),
     isAdmin: false,
   },
   {
     name: "협업 지점 소개",
-    path: "/rentalOffice",
+    // path: "/rentalOffice",
+    path: LAYOUT_ROUTES_URL.rentalOffice.path(),
     isAdmin: false,
   },
   {
     name: "이용안내",
-    path: "/information",
+    path: BASIC_ROUTES_URL.information.path(),
     isAdmin: false,
   },
   {
     name: "어드민",
-    path: ADMIN_ROUTES_URL.rent.path,
+    path: ADMIN_ROUTES_URL.rent.path(),
     isAdmin: true,
   },
   {
     name: "대여폼테스트(어드민)",
-    path: "/rent/form/3",
+    path: NOT_LAYOUT_ROUTES_URL.rent.path("3"),
     isAdmin: true,
   },
   {
     name: "반납폼테스트(어드민)",
+    // HACK
     path: "/return/form?storeId=1",
     isAdmin: true,
   },
@@ -126,7 +132,7 @@ const DesktopHeader = ({ isLoading, userRes }: THeaderProps) => {
           <div className="w-80"></div>
         ) : (
           <button
-            onClick={() => navigate("/login")}
+            onClick={() => navigate(BACKGROUND_IMAGE_ROUTES_URL.login.path())}
             className="h-48 gap-8 font-semibold text-white w-82 rounded-8 bg-primary-500 text-16 leading-24"
           >
             로그인
