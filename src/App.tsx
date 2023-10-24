@@ -13,12 +13,10 @@ import "primereact/resources/primereact.min.css"; //core css
 import "primeicons/primeicons.css";
 import PrivateRoutes from "./utils/PrivateRoutes";
 import { Suspense } from "react";
-import UpbrellaStoryPage from "@/components/pages/story/UpbrellaStoryPage";
 import AdminRoutes from "@/utils/AdminRoutes";
-import InfoPage from "@/components/pages/Info/InfoPage";
 import BackgroundLayout from "./components/templates/common/BackgroundLayout";
 import { BACKGROUND_IMAGE_ROUTES } from "./routes/backgroundImageRouter";
-import ContactPage from "./components/pages/contact/ContactPage";
+import { BASIC_ROUTES } from "@/routes/basicRouter";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -52,17 +50,16 @@ function App() {
           <div className="bg-cover">
             <Routes>
               {/* width full */}
-              <Route path={"/"} element={<UpbrellaStoryPage />} />
-              <Route path={"/about"} element={<UpbrellaStoryPage />} />
-              <Route path="/information" element={<InfoPage />} />
-              <Route path="/contact" element={<ContactPage />} />
+              {BASIC_ROUTES.map((route) => {
+                return <Route key={route.name} path={route.path()} element={<route.component />} />;
+              })}
 
               {/* background basic */}
               <Route element={<BackgroundLayout />}>
                 <>
                   {BACKGROUND_IMAGE_ROUTES.map((route) => {
                     return (
-                      <Route key={route.name} path={route.path} element={<route.component />} />
+                      <Route key={route.name} path={route.path()} element={<route.component />} />
                     );
                   })}
                   <Route path="/*" element={<NotFound />} />
@@ -74,7 +71,7 @@ function App() {
                 <>
                   {LAYOUT_ROUTES.map((route) => {
                     return (
-                      <Route key={route.name} path={route.path} element={<route.component />} />
+                      <Route key={route.name} path={route.path()} element={<route.component />} />
                     );
                   })}
                   <Route path="/*" element={<NotFound />} />
@@ -88,7 +85,7 @@ function App() {
                     return (
                       <Route
                         key={route.name}
-                        path={route.path}
+                        path={route.path()}
                         element={
                           <AdminWrapper>
                             <route.component />
@@ -103,7 +100,9 @@ function App() {
               {/* login */}
               <Route element={<PrivateRoutes />}>
                 {NOT_LAYOUT_ROUTES.map((route) => {
-                  return <Route key={route.name} path={route.path} element={<route.component />} />;
+                  return (
+                    <Route key={route.name} path={route.path()} element={<route.component />} />
+                  );
                 })}
               </Route>
             </Routes>

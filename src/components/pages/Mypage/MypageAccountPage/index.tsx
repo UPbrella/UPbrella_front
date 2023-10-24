@@ -6,6 +6,7 @@ import MypageAccountCard from "@/components/organisms/Mypage/MypageAccountCard";
 import MypageLeftCard from "@/components/organisms/Mypage/MypageLeftCard";
 import { $axios } from "@/lib/axios";
 import { loginInfo, loginState } from "@/recoil";
+import { BASIC_ROUTES_URL } from "@/routes/basicRouter";
 import { validateNumber } from "@/utils/utils";
 import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -71,7 +72,7 @@ const MypageAccountPage = () => {
     if (!isLogin) {
       toast.error(`로그인 세션이 만료되었습니다. 
       다시 로그인해주세요.`);
-      navigate("/");
+      navigate(BASIC_ROUTES_URL.root.path());
     }
   }, [loginInfoValue.state, loginInfoValue.contents, isLogin, navigate]);
   const handleInputValue = (e: ChangeEvent<HTMLInputElement>) => {

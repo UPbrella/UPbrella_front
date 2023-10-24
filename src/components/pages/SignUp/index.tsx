@@ -5,6 +5,7 @@ import { formatPhoneNumber, validateNumber } from "@/utils/utils";
 import { MouseEvent, ChangeEvent, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import { BASIC_ROUTES_URL } from "@/routes/basicRouter";
 
 export type TInputs = {
   name: string;
@@ -133,7 +134,7 @@ const SignUpPage = () => {
   const onSubmitButton = async () => {
     const res = await $axios.post("/users/join", { ...inputs }, { withCredentials: true });
     if (res) {
-      navigate("/");
+      navigate(BASIC_ROUTES_URL.root.path());
       location.reload();
       toast.success("회원가입이 완료되었습니다.");
     } else {

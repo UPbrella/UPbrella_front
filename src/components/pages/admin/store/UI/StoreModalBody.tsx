@@ -275,19 +275,22 @@ const StoreModalContents = ({
 
       {/* 소개글 */}
       <StoreFormWrapper label="소개글">
-        <TextareaAutosize
-          placeholder="upbrella"
-          minRows={3}
-          style={{
-            width: "300px",
-            border: "1px solid black",
-            borderColor: "rgba(0, 0, 0, 0.23)",
-            borderRadius: "4px",
-          }}
-          name="content"
-          onChange={onChangeStoreData}
-          value={storeData.content}
-        />
+        <div className="flex flex-col gap-2 items-end">
+          <TextareaAutosize
+            placeholder="upbrella"
+            minRows={3}
+            style={{
+              width: "300px",
+              border: "1px solid black",
+              borderColor: "rgba(0, 0, 0, 0.23)",
+              borderRadius: "4px",
+            }}
+            name="content"
+            onChange={onChangeStoreData}
+            value={storeData.content}
+          />
+          <span>{storeData.content.length} / 200자 입력 가능</span>
+        </div>
       </StoreFormWrapper>
     </div>
   );
