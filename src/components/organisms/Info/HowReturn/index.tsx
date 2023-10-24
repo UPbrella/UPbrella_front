@@ -40,8 +40,9 @@ const HowReturn = () => {
         </div>
         <img src={return_step3} className="mx-auto w-347 h-320 xl:mt-200 mt-62" />
       </section>
+
       <div className="flex justify-center w-full bg-primary-100">
-        <section className="flex flex-col justify-center w-full gap-10 px-40 xl:flex-row-reverse max-w-700 xl:p-0">
+        <section className="flex flex-col justify-center w-full gap-10 px-40 xl:flex-row-reverse xl:p-0 max-w-700 xl:max-w-fit">
           <div className="flex flex-col xl:mt-194 mt-80">
             <InformTitle stepTitle="STEP 4" title="카카오 로그인 & 반납폼 자동완성" />
             <div className="pt-24 text-gray-600 whitespace-pre-line text-15 xl:text-16">
@@ -49,12 +50,13 @@ const HowReturn = () => {
               환급받을 계좌는 한 번 더 확인해주세요!
             </div>
           </div>
-          <div className="flex mx-auto mt-40 gap-x-4 xl:mt-95">
+          <div className="flex mx-auto xl:mx-0 mt-40 gap-x-4 xl:mt-95">
             <img src={rental_step3} className="hidden w-240 h-425 xl:block" />
-            <img src={return_step4} className="w-240 h-425" />
+            <img src={return_step4} className=" w-240 h-425" />
           </div>
         </section>
       </div>
+
       <section className="flex flex-col justify-center w-full gap-10 px-40 xl:flex-row max-w-700 xl:h-520 xl:p-0">
         <div className="flex flex-col xl:mt-194 mt-80">
           <InformTitle stepTitle="STEP 5" title="담당자 확인 후 보증급 환급 완료!" />

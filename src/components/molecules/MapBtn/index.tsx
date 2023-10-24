@@ -4,6 +4,7 @@ import MyLocationOutlinedIcon from "@mui/icons-material/MyLocationOutlined";
 import { Dispatch, ReactNode, SetStateAction } from "react";
 import { getUserPosition } from "@/utils/map/mapHelper";
 import { useNavigate } from "react-router-dom";
+import { BASIC_ROUTES_URL } from "@/routes/basicRouter";
 
 const mapIcons: { icon: ReactNode; title: string }[] = [
   { icon: <MyLocationOutlinedIcon />, title: "현재 위치 검색" },
@@ -50,7 +51,7 @@ const MapBtn = ({ map, setIsLoading }: MapBtnProps) => {
         window.location.reload();
         break;
       case 2:
-        navigate("/information");
+        navigate(BASIC_ROUTES_URL.information.path());
         break;
       default:
         break;

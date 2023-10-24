@@ -9,6 +9,8 @@ import { TUserRes } from "@/types/admin/userTypes";
 import { Fragment } from "react";
 import CardFooter from "@/components/organisms/CardFooter";
 import { headerNavItems } from "@/components/organisms/Header/HeaderContainer";
+import { LAYOUT_ROUTES_URL } from "@/routes/layoutRouter";
+import { BACKGROUND_IMAGE_ROUTES_URL } from "@/routes/backgroundImageRouter";
 
 export type TMenu = {
   userRes: TUserRes | null;
@@ -61,7 +63,7 @@ const MobileMenu: React.FC<TMenu> = ({ userRes, setMenuOpen }) => {
               </div>
               <button
                 className="flex items-center justify-center py-8 pl-16 pr-6 font-semibold transition-all text-primary-500 bg-primary-200 rounded-99 text-14"
-                onClick={() => handleNavToUrl("/members/mypage/rent")}
+                onClick={() => handleNavToUrl(LAYOUT_ROUTES_URL.myPageRent.path())}
               >
                 마이페이지 <NavigateNextIcon fontSize="small" />
               </button>
@@ -73,7 +75,7 @@ const MobileMenu: React.FC<TMenu> = ({ userRes, setMenuOpen }) => {
               </div>
               <button
                 className="w-full py-12 font-semibold text-white rounded-8 bg-primary-500"
-                onClick={() => handleNavToUrl("/login")}
+                onClick={() => handleNavToUrl(BACKGROUND_IMAGE_ROUTES_URL.login.path())}
               >
                 로그인
               </button>

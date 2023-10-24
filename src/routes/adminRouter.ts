@@ -8,27 +8,27 @@ import { TRoute } from "@/types/commonTypes";
 export const ADMIN_ROUTES_URL = {
   rent: {
     name: "대여/반납 현황 테이블",
-    path: "/admin/rent-history",
+    path: () => "/admin/rent-history",
     component: RentHistoryPage,
   },
   umbrella: {
     name: "우산 관리",
-    path: "/admin/umbrellas",
+    path: () => "/admin/umbrellas",
     component: UmbrellaAdminPage,
   },
   user: {
     name: "회원 관리",
-    path: "/admin/users",
+    path: () => "/admin/users",
     component: UserAdminPage,
   },
   feedback: {
     name: "상태신고 / 개선사항 확인",
-    path: "/admin/feedback",
+    path: () => "/admin/feedback",
     component: UmbrellaFeedBackPage,
   },
   store: {
     name: "협업 지점 관리",
-    path: "/admin/stores",
+    path: () => "/admin/stores",
     component: StoreManagePage,
   },
 } as const;
