@@ -1,3 +1,4 @@
+import { LAYOUT_ROUTES_URL } from "@/routes/layoutRouter";
 import StorefrontOutlinedIcon from "@mui/icons-material/StorefrontOutlined";
 import { useNavigate } from "react-router-dom";
 
@@ -8,11 +9,11 @@ export type TDetailBtn = {
 const DetailBtn = ({ id }: TDetailBtn) => {
   const navigate = useNavigate();
   const handleDetailClick = () => {
-    navigate(`/rentalOffice/${id}`);
+    navigate(LAYOUT_ROUTES_URL.rentalOfficeDetail.path(`${id}`));
   };
   return (
     <button
-      className="text-center text-primary-500 rounded-99 w-full py-9 text-15 font-semibold border border-primary-500"
+      className="w-full font-semibold text-center border text-primary-500 rounded-99 py-9 text-15 border-primary-500"
       onClick={handleDetailClick}
     >
       <StorefrontOutlinedIcon className="mr-2" />

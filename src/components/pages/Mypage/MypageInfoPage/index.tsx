@@ -6,6 +6,7 @@ import MypageInfoCard from "@/components/organisms/Mypage/MypageInfoCard";
 import MypageLeftCard from "@/components/organisms/Mypage/MypageLeftCard";
 import { $axios } from "@/lib/axios";
 import { loginInfo, loginState } from "@/recoil";
+import { BASIC_ROUTES_URL } from "@/routes/basicRouter";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -54,7 +55,7 @@ const MypageInfoPage = () => {
     if (!isLogin) {
       toast.error(`로그인 세션이 만료되었습니다. 
       다시 로그인해주세요.`);
-      navigate("/");
+      navigate(BASIC_ROUTES_URL.root.path());
     }
   }, [isLogin, loginInfoValue.contents, loginInfoValue.state, navigate]);
   const handleDeleteUser = async () => {
@@ -71,7 +72,7 @@ const MypageInfoPage = () => {
         .then(() => {
           setIsDeleted(false);
           setIsLogin(false);
-          navigate("/");
+          navigate(BASIC_ROUTES_URL.root.path());
           location.reload();
           toast.success("회원탈퇴 완료했습니다!");
         })
@@ -82,9 +83,9 @@ const MypageInfoPage = () => {
     }
   };
   return (
-    <div className="flex flex-col flex-1 justify-between items-center">
+    <div className="flex flex-col items-center justify-between flex-1">
       <div className="flex flex-col w-full xl:w-[1280px] xl:mt-24 xl:px-40 lg:max-w-640 lg:py-20 lg:w-full lg:px-20">
-        <div className="text-black text-24 font-semibold leading-32 mb-32">MYPAGE</div>
+        <div className="mb-32 font-semibold text-black text-24 leading-32">MYPAGE</div>
         <div className="xl:flex">
           <div className="xl:mr-32">
             <MypageLeftCard />

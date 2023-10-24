@@ -2,14 +2,15 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ADMIN_ROUTES } from "@/routes/adminRouter";
 import { Tab, Tabs } from "@mui/material";
+import { BASIC_ROUTES_URL } from "@/routes/basicRouter";
 
 const AdminMenu = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const idx = ADMIN_ROUTES.findIndex((e) => e.path === location.pathname);
+  const idx = ADMIN_ROUTES.findIndex((e) => e.path() === location.pathname);
 
   if (idx === -1) {
-    navigate("/");
+    navigate(BASIC_ROUTES_URL.root.path());
     alert("잘못된 경로로 들어오셨습니다.");
   }
 
@@ -17,7 +18,7 @@ const AdminMenu = () => {
 
   const handleChange = (newValue: number) => {
     setValue(newValue);
-    navigate(ADMIN_ROUTES[newValue].path);
+    navigate(ADMIN_ROUTES[newValue].path());
     return;
   };
 

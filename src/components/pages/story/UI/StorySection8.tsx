@@ -1,4 +1,5 @@
 import FormButton from "@/components/atoms/Form/FormButton";
+import { BASIC_ROUTES_URL } from "@/routes/basicRouter";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 
@@ -19,7 +20,7 @@ const StorySection8 = () => {
             <FormButton
               label="대여방법 알아보기"
               handleOpen={() => {
-                navigate("/information");
+                navigate(BASIC_ROUTES_URL.information.path());
                 window.scrollTo({
                   top: 0,
                   behavior: "smooth",

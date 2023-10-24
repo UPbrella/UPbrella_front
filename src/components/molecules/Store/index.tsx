@@ -2,6 +2,7 @@ import { TStoreListAll, TSubClassification } from "@/types/admin/StoreTypes";
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import DefaultImg from "@/assets/Story/section4-1.jpeg";
+import { LAYOUT_ROUTES_URL } from "@/routes/layoutRouter";
 
 export type TStoreProps = {
   storeList: TStoreListAll[];
@@ -52,14 +53,18 @@ const Store = ({
           <div className="grid grid-flow-row grid-cols-3 gap-4 lg:grid-cols-2 mdMaxlg:grid-cols-2">
             {store.stores.map((storeItem, itemIndex) => (
               <div
-                className="flex mb-12"
+                className="flex mb-12 cursor-pointer"
                 key={itemIndex}
                 onClick={() => {
                   if (storeItem && storeItem.id && setSelectedStoreId) {
                     setSelectedStoreId(storeItem.id);
+                    window.scrollTo({
+                      top: 0,
+                      behavior: "smooth",
+                    });
                   }
                   if (window.innerWidth <= 1024) {
-                    navigate(`/rentalOffice/${storeItem.id}`);
+                    navigate(LAYOUT_ROUTES_URL.rentalOfficeDetail.path(`${storeItem.id}`));
                   }
                 }}
               >
