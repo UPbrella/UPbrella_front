@@ -51,7 +51,10 @@ const ReturnPage = () => {
   const [subError, setSubError] = useState("");
 
   const setRedirectUrl = useSetRecoilState(redirectUrl);
-  setRedirectUrl("/");
+
+  useEffect(() => {
+    setRedirectUrl("/");
+  }, [setRedirectUrl]);
 
   // 로그인 유저 정보 조회 (이름, 전화번호, 은행명, 계좌번호)
   useEffect(() => {

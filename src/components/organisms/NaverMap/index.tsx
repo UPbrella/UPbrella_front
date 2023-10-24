@@ -21,7 +21,6 @@ const NaverMap = ({
   useEffect(() => {
     const initMap = () => {
       if (!window.naver || !window.naver.maps) {
-        // console.log("네이버 지도 API가 로드되지 않았습니다.");
         return;
       }
       if (!mapRef.current) return;
