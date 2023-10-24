@@ -15,9 +15,6 @@ export default {
       email: "tester@gmail.com",
       adminStatus: true,
     },
-    setMenuOpen: () => {
-      // console.log("Menu is open:");
-    },
   },
   decorators: [
     (Story) => (

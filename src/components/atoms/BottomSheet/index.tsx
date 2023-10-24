@@ -23,7 +23,6 @@ const BottomSheet = ({
   // 외부 클릭 시 바텀시트 닫기
   const handleOutsideClick = (event: MouseEvent) => {
     if (!contentRef.current?.contains(event.target as Node)) {
-      // console.log("close");
       setIsBottomSheetOpen(false);
     }
   };
