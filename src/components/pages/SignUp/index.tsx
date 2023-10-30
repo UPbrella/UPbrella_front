@@ -6,6 +6,8 @@ import { MouseEvent, ChangeEvent, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { BASIC_ROUTES_URL } from "@/routes/basicRouter";
+import { useSetRecoilState } from "recoil";
+import { loginState } from "@/recoil";
 
 export type TInputs = {
   name: string;
@@ -36,6 +38,8 @@ const SignUpPage = () => {
   const { name, phoneNumber, bank, accountNumber } = inputs;
 
   const navigate = useNavigate();
+
+  const setIsLogin = useSetRecoilState(loginState);
 
   useEffect(() => {
     const handleNameValid = () => {
@@ -134,6 +138,7 @@ const SignUpPage = () => {
   const onSubmitButton = async () => {
     const res = await $axios.post("/users/join", { ...inputs }, { withCredentials: true });
     if (res) {
+      setIsLogin(true);
       navigate(BASIC_ROUTES_URL.root.path());
       location.reload();
       toast.success("회원가입이 완료되었습니다.");
