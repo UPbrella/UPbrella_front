@@ -5,6 +5,7 @@ import {
   getUsers,
   patchAdminUsers,
 } from "@/api/userApi";
+import { TInputs } from "@/components/pages/SignUp";
 import { $axios } from "@/lib/axios";
 import { loginState, redirectUrl } from "@/recoil";
 import { BACKGROUND_IMAGE_ROUTES_URL } from "@/routes/backgroundImageRouter";
@@ -80,6 +81,42 @@ export const useKakaoLogin = () => {
       toast.error("카카오 계정을 확인해주세요.");
       navigate(BACKGROUND_IMAGE_ROUTES_URL.login.path());
       setIsLogin(false);
+    },
+  });
+};
+
+// 회원가입
+export const useUpbrellaSignup = () => {
+  const path = useRecoilValue(redirectUrl);
+  const { refetch: getUserStatus } = useGetUserStatus();
+  const navigate = useNavigate();
+  const setIsLogin = useSetRecoilState(loginState);
+  return useMutation({
+    mutationFn: async (inputs: TInputs) => await $axios.post("/users/join", { ...inputs }),
+    onSuccess: () => {
+      setIsLogin(true);
+      navigate(path);
+      // location.reload();
+      toast.success("회원가입이 완료되었습니다.");
+
+      // 회원가입후 회원정보 가져오기
+      getUserStatus().then((e) => {
+        if (e.data?.status !== 200) {
+          location.reload();
+          return;
+        }
+      });
+    },
+    onError: (err: TCustomError) => {
+      if (err.response?.data.code === 400) {
+        // signup
+        toast.error("필수 입력정보를 채워주세요.");
+        return;
+      }
+
+      toast.error("서버 에러입니다.");
+      setIsLogin(false);
+      return;
     },
   });
 };
