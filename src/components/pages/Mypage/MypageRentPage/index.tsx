@@ -1,9 +1,9 @@
-import { TRentContentInfo } from "@/components/molecules/Mypage/MypageRentList";
 import Footer from "@/components/organisms/Footer";
 import MypageLeftCard from "@/components/organisms/Mypage/MypageLeftCard";
 import MypageRentCard from "@/components/organisms/Mypage/MypageRentCard";
 import { loginState, rentHistories } from "@/recoil";
 import { BASIC_ROUTES_URL } from "@/routes/basicRouter";
+import { TRentContentInfo } from "@/types/mypage/MypageTypes";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
