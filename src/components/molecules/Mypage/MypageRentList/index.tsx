@@ -1,18 +1,5 @@
 import MypageRentSection from "@/components/atoms/Mypage/MypageRentSection";
-
-export type MypageRentListProps = {
-  rentList: TRentContentInfo[];
-};
-
-export type TRentContentInfo = {
-  umbrellaUuid: number;
-  rentedAt: string;
-  rentedStore: string;
-  returnedDue: string; //TODO: returnedDue에는 계산 값을 넣어야
-  returnAt: string;
-  returned: boolean;
-  refunded: boolean;
-};
+import { MypageRentListProps } from "@/types/mypage/MypageTypes";
 
 const MypageRentList = ({ rentList }: MypageRentListProps) => {
   return (

@@ -3,29 +3,12 @@ import SignUpProgress from "@/components/molecules/SignUp/SignUpProgress";
 import SignUpText from "@/components/molecules/SignUp/SignUpText";
 import SignUpFormButton from "@/components/atoms/SignUp/SignUpFormButton";
 import SignUpInputAccountBox from "@/components/molecules/SignUp/SignUpInputAccountBox";
-import { ChangeEvent } from "react";
 import { BankIcon } from "@/constants/BankIcon";
-import { MouseEvent } from "react";
 import BankModal from "@/components/organisms/BankModal";
 import BottomSheet from "@/components/atoms/BottomSheet";
 import BankContent from "@/components/atoms/Form/BankContent";
 import Footer from "@/components/organisms/Footer";
-
-export type SignUpNotRequiredFormProps = {
-  bank: string;
-  accountNumber: string;
-  handleBackClick?: () => void;
-  onChangeValue: (e: ChangeEvent<HTMLInputElement>) => void;
-  onClickBankArrow: () => void;
-  onClickButton?: () => void;
-  isOpenModal: boolean;
-  isBottomSheetOpen: boolean;
-  setIsBottomSheetOpen: (value: boolean) => void;
-  setBank: (value: string) => void;
-  handleClose: () => void;
-  handleClickBank: (event: MouseEvent<HTMLDivElement>) => void;
-  bankRef: React.RefObject<HTMLInputElement>;
-};
+import { SignUpNotRequiredFormProps } from "@/types/signup/SignupTypes";
 
 const SignUpNotRequiredForm = ({
   bank,
