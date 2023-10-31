@@ -6,7 +6,7 @@ export type LoginTitleProps = {
 
 const LoginTitle = ({ label }: LoginTitleProps) => {
   return (
-    <div className="flex flex-col items-center w-68">
+    <div className="flex flex-col items-center">
       <img
         className="w-full mb-16 h-68"
         src={Logo}
