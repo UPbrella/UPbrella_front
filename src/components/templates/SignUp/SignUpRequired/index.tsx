@@ -4,26 +4,8 @@ import SignUpInputBox from "@/components/molecules/SignUp/SignUpInputBox";
 import SignUpAllAllowBox from "@/components/molecules/SignUp/SignUpAllAllowBox";
 import SignUpAllowBox from "@/components/molecules/SignUp/SignUpAllowBox";
 import SignUpFormButton from "@/components/atoms/SignUp/SignUpFormButton";
-import { ChangeEvent } from "react";
 import Footer from "@/components/organisms/Footer";
-
-export type SignUpRequiredFormProps = {
-  name: string;
-  onChangeValue: (e: ChangeEvent<HTMLInputElement>) => void;
-  phoneNumber: string;
-  isNameValid: boolean;
-  isPhoneNumberValid: boolean;
-  isAllAllow?: boolean;
-  onClickAllAllow: () => void;
-  isFirstAllow?: boolean;
-  onClickFirstAllow: () => void;
-  onClickSecondAllow: () => void;
-  isSecondAllow?: boolean;
-  isDone?: boolean;
-  onClickButton?: () => void;
-  onClickDetailTOSPage: () => void;
-  onClickDetailPPPage: () => void;
-};
+import { SignUpRequiredFormProps } from "@/types/signup/SignupTypes";
 
 const SignUpRequiredForm = ({
   name,

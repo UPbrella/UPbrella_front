@@ -3,13 +3,7 @@ import SignUpRequiredForm from "@/components/templates/SignUp/SignUpRequired";
 import { formatPhoneNumber, validateNumber } from "@/utils/utils";
 import { MouseEvent, ChangeEvent, useEffect, useState, useRef } from "react";
 import { useUpbrellaSignup } from "@/hooks/queries/userQueries";
-
-export type TInputs = {
-  name: string;
-  phoneNumber: string;
-  bank: string;
-  accountNumber: string;
-};
+import { TInputs } from "@/types/signup/SignupTypes";
 
 const SignUpPage = () => {
   const [inputs, setInputs] = useState<TInputs>({
