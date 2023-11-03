@@ -1,4 +1,5 @@
-import MypageRentList, { TRentContentInfo } from "@/components/molecules/Mypage/MypageRentList";
+import MypageRentList from "@/components/molecules/Mypage/MypageRentList";
+import { TRentContentInfo } from "@/types/mypage/MypageTypes";
 import MypageRentEmptyList from "@/components/molecules/MypageRentEmptyList";
 
 export type MypageRentCardProps = {
