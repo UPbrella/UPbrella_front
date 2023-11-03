@@ -7,21 +7,12 @@ import MypageLeftCard from "@/components/organisms/Mypage/MypageLeftCard";
 import { $axios } from "@/lib/axios";
 import { loginInfo, loginState } from "@/recoil";
 import { BASIC_ROUTES_URL } from "@/routes/basicRouter";
+import { TAccountPageInputs, TAccountPageStatus } from "@/types/mypage/MypageTypes";
 import { validateNumber } from "@/utils/utils";
 import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValueLoadable } from "recoil";
-
-export type TAccountPageInputs = {
-  bank: string;
-  accountNumber: string;
-};
-export type TStatus = {
-  isDeleted: boolean;
-  isChanged: boolean;
-  isRegistered: boolean;
-};
 
 const MypageAccountPage = () => {
   const [inputs, setInputs] = useState<TAccountPageInputs>({
@@ -31,7 +22,7 @@ const MypageAccountPage = () => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const [hasBankAccountInfo, setHasBankAccountInfo] = useState<boolean>(false);
-  const [status, setStatus] = useState<TStatus>({
+  const [status, setStatus] = useState<TAccountPageStatus>({
     isDeleted: false,
     isChanged: false,
     isRegistered: false,

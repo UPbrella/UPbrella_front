@@ -1,5 +1,5 @@
 import MypageRentList from "./index";
-import { MypageRentListProps } from "./index";
+import { MypageRentListProps } from "@/types/mypage/MypageTypes";
 import { Meta, StoryFn } from "@storybook/react";
 
 export default {

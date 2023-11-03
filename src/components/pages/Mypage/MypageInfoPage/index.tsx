@@ -7,17 +7,12 @@ import MypageLeftCard from "@/components/organisms/Mypage/MypageLeftCard";
 import { $axios } from "@/lib/axios";
 import { loginInfo, loginState } from "@/recoil";
 import { BASIC_ROUTES_URL } from "@/routes/basicRouter";
+import { TInfos } from "@/types/mypage/MypageTypes";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValueLoadable } from "recoil";
-
-type TInfos = {
-  name: string;
-  phoneNumber: string;
-  email: string;
-};
 
 const MypageInfoPage = () => {
   const [infos, setInfos] = useState<TInfos>({

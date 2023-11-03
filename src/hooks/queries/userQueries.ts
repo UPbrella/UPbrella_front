@@ -5,7 +5,7 @@ import {
   getUsers,
   patchAdminUsers,
 } from "@/api/userApi";
-import { TInputs } from "@/components/pages/SignUp";
+import { TInputs } from "@/types/signup/SignupTypes";
 import { $axios } from "@/lib/axios";
 import { loginState, redirectUrl } from "@/recoil";
 import { BACKGROUND_IMAGE_ROUTES_URL } from "@/routes/backgroundImageRouter";
