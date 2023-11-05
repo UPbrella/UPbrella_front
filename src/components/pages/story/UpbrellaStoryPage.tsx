@@ -40,7 +40,7 @@ const UpbrellaStoryPage = () => {
       </header>
 
       <SectionBulletContext.Provider value={{ activeIndex, setActiveIndex }}>
-        <main>
+        <main className="break-keep">
           {/* section1 */}
           <StorySection1 />
 

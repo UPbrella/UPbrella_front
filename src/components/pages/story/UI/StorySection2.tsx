@@ -3,13 +3,14 @@ import styled from "@emotion/styled";
 const StorySection2 = () => {
   return (
     <section className="mt-80">
-      <CssBackgroundGradient className="rounded-[32px] text-center py-80 lg:py-40 mx-40 px-32 md:mx-0 flex flex-col items-center justify-center gap-[64px] lg:gap-[32px]">
-        <div className="font-semibold text-gray-700 text-h32 lg:text-h24">
+      <CssBackgroundGradient className="rounded-[32px] text-center py-80 lg:py-40 mx-40 px-16 xl:px-32 md:mx-0 flex flex-col items-center justify-center gap-[64px] lg:gap-[32px]">
+        <div className="font-semibold text-gray-700 text-h32 lg:text-h24 flex flex-col gap-[4px]">
+          <div>쉽게 판매되고 쉽게 망가지는</div>
           <div>
-            쉽게 판매되고 쉽게 망가지는 <span className="text-primary-700">비닐 우산은</span>
+            <span className="text-primary-700">비닐 우산은</span> 대부분 매립·소각돼
           </div>
           <div>
-            대부분 매립·소각돼 <span className="text-primary-700">온실가스</span>를 발생시켜요.
+            <span className="text-primary-700">온실가스</span>를 발생시켜요.
           </div>
         </div>
         <div className="w-[760px] flex gap-[40px] lg:flex-col lg:w-full">
