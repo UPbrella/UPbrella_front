@@ -22,10 +22,12 @@ const RentalOfficePage = () => {
 
   return (
     <div className="block xl:flex gap-[24px]">
-      <div className="hidden xl:block max-w-[400px] min-w-[400px]">
-        {useGetStoreDetailData && <Card storeDetail={useGetStoreDetailData} />}
+      <div className="hidden xl:block max-w-[400px]">
+        <div className="overflow-auto max-h-screen pb-95">
+          {useGetStoreDetailData && <Card storeDetail={useGetStoreDetailData} />}
+        </div>
       </div>
-      <div className="flex flex-col items-center flex-1 xl:block">
+      <div className="flex flex-col items-center flex-1 xl:block overflow-auto">
         {subClassificationsRes && (
           <LocationClassificationBtn
             classifications={subClassificationsRes}
