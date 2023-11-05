@@ -33,11 +33,7 @@ const UpbrellaStoryPage = () => {
   return (
     <div className="bg-white">
       {/* header */}
-      <header>
-        <FixWidthWrapper>
-          <HeaderContainer />
-        </FixWidthWrapper>
-      </header>
+      <HeaderContainer />
 
       <SectionBulletContext.Provider value={{ activeIndex, setActiveIndex }}>
         <main>
@@ -78,9 +74,7 @@ const UpbrellaStoryPage = () => {
       </SectionBulletContext.Provider>
 
       {/* footer */}
-      <FixWidthWrapper>
-        <Footer />
-      </FixWidthWrapper>
+      <Footer />
     </div>
   );
 };

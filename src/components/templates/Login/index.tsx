@@ -1,4 +1,3 @@
-import Footer from "@/components/organisms/Footer";
 import LoginForm from "@/components/organisms/LoginForm";
 
 export type LoginTemplateProps = {
@@ -11,9 +10,6 @@ const LoginTemplate = ({ onClick }: LoginTemplateProps) => {
       <main className="flex flex-col items-center justify-center flex-1">
         <LoginForm onClick={onClick} />
       </main>
-      <div className="w-full">
-        <Footer />
-      </div>
     </>
   );
 };

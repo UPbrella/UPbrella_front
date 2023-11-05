@@ -7,7 +7,6 @@ import { BankIcon } from "@/constants/BankIcon";
 import BankModal from "@/components/organisms/BankModal";
 import BottomSheet from "@/components/atoms/BottomSheet";
 import BankContent from "@/components/atoms/Form/BankContent";
-import Footer from "@/components/organisms/Footer";
 import { SignUpNotRequiredFormProps } from "@/types/signup/SignupTypes";
 
 const SignUpNotRequiredForm = ({
@@ -28,15 +27,15 @@ const SignUpNotRequiredForm = ({
   const banks = Object.entries(BankIcon);
 
   return (
-    <main className="flex flex-1 flex-col items-center">
-      <article className="flex flex-1 flex-col justify-center items-center xl:h-760 xl:max-w-440 xl:w-full lg:max-w-640 lg:w-full md:w-full lg:max-h-720 p-20">
+    <main className="flex flex-col items-center flex-1">
+      <article className="flex flex-col items-center justify-center flex-1 p-20 xl:h-760 xl:max-w-440 xl:w-full lg:max-w-640 lg:w-full md:w-full lg:max-h-720">
         <div className="flex justify-between w-full">
           <ChevronLeftIcon onClick={handleBackClick} />
           <div className="flex justify-center w-full">
             <SignUpProgress isInProgress1={false} isInProgress2={true} />
           </div>
         </div>
-        <section className="flex flex-1 flex-col justify-between mt-40 w-full">
+        <section className="flex flex-col justify-between flex-1 w-full mt-40">
           <section className="w-full">
             <div className="mb-28">
               <SignUpText
@@ -67,7 +66,7 @@ const SignUpNotRequiredForm = ({
                     {banks.map(([bankName, icon]) => (
                       <div key={bankName}>
                         <div
-                          className="w-full mb-8 p-12 flex flex-col items-center justify-center  cursor-pointer"
+                          className="flex flex-col items-center justify-center w-full p-12 mb-8 cursor-pointer"
                           onClick={handleClickBank}
                         >
                           <div className="w-24 h-24">{icon}</div>
@@ -93,9 +92,6 @@ const SignUpNotRequiredForm = ({
           </section>
         </section>
       </article>
-      <div className="w-full">
-        <Footer />
-      </div>
     </main>
   );
 };
