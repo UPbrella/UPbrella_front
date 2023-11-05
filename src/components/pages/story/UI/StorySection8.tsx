@@ -12,7 +12,7 @@ const StorySection8 = () => {
         <div className="text-center text-white px-20 flex flex-col gap-[40px] h-[100%] justify-center items-center">
           <div className="flex flex-col gap-[24px] font-semibold">
             <div className="text-h32 lg:text-h24">
-              지구를 지키는 작은 우산, 업브렐라를 펼쳐주세요!
+              지구를 지키는 작은 우산, <br /> 업브렐라를 펼쳐주세요!
             </div>
             <div className="text-gray-200 text-h18 lg:text-h15">A Better Choice, UPbrella</div>
           </div>
