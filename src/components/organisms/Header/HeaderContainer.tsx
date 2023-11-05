@@ -13,6 +13,7 @@ import { BASIC_ROUTES_URL } from "@/routes/basicRouter";
 import { LAYOUT_ROUTES_URL } from "@/routes/layoutRouter";
 import { NOT_LAYOUT_ROUTES_URL } from "@/routes/notLayoutRouter";
 import { BACKGROUND_IMAGE_ROUTES_URL } from "@/routes/backgroundImageRouter";
+import { FixWidthWrapper } from "@/components/pages/story/UpbrellaStoryPage";
 
 type THeaderProps = {
   isLoading: boolean;
@@ -63,13 +64,15 @@ export const HeaderContainer = () => {
   const { data: userRes, isLoading } = useGetUserStatus();
 
   return (
-    <div className="h-80">
-      {/* PC Header */}
-      <DesktopHeader isLoading={isLoading} userRes={userRes ? userRes.data.data : null} />
+    <header className="sticky top-0 z-50 bg-white xl:h-80">
+      <FixWidthWrapper>
+        {/* PC Header */}
+        <DesktopHeader isLoading={isLoading} userRes={userRes ? userRes.data.data : null} />
 
-      {/* Mobile, Tablet Header */}
-      <MobileHeader isLoading={isLoading} userRes={userRes ? userRes.data.data : null} />
-    </div>
+        {/* Mobile, Tablet Header */}
+        <MobileHeader isLoading={isLoading} userRes={userRes ? userRes.data.data : null} />
+      </FixWidthWrapper>
+    </header>
   );
 };
 
@@ -78,7 +81,7 @@ const DesktopHeader = ({ isLoading, userRes }: THeaderProps) => {
   const [infoBubbleOpen, setInfoBubbleOpen] = useState(false);
 
   return (
-    <div className="relative items-center justify-between hidden w-full my-8 xl:flex">
+    <div className="relative items-center justify-between hidden w-full py-8 xl:flex">
       <Link to={"/"}>
         <img
           className="w-64 h-64 p-8"
@@ -165,13 +168,11 @@ const MobileHeader = ({ userRes }: THeaderProps) => {
     <>
       <div
         className={
-          menuOpen
-            ? "hidden"
-            : "flex justify-center items-center mt-8 cursor-pointer relative xl:hidden"
+          menuOpen ? "hidden" : "flex justify-center items-center cursor-pointer relative xl:hidden"
         }
       >
         <div
-          className="absolute left-0 cursor-pointer mt-18"
+          className="absolute left-0 cursor-pointer"
           onClick={() => {
             if (isDetailPage) {
               navigate(-1);
@@ -186,7 +187,7 @@ const MobileHeader = ({ userRes }: THeaderProps) => {
             <MenuIcon style={{ width: "28px", height: "28px" }} />
           )}
         </div>
-        <Link to={"/"} className="mt-8">
+        <Link to={"/"} className="p-8">
           <img
             className="w-48 h-48"
             src={Logo}

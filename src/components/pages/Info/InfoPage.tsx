@@ -41,8 +41,8 @@ const InfoPage = () => {
 
   return (
     <div className="bg-white">
+      <HeaderContainer />
       <FixWidthWrapper>
-        <HeaderContainer />
         <div className="flex items-center px-10">
           <div className="flex flex-col justify-center flex-1 px-0 xl:px-40">
             <div className="pt-24 pb-32 font-semibold text-24">이용안내</div>
@@ -57,9 +57,7 @@ const InfoPage = () => {
       {selectedClassificationIndex === 0 && <HowRent />}
       {selectedClassificationIndex === 1 && <HowReturn />}
       {selectedClassificationIndex === 2 && <FAQ />}
-      <FixWidthWrapper>
-        <Footer />
-      </FixWidthWrapper>
+      <Footer />
     </div>
   );
 };

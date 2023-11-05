@@ -143,7 +143,7 @@ const RentPage = () => {
       ) : (
         <>
           <HeaderContainer />
-          <div className="flex-col max-w-2xl mx-auto pb-50">
+          <div className="flex-col max-w-2xl px-20 mx-auto pb-50">
             <div className="mt-20 font-semibold text-black text-24 leading-32">
               {isRent ? "우산을 빌렸어요!" : "우산을 빌릴까요?"}
             </div>
