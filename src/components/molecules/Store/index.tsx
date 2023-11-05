@@ -37,7 +37,7 @@ const Store = ({
   }, [selectedClassificationName, classifications]);
 
   return (
-    <div className="flex flex-col w-full h-full lg:max-w-600 smMaxLg:items-center">
+    <div className="flex flex-col w-full h-full lg:max-w-600 lg:mt-32 smMaxLg:items-center ">
       {storeList.map((store, index) => (
         <div key={index} className="w-full">
           <div
