@@ -17,7 +17,8 @@ const RentalOfficePage = () => {
   // server
   const { data: subClassificationsRes } = useGetSubClassifications();
   const { data: storeListRes } = useGetStoreList();
-  const { data: useGetStoreDetailData } = useGetStoreDetail(selectedStoreId ?? 1);
+  const defalutStore = (storeListRes && storeListRes[0]?.stores[0]?.id) || 0;
+  const { data: useGetStoreDetailData } = useGetStoreDetail(selectedStoreId ?? defalutStore);
 
   return (
     <div className="block xl:flex gap-[24px]">
