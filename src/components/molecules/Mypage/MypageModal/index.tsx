@@ -9,7 +9,7 @@ const MypageModal = ({ children, width }: MypageModalProps) => {
       <div
         className={`w-${width} bg-white rounded-20 mx-20 xl:p-32 lg:p-20 flex justify-center items-center`}
       >
-        <div>{children}</div>
+        {children}
       </div>
     </div>
   );
