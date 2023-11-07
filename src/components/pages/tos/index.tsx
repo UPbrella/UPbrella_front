@@ -145,9 +145,9 @@ const TermsOfService = () => {
     },
   };
   return (
-    <div className="flex flex-col justify-center items-center">
-      <div className="flex flex-col justify-center items-start w-640 px-20 py-24">
-        <div className="mb-40 text-gray-700 text-24 font-bold leading-32">업브렐라 이용약관</div>
+    <div className="flex flex-col items-center justify-center">
+      <div className="flex flex-col items-start justify-center px-20 py-24 w-640">
+        <div className="mb-40 font-bold text-gray-700 text-24 leading-32">업브렐라 이용약관</div>
         <div>
           {titles.map((title, index) => {
             const num: number = index + 1;
@@ -164,9 +164,7 @@ const TermsOfService = () => {
           })}
         </div>
       </div>
-      <div className="w-full">
-        <Footer />
-      </div>
+      <Footer />
     </div>
   );
 };
@@ -193,14 +191,14 @@ const Content = ({ title, contents, circleContents }: ContentProps) => {
 };
 
 const DetailedTitle = ({ title }: DetailedTitleProps) => {
-  return <div className="mb-8 text-gray-700 text-16 font-semibold leading-24">{title}</div>;
+  return <div className="mb-8 font-semibold text-gray-700 text-16 leading-24">{title}</div>;
 };
 
 const DetailedNumberContent = ({ number, content, circleContents }: DetailedNumberContentProps) => {
   return (
     <div className="flex mb-4">
       <div className="mr-10">{number}. </div>
-      <div className="text-gray-700 text-16 font-normal leading-24">
+      <div className="font-normal text-gray-700 text-16 leading-24">
         <div>{content}</div>
         {circleContents
           ? circleContents.map((content, index) => {

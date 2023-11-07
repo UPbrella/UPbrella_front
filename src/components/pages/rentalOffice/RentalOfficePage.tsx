@@ -6,7 +6,7 @@ import {
   useGetStoreList,
   useGetSubClassifications,
 } from "@/hooks/queries/storeQueries";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const RentalOfficePage = () => {
   // client
@@ -17,14 +17,26 @@ const RentalOfficePage = () => {
   // server
   const { data: subClassificationsRes } = useGetSubClassifications();
   const { data: storeListRes } = useGetStoreList();
-  const { data: useGetStoreDetailData } = useGetStoreDetail(selectedStoreId ?? 1);
+  const defalutStore = (storeListRes && storeListRes[0]?.stores[0]?.id) || 0;
+  const { data: useGetStoreDetailData } = useGetStoreDetail(selectedStoreId ?? defalutStore);
+
+  // default card 스토어
+  useEffect(() => {
+    if (storeListRes && storeListRes.length > 0) {
+      const randomIndex = Math.floor(Math.random() * storeListRes.length);
+      const randomStore = storeListRes[randomIndex].stores;
+      setSelectedStoreId(randomStore[0].id);
+    }
+  }, [storeListRes]);
 
   return (
     <div className="block xl:flex gap-[24px]">
-      <div className="hidden xl:block max-w-[400px] min-w-[400px]">
-        {useGetStoreDetailData && <Card storeDetail={useGetStoreDetailData} />}
+      <div className="hidden xl:block max-w-[400px]">
+        <div className="overflow-auto max-h-screen pb-95">
+          {useGetStoreDetailData && <Card storeDetail={useGetStoreDetailData} />}
+        </div>
       </div>
-      <div className="flex flex-col items-center flex-1 xl:block">
+      <div className="flex flex-col items-center flex-1 xl:block overflow-auto">
         {subClassificationsRes && (
           <LocationClassificationBtn
             classifications={subClassificationsRes}

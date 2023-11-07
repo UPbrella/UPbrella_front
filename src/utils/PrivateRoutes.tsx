@@ -15,7 +15,7 @@ const PrivateRoutes: React.FC = () => {
   }, [path, setRedirectUrl]);
 
   return authState ? (
-    <div className="max-w-[1440px] min-h-[100vh] px-40 mx-auto flex flex-col sm:px-0 lg:px-20 ">
+    <div className="min-h-[100vh] pb-20 flex flex-col">
       <Outlet />
     </div>
   ) : (
