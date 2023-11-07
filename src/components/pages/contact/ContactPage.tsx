@@ -72,15 +72,15 @@ const ContactPage = () => {
 
   return (
     <>
-      <div className="min-h-screen flex flex-col">
-        <div className="h-full bg-cover px-40 mdMaxMin:pr-0 flex-1">
+      <div className="flex flex-col min-h-screen">
+        <div className="flex-1 h-full bg-cover ">
           <FixWidthWrapper>
             <HeaderContainer />
 
-            <div className="h-full max-w-[1440px] pb-20 w-full px-40 mdMaxMin:px-0 lg:px-0 lg:pr-40 mdMaxMin:pr-0 flex flex-col justify-between">
-              <div className="h-full flex items-center justify-center mt-100 lg:my-20">
-                <div className="h-full flex items-start justify-between w-full lg:flex-col lg:px-0 ">
-                  <div className="flex flex-col w-full py-24 lg:py-0 lgMaxMin:pl-40">
+            <div className="h-full max-w-[1280px] mx-auto pb-20 w-full flex flex-col justify-between">
+              <div className="flex items-center justify-center h-full mt-100 lg:my-20">
+                <div className="flex items-start justify-between w-full h-full lg:flex-col lg:px-0 ">
+                  <div className="flex flex-col w-full py-24 lg:py-0 ">
                     <div className="mb-8 font-semibold text-black text-24 leading-32">
                       CONTACT US
                     </div>
@@ -94,7 +94,7 @@ const ContactPage = () => {
                   <form
                     ref={form}
                     onSubmit={sendEmail}
-                    className="h-full w-full p-32 ml-32 bg-white rounded-20 lg:p-0 md:mt-40 mdMaxMin:ml-0 mdMaxMin:w-full"
+                    className="w-full h-full p-32 bg-white rounded-20 lg:p-0 md:mt-40 mdMaxMin:ml-0 mdMaxMin:w-full"
                   >
                     <div className="flex">
                       <Input
@@ -150,11 +150,7 @@ const ContactPage = () => {
           </FixWidthWrapper>
         </div>
 
-        <div className="w-full m-auto">
-          <FixWidthWrapper>
-            <Footer />
-          </FixWidthWrapper>
-        </div>
+        <Footer />
       </div>
     </>
   );

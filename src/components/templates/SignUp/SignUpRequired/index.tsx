@@ -4,7 +4,6 @@ import SignUpInputBox from "@/components/molecules/SignUp/SignUpInputBox";
 import SignUpAllAllowBox from "@/components/molecules/SignUp/SignUpAllAllowBox";
 import SignUpAllowBox from "@/components/molecules/SignUp/SignUpAllowBox";
 import SignUpFormButton from "@/components/atoms/SignUp/SignUpFormButton";
-import Footer from "@/components/organisms/Footer";
 import { SignUpRequiredFormProps } from "@/types/signup/SignupTypes";
 
 const SignUpRequiredForm = ({
@@ -25,10 +24,10 @@ const SignUpRequiredForm = ({
   onClickDetailPPPage,
 }: SignUpRequiredFormProps) => {
   return (
-    <main className="flex flex-1 flex-col items-center">
-      <article className="flex flex-1 flex-col justify-center items-center max-h-760 xl:max-w-440 xl:w-full lg:max-w-640 lg:w-full md:w-full p-20">
+    <main className="flex flex-col items-center flex-1">
+      <article className="flex flex-col items-center justify-center flex-1 p-20 max-h-760 xl:max-w-440 xl:w-full lg:max-w-640 lg:w-full md:w-full">
         <SignUpProgress isInProgress1={true} isInProgress2={false} />
-        <section className="flex flex-1 flex-col justify-between mt-40 w-full">
+        <section className="flex flex-col justify-between flex-1 w-full mt-40">
           <section className="w-full">
             <div className="mb-28">
               <SignUpText
@@ -87,9 +86,6 @@ const SignUpRequiredForm = ({
           </section>
         </section>
       </article>
-      <div className="w-full">
-        <Footer />
-      </div>
     </main>
   );
 };

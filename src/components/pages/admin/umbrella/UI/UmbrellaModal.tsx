@@ -46,7 +46,7 @@ const UmbrellaModal = ({ isOpen, handleClose, storeRes, umbrellaRes, storeId }: 
 
   const storeFilter = storeId === 0 ? undefined : storeId;
 
-  const onChangeData = (name: string, value: string | number) => {
+  const onChangeData = (name: string, value: string | number | boolean) => {
     setUmbrellaData((prev) => {
       return { ...prev, [name]: value };
     });
@@ -254,23 +254,19 @@ const UmbrellaModal = ({ isOpen, handleClose, storeRes, umbrellaRes, storeId }: 
         {!isReadOnly && umbrellaRes && (
           <StoreFormWrapper label="분실 여부">
             <div>
-              {isReadOnly ? (
-                <>{umbrellaData.rentable ? "대여 가능" : "대여 불가능"}</>
-              ) : (
-                <RadioGroup
-                  value={umbrellaData.missed}
-                  name="missed"
-                  onChange={(e) => {
-                    const { name, value } = e.target;
-                    onChangeData(name, value);
-                  }}
-                >
-                  <div>
-                    <FormControlLabel value={true} control={<Radio />} label="O" />
-                    <FormControlLabel value={false} control={<Radio />} label="X" />
-                  </div>
-                </RadioGroup>
-              )}
+              <RadioGroup
+                value={umbrellaData.missed}
+                name="missed"
+                onChange={(e) => {
+                  const { name, value } = e.target;
+                  onChangeData(name, value === "true" ? true : false);
+                }}
+              >
+                <div>
+                  <FormControlLabel value={true} control={<Radio />} label="O" />
+                  <FormControlLabel value={false} control={<Radio />} label="X" />
+                </div>
+              </RadioGroup>
             </div>
           </StoreFormWrapper>
         )}

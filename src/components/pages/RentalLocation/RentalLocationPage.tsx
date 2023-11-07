@@ -190,7 +190,7 @@ const RentalInfo = () => {
   }, [storeListRes, userPosition]);
 
   return (
-    <div className="flex flex-col flex-1">
+    <div className="flex flex-col flex-1 pb-20">
       <div className="flex justify-center gap-[24px] flex-1">
         <div className="min-w-[400px] max-w-[400px] hidden xl:block">
           {storeDetail && <Card storeDetail={storeDetail} />}
