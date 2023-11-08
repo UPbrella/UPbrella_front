@@ -94,18 +94,17 @@ export const useUpbrellaSignup = () => {
   return useMutation({
     mutationFn: async (inputs: TInputs) => await $axios.post("/users/join", { ...inputs }),
     onSuccess: () => {
-      setIsLogin(true);
-      navigate(path);
-      // location.reload();
-      toast.success("회원가입이 완료되었습니다.");
-
       // 회원가입후 회원정보 가져오기
       getUserStatus().then((e) => {
-        if (e.data?.status !== 200) {
-          location.reload();
+        if (e.data?.status === 200) {
+          setIsLogin(true);
+          navigate(path);
+          toast.success("회원가입이 완료되었습니다.");
           return;
         }
       });
+      navigate(BACKGROUND_IMAGE_ROUTES_URL.login.path());
+      toast.error("회원 정보를 가져오지 못했습니다.");
     },
     onError: (err: TCustomError) => {
       if (err.response?.data.code === 400) {
