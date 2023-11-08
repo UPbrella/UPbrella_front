@@ -25,6 +25,7 @@ const RentPage = () => {
   const [isRent, setIsRent] = useState(false);
   const { id } = useParams();
   const umbrellaId = id ? parseInt(id, 10) : 0;
+
   const userInfo = useRecoilValue(loginInfo);
 
   // 대여폼
@@ -71,6 +72,19 @@ const RentPage = () => {
     }
   }, [data]);
 
+  useEffect(() => {
+    if (lockNumber) {
+      setTimeout(() => {
+        if (lockNumber) {
+          setIsOpenLockPwModal(true);
+        } else {
+          setIsRent(true);
+          toast.success("대여 완료되었습니다.");
+        }
+      }, 2000);
+    }
+  }, [lockNumber]);
+
   if (rentFormDataLoading || umbrellaDataLoading) {
     return <></>;
   }
@@ -110,16 +124,8 @@ const RentPage = () => {
           setSubError(errorMsg);
           return;
         },
-        onSuccess: () => {
-          // setLockNumber("1111");
-
-          if (lockNumber) {
-            setIsOpenLockPwModal(true);
-          } else {
-            setIsRent(true);
-            toast.success("대여 완료되었습니다.");
-            return;
-          }
+        onSuccess: (lockData) => {
+          setLockNumber(lockData.data.data.password.toString());
         },
       }
     );

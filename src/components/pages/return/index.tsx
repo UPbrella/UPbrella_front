@@ -8,7 +8,11 @@ import BottomSheet from "@/components/atoms/BottomSheet";
 import BankContent from "@/components/atoms/Form/BankContent";
 import FormModal from "@/components/molecules/FormModal";
 import ReturnModal from "@/components/atoms/Form/ReturnModal";
-import { useGetReturnFormData, useGetReturnUmbrella } from "@/hooks/queries/formQueries";
+import {
+  useGetReturnFormData,
+  useGetReturnFormLockData,
+  useGetReturnUmbrella,
+} from "@/hooks/queries/formQueries";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { loginInfo, redirectUrl } from "@/recoil";
 import { formatPhoneNumber } from "@/utils/utils";
@@ -31,6 +35,10 @@ const ReturnPage = () => {
   const location = useLocation();
   const storeId = new URLSearchParams(location.search).get("storeId");
   const returnStoreId = storeId ? parseInt(storeId, 10) : 0;
+  const saltFromQuery = new URLSearchParams(location.search).get("salt");
+  const salt = saltFromQuery ? saltFromQuery : "";
+  const signatureFromQuery = new URLSearchParams(location.search).get("signature");
+  const signature = signatureFromQuery ? signatureFromQuery : "";
 
   const userInfo = useRecoilValue(loginInfo);
 
@@ -66,24 +74,39 @@ const ReturnPage = () => {
   // hook
   const {
     data: umbrellaData,
-    isError: getUmbrellaError,
     isLoading: umbrellaDataLoading,
+    error: getUmbrellaErrorMsg,
   } = useGetReturnUmbrella();
 
   const {
+    data: formLockData,
+    isLoading: returnFormLockLoading,
+    error: getReturnFormLockErrorMsg,
+  } = useGetReturnFormLockData(returnStoreId, salt, signature);
+
+  const {
     data: formData,
-    isError: getReturnFormError,
     isLoading: returnFormLoading,
+    error: getReturnFormErrorMsg,
   } = useGetReturnFormData(returnStoreId);
 
   const { mutate: updateRent } = useMutation(patchReturn);
 
+  // 보관함 없는 경우
   useEffect(() => {
     if (formData) {
       setClassificationName(formData.classificationName);
       setRentStoreName(formData.rentStoreName);
     }
   }, [formData]);
+
+  // 보관함 있는 경우
+  useEffect(() => {
+    if (formLockData) {
+      setClassificationName(formLockData.classificationName);
+      setRentStoreName(formLockData.rentStoreName);
+    }
+  }, [formLockData]);
 
   useEffect(() => {
     if (umbrellaData) {
@@ -101,30 +124,42 @@ const ReturnPage = () => {
     }
   }, [bank, accountNumber]);
 
-  if (umbrellaDataLoading || returnFormLoading) {
+  if (umbrellaDataLoading || returnFormLockLoading || returnFormLoading) {
     return <></>;
   }
 
   // 사용자가 빌린 우산 조회 (umbrellaUuid, 대여일수)
-  if (getUmbrellaError) {
+  if (getUmbrellaErrorMsg) {
+    const error = getUmbrellaErrorMsg as TCustomError;
+    const errorMsg = getErrorMessage(error);
+
     return (
       <div>
-        <ErrorComponent
-          error="죄송합니다. 페이지를 찾을 수 없어요:("
-          subError="사용자가 빌린 우산이 없습니다."
-        />
+        <ErrorComponent error="죄송합니다. 페이지를 찾을 수 없어요:(" subError={errorMsg} />
       </div>
     );
   }
 
-  // 반납 폼 데이터 조회 (classificationName, rentStoreName)
-  if (getReturnFormError) {
+  // 반납 폼 데이터 조회 (classificationName, rentStoreName) - 보관함 있는 경우
+  if (getReturnFormLockErrorMsg && salt && signature) {
+    const error = getReturnFormLockErrorMsg as TCustomError;
+    const errorMsg = getErrorMessage(error);
+
     return (
       <div>
-        <ErrorComponent
-          error="죄송합니다. 페이지를 찾을 수 없어요:("
-          subError="존재하지 않는 협업 지점 고유번호입니다."
-        />
+        <ErrorComponent error="죄송합니다. 페이지를 찾을 수 없어요:(" subError={errorMsg} />
+      </div>
+    );
+  }
+
+  // 반납 폼 데이터 조회 (classificationName, rentStoreName) - 보관함 없는 경우
+  if (getReturnFormErrorMsg) {
+    const error = getReturnFormErrorMsg as TCustomError;
+    const errorMsg = getErrorMessage(error);
+
+    return (
+      <div>
+        <ErrorComponent error="죄송합니다. 페이지를 찾을 수 없어요:(" subError={errorMsg} />
       </div>
     );
   }
