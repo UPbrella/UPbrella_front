@@ -21,7 +21,7 @@ const RentalOfficePage = () => {
   const { data: useGetStoreDetailData } = useGetStoreDetail(selectedStoreId ?? defalutStore);
 
   // 지역태그가 협업지점 목록을 포함하는 소분류 id 배열
-  const subClassificationId = storeListRes?.map((item) => ({ id: item.subClassificationId }));
+  const subClassificationId = storeListRes?.map((item:any) => ({ id: item.subClassificationId }));
 
   // default card 스토어
   useEffect(() => {
