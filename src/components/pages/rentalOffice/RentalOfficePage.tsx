@@ -20,6 +20,9 @@ const RentalOfficePage = () => {
   const defalutStore = (storeListRes && storeListRes[0]?.stores[0]?.id) || 0;
   const { data: useGetStoreDetailData } = useGetStoreDetail(selectedStoreId ?? defalutStore);
 
+  // 지역태그가 협업지점 목록을 포함하는 소분류 id 배열
+  const subClassificationId = storeListRes?.map((item) => ({ id: item.subClassificationId }));
+
   // default card 스토어
   useEffect(() => {
     if (storeListRes && storeListRes.length > 0) {
@@ -27,32 +30,36 @@ const RentalOfficePage = () => {
       const randomStore = storeListRes[randomIndex].stores;
       setSelectedStoreId(randomStore[0].id);
     }
+    
   }, [storeListRes]);
 
   return (
     <div className="block xl:flex gap-[24px]">
-      <div className="hidden xl:block max-w-[400px]">
-        <div className="overflow-auto max-h-screen pb-95">
+      <div className="lg: hidden xl:block max-w-[400px] mt-24">
+        <div className="overflow-auto max-h-620 pb-95">
           {useGetStoreDetailData && <Card storeDetail={useGetStoreDetailData} />}
         </div>
       </div>
-      <div className="flex flex-col items-center flex-1 xl:block overflow-auto">
-        {subClassificationsRes && (
+      <div className="mt-24 flex flex-col items-center flex-1 xl:block overflow-auto max-h-620">
+          {subClassificationsRes && subClassificationId && (
           <LocationClassificationBtn
             classifications={subClassificationsRes}
+            datasubClassification={subClassificationId}
             setSelectedClassificationId={setSelectedClassificationId}
             setSelectedClassificationName={setSelectedClassificationName}
           />
         )}
 
-        {storeListRes && (
+        {storeListRes && subClassificationsRes && subClassificationId && (
           <Store
             storeList={storeListRes}
             classifications={subClassificationsRes}
+            datasubClassification={subClassificationId}
             setSelectedStoreId={setSelectedStoreId}
             selectedClassificationName={selectedClassificationName}
           />
         )}
+        
       </div>
     </div>
   );
