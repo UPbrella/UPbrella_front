@@ -4,20 +4,33 @@ import { useRef, useState } from "react";
 export type TLocationClassificationBtn = {
   classifications: (TClassification | TSubClassification)[];
   map?: naver.maps.Map;
+  datasubClassification?: { id: number }[];
   setSelectedClassificationId?: (id: number) => void;
   setSelectedClassificationName?: (name: string) => void;
   handleClassificationSelection?: (id: number) => void;
 };
 
+
 const LocationClassificationBtn = ({
   classifications,
   map,
+  datasubClassification,
   setSelectedClassificationId,
   setSelectedClassificationName,
   handleClassificationSelection,
 }: TLocationClassificationBtn) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const buttonsRef = useRef<(HTMLButtonElement | null)[]>([]);
+
+  // 협업지점을 갖고 있는 지역태그만 filtering 및 화면에 표시
+  const currentStoreClassifiaction = datasubClassification && datasubClassification.flatMap(datasubItem => {
+  const match = classifications.find(classificationItem => classificationItem.id === datasubItem.id);
+  if (match) {
+    return [{ id: match.id, name: match.name }];
+  }
+  return [];
+  });
+
 
   const isTClassification = (
     item: TClassification | TSubClassification | null
@@ -46,7 +59,7 @@ const LocationClassificationBtn = ({
 
   return (
     <div className="flex w-full gap-2 overflow-auto flex-nowrap smMaxLg:max-w-600">
-      {classifications.map((item, index) => (
+      {currentStoreClassifiaction && currentStoreClassifiaction.map((item, index) => (
         <button
           key={item.id}
           ref={(el) => (buttonsRef.current[index] = el)}
