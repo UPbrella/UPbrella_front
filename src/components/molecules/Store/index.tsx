@@ -6,15 +6,17 @@ import { LAYOUT_ROUTES_URL } from "@/routes/layoutRouter";
 
 export type TStoreProps = {
   storeList: TStoreListAll[];
-  classifications?: TSubClassification[];
+  classifications: TSubClassification[];
+  datasubClassification: { id: number }[];
   setSelectedStoreId?: (storeId: number) => void;
   selectedClassificationId?: number;
-  selectedClassificationName?: string; // 선택한 분류 이름을 받음
+  selectedClassificationName?: string; 
 };
 
 const Store = ({
   storeList,
   classifications,
+  datasubClassification,
   setSelectedStoreId,
   selectedClassificationName,
 }: TStoreProps) => {
@@ -22,11 +24,23 @@ const Store = ({
   const navigate = useNavigate();
   const containerRef = useRef<HTMLDivElement | null>(null);
 
+
+  // 협업지점을 갖고 있는 지역태그만 filtering 및 화면에 표시
+  const currentStoreClassifiaction = datasubClassification.flatMap(datasubItem => {
+  const match = classifications.find(classificationItem => classificationItem.id === datasubItem.id);
+  if (match) {
+    return [{ id: match.id, name: match.name }];
+  }
+  return [];
+  });
+
+
+
   useEffect(() => {
-    if (selectedClassificationName && classifications) {
-      const index = classifications.findIndex(
+    if (selectedClassificationName && currentStoreClassifiaction) {
+      const index = currentStoreClassifiaction.findIndex(
         (classification) => classification.name === selectedClassificationName
-      );
+      )
       if (index !== -1 && classificationRefs.current[index]) {
         const element = classificationRefs.current[index];
         if (element) {
@@ -34,10 +48,10 @@ const Store = ({
         }
       }
     }
-  }, [selectedClassificationName, classifications]);
+  }, [selectedClassificationName, currentStoreClassifiaction]);
 
   return (
-    <div className="flex flex-col w-full h-full lg:max-w-600 lg:mt-32 smMaxLg:items-center ">
+    <div className="flex flex-col w-full h-full lg:max-w-600 lg:mt-32 smMaxLg:items-center">
       {storeList.map((store, index) => (
         <div key={index} className="w-full">
           <div
@@ -58,10 +72,6 @@ const Store = ({
                 onClick={() => {
                   if (storeItem && storeItem.id && setSelectedStoreId) {
                     setSelectedStoreId(storeItem.id);
-                    window.scrollTo({
-                      top: 0,
-                      behavior: "smooth",
-                    });
                   }
                   if (window.innerWidth <= 1024) {
                     navigate(LAYOUT_ROUTES_URL.rentalOfficeDetail.path(`${storeItem.id}`));
@@ -70,6 +80,7 @@ const Store = ({
               >
                 <div
                   ref={containerRef}
+                  id={`store-${storeItem.id}`}
                   className="flex flex-col items-center justify-center flex-1"
                 >
                   <img
