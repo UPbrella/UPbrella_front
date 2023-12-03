@@ -11,7 +11,6 @@ import ArrowBackIosNewSharpIcon from "@mui/icons-material/ArrowBackIosNewSharp";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import { BASIC_ROUTES_URL } from "@/routes/basicRouter";
 import { LAYOUT_ROUTES_URL } from "@/routes/layoutRouter";
-import { NOT_LAYOUT_ROUTES_URL } from "@/routes/notLayoutRouter";
 import { BACKGROUND_IMAGE_ROUTES_URL } from "@/routes/backgroundImageRouter";
 import { FixWidthWrapper } from "@/components/pages/story/UpbrellaStoryPage";
 
@@ -33,7 +32,6 @@ export const headerNavItems = [
   },
   {
     name: "협업 지점 소개",
-    // path: "/rentalOffice",
     path: LAYOUT_ROUTES_URL.rentalOffice.path(),
     isAdmin: false,
   },
@@ -45,17 +43,6 @@ export const headerNavItems = [
   {
     name: "어드민",
     path: ADMIN_ROUTES_URL.rent.path(),
-    isAdmin: true,
-  },
-  {
-    name: "대여폼테스트(어드민)",
-    path: NOT_LAYOUT_ROUTES_URL.rent.path("3"),
-    isAdmin: true,
-  },
-  {
-    name: "반납폼테스트(어드민)",
-    // HACK
-    path: "/return/form?storeId=1",
     isAdmin: true,
   },
 ] as const;
