@@ -90,6 +90,14 @@ const MypageRentSection = ({ rentInfo, isProfile, isRecent }: MypageRentSectionP
               </div>
             );
           }
+          if (index === 3) {
+            return (
+              <div key={index} className="flex mb-8">
+                <p className="mr-16 font-semibold text-primary-700">{info[0]}</p>
+                <p className="font-normal text-primary-700">{info[1]}</p>
+              </div>
+            );
+          }
           return (
             <div key={index} className="flex mb-8">
               <p className="mr-16 font-semibold">{info[0]}</p>
