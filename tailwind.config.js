@@ -3,6 +3,7 @@ const px0_1000 = { ...Array.from(Array(1001)).map((_, i) => `${i}px`) };
 
 /** @type {import('tailwindcss').Config} */
 export default {
+  mode: "jit", // css calc()
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     screens: {
@@ -11,7 +12,7 @@ export default {
       mdMaxMin: { max: "640px", min: "360px" },
       lg: { max: "1024px" },
       smMaxLg: { max: "1024px", min: "360px" },
-      mdMaxlg: { max: "1279px", min: "1025px" },
+      mdMaxLg: { max: "1279px", min: "1025px" },
       lgMaxMin: { max: "1279px", min: "640px" },
       xl: { min: "1025px" },
     },

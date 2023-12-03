@@ -1,6 +1,6 @@
 const FAQ = () => {
   return (
-    <div className="flex flex-col items-center justify-center gap-4 px-20 pt-32 mx-auto mb-194 xl:px-120 mdMaxlg:px-80">
+    <div className="flex flex-col items-center justify-center gap-4 px-20 pt-32 mx-auto mb-194 xl:px-120">
       <section className="w-full p-32 bg-gray-100 xl:max-w-[1260px] rounded-20 max-w-680 ">
         <div className="font-semibold text-18">
           <span className="mr-16 font-semibold text-18">Q</span>우산 대여와 반납 지점이 일치해야

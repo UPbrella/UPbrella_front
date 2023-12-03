@@ -6,15 +6,17 @@ import { LAYOUT_ROUTES_URL } from "@/routes/layoutRouter";
 
 export type TStoreProps = {
   storeList: TStoreListAll[];
-  classifications?: TSubClassification[];
+  classifications: TSubClassification[];
+  dataSubClassification: { id: number }[];
   setSelectedStoreId?: (storeId: number) => void;
   selectedClassificationId?: number;
-  selectedClassificationName?: string; // 선택한 분류 이름을 받음
+  selectedClassificationName?: string;
 };
 
 const Store = ({
   storeList,
   classifications,
+  dataSubClassification,
   setSelectedStoreId,
   selectedClassificationName,
 }: TStoreProps) => {
@@ -22,27 +24,43 @@ const Store = ({
   const navigate = useNavigate();
   const containerRef = useRef<HTMLDivElement | null>(null);
 
+  // 협업지점을 갖고 있는 지역태그만 filtering 및 화면에 표시
+  const currentStoreClassification = dataSubClassification.flatMap((dataSubItem) => {
+    const match = classifications.find(
+      (classificationItem) => classificationItem.id === dataSubItem.id
+    );
+    if (match) {
+      return [{ id: match.id, name: match.name }];
+    }
+    return [];
+  });
+
   useEffect(() => {
-    if (selectedClassificationName && classifications) {
-      const index = classifications.findIndex(
+    if (selectedClassificationName && currentStoreClassification) {
+      const index = currentStoreClassification.findIndex(
         (classification) => classification.name === selectedClassificationName
       );
       if (index !== -1 && classificationRefs.current[index]) {
         const element = classificationRefs.current[index];
         if (element) {
-          element.scrollIntoView({ behavior: "smooth" });
+          window.scroll({
+            behavior: "smooth",
+            top: element.offsetTop - 160,
+          });
         }
       }
     }
-  }, [selectedClassificationName, classifications]);
+    // 분류 선택 변경시에만 작동
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedClassificationName]);
 
   return (
-    <div className="flex flex-col w-full h-full lg:max-w-600 lg:mt-32 smMaxLg:items-center ">
+    <div className="flex flex-col gap-[56px] xl:max-w-none max-w-[640px] mx-auto">
       {storeList.map((store, index) => (
-        <div key={index} className="w-full">
+        <div key={index}>
           <div
             ref={(el) => (classificationRefs.current[index] = el)}
-            className="my-16 ml-5 font-bold text-24 xl:mt-64"
+            className="mt-8 mb-16 font-bold text-24"
           >
             {classifications
               ? classifications.find(
@@ -50,7 +68,7 @@ const Store = ({
                 )?.name
               : ""}
           </div>
-          <div className="grid grid-flow-row grid-cols-3 gap-4 lg:grid-cols-2 mdMaxlg:grid-cols-2">
+          <div className="grid grid-flow-row grid-cols-3 gap-4 lg:grid-cols-2 mdMaxLg:grid-cols-2">
             {store.stores.map((storeItem, itemIndex) => (
               <div
                 className="flex mb-12 cursor-pointer"
@@ -58,10 +76,6 @@ const Store = ({
                 onClick={() => {
                   if (storeItem && storeItem.id && setSelectedStoreId) {
                     setSelectedStoreId(storeItem.id);
-                    window.scrollTo({
-                      top: 0,
-                      behavior: "smooth",
-                    });
                   }
                   if (window.innerWidth <= 1024) {
                     navigate(LAYOUT_ROUTES_URL.rentalOfficeDetail.path(`${storeItem.id}`));
@@ -70,6 +84,7 @@ const Store = ({
               >
                 <div
                   ref={containerRef}
+                  id={`store-${storeItem.id}`}
                   className="flex flex-col items-center justify-center flex-1"
                 >
                   <img
