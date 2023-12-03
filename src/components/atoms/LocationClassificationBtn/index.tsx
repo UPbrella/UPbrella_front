@@ -60,7 +60,7 @@ const LocationClassificationBtn = ({
   };
 
   return (
-    <div className="flex w-full gap-2 overflow-auto flex-nowrap">
+    <div className="flex w-full gap-2 overflow-auto flex-nowrap lg:px-20">
       {currentStoreClassification &&
         currentStoreClassification.map((item, index) => (
           <button
