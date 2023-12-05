@@ -5,7 +5,7 @@ import {
   patchHistoriesRefund,
 } from "@/api/rentHistoryApi";
 import { TRentHistoriesParams } from "@/types/admin/RentTypes";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const RENT_QUERY_KEYS = {
   rentHistories: () => ["rent-histories"],
@@ -45,7 +45,7 @@ export const usePatchPayment = () => {
   return useMutation({
     mutationFn: (historyId: number) => patchHistoriesPayment(historyId),
     onSuccess: () => {
-      queryClient.invalidateQueries(...RENT_QUERY_KEYS.rentHistories());
+      queryClient.invalidateQueries(RENT_QUERY_KEYS.rentHistories());
     },
   });
 };
@@ -55,7 +55,7 @@ export const usePatchRefund = () => {
   return useMutation({
     mutationFn: (historyId: number) => patchHistoriesRefund(historyId),
     onSuccess: () => {
-      queryClient.invalidateQueries(...RENT_QUERY_KEYS.rentHistories());
+      queryClient.invalidateQueries(RENT_QUERY_KEYS.rentHistories());
     },
   });
 };
@@ -65,7 +65,7 @@ export const useDeleteAccount = () => {
   return useMutation({
     mutationFn: (historyId: number) => deleteHistoriesAccount(historyId),
     onSuccess: () => {
-      queryClient.invalidateQueries(...RENT_QUERY_KEYS.rentHistories());
+      queryClient.invalidateQueries(RENT_QUERY_KEYS.rentHistories());
     },
   });
 };

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button, Chip, TextField } from "@mui/material";
 import CustomModal from "@/components/organisms/Modal";
 import useModalStatus from "@/hooks/custom/useModalStatus";

@@ -13,7 +13,7 @@ import { BASIC_ROUTES_URL } from "@/routes/basicRouter";
 import { TUserRes } from "@/types/admin/userTypes";
 import { TApiResponse, TCustomError } from "@/types/commonTypes";
 import { toast } from "react-hot-toast";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
@@ -125,7 +125,7 @@ export const useGetUserStatus = () => {
   const setIsLogin = useSetRecoilState(loginState);
 
   return useQuery({
-    queryKey: [...USER_QUERY_KEYS.userStatus()],
+    queryKey: USER_QUERY_KEYS.userStatus(),
     queryFn: async () => await $axios.get<TApiResponse<TUserRes>>("/users/loggedIn"),
     retry: 0,
     keepPreviousData: true,
@@ -145,7 +145,7 @@ export const useLogout = () => {
     mutationFn: async () => await $axios.post("/users/logout"),
     onSuccess: () => {
       toast.success("로그아웃 되었습니다.");
-      queryClient.setQueryData([...USER_QUERY_KEYS.userStatus()], undefined, undefined);
+      queryClient.invalidateQueries([...USER_QUERY_KEYS.userStatus()]);
       setIsLogin(false);
       navigate(BASIC_ROUTES_URL.root.path());
     },
@@ -171,7 +171,7 @@ export const useDeleteUsers = () => {
   return useMutation({
     mutationFn: (userId: number) => deleteUsers(userId),
     onSuccess: () => {
-      queryClient.invalidateQueries(...USER_QUERY_KEYS.users());
+      queryClient.invalidateQueries(USER_QUERY_KEYS.users());
       toast.success("블랙리스트로 등록되었습니다.");
     },
   });
@@ -190,7 +190,7 @@ export const useDeleteBlackUsers = () => {
   return useMutation({
     mutationFn: (blackUserId: number) => deleteBlackUsers(blackUserId),
     onSuccess: () => {
-      queryClient.invalidateQueries(...USER_QUERY_KEYS.blackUsers());
+      queryClient.invalidateQueries([...USER_QUERY_KEYS.blackUsers()]);
       toast.success("탈퇴되었습니다.");
     },
   });
