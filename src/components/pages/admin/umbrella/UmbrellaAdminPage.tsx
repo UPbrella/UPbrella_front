@@ -25,7 +25,7 @@ import { Column } from "primereact/column";
 import { Paginator } from "primereact/paginator";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useQueryClient } from "react-query";
+import { useQueryClient } from "@tanstack/react-query";
 
 const UmbrellaAdminPage = () => {
   // client

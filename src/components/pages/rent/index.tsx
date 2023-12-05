@@ -10,7 +10,7 @@ import { useGetRentFormData, useGetReturnUmbrella } from "@/hooks/queries/formQu
 import { loginInfo, redirectUrl } from "@/recoil";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { formatPhoneNumber } from "@/utils/utils";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 import { postRent } from "@/api/formApi";
 import RentModalStorageIssue from "@/components/atoms/Form/RentModalStorageIssue";
 import { useParams } from "react-router-dom";

@@ -48,16 +48,22 @@ export const headerNavItems = [
 ] as const;
 
 export const HeaderContainer = () => {
-  const { data: userRes, isLoading } = useGetUserStatus();
+  const { data: userRes, isLoading, isError } = useGetUserStatus();
 
   return (
     <header className="sticky top-0 z-50 bg-white xl:h-80">
       <FixWidthWrapper>
         {/* PC Header */}
-        <DesktopHeader isLoading={isLoading} userRes={userRes ? userRes.data.data : null} />
+        <DesktopHeader
+          isLoading={isLoading}
+          userRes={isError || !userRes ? null : userRes.data.data}
+        />
 
         {/* Mobile, Tablet Header */}
-        <MobileHeader isLoading={isLoading} userRes={userRes ? userRes.data.data : null} />
+        <MobileHeader
+          isLoading={isLoading}
+          userRes={isError || !userRes ? null : userRes.data.data}
+        />
       </FixWidthWrapper>
     </header>
   );
