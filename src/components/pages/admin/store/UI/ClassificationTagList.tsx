@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button, Chip } from "@mui/material";
 import useModalStatus from "@/hooks/custom/useModalStatus";
 import { deleteClassification, postClassification } from "@/api/storeApi";

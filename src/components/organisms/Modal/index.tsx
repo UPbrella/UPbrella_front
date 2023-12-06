@@ -21,7 +21,7 @@ const CustomModal = ({
   isLoading,
 }: TProps) => {
   // hack
-  const isLoadingStyle = { pointerEvents: "none", opacity: "0.6" } satisfies CSSProperties;
+  const isLoadingStyle = { pointerEvents: "none", opacity: "0.9" } satisfies CSSProperties;
 
   return (
     <Dialog

@@ -12,7 +12,7 @@ import { useGetReturnFormData, useGetReturnUmbrella } from "@/hooks/queries/form
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { loginInfo, redirectUrl } from "@/recoil";
 import { formatPhoneNumber } from "@/utils/utils";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 import { patchReturn } from "@/api/formApi";
 import { useLocation } from "react-router-dom";
 import { HeaderContainer } from "@/components/organisms/Header/HeaderContainer";

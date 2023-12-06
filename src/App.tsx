@@ -1,7 +1,7 @@
 import { Toaster } from "react-hot-toast";
 import { Route, Routes } from "react-router-dom";
 import { RecoilRoot } from "recoil";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import MainLayout from "@/components/templates/common/MainLayout";
 import AdminWrapper from "@/components/templates/admin/AdminWrapper";
 import { ADMIN_ROUTES } from "@/routes/adminRouter";

@@ -3,7 +3,7 @@ import { Button } from "@mui/material";
 import CustomModal from "@/components/organisms/Modal";
 import StoreModalContents from "@/components/pages/admin/store/UI/StoreModalBody";
 import { TStoreBusinessHours, TStoreParams } from "@/types/admin/StoreTypes";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteStores, patchStores, postStores } from "@/api/storeApi";
 import toast from "react-hot-toast";
 import { isValidateStoreSave } from "@/components/pages/admin/store/helper";
