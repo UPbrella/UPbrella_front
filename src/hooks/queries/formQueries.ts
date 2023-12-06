@@ -1,5 +1,5 @@
 import { getRentFormData, getReturnFormData, getReturnUmbrella } from "@/api/formApi";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 export const useGetRentFormData = (umbrellaId: number) => {
   return useQuery({
     queryKey: ["rentFormData"],

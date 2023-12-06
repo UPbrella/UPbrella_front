@@ -1,5 +1,5 @@
 import { getHistoriesStatus, getHistoriesImprovements } from "@/api/feedBackApi";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 export const useGetHistoriesStatus = () => {
   return useQuery({
     queryKey: ["historiesStatus"],

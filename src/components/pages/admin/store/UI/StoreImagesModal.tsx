@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
 import CustomModal from "@/components/organisms/Modal";
 import { ChangeEvent } from "react";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteStoreImage, postStoreImage } from "@/api/storeApi";
 import CloseIcon from "@mui/icons-material/Close";
 import { TAdminStoreDetail } from "@/types/admin/StoreTypes";
