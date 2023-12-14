@@ -2,7 +2,7 @@ name: FE Production Deploy
 
 on:
   push:
-    branches: ["chore/update-cicd"]
+    branches: ["release"]
 
 env:
   working-directory: ./
