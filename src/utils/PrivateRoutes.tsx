@@ -1,5 +1,5 @@
 import { loginState, redirectUrl } from "@/recoil";
-import React, { useEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
@@ -10,16 +10,20 @@ const PrivateRoutes: React.FC = () => {
 
   const setRedirectUrl = useSetRecoilState(redirectUrl);
 
-  useEffect(() => {
-    setRedirectUrl(path);
-  }, [path, setRedirectUrl]);
+  useLayoutEffect(() => {
+    if (!authState) {
+      setRedirectUrl(path);
+    }
+  }, [authState, path, setRedirectUrl]);
 
-  return authState ? (
+  if (!authState) {
+    return <Navigate to="/login" replace={true} />;
+  }
+
+  return (
     <div className="min-h-[100vh] pb-20 flex flex-col">
       <Outlet />
     </div>
-  ) : (
-    <Navigate to="/login" />
   );
 };
 

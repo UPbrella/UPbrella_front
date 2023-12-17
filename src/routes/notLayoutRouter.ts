@@ -1,4 +1,3 @@
-import ForbiddenPage from "@/components/pages/forbidden/ForbiddenPage";
 import RentPage from "@/components/pages/rent";
 import ReturnPage from "@/components/pages/return";
 import { TRoute } from "@/types/commonTypes";
@@ -17,11 +16,6 @@ export const NOT_LAYOUT_ROUTES_URL = {
     name: "반납폼 페이지",
     path: () => "/return/form",
     component: ReturnPage,
-  },
-  forbidden: {
-    name: "접근 금지 페이지",
-    path: () => "/forbidden",
-    component: ForbiddenPage,
   },
 } as const;
 

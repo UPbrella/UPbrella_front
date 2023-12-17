@@ -2,7 +2,7 @@ import SignUpNotRequiredForm from "@/components/templates/SignUp/SignUpNotRequir
 import SignUpRequiredForm from "@/components/templates/SignUp/SignUpRequired";
 import { formatPhoneNumber, validateNumber } from "@/utils/utils";
 import { MouseEvent, ChangeEvent, useEffect, useState, useRef } from "react";
-import { useUpbrellaSignup } from "@/hooks/queries/userQueries";
+import { useUpbrellaSignUp } from "@/hooks/queries/userQueries";
 import { TInputs } from "@/types/signup/SignupTypes";
 
 const SignUpPage = () => {
@@ -26,7 +26,7 @@ const SignUpPage = () => {
 
   const { name, phoneNumber, bank, accountNumber } = inputs;
 
-  const { mutate: upbreallaSignup } = useUpbrellaSignup();
+  const { mutate: signUpMutate } = useUpbrellaSignUp();
 
   useEffect(() => {
     const handleNameValid = () => {
@@ -122,8 +122,8 @@ const SignUpPage = () => {
     setIsOpenModal(!isOpenModal);
   };
 
-  const onSubmitButton = async () => {
-    upbreallaSignup(inputs);
+  const onSubmitButton = () => {
+    signUpMutate(inputs);
   };
 
   return (

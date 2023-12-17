@@ -16,6 +16,7 @@ import { getUserPosition, getDistanceFromLatLonInKm } from "@/utils/locationUtil
 import { TClassification } from "@/types/admin/StoreTypes";
 import ClassificationsButtons from "@/components/pages/RentalLocation/ClassificationsButtons";
 import { CircularProgress } from "@mui/material";
+import { DEFAULT_COORDINATE } from "@/components/pages/admin/store/UI/StoreAddressInput";
 
 // 대여소 위치 페이지
 const RentalLocationPage = () => {
@@ -53,11 +54,11 @@ const RentalLocationPage = () => {
   // map 처음 한번 생성
   useEffect(() => {
     if (!mapElement.current || !naver || map) return;
-    if (!selectedClassification) return;
-    const { latitude, longitude } = selectedClassification;
-    if (!latitude || !longitude) return;
 
-    const _location = new naver.maps.LatLng(latitude, longitude);
+    const _location = new naver.maps.LatLng(
+      selectedClassification?.latitude ?? DEFAULT_COORDINATE.lat,
+      selectedClassification?.longitude ?? DEFAULT_COORDINATE.lng
+    );
     const mapOptions: naver.maps.MapOptions = {
       center: _location,
       zoom: 15,
