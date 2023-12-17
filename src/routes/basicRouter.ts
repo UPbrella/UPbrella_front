@@ -1,5 +1,6 @@
 import InfoPage from "@/components/pages/Info/InfoPage";
 import ContactPage from "@/components/pages/contact/ContactPage";
+import ForbiddenPage from "@/components/pages/forbidden/ForbiddenPage";
 import UpbrellaStoryPage from "@/components/pages/story/UpbrellaStoryPage";
 import { TRoute } from "@/types/commonTypes";
 
@@ -23,6 +24,11 @@ export const BASIC_ROUTES_URL = {
     name: "contact us",
     path: () => "/contact",
     component: ContactPage,
+  },
+  forbidden: {
+    name: "접근 금지 페이지",
+    path: () => "/forbidden",
+    component: ForbiddenPage,
   },
 } as const;
 
