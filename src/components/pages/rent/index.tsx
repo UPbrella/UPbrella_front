@@ -93,7 +93,7 @@ const RentPage = () => {
       <div>
         <ErrorComponent
           error="죄송합니다. 페이지를 찾을 수 없어요:("
-          subError="존재하지 않는 우산 고유 번호입니다."
+          subError="[ERROR] 해당 우산은 대여 불가능한 우산입니다."
         />
       </div>
     );
