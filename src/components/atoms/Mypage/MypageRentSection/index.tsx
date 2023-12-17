@@ -15,12 +15,34 @@ export type TRentInfo = {
 
 const MypageRentSection = ({ rentInfo, isProfile, isRecent }: MypageRentSectionProps) => {
   const { umbrellaUuid, rentedAt, rentedStore, returnAt, returned, refunded } = rentInfo;
+
+  const getReturnDue = (rentedAt: string) => {
+    const parts = rentedAt.split(" ");
+
+    // 날짜와 시간 부분을 추출
+    const datePart = parts[0];
+    const timePart = parts[1];
+
+    // 날짜와 시간을 결합하여 ISO 형식의 문자열로 생성
+    const isoDateString = `${datePart}T${timePart}`;
+
+    // ISO 형식의 문자열을 Date 객체로 변환하여 반환
+    const rentDate = new Date(isoDateString);
+
+    // 14일을 더함
+    rentDate.setDate(rentDate.getDate() + 14);
+
+    const returnDue = rentDate.toISOString().replace("T", " ").replace(".000Z", "");
+
+    return returnDue;
+  };
+
   const rentInfoContent = [
     ["우산 번호", String(umbrellaUuid)],
     ["대여 일자", rentedAt],
     ["대여 지점", rentedStore],
-    ["반납 기한", returnAt],
-    ["반납 일자", returnAt],
+    ["반납 기한", getReturnDue(rentedAt)],
+    ["반납 일자", returned && returnAt],
     ["반납 여부", returned],
     ["환급 여부", refunded],
   ];
@@ -65,6 +87,14 @@ const MypageRentSection = ({ rentInfo, isProfile, isRecent }: MypageRentSectionP
               <div key={index} className="flex">
                 <p className="mr-16 font-semibold">{info[0]}</p>
                 <p className="font-normal">{info[1]}</p>
+              </div>
+            );
+          }
+          if (index === 3) {
+            return (
+              <div key={index} className="flex mb-8">
+                <p className="mr-16 font-semibold text-primary-700">{info[0]}</p>
+                <p className="font-normal text-primary-700">{info[1]}</p>
               </div>
             );
           }

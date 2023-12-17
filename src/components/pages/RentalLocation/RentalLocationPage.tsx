@@ -17,7 +17,8 @@ import { TClassification } from "@/types/admin/StoreTypes";
 import ClassificationsButtons from "@/components/pages/RentalLocation/ClassificationsButtons";
 import { CircularProgress } from "@mui/material";
 
-const RentalInfo = () => {
+// 대여소 위치 페이지
+const RentalLocationPage = () => {
   const { naver } = window;
   const mapElement = useRef<HTMLDivElement | null>(null);
   // Ref를 사용하여 맵의 너비 동적으로 가져오기
@@ -190,7 +191,7 @@ const RentalInfo = () => {
   }, [storeListRes, userPosition]);
 
   return (
-    <div className="flex flex-col flex-1">
+    <div className="flex flex-col flex-1 pb-20">
       <div className="flex justify-center gap-[24px] flex-1">
         <div className="min-w-[400px] max-w-[400px] hidden xl:block">
           {storeDetail && <Card storeDetail={storeDetail} />}
@@ -237,4 +238,4 @@ const RentalInfo = () => {
   );
 };
 
-export default RentalInfo;
+export default RentalLocationPage;

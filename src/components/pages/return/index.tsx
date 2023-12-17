@@ -16,7 +16,7 @@ import {
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { loginInfo, redirectUrl } from "@/recoil";
 import { formatPhoneNumber } from "@/utils/utils";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 import { patchReturn } from "@/api/formApi";
 import { useLocation } from "react-router-dom";
 import { HeaderContainer } from "@/components/organisms/Header/HeaderContainer";
@@ -196,7 +196,7 @@ const ReturnPage = () => {
       ) : (
         <>
           <HeaderContainer />
-          <div className="flex-col max-w-2xl mx-auto pb-50">
+          <div className="flex-col max-w-2xl px-20 mx-auto pb-50">
             <div className="mt-20 mb-32 font-semibold text-black text-24 leading-32">
               {!isReturn ? "우산을 반납할까요?" : "우산을 반납했어요!"}
             </div>

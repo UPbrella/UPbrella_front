@@ -1,4 +1,5 @@
 import UmbrellaFeedBackPage from "@/components/pages/admin/feedback/UmbrellaFeedBackPage";
+import LockerAdminPage from "@/components/pages/admin/locker/LockerAdminPage";
 import RentHistoryPage from "@/components/pages/admin/rent/RentHistoryPage";
 import StoreManagePage from "@/components/pages/admin/store/StoreManagePage";
 import UmbrellaAdminPage from "@/components/pages/admin/umbrella/UmbrellaAdminPage";
@@ -30,6 +31,11 @@ export const ADMIN_ROUTES_URL = {
     name: "협업 지점 관리",
     path: () => "/admin/stores",
     component: StoreManagePage,
+  },
+  locker: {
+    name: "보관함 관리",
+    path: () => "/admin/locker",
+    component: LockerAdminPage,
   },
 } as const;
 

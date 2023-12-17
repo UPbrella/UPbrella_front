@@ -14,7 +14,7 @@ export type TRentalCard = {
 
 const RentalInfoCard = ({ storeDetail }: TRentalCard) => {
   return (
-    <div className="w-full px-24 py-20 overflow-auto border border-gray-200 xl:py-32 rounded-20 max-h-600">
+    <div className="w-full px-24 py-20 border border-gray-200 xl:py-32 rounded-20 min-h-content">
       <RentalLocationTitle title={storeDetail.name} category={storeDetail.category} />
       <div className="pt-24 pb-6">
         <NaverDirectionBtn

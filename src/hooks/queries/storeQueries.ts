@@ -11,8 +11,7 @@ import {
   getStoreImages,
 } from "@/api/storeApi";
 import toast from "react-hot-toast";
-
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const STORE_QUERY_KEYS = {
   stores: (storeId?: number) => ["stores", storeId],

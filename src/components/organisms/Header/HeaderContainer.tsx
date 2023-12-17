@@ -11,8 +11,8 @@ import ArrowBackIosNewSharpIcon from "@mui/icons-material/ArrowBackIosNewSharp";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import { BASIC_ROUTES_URL } from "@/routes/basicRouter";
 import { LAYOUT_ROUTES_URL } from "@/routes/layoutRouter";
-import { NOT_LAYOUT_ROUTES_URL } from "@/routes/notLayoutRouter";
 import { BACKGROUND_IMAGE_ROUTES_URL } from "@/routes/backgroundImageRouter";
+import { FixWidthWrapper } from "@/components/pages/story/UpbrellaStoryPage";
 
 type THeaderProps = {
   isLoading: boolean;
@@ -32,7 +32,6 @@ export const headerNavItems = [
   },
   {
     name: "협업 지점 소개",
-    // path: "/rentalOffice",
     path: LAYOUT_ROUTES_URL.rentalOffice.path(),
     isAdmin: false,
   },
@@ -46,30 +45,27 @@ export const headerNavItems = [
     path: ADMIN_ROUTES_URL.rent.path(),
     isAdmin: true,
   },
-  {
-    name: "대여폼테스트(어드민)",
-    path: NOT_LAYOUT_ROUTES_URL.rent.path("3"),
-    isAdmin: true,
-  },
-  {
-    name: "반납폼테스트(어드민)",
-    // HACK
-    path: "/return/form?storeId=1",
-    isAdmin: true,
-  },
 ] as const;
 
 export const HeaderContainer = () => {
-  const { data: userRes, isLoading } = useGetUserStatus();
+  const { data: userRes, isLoading, isError } = useGetUserStatus();
 
   return (
-    <div className="h-80">
-      {/* PC Header */}
-      <DesktopHeader isLoading={isLoading} userRes={userRes ? userRes.data.data : null} />
+    <header className="sticky top-0 z-50 bg-white xl:h-80">
+      <FixWidthWrapper>
+        {/* PC Header */}
+        <DesktopHeader
+          isLoading={isLoading}
+          userRes={isError || !userRes ? null : userRes.data.data}
+        />
 
-      {/* Mobile, Tablet Header */}
-      <MobileHeader isLoading={isLoading} userRes={userRes ? userRes.data.data : null} />
-    </div>
+        {/* Mobile, Tablet Header */}
+        <MobileHeader
+          isLoading={isLoading}
+          userRes={isError || !userRes ? null : userRes.data.data}
+        />
+      </FixWidthWrapper>
+    </header>
   );
 };
 
@@ -78,7 +74,7 @@ const DesktopHeader = ({ isLoading, userRes }: THeaderProps) => {
   const [infoBubbleOpen, setInfoBubbleOpen] = useState(false);
 
   return (
-    <div className="relative items-center justify-between hidden w-full my-8 xl:flex">
+    <div className="relative items-center justify-between hidden w-full py-8 xl:flex">
       <Link to={"/"}>
         <img
           className="w-64 h-64 p-8"
@@ -165,13 +161,11 @@ const MobileHeader = ({ userRes }: THeaderProps) => {
     <>
       <div
         className={
-          menuOpen
-            ? "hidden"
-            : "flex justify-center items-center mt-8 cursor-pointer relative xl:hidden"
+          menuOpen ? "hidden" : "flex justify-center items-center cursor-pointer relative xl:hidden"
         }
       >
         <div
-          className="absolute left-0 cursor-pointer mt-18"
+          className="absolute left-0 cursor-pointer"
           onClick={() => {
             if (isDetailPage) {
               navigate(-1);
@@ -186,7 +180,7 @@ const MobileHeader = ({ userRes }: THeaderProps) => {
             <MenuIcon style={{ width: "28px", height: "28px" }} />
           )}
         </div>
-        <Link to={"/"} className="mt-8">
+        <Link to={"/"} className="p-8">
           <img
             className="w-48 h-48"
             src={Logo}
