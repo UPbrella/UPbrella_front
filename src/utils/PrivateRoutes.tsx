@@ -1,22 +1,19 @@
-import { loginState, redirectUrl } from "@/recoil";
-import React, { useLayoutEffect } from "react";
+import { useGetUserStatus } from "@/hooks/queries/userQueries";
+import { redirectUrl } from "@/recoil";
+import React from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 
 const PrivateRoutes: React.FC = () => {
-  const authState = useRecoilValue(loginState);
   const { pathname, search } = useLocation();
-  const path = pathname + search;
+  const { isLoading, isError } = useGetUserStatus();
 
+  const path = pathname + search;
   const setRedirectUrl = useSetRecoilState(redirectUrl);
 
-  useLayoutEffect(() => {
-    if (!authState) {
-      setRedirectUrl(path);
-    }
-  }, [authState, path, setRedirectUrl]);
-
-  if (!authState) {
+  if (isLoading) return <></>;
+  if (isError) {
+    setRedirectUrl(path);
     return <Navigate to="/login" replace={true} />;
   }
 
