@@ -16,6 +16,7 @@ import { toast } from "react-hot-toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import { getErrorMessage } from "@/utils/error";
 
 export const USER_QUERY_KEYS = {
   userStatus: () => ["userStatus"],
@@ -86,34 +87,23 @@ export const useKakaoLogin = () => {
 };
 
 // 회원가입
-export const useUpbrellaSignup = () => {
+export const useUpbrellaSignUp = () => {
   const path = useRecoilValue(redirectUrl);
-  const { refetch: getUserStatus } = useGetUserStatus();
   const navigate = useNavigate();
   const setIsLogin = useSetRecoilState(loginState);
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: async (inputs: TInputs) => await $axios.post("/users/join", { ...inputs }),
     onSuccess: () => {
-      // 회원가입후 회원정보 가져오기
-      getUserStatus().then((e) => {
-        if (e.data?.status === 200) {
-          setIsLogin(true);
-          navigate(path);
-          toast.success("회원가입이 완료되었습니다.");
-          return;
-        }
-      });
-      navigate(BACKGROUND_IMAGE_ROUTES_URL.login.path());
-      toast.error("회원 정보를 가져오지 못했습니다.");
+      setIsLogin(true);
+      navigate(path);
+      toast.success("회원가입이 완료되었습니다.");
+      queryClient.invalidateQueries(USER_QUERY_KEYS.userStatus());
+      return;
     },
     onError: (err: TCustomError) => {
-      if (err.response?.data.code === 400) {
-        // signup
-        toast.error("필수 입력정보를 채워주세요.");
-        return;
-      }
-
-      toast.error("서버 에러입니다.");
+      toast.error(getErrorMessage(err));
       setIsLogin(false);
       return;
     },
@@ -137,7 +127,7 @@ export const useGetUserStatus = () => {
 
 // 로그아웃
 export const useLogout = () => {
-  const setIsLogin = useSetRecoilState(loginState);
+  const setRedirectUrl = useSetRecoilState(redirectUrl);
   const navigate = useNavigate();
 
   const queryClient = useQueryClient();
@@ -146,8 +136,8 @@ export const useLogout = () => {
     onSuccess: () => {
       toast.success("로그아웃 되었습니다.");
       queryClient.invalidateQueries([...USER_QUERY_KEYS.userStatus()]);
-      setIsLogin(false);
       navigate(BASIC_ROUTES_URL.root.path());
+      setRedirectUrl("/");
     },
     onError: () => {
       toast.error("서버 에러입니다.");

@@ -195,7 +195,10 @@ const StoreModalContents = ({
                   name="closeAt"
                   onChange={({ target: { name, value } }) => onChangeDayInput(name, value)}
                 />
-                <Button onClick={onClickHourAdd} disabled={isBusinessHLoading}>
+                <Button
+                  onClick={onClickHourAdd}
+                  disabled={!!(selectedStoreId && isBusinessHLoading)}
+                >
                   추가
                 </Button>
               </div>
@@ -275,7 +278,7 @@ const StoreModalContents = ({
 
       {/* 소개글 */}
       <StoreFormWrapper label="소개글">
-        <div className="flex flex-col gap-2 items-end">
+        <div className="flex flex-col items-end gap-2">
           <TextareaAutosize
             placeholder="upbrella"
             minRows={3}
