@@ -37,6 +37,11 @@ const LockerModal = ({ isOpen, handleClose, storesListRes, selectedLocker }: TPr
       return;
     }
 
+    if (secretKey.length < 32) {
+      toast.error("비밀번호는 최소 32자 이상이여야합니다.");
+      return;
+    }
+
     postMutateLocker(
       { secretKey: secretKey.replace(SECRET_REMOVE_REGEX, ""), storeId },
       {
@@ -52,6 +57,11 @@ const LockerModal = ({ isOpen, handleClose, storesListRes, selectedLocker }: TPr
     if (!selectedLocker) return;
     if (!storeId || !secretKey) {
       toast.error("필수값을 입력해주세요.");
+      return;
+    }
+
+    if (secretKey.length < 32) {
+      toast.error("비밀번호는 최소 32자 이상이어야 합니다. ");
       return;
     }
 
