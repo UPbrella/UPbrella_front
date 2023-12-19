@@ -17,6 +17,8 @@ type TProps = {
   selectedLocker?: TLockersRes;
 };
 
+const MIN_LOCKER_SECRET_KEY_COUNT = 32;
+
 const LockerModal = ({ isOpen, handleClose, storesListRes, selectedLocker }: TProps) => {
   const [storeId, setStoreId] = useState(selectedLocker?.storeMetaId);
   const [secretKey, setSecretKey] = useState(selectedLocker?.secretKey);
@@ -37,8 +39,8 @@ const LockerModal = ({ isOpen, handleClose, storesListRes, selectedLocker }: TPr
       return;
     }
 
-    if (secretKey.length < 32) {
-      toast.error("비밀번호는 최소 32자 이상이여야합니다.");
+    if (secretKey.length < MIN_LOCKER_SECRET_KEY_COUNT) {
+      toast.error(`비밀번호는 최소 ${MIN_LOCKER_SECRET_KEY_COUNT}자 이상이여야합니다.`);
       return;
     }
 
@@ -60,8 +62,8 @@ const LockerModal = ({ isOpen, handleClose, storesListRes, selectedLocker }: TPr
       return;
     }
 
-    if (secretKey.length < 32) {
-      toast.error("비밀번호는 최소 32자 이상이어야 합니다. ");
+    if (secretKey.length < MIN_LOCKER_SECRET_KEY_COUNT) {
+      toast.error(`비밀번호는 최소 ${MIN_LOCKER_SECRET_KEY_COUNT}자 이상이여야합니다.`);
       return;
     }
 
