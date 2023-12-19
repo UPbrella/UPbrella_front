@@ -17,6 +17,8 @@ type TProps = {
   selectedLocker?: TLockersRes;
 };
 
+const MIN_LOCKER_SECRET_KEY_COUNT = 32;
+
 const LockerModal = ({ isOpen, handleClose, storesListRes, selectedLocker }: TProps) => {
   const [storeId, setStoreId] = useState(selectedLocker?.storeMetaId);
   const [secretKey, setSecretKey] = useState(selectedLocker?.secretKey);
@@ -37,6 +39,11 @@ const LockerModal = ({ isOpen, handleClose, storesListRes, selectedLocker }: TPr
       return;
     }
 
+    if (secretKey.length < MIN_LOCKER_SECRET_KEY_COUNT) {
+      toast.error(`비밀번호는 최소 ${MIN_LOCKER_SECRET_KEY_COUNT}자 이상이여야합니다.`);
+      return;
+    }
+
     postMutateLocker(
       { secretKey: secretKey.replace(SECRET_REMOVE_REGEX, ""), storeId },
       {
@@ -52,6 +59,11 @@ const LockerModal = ({ isOpen, handleClose, storesListRes, selectedLocker }: TPr
     if (!selectedLocker) return;
     if (!storeId || !secretKey) {
       toast.error("필수값을 입력해주세요.");
+      return;
+    }
+
+    if (secretKey.length < MIN_LOCKER_SECRET_KEY_COUNT) {
+      toast.error(`비밀번호는 최소 ${MIN_LOCKER_SECRET_KEY_COUNT}자 이상이여야합니다.`);
       return;
     }
 
