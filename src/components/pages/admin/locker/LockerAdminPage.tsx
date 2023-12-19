@@ -95,7 +95,16 @@ const LockerAdminPage = () => {
             storesListRes.find((e) => e.id === data.storeMetaId)?.name ?? "잘못된 지점입니다."
           }
         />
-        <Column header="비밀번호" field="secretKey" style={{ minWidth: "120px" }} />
+        <Column
+          header="비밀번호"
+          field="secretKey"
+          style={{ minWidth: "120px" }}
+          body={(data: TLockersRes) => (
+            <div>
+              {data.secretKey.length > 50 ? data.secretKey.slice(0, 50) + "..." : data.secretKey}
+            </div>
+          )}
+        />
       </CssDataTable>
 
       {/* 모달 */}
