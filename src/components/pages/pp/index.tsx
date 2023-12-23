@@ -4,6 +4,7 @@ import {
   DetailedNumberContentProps,
   DetailedTitleProps,
 } from "@/components/pages/tos";
+import SeoMetaTag from "@/utils/SeoMetaTag";
 
 const PrivacyPolicy = () => {
   const titles: string[] = [
@@ -62,54 +63,61 @@ const PrivacyPolicy = () => {
     },
   };
   return (
-    <div className="flex flex-col justify-center items-center">
-      <div className="flex flex-col justify-center items-start w-640 px-20 py-24">
-        <div className="mb-24 text-gray-700 text-24 font-bold leading-32">
-          업브렐라 개인정보처리방침
+    <>
+      <SeoMetaTag
+        title={"개인정보처리방침"}
+        description={"업브렐라 서비스 개인정보처리방침입니다."}
+        keywords={", 개인정보처리방침"}
+      />
+      <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-start justify-center px-20 py-24 w-640">
+          <div className="mb-24 font-bold text-gray-700 text-24 leading-32">
+            업브렐라 개인정보처리방침
+          </div>
+          <div className="mb-40 font-normal text-gray-700 text-16 leading-24">
+            업브렐라는 「개인정보보호법」 관련 법령을 준수하고 있습니다. 업브렐라는 이용자의
+            개인정보가 어떠한 용도와 방식으로 이용되고 있으며, 개인정보보호를 위해 어떠한 조치가
+            취해지고 있는지 고지합니다. 이용자가 제공한 모든 정보는 아래의 목적에 필요한 용도
+            이외로는 사용되지 않으며, 이용 목적이 변경될 시에는 별도의 동의를 받는 등 필요한 조치를
+            이행할 예정입니다.
+          </div>
+          <div>
+            {titles.map((title, index) => {
+              const num: number = index + 1;
+              const contents = detailedNumberContents[num];
+              const circleContents = detailedCircleContents[num];
+              if (num === 3) {
+                return (
+                  <Content
+                    key={index}
+                    title={title}
+                    contents={contents}
+                    circleContents={circleContents}
+                    smallContents={[
+                      "₁ 필수 보존 항목의 변경이 필요할 경우, 회원 탈퇴 후 재가입 필요.",
+                      "₂ 이용자의 선택적 기입에 따른 보존 항목(보증금 환급을 위한 은행, 계좌번호)의 경우, 이용자는 언제든 [MYPAGE]-[개인정보 조회] 페이지에서 정보를 기입, 삭제, 수정할 수 있다.",
+                      "₃ 단, 업브렐라 이용약관 제 9조(회원자격 정지 및 해지)의 6항과 10항에 따라 업브렐라의 결정에 의한 회원의 회원자격 강제 해지 시 카카오 고유 ID 개인식별정보(회원정보) 는 회원의 소셜 로그인을 방지를 위해 1년간 보관됩니다.",
+                    ]}
+                  />
+                );
+              } else {
+                return (
+                  <Content
+                    key={index}
+                    title={title}
+                    contents={contents}
+                    circleContents={circleContents}
+                  />
+                );
+              }
+            })}
+          </div>
         </div>
-        <div className="mb-40 text-gray-700 text-16 font-normal leading-24">
-          업브렐라는 「개인정보보호법」 관련 법령을 준수하고 있습니다. 업브렐라는 이용자의
-          개인정보가 어떠한 용도와 방식으로 이용되고 있으며, 개인정보보호를 위해 어떠한 조치가
-          취해지고 있는지 고지합니다. 이용자가 제공한 모든 정보는 아래의 목적에 필요한 용도 이외로는
-          사용되지 않으며, 이용 목적이 변경될 시에는 별도의 동의를 받는 등 필요한 조치를 이행할
-          예정입니다.
-        </div>
-        <div>
-          {titles.map((title, index) => {
-            const num: number = index + 1;
-            const contents = detailedNumberContents[num];
-            const circleContents = detailedCircleContents[num];
-            if (num === 3) {
-              return (
-                <Content
-                  key={index}
-                  title={title}
-                  contents={contents}
-                  circleContents={circleContents}
-                  smallContents={[
-                    "₁ 필수 보존 항목의 변경이 필요할 경우, 회원 탈퇴 후 재가입 필요.",
-                    "₂ 이용자의 선택적 기입에 따른 보존 항목(보증금 환급을 위한 은행, 계좌번호)의 경우, 이용자는 언제든 [MYPAGE]-[개인정보 조회] 페이지에서 정보를 기입, 삭제, 수정할 수 있다.",
-                    "₃ 단, 업브렐라 이용약관 제 9조(회원자격 정지 및 해지)의 6항과 10항에 따라 업브렐라의 결정에 의한 회원의 회원자격 강제 해지 시 카카오 고유 ID 개인식별정보(회원정보) 는 회원의 소셜 로그인을 방지를 위해 1년간 보관됩니다.",
-                  ]}
-                />
-              );
-            } else {
-              return (
-                <Content
-                  key={index}
-                  title={title}
-                  contents={contents}
-                  circleContents={circleContents}
-                />
-              );
-            }
-          })}
+        <div className="w-full">
+          <Footer />
         </div>
       </div>
-      <div className="w-full">
-        <Footer />
-      </div>
-    </div>
+    </>
   );
 };
 export default PrivacyPolicy;
@@ -146,7 +154,7 @@ const Content = ({ title, contents, circleContents, smallContents }: ContentProp
   );
 };
 const DetailedTitle = ({ title }: DetailedTitleProps) => {
-  return <div className="mb-8 text-gray-700 text-16 font-semibold leading-24">{title}</div>;
+  return <div className="mb-8 font-semibold text-gray-700 text-16 leading-24">{title}</div>;
 };
 
 const DetailedNumberContent = ({
@@ -156,7 +164,7 @@ const DetailedNumberContent = ({
 }: DetailedNumberContentProps) => {
   return (
     <div className="flex mb-4">
-      <div className="text-gray-700 text-16 font-normal leading-24">
+      <div className="font-normal text-gray-700 text-16 leading-24">
         <div className="mb-4">{content}</div>
         {circleContents
           ? circleContents.map((content, index) => {
