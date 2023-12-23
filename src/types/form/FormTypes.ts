@@ -30,4 +30,10 @@ export type TRentDetail = {
   storeId: number;
   umbrellaId: number;
   conditionReport?: string;
+  salt?: string;
+  signature?: string;
+};
+
+export type TRentPassword = {
+  password: string;
 };

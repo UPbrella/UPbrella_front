@@ -1,4 +1,5 @@
 import Footer from "@/components/organisms/Footer";
+import SeoMetaTag from "@/utils/SeoMetaTag";
 
 export type DetailedTitleProps = {
   title: string;
@@ -145,27 +146,35 @@ const TermsOfService = () => {
     },
   };
   return (
-    <div className="flex flex-col items-center justify-center">
-      <div className="flex flex-col items-start justify-center px-20 py-24 w-640">
-        <div className="mb-40 font-bold text-gray-700 text-24 leading-32">업브렐라 이용약관</div>
-        <div>
-          {titles.map((title, index) => {
-            const num: number = index + 1;
-            const contents = detailedNumberContents[num];
-            const circleContents = detailedCircleContents[num];
-            return (
-              <Content
-                key={index}
-                title={title}
-                contents={contents}
-                circleContents={circleContents}
-              />
-            );
-          })}
+    <>
+      <SeoMetaTag
+        title={"이용 약관"}
+        description={"업브렐라 서비스 이용 약관 페이지입니다."}
+        keywords={", 이용 약관, 이용, 약관"}
+      />
+
+      <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-start justify-center px-20 py-24 w-640">
+          <div className="mb-40 font-bold text-gray-700 text-24 leading-32">업브렐라 이용약관</div>
+          <div>
+            {titles.map((title, index) => {
+              const num: number = index + 1;
+              const contents = detailedNumberContents[num];
+              const circleContents = detailedCircleContents[num];
+              return (
+                <Content
+                  key={index}
+                  title={title}
+                  contents={contents}
+                  circleContents={circleContents}
+                />
+              );
+            })}
+          </div>
         </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </>
   );
 };
 export default TermsOfService;
