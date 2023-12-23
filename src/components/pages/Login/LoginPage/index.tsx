@@ -1,5 +1,6 @@
 import LoginTemplate from "@/components/templates/Login";
 import { loginState, redirectUrl } from "@/recoil";
+import SeoMetaTag from "@/utils/SeoMetaTag";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -26,6 +27,15 @@ const LoginPage = () => {
     window.location.href = kakaoURL;
   };
 
-  return <>{!isLogin && <LoginTemplate onClick={handleLogin} />}</>;
+  return (
+    <>
+      <SeoMetaTag
+        title={"로그인"}
+        description={"업브렐라 서비스 이용을 위한 로그인 페이지입니다."}
+        keywords={", 로그인, login"}
+      />
+      {!isLogin && <LoginTemplate onClick={handleLogin} />}
+    </>
+  );
 };
 export default LoginPage;

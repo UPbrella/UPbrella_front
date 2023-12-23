@@ -4,6 +4,7 @@ import { formatPhoneNumber, validateNumber } from "@/utils/utils";
 import { MouseEvent, ChangeEvent, useEffect, useState, useRef } from "react";
 import { useUpbrellaSignUp } from "@/hooks/queries/userQueries";
 import { TInputs } from "@/types/signup/SignupTypes";
+import SeoMetaTag from "@/utils/SeoMetaTag";
 
 const SignUpPage = () => {
   const [inputs, setInputs] = useState<TInputs>({
@@ -128,6 +129,11 @@ const SignUpPage = () => {
 
   return (
     <>
+      <SeoMetaTag
+        title={"회원가입"}
+        description={"업브렐라 서비스 이용을 위한 회원가입 페이지입니다."}
+        keywords={", 회원가입, sign up"}
+      />
       {isNext ? (
         <SignUpNotRequiredForm
           bank={bank}

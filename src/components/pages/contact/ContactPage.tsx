@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import Footer from "@/components/organisms/Footer";
 import { HeaderContainer } from "@/components/organisms/Header/HeaderContainer";
 import { FixWidthWrapper } from "@/components/pages/story/UpbrellaStoryPage";
+import SeoMetaTag from "@/utils/SeoMetaTag";
 
 const ContactPage = () => {
   const [name, setName] = useState("");
@@ -72,6 +73,11 @@ const ContactPage = () => {
 
   return (
     <>
+      <SeoMetaTag
+        title={"contact us"}
+        description={"업브렐라와 함께하고 싶으신가요?"}
+        keywords={", contact us"}
+      />
       <div className="flex flex-col min-h-screen">
         <div className="flex-1 h-full bg-cover ">
           <FixWidthWrapper>

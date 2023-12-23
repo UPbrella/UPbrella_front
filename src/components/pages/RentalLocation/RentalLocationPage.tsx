@@ -17,6 +17,7 @@ import { TClassification } from "@/types/admin/StoreTypes";
 import ClassificationsButtons from "@/components/pages/RentalLocation/ClassificationsButtons";
 import { CircularProgress } from "@mui/material";
 import { DEFAULT_COORDINATE } from "@/components/pages/admin/store/UI/StoreAddressInput";
+import SeoMetaTag from "@/utils/SeoMetaTag";
 
 // 대여소 위치 페이지
 const RentalLocationPage = () => {
@@ -192,50 +193,58 @@ const RentalLocationPage = () => {
   }, [storeListRes, userPosition]);
 
   return (
-    <div className="flex flex-col flex-1 pb-20">
-      <div className="flex justify-center gap-[24px] flex-1">
-        <div className="min-w-[400px] max-w-[400px] hidden xl:block">
-          {storeDetail && <Card storeDetail={storeDetail} />}
-        </div>
+    <>
+      <SeoMetaTag
+        title={"대여소 위치"}
+        description={"업브렐라와 함께하는 대여소 위치를 지도로 안내하는 페이지입니다."}
+        keywords={", 대여소, 위치, 지도"}
+      />
 
-        <div className="relative flex justify-center flex-1 rounded-20 max-w-640 xl:max-w-full">
-          {(isFetching || isLoading) && (
-            <div className="absolute w-full h-full z-[101] bg-gray-50 bg-opacity-40 flex justify-center items-center">
-              <CircularProgress
-                size={70}
-                sx={{
-                  color: "#E86F52",
-                }}
-              />
+      <div className="flex flex-col flex-1 pb-20">
+        <div className="flex justify-center gap-[24px] flex-1">
+          <div className="min-w-[400px] max-w-[400px] hidden xl:block">
+            {storeDetail && <Card storeDetail={storeDetail} />}
+          </div>
+
+          <div className="relative flex justify-center flex-1 rounded-20 max-w-640 xl:max-w-full">
+            {(isFetching || isLoading) && (
+              <div className="absolute w-full h-full z-[101] bg-gray-50 bg-opacity-40 flex justify-center items-center">
+                <CircularProgress
+                  size={70}
+                  sx={{
+                    color: "#E86F52",
+                  }}
+                />
+              </div>
+            )}
+
+            <Map ref={mapElement} width="100%" height="100%" borderRadius="20px" />
+            <div className="absolute top-0 left-0 w-full p-24 z-9 pr-60">
+              {classificationsRes && (
+                <ClassificationsButtons
+                  classificationsRes={classificationsRes}
+                  selectedClassification={selectedClassification}
+                  setSelectedClassification={setSelectedClassification}
+                />
+              )}
             </div>
-          )}
-
-          <Map ref={mapElement} width="100%" height="100%" borderRadius="20px" />
-          <div className="absolute top-0 left-0 w-full p-24 z-9 pr-60">
-            {classificationsRes && (
-              <ClassificationsButtons
-                classificationsRes={classificationsRes}
-                selectedClassification={selectedClassification}
-                setSelectedClassification={setSelectedClassification}
-              />
+            <div className="absolute top-0 z-10 right-7 pt-86">
+              <MapBtn map={map} setIsLoading={setIsLoading} />
+            </div>
+            {isBottomOpen && mapWidth && storeDetail && (
+              <BottomSheet
+                isBottomSheetOpen={isBottomOpen}
+                setIsBottomSheetOpen={setIsBottomOpen}
+                snapPoints={[295, 295, 0]}
+                _className="hidden lg:block"
+              >
+                <MobileCard storeDetail={storeDetail} />
+              </BottomSheet>
             )}
           </div>
-          <div className="absolute top-0 z-10 right-7 pt-86">
-            <MapBtn map={map} setIsLoading={setIsLoading} />
-          </div>
-          {isBottomOpen && mapWidth && storeDetail && (
-            <BottomSheet
-              isBottomSheetOpen={isBottomOpen}
-              setIsBottomSheetOpen={setIsBottomOpen}
-              snapPoints={[295, 295, 0]}
-              _className="hidden lg:block"
-            >
-              <MobileCard storeDetail={storeDetail} />
-            </BottomSheet>
-          )}
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

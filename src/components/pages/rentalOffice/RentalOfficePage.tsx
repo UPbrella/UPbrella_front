@@ -6,6 +6,7 @@ import {
   useGetStoreList,
   useGetSubClassifications,
 } from "@/hooks/queries/storeQueries";
+import SeoMetaTag from "@/utils/SeoMetaTag";
 import { useEffect, useState } from "react";
 
 // 협업 지점 소개 페이지
@@ -34,38 +35,46 @@ const RentalOfficePage = () => {
   }, [storeListRes]);
 
   return (
-    <div className="block xl:flex gap-[24px] py-24 min-h-[calc(100vh-80px)]">
-      <div className="hidden xl:block min-w-[400px]">
-        <div className="fixed max-h-[calc(100vh-80px)] min-w-[400px] max-w-[400px] overflow-auto ">
-          {useGetStoreDetailData && <Card storeDetail={useGetStoreDetailData} />}
-        </div>
-      </div>
+    <>
+      <SeoMetaTag
+        title={"협업 지점 소개"}
+        description={"업브렐라와 함께하는 협업 지점 소개 페이지입니다."}
+        keywords={", 대여소, 지점, 소개"}
+      />
 
-      <div className="flex-1 xl:block">
-        <div className="min-h-[56px] flex justify-center xl:block">
-          <div className="fixed">
-            {subClassificationsRes && subClassificationId && (
-              <LocationClassificationBtn
-                classifications={subClassificationsRes}
-                dataSubClassification={subClassificationId}
-                setSelectedClassificationId={setSelectedClassificationId}
-                setSelectedClassificationName={setSelectedClassificationName}
-              />
-            )}
+      <div className="block xl:flex gap-[24px] py-24 min-h-[calc(100vh-80px)]">
+        <div className="hidden xl:block min-w-[400px]">
+          <div className="fixed max-h-[calc(100vh-80px)] min-w-[400px] max-w-[400px] overflow-auto ">
+            {useGetStoreDetailData && <Card storeDetail={useGetStoreDetailData} />}
           </div>
         </div>
 
-        {storeListRes && subClassificationsRes && subClassificationId && (
-          <Store
-            storeList={storeListRes}
-            classifications={subClassificationsRes}
-            dataSubClassification={subClassificationId}
-            setSelectedStoreId={setSelectedStoreId}
-            selectedClassificationName={selectedClassificationName}
-          />
-        )}
+        <div className="flex-1 xl:block">
+          <div className="min-h-[56px] flex justify-center xl:block">
+            <div className="fixed">
+              {subClassificationsRes && subClassificationId && (
+                <LocationClassificationBtn
+                  classifications={subClassificationsRes}
+                  dataSubClassification={subClassificationId}
+                  setSelectedClassificationId={setSelectedClassificationId}
+                  setSelectedClassificationName={setSelectedClassificationName}
+                />
+              )}
+            </div>
+          </div>
+
+          {storeListRes && subClassificationsRes && subClassificationId && (
+            <Store
+              storeList={storeListRes}
+              classifications={subClassificationsRes}
+              dataSubClassification={subClassificationId}
+              setSelectedStoreId={setSelectedStoreId}
+              selectedClassificationName={selectedClassificationName}
+            />
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
