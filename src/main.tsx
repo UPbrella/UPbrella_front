@@ -55,10 +55,7 @@ const queryClient = new QueryClient({
   },
 });
 
-const container = document.getElementById("root") as HTMLElement;
-const root = ReactDOM.createRoot(container);
-
-const Index = () => (
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <BrowserRouter>
     <RecoilRoot>
       <Suspense>
@@ -86,9 +83,3 @@ const Index = () => (
     </RecoilRoot>
   </BrowserRouter>
 );
-
-if (container.hasChildNodes()) {
-  ReactDOM.hydrateRoot(container, <Index />);
-} else {
-  root.render(<Index />);
-}
