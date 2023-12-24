@@ -6,6 +6,7 @@ type RentModalStorageIssueProps = {
   setIsOpenLockPwModal: (value: boolean) => void;
 };
 
+// TODO: 새로운 비밀번호 요청 API ?
 const RentModalStorageIssue = ({
   setIsOpenStorageIssue,
   setLockNumber,
@@ -21,13 +22,13 @@ const RentModalStorageIssue = ({
 
   return (
     <div className="w-full p-10">
-      <div className="text-18 font-bold leading-24 text-black mb-16">불편을 드려 죄송합니다 😢</div>
-      <div className="text-14 leading-20 text-gray-700 mb-16">
+      <div className="mb-16 font-bold text-black text-18 leading-24">불편을 드려 죄송합니다 😢</div>
+      <div className="mb-16 text-gray-700 text-14 leading-20">
         보관함 화면 좌측 상단에 표기된 4자리 숫자를 입력해주시면 다른 비밀번호를 안내드릴게요!
       </div>
       <div className="flex h-48">
         <input
-          className="w-full rounded-8 border border-gray-300 text-black text-15 leading-22 placeholder:text-gray-400 pl-12 mr-4 focus:border-gray-600 focus:outline-none"
+          className="w-full pl-12 mr-4 text-black border border-gray-300 rounded-8 text-15 leading-22 placeholder:text-gray-400 focus:border-gray-600 focus:outline-none"
           maxLength={4}
           placeholder="4자리 숫자를 입력해주세요"
           onChange={(e) => setNumber(e.target.value)}

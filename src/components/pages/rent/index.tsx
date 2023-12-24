@@ -72,19 +72,6 @@ const RentPage = () => {
     }
   }, [data]);
 
-  useEffect(() => {
-    if (lockNumber) {
-      setTimeout(() => {
-        if (lockNumber) {
-          setIsOpenLockPwModal(true);
-        } else {
-          setIsRent(true);
-          toast.success("대여 완료되었습니다.");
-        }
-      }, 2000);
-    }
-  }, [lockNumber]);
-
   if (rentFormDataLoading || umbrellaDataLoading) {
     return <></>;
   }
@@ -124,8 +111,15 @@ const RentPage = () => {
           setSubError(errorMsg);
           return;
         },
-        onSuccess: (lockData) => {
-          setLockNumber(lockData.data.data.password.toString());
+        onSuccess: ({ data }) => {
+          // 보관함이 있는 지점
+          if (data) {
+            setLockNumber(data.password.toString());
+            setIsOpenLockPwModal(true);
+          } else {
+            setIsRent(true);
+            toast.success("대여 완료되었습니다.");
+          }
         },
       }
     );
@@ -192,9 +186,6 @@ const RentPage = () => {
                   conditionReport={conditionReport}
                   storeId={storeId}
                   onClickPostBtn={onClickPostBtn}
-                  setLockNumber={setLockNumber}
-                  lockNumber={lockNumber}
-                  setIsOpenDepositModal={setIsOpenDepositModal}
                 />
               </FormModal>
             )}
