@@ -40,8 +40,8 @@ export const getReturnFormLockData = async (storeId: number, salt: string, signa
 
 // 우산 대여 신청
 export const postRent = async (params: TRentDetail) => {
-  const data = await $axios.post<TApiResponse<TRentPassword>>(API.RENT(), params);
-  return data;
+  const res = await $axios.post<TApiResponse<TRentPassword | null>>(API.RENT(), params);
+  return res.data;
 };
 
 // 사용자가 빌린 우산 조회
