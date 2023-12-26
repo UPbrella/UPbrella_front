@@ -31,9 +31,21 @@ type TProps = {
   storeRes: TAdminStoreDetail[];
   umbrellaRes?: TUmbrellaRes;
   storeId: number;
+  paginationParams: {
+    storeId: number;
+    page: number;
+    size: number;
+  };
 };
 
-const UmbrellaModal = ({ isOpen, handleClose, storeRes, umbrellaRes, storeId }: TProps) => {
+const UmbrellaModal = ({
+  isOpen,
+  handleClose,
+  storeRes,
+  umbrellaRes,
+  storeId,
+  paginationParams,
+}: TProps) => {
   // client
   const [isReadOnly, setIsReadOnly] = useState(!!umbrellaRes);
   const [umbrellaData, setUmbrellaData] = useState(convertUmbrellaData(umbrellaRes));
@@ -91,10 +103,17 @@ const UmbrellaModal = ({ isOpen, handleClose, storeRes, umbrellaRes, storeId }: 
           onSuccess: () => {
             handleClose();
             Promise.all([
-              queryClient.invalidateQueries([...UMBRELLAS_QUERY_KEYS.getUmbrellas(storeFilter)]),
-              queryClient.invalidateQueries([
-                ...UMBRELLAS_QUERY_KEYS.getUmbrellasStatistics(storeFilter),
-              ]),
+              queryClient.invalidateQueries(
+                UMBRELLAS_QUERY_KEYS.getUmbrellas({
+                  page: paginationParams.page,
+                  size: paginationParams.size,
+                  storeId: 0,
+                })
+              ),
+              queryClient.invalidateQueries(UMBRELLAS_QUERY_KEYS.getUmbrellas(paginationParams)),
+              queryClient.invalidateQueries(
+                UMBRELLAS_QUERY_KEYS.getUmbrellasStatistics(storeFilter)
+              ),
             ]);
           },
         }
@@ -117,10 +136,15 @@ const UmbrellaModal = ({ isOpen, handleClose, storeRes, umbrellaRes, storeId }: 
         onSuccess: () => {
           handleClose();
           Promise.all([
-            queryClient.invalidateQueries([...UMBRELLAS_QUERY_KEYS.getUmbrellas(storeFilter)]),
-            queryClient.invalidateQueries([
-              ...UMBRELLAS_QUERY_KEYS.getUmbrellasStatistics(storeFilter),
-            ]),
+            queryClient.invalidateQueries(
+              UMBRELLAS_QUERY_KEYS.getUmbrellas({
+                page: paginationParams.page,
+                size: paginationParams.size,
+                storeId: 0,
+              })
+            ),
+            queryClient.invalidateQueries(UMBRELLAS_QUERY_KEYS.getUmbrellas(paginationParams)),
+            queryClient.invalidateQueries(UMBRELLAS_QUERY_KEYS.getUmbrellasStatistics(storeFilter)),
           ]);
         },
       }

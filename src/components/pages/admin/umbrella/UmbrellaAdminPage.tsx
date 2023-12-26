@@ -4,7 +4,6 @@ import UmbrellaModal from "@/components/pages/admin/umbrella/UI/UmbrellaModal";
 import {
   UMBRELLA_STATISTICS_TABLE,
   UMBRELLA_TABLE,
-  downloadUmbrellaDataExcel,
 } from "@/components/pages/admin/umbrella/helper";
 import useModalStatus from "@/hooks/custom/useModalStatus";
 import { usePaginator } from "@/hooks/custom/usePaginator";
@@ -12,10 +11,8 @@ import { useGetStores } from "@/hooks/queries/storeQueries";
 import {
   UMBRELLAS_QUERY_KEYS,
   useDeleteUmbrellas,
-  useGetUmbrellas,
   useGetUmbrellasStatistics,
-  useGetUmbrellasStatisticsStore,
-  useGetUmbrellasStore,
+  useGetUmbrellas,
 } from "@/hooks/queries/umbrellaQueries";
 import { TUmbrellaRes, TUmbrellaStatisticsRes } from "@/types/admin/umbrellaTypes";
 import { TCustomError } from "@/types/commonTypes";
@@ -26,6 +23,7 @@ import { Paginator } from "primereact/paginator";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
+import UmbrellaExcelButton from "@/components/pages/admin/umbrella/UI/UmbrellaExcelButton";
 
 const UmbrellaAdminPage = () => {
   // client
@@ -38,29 +36,25 @@ const UmbrellaAdminPage = () => {
     rows: 10,
   });
   const [selectedUmbrellaRes, setSelectedUmbrellaRes] = useState<TUmbrellaRes>();
+  const IsAllStore = storeFilter === "all";
+  const paginationParams = {
+    storeId: IsAllStore ? 0 : storeFilter,
+    page,
+    size: 10,
+  };
 
   // server
   const queryClient = useQueryClient();
   const { data: storeRes, isLoading: isStoreLoading } = useGetStores();
-  const { data: allUmbrellaRes } = useGetUmbrellas({ page, size });
-  const { data: storeUmbrellaRes } = useGetUmbrellasStore({
-    storeId: storeFilter === "all" ? 0 : storeFilter,
-    page,
-    size: 10,
-  });
-  const { data: allUmbrellaStatistics } = useGetUmbrellasStatistics();
-  const { data: storeUmbrellaStatistics } = useGetUmbrellasStatisticsStore(
-    storeFilter === "all" ? 0 : storeFilter
-  );
   const { mutate: deleteMutate, isLoading: isDeleteMutating } = useDeleteUmbrellas();
-
-  const umbrellasRes = storeFilter === "all" ? allUmbrellaRes : storeUmbrellaRes;
-  const umbrellaStatisticsRes =
-    storeFilter === "all" ? allUmbrellaStatistics : storeUmbrellaStatistics;
+  const { data: umbrellaRes, isFetching: isUmbrellasLoading } = useGetUmbrellas(paginationParams);
+  const { data: umbrellaStatistics, isFetching: isStatisticsLoading } = useGetUmbrellasStatistics(
+    IsAllStore ? 0 : storeFilter
+  );
 
   const standard = () => {
     if (storeRes) {
-      return storeFilter === "all" ? "전체" : storeRes.find((e) => e.id === storeFilter)?.name;
+      return IsAllStore ? "전체" : storeRes.find((e) => e.id === storeFilter)?.name;
     }
   };
 
@@ -71,15 +65,13 @@ const UmbrellaAdminPage = () => {
 
   const onClickRemoveButton = (umbrellaId: number) => {
     if (window.confirm(`${umbrellaId} 번 우산을 삭제하시겠습니까?`)) {
-      const storeId = storeFilter === "all" ? undefined : storeFilter;
+      const storeId = IsAllStore ? undefined : storeFilter;
 
       deleteMutate(umbrellaId, {
         onSuccess: () => {
           Promise.all([
-            queryClient.invalidateQueries([...UMBRELLAS_QUERY_KEYS.getUmbrellas(storeId)]),
-            queryClient.invalidateQueries([
-              ...UMBRELLAS_QUERY_KEYS.getUmbrellasStatistics(storeId),
-            ]),
+            queryClient.invalidateQueries(UMBRELLAS_QUERY_KEYS.getUmbrellas(paginationParams)),
+            queryClient.invalidateQueries(UMBRELLAS_QUERY_KEYS.getUmbrellasStatistics(storeId)),
           ]);
         },
         onError: (err) => {
@@ -115,7 +107,6 @@ const UmbrellaAdminPage = () => {
           />
         </div>
         <div>
-          {/* TODO: Prime 칼라 변경 */}
           <Button
             disabled={!storeRes}
             className="w-[150px]"
@@ -130,12 +121,12 @@ const UmbrellaAdminPage = () => {
       </div>
 
       {/* 우산 대여 정보 현황 */}
-      {umbrellaStatisticsRes && standard() && (
+      {umbrellaStatistics && standard() && (
         <div>
           <Typography className="!mb-16" variant="h5">
             {`"${standard()}" 우산 대여 정보`}
           </Typography>
-          <CssDataTable value={[umbrellaStatisticsRes]}>
+          <CssDataTable value={[umbrellaStatistics]}>
             {Object.keys(UMBRELLA_STATISTICS_TABLE).map((key) => {
               const field = key as keyof TUmbrellaStatisticsRes;
               return (
@@ -152,17 +143,22 @@ const UmbrellaAdminPage = () => {
       )}
 
       {/* 우산 관리 테이블 */}
-      {umbrellasRes && storeRes && (
+      {umbrellaRes && storeRes && (
         <>
           <div>
             <Typography className="!mb-16" variant="h5">
               {"우산 관리 테이블"}
             </Typography>
-            <UmbrellaExcelButton />
+            <UmbrellaExcelButton
+              storeId={IsAllStore ? 0 : storeFilter}
+              totalCount={umbrellaStatistics?.totalUmbrellaCount}
+              isLoading={isStatisticsLoading || isUmbrellasLoading}
+              storeName={storeRes.find((e) => e.id === storeFilter)?.name ?? "전체"}
+            />
             <CssDataTable
               rowHover
               showGridlines
-              value={umbrellasRes}
+              value={umbrellaRes}
               emptyMessage={"결과가 없습니다."}
               style={{
                 cursor: "pointer",
@@ -222,7 +218,7 @@ const UmbrellaAdminPage = () => {
               first={first}
               rows={size}
               pageLinkSize={5}
-              totalRecords={umbrellaStatisticsRes?.totalUmbrellaCount}
+              totalRecords={umbrellaStatistics?.totalUmbrellaCount}
               onPageChange={onPageChange}
             />
           </div>
@@ -235,7 +231,8 @@ const UmbrellaAdminPage = () => {
           handleClose={handleCloseModal}
           umbrellaRes={selectedUmbrellaRes}
           storeRes={storeRes}
-          storeId={storeFilter === "all" ? 0 : storeFilter}
+          storeId={IsAllStore ? 0 : storeFilter}
+          paginationParams={paginationParams}
         />
       )}
     </div>
@@ -243,38 +240,3 @@ const UmbrellaAdminPage = () => {
 };
 
 export default UmbrellaAdminPage;
-
-const UmbrellaExcelButton = () => {
-  const { data: allUmbrellaStatistics } = useGetUmbrellasStatistics();
-  const { data: allUmbrellaRes, isLoading } = useGetUmbrellas({
-    page: 0,
-    size: allUmbrellaStatistics?.totalUmbrellaCount,
-  });
-
-  // 한글 매핑
-  const onClickExcelBtn = () => {
-    if (allUmbrellaRes)
-      downloadUmbrellaDataExcel(
-        allUmbrellaRes.map((e) => ({
-          [UMBRELLA_TABLE.id.label]: e.id,
-          [UMBRELLA_TABLE.historyId.label]: e.historyId ?? "-",
-          [UMBRELLA_TABLE.storeMetaId.label]: e.storeMetaId,
-          [UMBRELLA_TABLE.uuid.label]: e.uuid,
-          [UMBRELLA_TABLE.rentable.label]: e.rentable ? "O" : "X",
-          [UMBRELLA_TABLE.etc.label]: e.etc,
-        }))
-      );
-  };
-
-  return (
-    <Button
-      disabled={isLoading || !allUmbrellaStatistics}
-      size="large"
-      className="!mb-16 w-[180px]"
-      variant="outlined"
-      onClick={onClickExcelBtn}
-    >
-      우산 목록 다운로드
-    </Button>
-  );
-};
