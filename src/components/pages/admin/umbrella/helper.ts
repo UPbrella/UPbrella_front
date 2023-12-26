@@ -48,7 +48,7 @@ export const convertUmbrellaData = (res?: TUmbrellaRes) => {
   } satisfies TUmbrellaState;
 };
 
-export const downloadUmbrellaDataExcel = (umbrellaRes: unknown[]) => {
+export const downloadUmbrellaDataExcel = (storeName: string, umbrellaRes: unknown[]) => {
   const worksheet = utils.json_to_sheet(umbrellaRes);
   const workbook = { Sheets: { data: worksheet }, SheetNames: ["data"] };
   const excelBuffer = write(workbook, {
@@ -64,10 +64,7 @@ export const downloadUmbrellaDataExcel = (umbrellaRes: unknown[]) => {
     type: EXCEL_TYPE,
   });
 
-  const year = new Date().getFullYear();
-  const month = new Date().getMonth();
-  const day = new Date().getDay();
-  const date = `${new Date().getHours()}${new Date().getMinutes()}`;
+  const date = new Date().toISOString().substring(0, 10).replace(/-/g, "");
 
-  saveAs(data, "우산_조회" + `${year}${month}${day}_${date}` + EXCEL_EXTENSION);
+  saveAs(data, `${storeName}_우산_조회_${date}` + EXCEL_EXTENSION);
 };
