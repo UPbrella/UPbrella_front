@@ -6,12 +6,16 @@ import {
   TReturnUmbrella,
   TReturnDetail,
   TRentDetail,
+  TRentPassword,
 } from "@/types/form/FormTypes";
 
 const API = {
   RENT_FORM: (umbrellaId: number) => `/rent/form/${umbrellaId}`,
   RENT: () => `/rent`,
-  RETURN_FORM: (storeId: number) => `/return/form/${storeId}`,
+  RETURN_FORM: (storeId: number, salt?: string, signature?: string) =>
+    salt && signature
+      ? `/return/form/${storeId}?salt=${salt}&signature=${signature}`
+      : `/return/form/${storeId}`,
   RETURN_UMBRELLA: () => `users/loggedIn/umbrella`,
 } as const;
 
@@ -27,9 +31,17 @@ export const getReturnFormData = async (storeId: number) => {
   return res.data;
 };
 
+export const getReturnFormLockData = async (storeId: number, salt: string, signature: string) => {
+  const res = await $axios.get<TApiResponse<TReturnFormData>>(
+    API.RETURN_FORM(storeId, salt, signature)
+  );
+  return res.data;
+};
+
 // 우산 대여 신청
 export const postRent = async (params: TRentDetail) => {
-  await $axios.post(API.RENT(), params);
+  const res = await $axios.post<TApiResponse<TRentPassword | null>>(API.RENT(), params);
+  return res.data;
 };
 
 // 사용자가 빌린 우산 조회

@@ -7,9 +7,6 @@ export type RentModalAccountProps = {
   conditionReport?: string;
   storeId: number;
   onClickPostBtn: () => void;
-  setLockNumber: (value: string) => void;
-  lockNumber: string;
-  setIsOpenDepositModal: (value: boolean) => void;
 };
 
 const RentModalAccount = ({
@@ -17,9 +14,6 @@ const RentModalAccount = ({
   storeName,
   umbrellaUuid,
   onClickPostBtn,
-  setLockNumber,
-  lockNumber,
-  setIsOpenDepositModal,
 }: RentModalAccountProps) => {
   const BANK_NAME = "카카오뱅크";
   const ACCOUNT_NUMBER = "7979-86-64503";
@@ -27,12 +21,6 @@ const RentModalAccount = ({
 
   const copyAccountToClipboard = () => {
     onClickPostBtn(); // 보관함이 있는 경우 이 시점에 비밀번호 설정
-    setLockNumber("1234"); // TODO 비밀번호 API 통신
-
-    if (lockNumber) {
-      setIsOpenDepositModal(true);
-    }
-
     handleCloseDepositModal(); // (1) 보증금 입금 안내 모달 close
     navigator.clipboard.writeText(BANK_NAME + " " + ACCOUNT_NUMBER);
   };

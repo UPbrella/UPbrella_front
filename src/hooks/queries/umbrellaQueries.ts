@@ -10,59 +10,53 @@ import {
   postUmbrellas,
 } from "@/api/umbrellaApi";
 import {
-  TUmbrellasGetParams,
   TUmbrellasPatchParams,
   TUmbrellasPostReq,
   TUmbrellasStoreGetParams,
 } from "@/types/admin/umbrellaTypes";
 
 export const UMBRELLAS_QUERY_KEYS = {
-  getUmbrellas: (storeId?: number) => ["umbrellas", storeId],
+  getUmbrellas: (params: TUmbrellasStoreGetParams) => ["umbrellas", params],
   getUmbrellasStatistics: (storeId?: number) => ["umbrellas-statistics", storeId],
 } as const;
 
-export const useGetUmbrellas = (params: TUmbrellasGetParams) => {
+export const useGetUmbrellas = (params: TUmbrellasStoreGetParams) => {
+  const { page, storeId, size } = params;
+
   return useQuery({
     keepPreviousData: true,
-    queryKey: [...UMBRELLAS_QUERY_KEYS.getUmbrellas(), { params }],
-    queryFn: () => getUmbrellas(params),
+    queryKey: UMBRELLAS_QUERY_KEYS.getUmbrellas(params),
+    queryFn: () => {
+      // 전체
+      if (!storeId) {
+        return getUmbrellas({ page, size });
+      }
+
+      // 개별 지점
+      return getUmbrellasStore(params);
+    },
     select: (res) => res.data.umbrellaResponsePage,
+    enabled: !!size,
   });
 };
 
-export const useGetUmbrellasStore = ({ storeId, page, size }: TUmbrellasStoreGetParams) => {
+export const useGetUmbrellasStatistics = (storeId: number) => {
   return useQuery({
     keepPreviousData: true,
-    queryKey: [...UMBRELLAS_QUERY_KEYS.getUmbrellas(storeId), { page, size }],
-    queryFn: () => getUmbrellasStore({ storeId, page, size }),
-    select: (res) => res.data.umbrellaResponsePage,
-    enabled: storeId === 0 ? false : true,
-  });
-};
+    queryKey: UMBRELLAS_QUERY_KEYS.getUmbrellasStatistics(storeId),
+    queryFn: () => {
+      // 전체
+      if (!storeId) {
+        return getUmbrellasStatistics();
+      }
 
-export const useGetUmbrellasStatistics = () => {
-  return useQuery({
-    keepPreviousData: true,
-    queryKey: [...UMBRELLAS_QUERY_KEYS.getUmbrellasStatistics()],
-    queryFn: () => getUmbrellasStatistics(),
+      // 개별 지점
+      return getUmbrellasStatisticsStore(storeId);
+    },
     select: (res) => ({
       ...res.data,
       missingRate: (Math.ceil(res.data.missingRate * 100) / 100).toFixed(2),
     }),
-    retry: 0,
-  });
-};
-
-export const useGetUmbrellasStatisticsStore = (storeId: number) => {
-  return useQuery({
-    keepPreviousData: true,
-    queryKey: [...UMBRELLAS_QUERY_KEYS.getUmbrellasStatistics(storeId)],
-    queryFn: () => getUmbrellasStatisticsStore(storeId),
-    select: (res) => ({
-      ...res.data,
-      missingRate: (Math.ceil(res.data.missingRate * 100) / 100).toFixed(2),
-    }),
-    enabled: storeId === 0 ? false : true,
     retry: 0,
   });
 };

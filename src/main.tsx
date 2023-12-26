@@ -5,6 +5,14 @@ import "@/styles/fonts/font.css";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { Global, css } from "@emotion/react";
+import { RecoilRoot } from "recoil";
+import { Suspense } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "react-hot-toast";
+import { HelmetProvider } from "react-helmet-async";
+import "primereact/resources/themes/lara-light-indigo/theme.css"; //theme
+import "primereact/resources/primereact.min.css"; //core css
+import "primeicons/primeicons.css";
 
 const globalStyles = css`
   * {
@@ -36,11 +44,42 @@ declare global {
   }
 }
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      staleTime: Infinity,
+      refetchOnMount: "always",
+      retryOnMount: false,
+    },
+  },
+});
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <BrowserRouter>
-    <ThemeProvider theme={theme}>
-      <Global styles={globalStyles} />
-      <App />
-    </ThemeProvider>
+    <RecoilRoot>
+      <Suspense>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider theme={theme}>
+            <HelmetProvider>
+              <Toaster
+                position="top-center"
+                toastOptions={{
+                  style: { padding: "16px", color: "#fff", background: "#5DCF17" },
+                  duration: 3000,
+                  error: {
+                    style: {
+                      background: "#FF513E",
+                    },
+                  },
+                }}
+              />
+              <Global styles={globalStyles} />
+              <App />
+            </HelmetProvider>
+          </ThemeProvider>
+        </QueryClientProvider>
+      </Suspense>
+    </RecoilRoot>
   </BrowserRouter>
 );

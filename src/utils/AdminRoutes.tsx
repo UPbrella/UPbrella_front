@@ -2,6 +2,7 @@ import { useLayoutEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useGetUserStatus } from "@/hooks/queries/userQueries";
 import { BASIC_ROUTES_URL } from "@/routes/basicRouter";
+import SeoMetaTag from "@/utils/SeoMetaTag";
 
 // adminStatus checking
 const AdminRoutes = () => {
@@ -19,9 +20,12 @@ const AdminRoutes = () => {
   }
 
   return (
-    <div className="pb-20">
-      <Outlet />
-    </div>
+    <>
+      <SeoMetaTag title={"어드민"} />
+      <div className="pb-20">
+        <Outlet />
+      </div>
+    </>
   );
 };
 

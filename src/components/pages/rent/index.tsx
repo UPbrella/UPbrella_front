@@ -25,6 +25,7 @@ const RentPage = () => {
   const [isRent, setIsRent] = useState(false);
   const { id } = useParams();
   const umbrellaId = id ? parseInt(id, 10) : 0;
+
   const userInfo = useRecoilValue(loginInfo);
 
   // 대여폼
@@ -110,15 +111,14 @@ const RentPage = () => {
           setSubError(errorMsg);
           return;
         },
-        onSuccess: () => {
-          // setLockNumber("1111");
-
-          if (lockNumber) {
+        onSuccess: ({ data }) => {
+          // 보관함이 있는 지점
+          if (data) {
+            setLockNumber(data.password.toString());
             setIsOpenLockPwModal(true);
           } else {
             setIsRent(true);
             toast.success("대여 완료되었습니다.");
-            return;
           }
         },
       }
@@ -186,9 +186,6 @@ const RentPage = () => {
                   conditionReport={conditionReport}
                   storeId={storeId}
                   onClickPostBtn={onClickPostBtn}
-                  setLockNumber={setLockNumber}
-                  lockNumber={lockNumber}
-                  setIsOpenDepositModal={setIsOpenDepositModal}
                 />
               </FormModal>
             )}
