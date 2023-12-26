@@ -27,7 +27,6 @@ export const storeInitializer = (res?: TAdminStoreDetail): TStoreParams => {
       umbrellaLocation,
       contactNumber,
       instagramId,
-      password,
     } = res;
 
     return {
@@ -45,7 +44,6 @@ export const storeInitializer = (res?: TAdminStoreDetail): TStoreParams => {
       longitude,
       content,
       businessHours: [],
-      password,
     } satisfies TStoreParams;
   }
 
@@ -65,7 +63,6 @@ export const storeInitializer = (res?: TAdminStoreDetail): TStoreParams => {
     longitude: null,
     content: "",
     businessHours: [],
-    password: "",
   } satisfies TStoreParams;
 };
 

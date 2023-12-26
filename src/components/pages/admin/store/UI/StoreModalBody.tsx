@@ -241,18 +241,6 @@ const StoreModalContents = ({
       </StoreFormWrapper>
 
       {/* 연락처 */}
-      <StoreFormWrapper label="자물쇠 비밀번호">
-        <div className="flex items-center gap-2">
-          <TextField
-            placeholder="1234"
-            value={storeData.password}
-            name="password"
-            onChange={onChangeStoreData}
-          />
-        </div>
-      </StoreFormWrapper>
-
-      {/* 연락처 */}
       <StoreFormWrapper label="연락처">
         <div className="flex items-center gap-2">
           <TextField
