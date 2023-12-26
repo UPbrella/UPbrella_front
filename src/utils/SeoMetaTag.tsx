@@ -17,6 +17,8 @@ const DEFAULT_META = {
   url: "https://upbrella.co.kr/",
 } satisfies TProps;
 
+const DEV_URL = "http://upbrella-dev.site";
+
 // Meta tag의 변동이 필요한 곳에서 호출
 const SeoMetaTag = ({
   title,
@@ -27,6 +29,7 @@ const SeoMetaTag = ({
 }: Partial<TProps>) => {
   const viewTitle = DEFAULT_META.title + (title ?? "공유 우산 플랫폼");
   const viewKeywords = keywords ? DEFAULT_META.keywords + keywords : DEFAULT_META.keywords;
+  const robotsContent = window.location.origin === DEV_URL ? "noindex" : "all"; // prod 만 검색 색인되도록
 
   return (
     <Helmet>
@@ -36,6 +39,7 @@ const SeoMetaTag = ({
       <meta name="title" content={description} />
       <meta name="description" content={description} />
       <meta name="keywords" content={viewKeywords} />
+      <meta name="robots" content={robotsContent} />
 
       {/*  sns */}
       <meta property="og:type" content="website" />
