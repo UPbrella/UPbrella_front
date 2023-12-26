@@ -50,7 +50,6 @@ export type TAdminStoreDetail = {
   latitude: number | null;
   longitude: number | null;
   content: string;
-  password: string; // 자물쇠 비밀번호
 };
 
 export type TStoreBusinessHoursRes = {
@@ -94,7 +93,7 @@ export type TStoreImageParams = {
 
 export type TStoreTableData = Omit<
   TAdminStoreDetail,
-  "addressDetail" | "latitude" | "longitude" | "password" | "subClassification" | "classification"
+  "addressDetail" | "latitude" | "longitude" | "subClassification" | "classification"
 >;
 
 export type TStoreTableKey = keyof TStoreTableData & "imageUrls";

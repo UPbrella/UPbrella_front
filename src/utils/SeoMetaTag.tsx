@@ -36,7 +36,7 @@ const SeoMetaTag = ({
       <title>{viewTitle}</title>
 
       {/* basic */}
-      <meta name="title" content={description} />
+      <meta name="title" content={viewTitle} />
       <meta name="description" content={description} />
       <meta name="keywords" content={viewKeywords} />
       <meta name="robots" content={robotsContent} />
