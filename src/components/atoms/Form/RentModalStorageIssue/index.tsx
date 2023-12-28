@@ -9,16 +9,13 @@ type RentModalStorageIssueProps = {
   storeId: number;
 };
 
-// TODO: 새로운 비밀번호 요청 API ?
 const RentModalStorageIssue = ({
   setIsOpenStorageIssue,
   setLockNumber,
   setIsOpenLockPwModal,
   storeId,
 }: RentModalStorageIssueProps) => {
-  // TODO: number 저장 시 전역으로 이동
   const [countInput, setCountInput] = useState("");
-
   const { mutate, isLoading } = usePatchRentLockerCount();
 
   // 4자리 숫자 입력
