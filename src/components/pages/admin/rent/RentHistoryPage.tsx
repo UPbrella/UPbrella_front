@@ -134,11 +134,9 @@ const RentHistoryPage = () => {
             const minWidth = RENT_ADMIN_TABLE[field].width ?? "130px";
             const header = RENT_ADMIN_TABLE[field].label;
             const dropDownOptions = RENT_ADMIN_TABLE[field].options;
-            const sortable = !RENT_ADMIN_TABLE[field].notSort;
 
             return (
               <Column
-                sortable={sortable}
                 key={key}
                 style={{ minWidth }}
                 field={field}
@@ -248,13 +246,12 @@ export const RENT_ADMIN_TABLE: Record<
     label: string;
     width?: number;
     options?: { label: string; value: boolean }[];
-    notSort?: boolean;
   }
 > = {
   id: { label: "일련 번호", width: 100 },
   name: { label: "이름" },
   phoneNumber: { label: "전화번호", width: 150 },
-  rentStoreName: { label: "대여 지점", notSort: true },
+  rentStoreName: { label: "대여 지점" },
   rentAt: { label: "대여 날짜", width: 150 },
   umbrellaUuid: { label: "우산 고유 번호" },
   elapsedDay: { label: "대여 경과 일수" },
@@ -268,17 +265,16 @@ export const RENT_ADMIN_TABLE: Record<
   },
   refundCompleted: {
     label: "보증금 환급 여부",
-    notSort: true,
     width: 150,
     options: [
       { label: "환급 완료", value: true },
       { label: "미완료", value: false },
     ],
   },
-  bank: { label: "환급 은행", notSort: true },
-  accountNumber: { label: "환급 계좌 번호", width: 150, notSort: true },
+  bank: { label: "환급 은행" },
+  accountNumber: { label: "환급 계좌 번호", width: 150 },
   returnAt: { label: "반납 날짜", width: 150 },
-  returnStoreName: { label: "반납 지점", notSort: true },
+  returnStoreName: { label: "반납 지점" },
   totalRentalDay: { label: "총 대여 기간" },
-  etc: { label: "비고", notSort: true },
+  etc: { label: "비고" },
 };

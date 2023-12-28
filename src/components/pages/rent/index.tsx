@@ -118,7 +118,7 @@ const RentPage = () => {
             setIsOpenLockPwModal(true);
           } else {
             setIsRent(true);
-            toast.success("대여 완료되었습니다.");
+            toast.success("우산 대여 완료!");
           }
         },
       }
