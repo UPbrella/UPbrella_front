@@ -37,3 +37,8 @@ export type TRentDetail = {
 export type TRentPassword = {
   password: string;
 };
+
+export type TRentLockerCountParams = {
+  storeMetaId: number;
+  count: number;
+};
