@@ -1,18 +1,26 @@
-import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
 import "./index.css";
 import "@/styles/fonts/font.css";
+import "primereact/resources/themes/lara-light-indigo/theme.css"; //theme
+import "primereact/resources/primereact.min.css"; //core css
+import "primeicons/primeicons.css";
+import ReactDOM from "react-dom/client";
+import App from "./App.tsx";
+import { Suspense } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { Global, css } from "@emotion/react";
 import { RecoilRoot } from "recoil";
-import { Suspense } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Toaster } from "react-hot-toast";
+import { ToastPosition, Toaster } from "react-hot-toast";
 import { HelmetProvider } from "react-helmet-async";
-import "primereact/resources/themes/lara-light-indigo/theme.css"; //theme
-import "primereact/resources/primereact.min.css"; //core css
-import "primeicons/primeicons.css";
+import { isMobile } from "react-device-detect";
+
+declare global {
+  interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    kakao: any;
+  }
+}
 
 const globalStyles = css`
   * {
@@ -37,13 +45,6 @@ const theme = createTheme({
   },
 });
 
-declare global {
-  interface Window {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    kakao: any;
-  }
-}
-
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -55,6 +56,27 @@ const queryClient = new QueryClient({
   },
 });
 
+const toastProps = {
+  position: (isMobile ? "bottom-center" : "top-center") as ToastPosition,
+  options: {
+    icon: null,
+    style: {
+      padding: "12px 16px",
+      color: "#fff",
+      background: "#111111",
+      fontSize: "15px",
+      fontWeight: "400",
+      width: "320px",
+    },
+    duration: 3000,
+    error: {
+      style: {
+        background: "#E05938",
+      },
+    },
+  },
+};
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <BrowserRouter>
     <RecoilRoot>
@@ -62,18 +84,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         <QueryClientProvider client={queryClient}>
           <ThemeProvider theme={theme}>
             <HelmetProvider>
-              <Toaster
-                position="top-center"
-                toastOptions={{
-                  style: { padding: "16px", color: "#fff", background: "#5DCF17" },
-                  duration: 3000,
-                  error: {
-                    style: {
-                      background: "#FF513E",
-                    },
-                  },
-                }}
-              />
+              <Toaster position={toastProps.position} toastOptions={toastProps.options} />
               <Global styles={globalStyles} />
               <App />
             </HelmetProvider>
