@@ -96,7 +96,7 @@ const LockerAdminPage = () => {
           }
         />
         <Column
-          header="비밀번호"
+          header="비밀키"
           field="secretKey"
           style={{ minWidth: "120px" }}
           body={(data: TLockersRes) => (
