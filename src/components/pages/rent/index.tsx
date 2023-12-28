@@ -207,6 +207,7 @@ const RentPage = () => {
                   setIsOpenStorageIssue={setIsOpenStorageIssue}
                   setLockNumber={setLockNumber}
                   setIsOpenLockPwModal={setIsOpenLockPwModal}
+                  storeId={storeId}
                 />
               </FormModal>
             )}
