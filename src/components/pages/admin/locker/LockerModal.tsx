@@ -40,7 +40,7 @@ const LockerModal = ({ isOpen, handleClose, storesListRes, selectedLocker }: TPr
     }
 
     if (secretKey.length < MIN_LOCKER_SECRET_KEY_COUNT) {
-      toast.error(`비밀번호는 최소 ${MIN_LOCKER_SECRET_KEY_COUNT}자 이상이여야합니다.`);
+      toast.error(`비밀키는 최소 ${MIN_LOCKER_SECRET_KEY_COUNT}자 이상이여야합니다.`);
       return;
     }
 
@@ -63,7 +63,7 @@ const LockerModal = ({ isOpen, handleClose, storesListRes, selectedLocker }: TPr
     }
 
     if (secretKey.length < MIN_LOCKER_SECRET_KEY_COUNT) {
-      toast.error(`비밀번호는 최소 ${MIN_LOCKER_SECRET_KEY_COUNT}자 이상이여야합니다.`);
+      toast.error(`비밀키는 최소 ${MIN_LOCKER_SECRET_KEY_COUNT}자 이상이여야합니다.`);
       return;
     }
 
@@ -151,9 +151,9 @@ const LockerModal = ({ isOpen, handleClose, storesListRes, selectedLocker }: TPr
           />
         </StoreFormWrapper>
 
-        <StoreFormWrapper label="보관함 비밀번호" isRequired>
+        <StoreFormWrapper label="보관함 비밀키" isRequired>
           <TextField
-            label="비밀번호"
+            label="비밀키"
             placeholder="ex.ASDF1234"
             value={secretKey}
             name="secretKey"

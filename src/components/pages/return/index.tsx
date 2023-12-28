@@ -182,7 +182,7 @@ const ReturnPage = () => {
         },
         onSuccess: () => {
           setIsReturn(true);
-          toast.success("반납 완료되었습니다.");
+          toast.success("우산 반납 완료!");
           return;
         },
       }

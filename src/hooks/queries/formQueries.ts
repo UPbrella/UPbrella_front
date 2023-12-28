@@ -3,8 +3,12 @@ import {
   getReturnFormData,
   getReturnFormLockData,
   getReturnUmbrella,
+  patchLockerCount,
 } from "@/api/formApi";
-import { useQuery } from "@tanstack/react-query";
+import { TCustomError } from "@/types/commonTypes";
+import { getErrorMessage } from "@/utils/error";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 export const useGetRentFormData = (umbrellaId: number) => {
   return useQuery({
@@ -39,5 +43,14 @@ export const useGetReturnUmbrella = () => {
     queryFn: () => getReturnUmbrella(),
     select: (res) => res.data,
     retry: 0,
+  });
+};
+
+export const usePatchRentLockerCount = () => {
+  return useMutation({
+    mutationFn: patchLockerCount,
+    onError: (err: TCustomError) => {
+      toast.error(getErrorMessage(err));
+    },
   });
 };

@@ -36,7 +36,7 @@ const RentPage = () => {
   const [umbrellaUuid, setUmbrellaUuid] = useState(0);
   const [conditionReport, setConditionReport] = useState("");
   const [storeId, setStoreId] = useState(0);
-  const [lockNumber, setLockNumber] = useState(""); // TODO-Post Body
+  const [lockNumber, setLockNumber] = useState("");
   const [isOpenDepositModal, setIsOpenDepositModal] = useState(false);
   const [isOpenLockPwModal, setIsOpenLockPwModal] = useState(false);
   const [isOpenStorageIssue, setIsOpenStorageIssue] = useState(false);
@@ -118,7 +118,7 @@ const RentPage = () => {
             setIsOpenLockPwModal(true);
           } else {
             setIsRent(true);
-            toast.success("대여 완료되었습니다.");
+            toast.success("우산 대여 완료!");
           }
         },
       }
@@ -207,6 +207,7 @@ const RentPage = () => {
                   setIsOpenStorageIssue={setIsOpenStorageIssue}
                   setLockNumber={setLockNumber}
                   setIsOpenLockPwModal={setIsOpenLockPwModal}
+                  storeId={storeId}
                 />
               </FormModal>
             )}
