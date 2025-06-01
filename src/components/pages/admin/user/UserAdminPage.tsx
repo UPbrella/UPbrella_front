@@ -132,20 +132,20 @@ const UserAdminPage = () => {
   return (
     <div className="flex flex-col gap-8">
       <div>
-        <Button
-          size="large"
-          variant="contained"
-          disabled={isLoading && !userRes}
-          onClick={onClickExcelBtn}
-        >
-          데이터 다운로드
-        </Button>
-      </div>
-
-      <div>
-        <Typography className="!mb-8" variant="h5">
+        <Typography className="!mb-16" variant="h5">
           {"유저 조회"}
         </Typography>
+        <div className="mb-16">
+          <Button
+            size="large"
+            variant="contained"
+            disabled={isLoading && !userRes}
+            onClick={onClickExcelBtn}
+          >
+            데이터 다운로드
+          </Button>
+        </div>
+
         <div className="flex items-center justify-between mb-16 md:flex-col">
           <Typography variant="h6">사용자 수 : {userRes?.length}</Typography>
 
