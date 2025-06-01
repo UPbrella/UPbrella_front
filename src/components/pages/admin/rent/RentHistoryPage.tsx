@@ -206,8 +206,9 @@ export const RentHistoryExcelButton = ({ historiesCount }: { historiesCount: num
   // 한글 매핑
   const onClickExcelBtn = () => {
     if (rentHistoriesRes)
-      downloadRentDataExcel(
-        rentHistoriesRes.rentalHistoryResponsePage.map((e) => ({
+      downloadRentDataExcel({
+        fileName: "대여_반납_조회_",
+        rows: rentHistoriesRes.rentalHistoryResponsePage.map((e) => ({
           [RENT_ADMIN_TABLE.id.label]: e.id,
           [RENT_ADMIN_TABLE.name.label]: e.name,
           [RENT_ADMIN_TABLE.phoneNumber.label]: e.phoneNumber,
@@ -223,8 +224,8 @@ export const RentHistoryExcelButton = ({ historiesCount }: { historiesCount: num
           [RENT_ADMIN_TABLE.returnStoreName.label]: e.returnStoreName,
           [RENT_ADMIN_TABLE.totalRentalDay.label]: e.totalRentalDay,
           [RENT_ADMIN_TABLE.etc.label]: e.etc,
-        }))
-      );
+        })),
+      });
   };
 
   return (

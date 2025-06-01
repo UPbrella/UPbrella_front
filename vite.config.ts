@@ -23,7 +23,7 @@ export default ({ mode }) => {
       port: 3000,
       proxy: {
         "/api": {
-          target: env.VITE_UPBRELLA_API_BASE_URL,
+          target: "https://api.upbrella.link",
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, ""),
         },

@@ -16,6 +16,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { TBlackUserRes, TUserRes } from "@/types/admin/userTypes";
 import { InputSwitch } from "primereact/inputswitch";
 import { replaceItemAtIndex } from "@/utils/utils";
+import { downloadRentDataExcel } from "@/components/pages/admin/rent/helper";
 
 // TODO:user, black user 컴포넌트 분리
 const UserAdminPage = () => {
@@ -111,12 +112,40 @@ const UserAdminPage = () => {
     }
   };
 
+  const onClickExcelBtn = () => {
+    if (userRes)
+      downloadRentDataExcel({
+        fileName: "회원_조회_",
+        rows: userRes.map((e) => ({
+          [USER_ADMIN_TABLE.id.label]: e.id,
+          [USER_ADMIN_TABLE.name.label]: e.name,
+          [USER_ADMIN_TABLE.phoneNumber.label]: e.phoneNumber,
+          [USER_ADMIN_TABLE.bank.label]: e.bank ?? "-",
+          [USER_ADMIN_TABLE.accountNumber.label]: e.accountNumber ?? "-",
+          [USER_ADMIN_TABLE.email.label]: e.email,
+          [USER_ADMIN_TABLE.adminStatus.label]: e.adminStatus ? "O" : "X",
+          [USER_ADMIN_TABLE.createdAt.label]: e.createdAt ?? "-",
+        })),
+      });
+  };
+
   return (
     <div className="flex flex-col gap-8">
       <div>
-        <Typography className="!mb-8" variant="h5">
+        <Typography className="!mb-16" variant="h5">
           {"유저 조회"}
         </Typography>
+        <div className="mb-16">
+          <Button
+            size="large"
+            variant="contained"
+            disabled={isLoading && !userRes}
+            onClick={onClickExcelBtn}
+          >
+            데이터 다운로드
+          </Button>
+        </div>
+
         <div className="flex items-center justify-between mb-16 md:flex-col">
           <Typography variant="h6">사용자 수 : {userRes?.length}</Typography>
 
