@@ -27,6 +27,7 @@
     "@types/file-saver": "^2.0.5",
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.4.0",
+    "dayjs": "^1.11.13",
     "file-saver": "^2.0.5",
     "primeicons": "^6.0.1",
     "primereact": "^9.6.2",
