@@ -17,6 +17,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { getErrorMessage } from "@/utils/error";
+import dayjs from "dayjs";
 
 export const USER_QUERY_KEYS = {
   userStatus: () => ["userStatus"],
@@ -152,7 +153,11 @@ export const useGetUsers = () => {
   return useQuery({
     queryKey: [...USER_QUERY_KEYS.users()],
     queryFn: () => getUsers(),
-    select: (res) => res.data.users,
+    select: (res) =>
+      res.data.users.map((data) => ({
+        ...data,
+        createdAt: data.createdAt ? dayjs(data.createdAt).format("YYYY-MM-DD HH:mm:ss") : "-",
+      })),
   });
 };
 

@@ -1,8 +1,14 @@
 import { utils, write } from "xlsx";
 import { saveAs } from "file-saver";
 
-export const downloadRentDataExcel = (rentRes: unknown[]) => {
-  const worksheet = utils.json_to_sheet(rentRes);
+export const downloadRentDataExcel = ({
+  fileName,
+  rows,
+}: {
+  rows: unknown[];
+  fileName: string;
+}) => {
+  const worksheet = utils.json_to_sheet(rows);
   const workbook = { Sheets: { data: worksheet }, SheetNames: ["data"] };
   const excelBuffer = write(workbook, {
     bookType: "xlsx",
@@ -22,5 +28,5 @@ export const downloadRentDataExcel = (rentRes: unknown[]) => {
   const day = new Date().getDay();
   const date = `${new Date().getHours()}${new Date().getMinutes()}`;
 
-  saveAs(data, "대여_반납_조회_" + `${year}${month}${day}_${date}` + EXCEL_EXTENSION);
+  saveAs(data, fileName + `${year}${month}${day}_${date}` + EXCEL_EXTENSION);
 };

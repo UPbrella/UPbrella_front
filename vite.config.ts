@@ -22,7 +22,7 @@ export default ({ mode }) => {
     server: {
       proxy: {
         "/api": {
-          target: "https://api.upbrella.co.kr",
+          target: "https://api.upbrella.link",
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, ""),
         },

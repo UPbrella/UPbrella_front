@@ -97,7 +97,7 @@ const DesktopHeader = ({ isLoading, userRes }: THeaderProps) => {
               key={name}
               to={path}
               className={({ isActive }) => {
-                let defaultClassName = "transition-all mr-32 p-8";
+                let defaultClassName = "transition-all mr-32 p-8 flex items-center";
                 if (isActive) {
                   defaultClassName +=
                     " text-primary-500 border-solid border-b-2 border-primary-500";
