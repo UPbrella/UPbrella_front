@@ -3,11 +3,11 @@ import { upbrellaHistories } from "@/components/pages/story/data";
 
 const StorySection7 = () => {
   return (
-    <section className="px-40 py-80 lg:px-0 lg:py-40 mt-80">
+    <section className="px-40 py-80 mt-80 lg:px-0 lg:py-40">
       <div className="flex flex-col gap-[24px] font-semibold text-center">
         <div className="text-h18 lg:text-h15 text-primary-500">Our Journey</div>
-        <div className="text-h32 lg:text-h24 text-gray-700">업브렐라 발자취</div>
-        <div className="text-h18 lg:text-h15 text-gray-600">
+        <div className="text-gray-700 text-h32 lg:text-h24">업브렐라 발자취</div>
+        <div className="text-gray-600 text-h18 lg:text-h15">
           <div>A Better Choice, UPbrella</div>
           <div>업브렐라는 연세대학교 학부생으로 구성된 팀으로,</div>
           <div>신촌 기반 우산 공유 플랫폼으로서 2021년 4월 12일 출범하였습니다.</div>
@@ -16,7 +16,7 @@ const StorySection7 = () => {
 
       <div className="flex justify-center mt-40">
         <Stepper orientation="vertical">
-          {upbrellaHistories.reverse().map(({ year, works }) => {
+          {upbrellaHistories.map(({ year, works }) => {
             return (
               <Step active={true} key={year}>
                 <StepLabel
