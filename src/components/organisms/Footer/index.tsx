@@ -4,7 +4,7 @@ import { FixWidthWrapper } from "@/components/pages/story/UpbrellaStoryPage";
 
 const Footer = () => {
   return (
-    <div className="hidden py-20 border-t border-gray-100 xl:block">
+    <div className="w-full hidden py-20 border-t border-gray-100 xl:block">
       <FixWidthWrapper>
         <div className="flex justify-between">
           <FooterLabel />
