@@ -24,7 +24,7 @@ const MypageRentSection = ({ rentInfo, isProfile, isRecent }: MypageRentSectionP
   return (
     <div className={`flex w-full text-gray-700 border border-solid ${padding} ${color} rounded-12`}>
       <div className="flex flex-col gap-2 text-15">
-        <Field label="우산 번호" value={String(umbrellaUuid)} />
+        <Field label="우산 번호" value={`${umbrellaUuid}번`} />
         <Field label="대여 일자" value={rentedAt} />
         <Field label="대여 지점" value={rentedStore} />
         <Field
