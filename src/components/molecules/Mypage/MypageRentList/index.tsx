@@ -1,7 +1,11 @@
+import { TRentHistoriesRes } from "@/api/clientUserApi";
 import MypageRentSection from "@/components/atoms/Mypage/MypageRentSection";
-import { MypageRentListProps } from "@/types/mypage/MypageTypes";
 
-const MypageRentList = ({ rentList }: MypageRentListProps) => {
+type TMypageRentCardProps = {
+  rentList: TRentHistoriesRes[];
+};
+
+const MypageRentList = ({ rentList }: TMypageRentCardProps) => {
   return (
     <section className="flex flex-col flex-1">
       {rentList.map((rent, index) => {
