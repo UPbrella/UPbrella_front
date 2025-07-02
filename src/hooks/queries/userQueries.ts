@@ -4,25 +4,27 @@ import {
   getBlackUsers,
   getUsers,
   patchAdminUsers,
-} from "@/api/userApi";
-import { TInputs } from "@/types/signup/SignupTypes";
+} from "@/api/adminUserApi";
+import { getClientRentHistories, TRentHistoriesRes } from "@/api/clientUserApi";
 import { $axios } from "@/lib/axios";
 import { loginState, redirectUrl } from "@/recoil";
 import { BACKGROUND_IMAGE_ROUTES_URL } from "@/routes/backgroundImageRouter";
 import { BASIC_ROUTES_URL } from "@/routes/basicRouter";
 import { TUserRes } from "@/types/admin/userTypes";
 import { TApiResponse, TCustomError } from "@/types/commonTypes";
-import { toast } from "react-hot-toast";
+import { TInputs } from "@/types/signup/SignupTypes";
+import { getErrorMessage } from "@/utils/error";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import dayjs from "dayjs";
+import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { getErrorMessage } from "@/utils/error";
-import dayjs from "dayjs";
 
 export const USER_QUERY_KEYS = {
   userStatus: () => ["userStatus"],
   users: () => ["users"],
   blackUsers: () => ["black-users"],
+  rentHistories: () => ["rent-histories"],
 } as const;
 
 //
@@ -143,6 +145,23 @@ export const useLogout = () => {
     onError: () => {
       toast.error("서버 에러입니다.");
     },
+  });
+};
+
+export const useGetRentHistories = () => {
+  return useQuery({
+    queryKey: USER_QUERY_KEYS.rentHistories(),
+    queryFn: () => getClientRentHistories(),
+    select: (res): TRentHistoriesRes[] =>
+      res.data.histories.map((e) => ({
+        ...e,
+        rentedAt: e.rentedAt
+          ? dayjs(e.rentedAt).add(9, "h").format("YYYY-MM-DD HH:mm:ss")
+          : e.rentedAt,
+        returnAt: e.returnAt
+          ? dayjs(e.returnAt).add(9, "h").format("YYYY-MM-DD HH:mm:ss")
+          : e.returnAt,
+      })),
   });
 };
 

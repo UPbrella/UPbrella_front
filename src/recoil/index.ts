@@ -18,15 +18,6 @@ export const loginInfo = selector({
   },
 });
 
-export const rentHistories = selector({
-  key: "rentHistories",
-  get: async () => {
-    const response = await $axios.get("/users/histories", { withCredentials: true });
-    const histories = response.data.data.histories;
-    return histories;
-  },
-});
-
 export const redirectUrl = atom({
   key: "redirectUrl",
   default: "/",
