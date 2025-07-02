@@ -12,4 +12,15 @@ const Template: StoryFn<typeof MypageLeftCard> = (args: { rentList: TRentHistori
 );
 
 export const Left = Template.bind({});
-Left.args = {};
+Left.args = {
+  rentList: [
+    {
+      umbrellaUuid: 1,
+      rentedAt: "2024-08-01 (토) 18:38",
+      rentedStore: "연세대학교 중앙도서관",
+      returnAt: "2024-08-02 (일) 10:15",
+      isReturned: true,
+      isRefunded: false,
+    },
+  ],
+};
