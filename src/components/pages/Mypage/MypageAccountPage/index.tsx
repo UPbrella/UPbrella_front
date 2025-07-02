@@ -1,9 +1,8 @@
 import MypageModal from "@/components/molecules/Mypage/MypageModal";
 import MypageModalChildren from "@/components/molecules/Mypage/MypageModalChildren";
 import MypageModalTwoBtnChildren from "@/components/molecules/Mypage/MypageModalTwoBtnChildren";
-import Footer from "@/components/organisms/Footer";
 import MypageAccountCard from "@/components/organisms/Mypage/MypageAccountCard";
-import MypageLeftCard from "@/components/organisms/Mypage/MypageLeftCard";
+import MypageLayout from "@/components/pages/Mypage/MypageLayout";
 import { $axios } from "@/lib/axios";
 import { loginInfo, loginState } from "@/recoil";
 import { BASIC_ROUTES_URL } from "@/routes/basicRouter";
@@ -127,13 +126,9 @@ const MypageAccountPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-between flex-1">
-      <div className="flex flex-col w-full xl:w-[1280px] xl:mt-24 xl:px-40 lg:max-w-640 lg:py-20 lg:w-full lg:px-20">
-        <div className="mb-32 font-semibold text-black text-24 leading-32">MYPAGE</div>
-        <div className="xl:flex">
-          <div className="xl:mr-32">
-            <MypageLeftCard />
-          </div>
+    <MypageLayout
+      renderChildren={() => (
+        <>
           <div className="w-full">
             <MypageAccountCard
               bank={bank}
@@ -188,11 +183,9 @@ const MypageAccountPage = () => {
               />
             </MypageModal>
           ) : null}
-        </div>
-      </div>
-
-      <Footer />
-    </div>
+        </>
+      )}
+    />
   );
 };
 export default MypageAccountPage;

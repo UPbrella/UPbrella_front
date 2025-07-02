@@ -1,111 +1,58 @@
+import { TRentHistoriesRes } from "@/api/clientUserApi";
+import dayjs from "dayjs";
+
 export type MypageRentSectionProps = {
-  rentInfo: TRentInfo;
+  rentInfo: TRentHistoriesRes;
   isProfile: boolean;
   isRecent: boolean;
 };
-export type TRentInfo = {
-  umbrellaUuid: number;
-  rentedAt: string;
-  rentedStore: string;
-  returnedDue: string;
-  returnAt: string;
-  returned: boolean;
-  refunded: boolean;
+
+const LIMIT_DATE = 14;
+
+const getReturnDue = (rentedAt: string) => {
+  return dayjs(rentedAt).add(LIMIT_DATE, "day").format("YYYY-MM-DD HH:mm:ss");
 };
 
 const MypageRentSection = ({ rentInfo, isProfile, isRecent }: MypageRentSectionProps) => {
-  const { umbrellaUuid, rentedAt, rentedStore, returnAt, returned, refunded } = rentInfo;
+  const { umbrellaUuid, rentedAt, rentedStore, returnAt, isRefunded, isReturned } = rentInfo;
 
-  const getReturnDue = (rentedAt: string) => {
-    const parts = rentedAt.split(" ");
-
-    // 날짜와 시간 부분을 추출
-    const datePart = parts[0];
-    const timePart = parts[1];
-
-    // 날짜와 시간을 결합하여 ISO 형식의 문자열로 생성
-    const isoDateString = `${datePart}T${timePart}`;
-
-    // ISO 형식의 문자열을 Date 객체로 변환하여 반환
-    const rentDate = new Date(isoDateString);
-
-    // 14일을 더함
-    rentDate.setDate(rentDate.getDate() + 14);
-
-    const returnDue = rentDate.toISOString().replace("T", " ").replace(".000Z", "");
-
-    return returnDue;
-  };
-
-  const rentInfoContent = [
-    ["우산 번호", String(umbrellaUuid)],
-    ["대여 일자", rentedAt],
-    ["대여 지점", rentedStore],
-    ["반납 기한", getReturnDue(rentedAt)],
-    ["반납 일자", returned && returnAt],
-    ["반납 여부", returned],
-    ["환급 여부", refunded],
-  ];
   const color =
-    isRecent && !returned ? `bg-primary-100 border-primary-300` : `bg-white border-gray-200`;
+    isRecent && !isReturned ? `bg-primary-100 border-primary-300` : `bg-white border-gray-200`;
+
   const padding = isProfile ? `p-20` : `xl:p-24 lg:p-20`;
 
   return (
-    <div className={`flex ${padding} ${color} border text-gray-700 border-solid rounded-12 w-full`}>
-      <div className="flex flex-col text-15">
-        {rentInfoContent.map((info, index) => {
-          if (index === 0) {
-            if (typeof info[1] === "string" && info[1].length === 1) {
-              info[1] = "0" + info[1];
-            }
-            info[1] += "번";
-          }
-          if (index === 5) {
-            info[1] = info[1] ? "반납 완료" : "반납 전";
-          }
-          if (index === 6) {
-            //환급여부
-            if (!info[1]) {
-              //환급 전
-              if (returned) {
-                // 반납완료 & 환급전
-                info[1] = "환급 중";
-              } else {
-                // 반납 전 & 환급전
-                info[1] = "환급 전";
-              }
-            } else {
-              //환급 완료
-              if (returned) {
-                // 반납완료 & 환급완료
-                info[1] = "환급 완료";
-              }
-            }
-          }
-          if (index === rentInfoContent.length - 1) {
-            return (
-              <div key={index} className="flex">
-                <p className="mr-16 font-semibold">{info[0]}</p>
-                <p className="font-normal">{info[1]}</p>
-              </div>
-            );
-          }
-          if (index === 3) {
-            return (
-              <div key={index} className="flex mb-8">
-                <p className="mr-16 font-semibold text-primary-700">{info[0]}</p>
-                <p className="font-normal text-primary-700">{info[1]}</p>
-              </div>
-            );
-          }
-          return (
-            <div key={index} className="flex mb-8">
-              <p className="mr-16 font-semibold">{info[0]}</p>
-              <p className="font-normal">{info[1]}</p>
-            </div>
-          );
-        })}
+    <div className={`flex w-full text-gray-700 border border-solid ${padding} ${color} rounded-12`}>
+      <div className="flex flex-col gap-2 text-15">
+        <Field label="우산 번호" value={`${umbrellaUuid}번`} />
+        <Field label="대여 일자" value={rentedAt} />
+        <Field label="대여 지점" value={rentedStore} />
+        <Field
+          label="반납 기한"
+          value={isReturned ? getReturnDue(rentedAt) : returnAt}
+          isPrimary={!isReturned}
+        />
+        <Field label="반납 일자" value={isReturned ? returnAt : ""} />
+        <Field label="반납 여부" value={isReturned ? "반납 완료" : "반납 전"} />
+        <Field label="환급 여부" value={isRefunded ? "환급 완료" : "환급 전"} />
       </div>
+    </div>
+  );
+};
+
+const Field = ({
+  label,
+  value,
+  isPrimary = false,
+}: {
+  label: string;
+  value: string;
+  isPrimary?: boolean;
+}) => {
+  return (
+    <div className={`flex gap-4 ${isPrimary ? "text-primary-700" : ""}`}>
+      <p className="font-semibold">{label}</p>
+      <p className="font-normal">{value}</p>
     </div>
   );
 };

@@ -14,7 +14,7 @@ const ErrorComponent = ({ error, subError }: TErrorComponent) => {
   return (
     <div className="flex flex-col h-screen">
       <HeaderContainer />
-      <div className="flex flex-col items-center justify-center px-20 h-4/5">
+      <div className="flex flex-col justify-center items-center px-20 h-4/5">
         <img src={errorpage_img} className="w-196 h-160" />
         <div className="mt-16 font-semibold text-18">{error}</div>
         <div className="mt-8 text-gray-600">{subError}</div>
