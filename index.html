@@ -18,6 +18,14 @@
     <link rel="icon" type="image/svg+xml" href="/src/assets/main_logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#2563eb" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="업브렐라" />
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+
     <!-- SEO -->
     <title>업브렐라(UPbrella) | 공유 우산 플랫폼</title>
     <meta name="title" content="업브렐라(UPbrella) | 공유 우산 플랫폼" />
@@ -84,5 +92,18 @@
 
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('SW registered: ', registration);
+            })
+            .catch((registrationError) => {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
+    </script>
   </body>
 </html>
