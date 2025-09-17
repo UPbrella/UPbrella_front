@@ -1,10 +1,11 @@
 {
+  "id": "/",
   "name": "업브렐라(UPbrella) - 공유 우산 플랫폼",
   "short_name": "업브렐라",
   "description": "지구를 지키는 작은 우산, 업브렐라를 펼쳐주세요! A Better Choice, UPbrella",
   "start_url": "/",
   "display": "fullscreen",
-  "display_override": ["fullscreen", "standalone", "minimal-ui"]
+  "display_override": ["fullscreen", "standalone", "minimal-ui"],
   "orientation": "portrait",
   "theme_color": "#2563eb",
   "background_color": "#ffffff",
@@ -76,6 +77,22 @@
       "description": "우산을 반납하세요",
       "url": "/return",
       "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "업브렐라 메인 화면"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "업브렐라 데스크톱 화면"
     }
   ],
   "prefer_related_applications": false
