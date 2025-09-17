@@ -1,8 +1,15 @@
-[{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target": {
-    "namespace": "android_app",
-    "package_name": "kr.co.upbrella.twa",
-    "sha256_cert_fingerprints": ["DE:C6:27:8B:83:CE:27:C2:54:04:99:A2:08:4A:D4:EC:FD:DF:E7:81:2E:25:93:4E:CB:5D:53:85:65:93:BF:5E"]
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "kr.co.upbrella.twa",
+      "sha256_cert_fingerprints": [
+        "DE:C6:27:8B:83:CE:27:C2:54:04:99:A2:08:4A:D4:EC:FD:DF:E7:81:2E:25:93:4E:CB:5D:53:85:65:93:BF:5E",
+        "CD:FF:FF:6F:73:8A:EB:99:36:38:92:CB:4C:55:23:CB:6C:50:BE:C5:EE:E9:44:CB:2D:45:F7:07:9B:55:C1:B8"
+      ]
+    }
   }
-}]
+]
