@@ -4,7 +4,7 @@
   "short_name": "업브렐라",
   "description": "지구를 지키는 작은 우산, 업브렐라를 펼쳐주세요! A Better Choice, UPbrella",
   "start_url": "/",
-  "display": "fullscreen",
+  "display": "standalone",
   "display_override": ["fullscreen", "standalone", "minimal-ui"],
   "orientation": "portrait",
   "theme_color": "#2563eb",
