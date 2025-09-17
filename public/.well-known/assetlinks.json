@@ -2,9 +2,7 @@
   "relation": ["delegate_permission/common.handle_all_urls"],
   "target": {
     "namespace": "android_app",
-    "package_name": "co.kr.upbrella.twa",
-    "sha256_cert_fingerprints": [
-      "DE:C6:27:8B:83:CE:27:C2:54:04:99:A2:08:4A:D4:EC:FD:DF:E7:81:2E:25:93:4E:CB:5D:53:85:65:93:BF:5E"
-    ]
+    "package_name": "kr.co.upbrella.twa",
+    "sha256_cert_fingerprints": ["DE:C6:27:8B:83:CE:27:C2:54:04:99:A2:08:4A:D4:EC:FD:DF:E7:81:2E:25:93:4E:CB:5D:53:85:65:93:BF:5E"]
   }
 }]
