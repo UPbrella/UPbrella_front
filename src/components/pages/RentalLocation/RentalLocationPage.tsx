@@ -1,23 +1,23 @@
 import webMarker from "@/assets/webMarker.svg";
 import webMarker_inactive from "@/assets/webMarker_inactive.svg";
-import Map from "../admin/store/UI/Map";
-import { useEffect, useRef, useState } from "react";
+import BottomSheet from "@/components/atoms/BottomSheet";
 import MapBtn from "@/components/molecules/MapBtn";
-import "@/styles/markerLabel.css";
+import MobileCard from "@/components/molecules/MobileCard";
+import Card from "@/components/organisms/Card";
+import { DEFAULT_COORDINATE } from "@/components/pages/admin/store/UI/StoreAddressInput";
+import ClassificationsButtons from "@/components/pages/RentalLocation/ClassificationsButtons";
 import {
   useGetClassifications,
   useGetClassificationsStore,
   useGetStoreDetail,
 } from "@/hooks/queries/storeQueries";
-import BottomSheet from "@/components/atoms/BottomSheet";
-import MobileCard from "@/components/molecules/MobileCard";
-import Card from "@/components/organisms/Card";
-import { getUserPosition, getDistanceFromLatLonInKm } from "@/utils/locationUtils";
+import "@/styles/markerLabel.css";
 import { TClassification } from "@/types/admin/StoreTypes";
-import ClassificationsButtons from "@/components/pages/RentalLocation/ClassificationsButtons";
-import { CircularProgress } from "@mui/material";
-import { DEFAULT_COORDINATE } from "@/components/pages/admin/store/UI/StoreAddressInput";
+import { getDistanceFromLatLonInKm, getUserPosition } from "@/utils/locationUtils";
 import SeoMetaTag from "@/utils/SeoMetaTag";
+import { CircularProgress } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
+import Map from "../admin/store/UI/Map";
 
 // 대여소 위치 페이지
 const RentalLocationPage = () => {
@@ -88,34 +88,46 @@ const RentalLocationPage = () => {
     markers.map((e) => e.setMap(null));
 
     // 새로 생성 후 setState (여기에서 선택한 지점과 비교 후 아이콘 변경)
-    const _markers = storeListRes.map(
-      ({ id, latitude, longitude, name, rentableUmbrellasCount, openStatus }) => {
-        const isSelected = id === selectedStoreId;
-        const iconContent = isSelected
-          ? `<div class="marker-wrapper-focus"><img class="marker-focus" alt="webMarkerFocus" src="${
-              openStatus ? webMarker : webMarker_inactive
-            }" /><div class="umbrella-count-focus">${rentableUmbrellasCount}</div><div class="custom-label-focus">${name}</div></div>`
-          : `<div class="marker-wrapper"><img class="marker" alt="webMarker" src="${
-              openStatus ? webMarker : webMarker_inactive
-            }" /><div class="umbrella-count">${rentableUmbrellasCount}</div><div class="custom-label">${name}</div></div>`;
+    const _markers = storeListRes.map(({ id, latitude, longitude, name, openStatus }) => {
+      const isSelected = id === selectedStoreId;
+      // const iconContent = isSelected
+      // ? `<div class="marker-wrapper-focus"><img class="marker-focus" alt="webMarkerFocus" src="${
+      //     openStatus ? webMarker : webMarker_inactive
+      //   }" />
+      //   // <div class="umbrella-count-focus">${rentableUmbrellasCount}</div>
+      //   <div class="custom-label-focus">${name}</div></div>`
+      // : `<div class="marker-wrapper"><img class="marker" alt="webMarker" src="${
+      //     openStatus ? webMarker : webMarker_inactive
+      //   }" />
+      //   // <div class="umbrella-count">${rentableUmbrellasCount}</div>
+      //   <div class="custom-label">${name}</div></div>`;
 
-        const marker = new naver.maps.Marker({
-          position: new naver.maps.LatLng(latitude, longitude),
-          map: map,
-          icon: {
-            content: iconContent,
-            size: new naver.maps.Size(32, 40),
-            anchor: new naver.maps.Point(12, 35),
-          },
-        });
+      const iconContent = isSelected
+        ? `<div class="marker-wrapper-focus"><img class="marker-focus" alt="webMarkerFocus" src="${
+            openStatus ? webMarker : webMarker_inactive
+          }" />
+            <div class="custom-label-focus">${name}</div></div>`
+        : `<div class="marker-wrapper"><img class="marker" alt="webMarker" src="${
+            openStatus ? webMarker : webMarker_inactive
+          }" />
+            <div class="custom-label">${name}</div></div>`;
 
-        naver.maps.Event.addListener(marker, "click", () => {
-          setSelectedStoreId(id);
-          setIsBottomOpen(true);
-        });
-        return marker;
-      }
-    );
+      const marker = new naver.maps.Marker({
+        position: new naver.maps.LatLng(latitude, longitude),
+        map: map,
+        icon: {
+          content: iconContent,
+          size: isSelected ? new naver.maps.Size(44, 60) : new naver.maps.Size(32, 40),
+          anchor: isSelected ? new naver.maps.Point(22, 60) : new naver.maps.Point(16, 40),
+        },
+      });
+
+      naver.maps.Event.addListener(marker, "click", () => {
+        setSelectedStoreId(id);
+        setIsBottomOpen(true);
+      });
+      return marker;
+    });
 
     setMarkers(_markers);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -206,7 +218,7 @@ const RentalLocationPage = () => {
             {storeDetail && <Card storeDetail={storeDetail} />}
           </div>
 
-          <div className="relative flex justify-center flex-1 rounded-20 max-w-640 xl:max-w-full">
+          <div className="flex relative flex-1 justify-center rounded-20 max-w-640 xl:max-w-full">
             {(isFetching || isLoading) && (
               <div className="absolute w-full h-full z-[101] bg-gray-50 bg-opacity-40 flex justify-center items-center">
                 <CircularProgress
@@ -219,7 +231,7 @@ const RentalLocationPage = () => {
             )}
 
             <Map ref={mapElement} width="100%" height="100%" borderRadius="20px" />
-            <div className="absolute top-0 left-0 w-full p-24 z-9 pr-60">
+            <div className="absolute top-0 left-0 p-24 pr-60 w-full z-9">
               {classificationsRes && (
                 <ClassificationsButtons
                   classificationsRes={classificationsRes}
@@ -228,7 +240,7 @@ const RentalLocationPage = () => {
                 />
               )}
             </div>
-            <div className="absolute top-0 z-10 right-7 pt-86">
+            <div className="absolute top-0 right-7 z-10 pt-86">
               <MapBtn map={map} setIsLoading={setIsLoading} />
             </div>
             {isBottomOpen && mapWidth && storeDetail && (
