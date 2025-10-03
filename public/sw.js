@@ -1,4 +1,4 @@
-const CACHE_NAME = 'upbrella-v3';
+const CACHE_NAME = 'upbrella-v4';
 const urlsToCache = [
   '/',
   '/static/js/bundle.js',
