@@ -51,7 +51,7 @@ export const createClusterManager = (
 };
 
 export const getClustersInBounds = (cluster: Supercluster, map: naver.maps.Map) => {
-  const bounds = map.getBounds();
+  const bounds = map.getBounds() as naver.maps.LatLngBounds;
   const zoom = Math.floor(map.getZoom());
 
   const bbox: [number, number, number, number] = [
