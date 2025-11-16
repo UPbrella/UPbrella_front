@@ -1,5 +1,3 @@
-import webMarker from "@/assets/webMarker.svg";
-import webMarker_inactive from "@/assets/webMarker_inactive.svg";
 import BottomSheet from "@/components/atoms/BottomSheet";
 import MapBtn from "@/components/molecules/MapBtn";
 import MobileCard from "@/components/molecules/MobileCard";
@@ -12,12 +10,16 @@ import {
   useGetStoreDetail,
 } from "@/hooks/queries/storeQueries";
 import "@/styles/markerLabel.css";
+import "@/styles/clusterMarker.css";
 import { TClassification } from "@/types/admin/StoreTypes";
 import { getDistanceFromLatLonInKm, getUserPosition } from "@/utils/locationUtils";
 import SeoMetaTag from "@/utils/SeoMetaTag";
 import { CircularProgress } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Map from "../admin/store/UI/Map";
+import Supercluster from "supercluster";
+import { createClusterManager, getClustersInBounds } from "@/utils/map/markerCluster";
+import { createClusterIcon, createSingleMarkerIcon } from "@/utils/map/clusterMarkerUtils";
 
 // 대여소 위치 페이지
 const RentalLocationPage = () => {
@@ -32,11 +34,12 @@ const RentalLocationPage = () => {
   // 선택 지점
   const [selectedStoreId, setSelectedStoreId] = useState<number>();
   const [map, setMap] = useState<naver.maps.Map>();
-  const [markers, setMarkers] = useState<naver.maps.Marker[]>([]);
+  const markersRef = useRef<naver.maps.Marker[]>([]);
   const [userPosition, setUserPosition] = useState<{ lat: number; lng: number } | null>(null);
   const [isBottomOpen, setIsBottomOpen] = useState(false);
   const [showInitialCard, setShowInitialCard] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const clusterRef = useRef<Supercluster | null>(null);
 
   // server
   const { data: classificationsRes } = useGetClassifications();
@@ -80,67 +83,110 @@ const RentalLocationPage = () => {
     }
   }, [map, naver.maps.LatLng, selectedClassification]);
 
-  // 마커 생성
+  // 클러스터 매니저 초기화
   useEffect(() => {
-    if (!storeListRes) return;
+    if (!storeListRes || storeListRes.length === 0) return;
 
-    // 기존 마커 삭제
-    markers.map((e) => e.setMap(null));
+    clusterRef.current = createClusterManager(storeListRes);
 
-    // 새로 생성 후 setState (여기에서 선택한 지점과 비교 후 아이콘 변경)
-    const _markers = storeListRes.map(({ id, latitude, longitude, name, openStatus }) => {
-      const isSelected = id === selectedStoreId;
-      // const iconContent = isSelected
-      // ? `<div class="marker-wrapper-focus"><img class="marker-focus" alt="webMarkerFocus" src="${
-      //     openStatus ? webMarker : webMarker_inactive
-      //   }" />
-      //   // <div class="umbrella-count-focus">${rentableUmbrellasCount}</div>
-      //   <div class="custom-label-focus">${name}</div></div>`
-      // : `<div class="marker-wrapper"><img class="marker" alt="webMarker" src="${
-      //     openStatus ? webMarker : webMarker_inactive
-      //   }" />
-      //   // <div class="umbrella-count">${rentableUmbrellasCount}</div>
-      //   <div class="custom-label">${name}</div></div>`;
+    // 클러스터 재생성 시 마커도 업데이트
+    if (map) {
+      updateMarkers();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [storeListRes, map]);
 
-      const iconContent = isSelected
-        ? `<div class="marker-wrapper-focus"><img class="marker-focus" alt="webMarkerFocus" src="${
-            openStatus ? webMarker : webMarker_inactive
-          }" />
-            <div class="custom-label-focus">${name}</div></div>`
-        : `<div class="marker-wrapper"><img class="marker" alt="webMarker" src="${
-            openStatus ? webMarker : webMarker_inactive
-          }" />
-            <div class="custom-label">${name}</div></div>`;
+  // 마커 업데이트 함수
+  const updateMarkers = useCallback(() => {
+    if (!map || !clusterRef.current) return;
+
+    // 기존 마커 제거
+    markersRef.current.forEach((marker) => marker.setMap(null));
+    markersRef.current = [];
+
+    const clusters = getClustersInBounds(clusterRef.current, map);
+    const newMarkers: naver.maps.Marker[] = [];
+
+    clusters.forEach((cluster) => {
+      const [lng, lat] = cluster.geometry.coordinates;
+      const isCluster = cluster.properties.cluster;
+
+      let iconContent: string;
+      let size: naver.maps.Size;
+      let anchor: naver.maps.Point;
+
+      if (isCluster) {
+        // 클러스터 마커
+        const pointCount = cluster.properties.point_count || 0;
+        const hasActiveStore = cluster.properties.hasActiveStore || false;
+        iconContent = createClusterIcon(pointCount, hasActiveStore);
+        size = new naver.maps.Size(32, 40);
+        anchor = new naver.maps.Point(16, 40);
+      } else {
+        // 개별 마커
+        const { storeId, name, openStatus } = cluster.properties;
+        const isSelected = storeId === selectedStoreId;
+        iconContent = createSingleMarkerIcon(name, openStatus, isSelected);
+        size = isSelected ? new naver.maps.Size(44, 60) : new naver.maps.Size(32, 40);
+        anchor = isSelected ? new naver.maps.Point(22, 60) : new naver.maps.Point(16, 40);
+      }
 
       const marker = new naver.maps.Marker({
-        position: new naver.maps.LatLng(latitude, longitude),
+        position: new naver.maps.LatLng(lat, lng),
         map: map,
         icon: {
           content: iconContent,
-          size: isSelected ? new naver.maps.Size(44, 60) : new naver.maps.Size(32, 40),
-          anchor: isSelected ? new naver.maps.Point(22, 60) : new naver.maps.Point(16, 40),
+          size: size,
+          anchor: anchor,
         },
       });
 
       naver.maps.Event.addListener(marker, "click", () => {
-        setSelectedStoreId(id);
-        setIsBottomOpen(true);
+        if (isCluster && clusterRef.current) {
+          // 클러스터 클릭 시 확대
+          const expansionZoom = clusterRef.current.getClusterExpansionZoom(cluster.id as number);
+          map.setCenter(new naver.maps.LatLng(lat, lng));
+          map.setZoom(expansionZoom);
+        } else {
+          // 개별 마커 클릭 시 상세 정보 표시
+          setSelectedStoreId(cluster.properties.storeId);
+          setIsBottomOpen(true);
+        }
       });
-      return marker;
+
+      newMarkers.push(marker);
     });
 
-    setMarkers(_markers);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    markersRef.current = newMarkers;
   }, [
     map,
-    naver.maps.Event,
+    selectedStoreId,
     naver.maps.LatLng,
     naver.maps.Marker,
     naver.maps.Point,
     naver.maps.Size,
-    selectedStoreId,
-    storeListRes,
+    naver.maps.Event,
   ]);
+
+  // 지도 이동/줌 이벤트 리스너
+  useEffect(() => {
+    if (!map) return;
+
+    const updateListener = naver.maps.Event.addListener(map, "idle", updateMarkers);
+
+    // 초기 마커 표시
+    updateMarkers();
+
+    return () => {
+      naver.maps.Event.removeListener(updateListener);
+    };
+  }, [map, updateMarkers, naver.maps.Event]);
+
+  // selectedStoreId 변경 시 마커 업데이트
+  useEffect(() => {
+    updateMarkers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedStoreId]);
 
   useEffect(() => {
     if (storeListRes && storeListRes.length > 0 && showInitialCard) {
