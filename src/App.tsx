@@ -11,11 +11,13 @@ import BackgroundLayout from "./components/templates/common/BackgroundLayout";
 import { BACKGROUND_IMAGE_ROUTES } from "./routes/backgroundImageRouter";
 import { BASIC_ROUTES } from "@/routes/basicRouter";
 import SeoMetaTag from "@/utils/SeoMetaTag";
+import PWAUpdatePrompt from "@/components/organisms/PWAUpdatePrompt";
 
 function App() {
   return (
     <>
       <SeoMetaTag />
+      <PWAUpdatePrompt />
       <div className="bg-cover">
         <Routes>
           {/* width full */}
