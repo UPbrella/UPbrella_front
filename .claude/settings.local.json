@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(brew install:*)",
-      "Bash(magick:*)"
+      "Bash(magick:*)",
+      "Bash(npm install:*)"
     ],
     "deny": [],
     "ask": []
