@@ -21,10 +21,12 @@ export default ({ mode }) => {
       }),
       VitePWA({
         registerType: "autoUpdate",
+        injectRegister: "auto",
         includeAssets: ["icons/*.png"],
         manifest: false, // Use existing manifest.json
         workbox: {
           globPatterns: ["**/*.{js,css,html,ico,png,svg,woff,woff2}"],
+          maximumFileSizeToCacheInBytes: 10 * 1024 * 1024, // 10MB
           runtimeCaching: [
             {
               urlPattern: /^https:\/\/api\.upbrella\.co\.kr\/.*/i,
