@@ -1,5 +1,6 @@
 import LoginPage from "@/components/pages/Login/LoginPage";
 import LoginRedirect from "@/components/pages/Login/LoginRedirectPage";
+import AppleLoginRedirect from "@/components/pages/Login/AppleLoginRedirectPage";
 import SignUpPage from "@/components/pages/SignUp";
 import { TRoute } from "@/types/commonTypes";
 
@@ -8,6 +9,11 @@ export const BACKGROUND_IMAGE_ROUTES_URL = {
     name: "로그인 페이지",
     path: () => "/login",
     component: LoginPage,
+  },
+  appleAuth: {
+    name: "애플 로그인 리다이렉트 페이지",
+    path: () => "/auth/apple",
+    component: AppleLoginRedirect,
   },
   auth: {
     name: "로그인 리다이렉트 페이지",
