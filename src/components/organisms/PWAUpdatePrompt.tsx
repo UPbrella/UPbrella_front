@@ -1,8 +1,19 @@
 import { useRegisterSW } from "virtual:pwa-register/react";
 
+interface NavigatorStandalone extends Navigator {
+  standalone?: boolean;
+}
+
+const isPWA = () => {
+  return (
+    window.matchMedia("(display-mode: standalone)").matches ||
+    (window.navigator as NavigatorStandalone).standalone === true ||
+    document.referrer.includes("android-app://")
+  );
+};
+
 const PWAUpdatePrompt = () => {
   const {
-    offlineReady: [offlineReady, setOfflineReady],
     needRefresh: [needRefresh, setNeedRefresh],
     updateServiceWorker,
   } = useRegisterSW({
@@ -15,11 +26,11 @@ const PWAUpdatePrompt = () => {
   });
 
   const close = () => {
-    setOfflineReady(false);
     setNeedRefresh(false);
   };
 
-  if (!offlineReady && !needRefresh) {
+  // PWA 환경이 아니거나 업데이트가 필요없으면 표시하지 않음
+  if (!isPWA() || !needRefresh) {
     return null;
   }
 
@@ -28,16 +39,8 @@ const PWAUpdatePrompt = () => {
       <div className="rounded-lg bg-white p-4 shadow-lg">
         <div className="flex items-start justify-between">
           <div className="flex-1">
-            {offlineReady ? (
-              <p className="text-sm text-gray-700">
-                앱이 오프라인에서 사용할 수 있도록 준비되었습니다!
-              </p>
-            ) : (
-              <div>
-                <p className="mb-2 text-sm font-medium text-gray-900">새 버전이 있습니다</p>
-                <p className="text-sm text-gray-600">업데이트하여 최신 기능을 사용하세요.</p>
-              </div>
-            )}
+            <p className="mb-2 text-sm font-medium text-gray-900">새 버전이 있습니다</p>
+            <p className="text-sm text-gray-600">업데이트하여 최신 기능을 사용하세요.</p>
           </div>
 
           <button
@@ -56,31 +59,20 @@ const PWAUpdatePrompt = () => {
           </button>
         </div>
 
-        {needRefresh && (
-          <div className="mt-3 flex gap-2">
-            <button
-              onClick={() => updateServiceWorker(true)}
-              className="flex-1 rounded-md bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600"
-            >
-              업데이트
-            </button>
-            <button
-              onClick={close}
-              className="flex-1 rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-            >
-              나중에
-            </button>
-          </div>
-        )}
-
-        {offlineReady && (
+        <div className="mt-3 flex gap-2">
+          <button
+            onClick={() => updateServiceWorker(true)}
+            className="flex-1 rounded-md bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600"
+          >
+            업데이트
+          </button>
           <button
             onClick={close}
-            className="mt-3 w-full rounded-md bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600"
+            className="flex-1 rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
           >
-            확인
+            나중에
           </button>
-        )}
+        </div>
       </div>
     </div>
   );
