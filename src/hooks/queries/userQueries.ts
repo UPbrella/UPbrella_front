@@ -89,6 +89,27 @@ export const useKakaoLogin = () => {
   });
 };
 
+// 애플 로그인
+export const useAppleLogin = () => {
+  const code = new URL(window.location.href).searchParams.get("code");
+  const { mutate: upbrellaLogin } = useUpbrellaLogin();
+  const navigate = useNavigate();
+  const setIsLogin = useSetRecoilState(loginState);
+
+  return useMutation({
+    mutationFn: async () => await $axios.post("/users/oauth/apple/login", { code }),
+    onSuccess: () => {
+      // 성공 시, 업브렐라 로그인
+      upbrellaLogin();
+    },
+    onError: () => {
+      toast.error("애플 계정을 확인해주세요.");
+      navigate(BACKGROUND_IMAGE_ROUTES_URL.login.path());
+      setIsLogin(false);
+    },
+  });
+};
+
 // 회원가입
 export const useUpbrellaSignUp = () => {
   const path = useRecoilValue(redirectUrl);
