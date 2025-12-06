@@ -36,6 +36,7 @@ const useUpbrellaLogin = () => {
   const { refetch: getUserStatus } = useGetUserStatus();
   const navigate = useNavigate();
   const setIsLogin = useSetRecoilState(loginState);
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async () => await $axios.post("/users/login"),
@@ -43,6 +44,8 @@ const useUpbrellaLogin = () => {
       // 유저 정보 요청
       getUserStatus().then((e) => {
         if (e.data?.status === 200) {
+          // 로그인 성공 시 모든 쿼리 무효화하여 데이터 다시 로드
+          queryClient.invalidateQueries();
           navigate(path);
           setIsLogin(true);
           return;

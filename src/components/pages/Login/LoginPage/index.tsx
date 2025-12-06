@@ -6,10 +6,16 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { $axios } from "@/lib/axios";
 import { toast } from "react-hot-toast";
+import { useQueryClient } from "@tanstack/react-query";
+
+interface NavigatorStandalone extends Navigator {
+  standalone?: boolean;
+}
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useRecoilState<boolean>(loginState);
+  const queryClient = useQueryClient();
   const Rest_api_key = import.meta.env.VITE_KAKAO_LOGIN_REST_API_KEY; //REST API KEY
   const redirect_uri = `${window.location.origin}/auth`; //Redirect URI
 
@@ -50,6 +56,8 @@ const LoginPage = () => {
         .post("/users/login")
         .then(() => {
           setIsLogin(true);
+          // 로그인 성공 시 모든 쿼리 무효화하여 데이터 다시 로드
+          queryClient.invalidateQueries();
           toast.success("Apple 로그인 성공!");
           navigate(path);
         })
@@ -64,18 +72,38 @@ const LoginPage = () => {
       // 쿼리 파라미터 제거
       window.history.replaceState({}, "", window.location.pathname);
     }
-  }, [navigate, path, setIsLogin]);
+  }, [navigate, path, setIsLogin, queryClient]);
 
   // oauth 요청 URL
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`;
   const appleURL = `https://appleid.apple.com/auth/authorize?client_id=${apple_client_id}&redirect_uri=${apple_redirect_uri}&response_type=code&scope=name email&response_mode=form_post`;
 
   const handleKakaoLogin = () => {
-    window.location.href = kakaoURL;
+    // iOS PWA에서 Done 탭 모달 방지를 위해 window.open 사용
+    const isPWA =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      (window.navigator as NavigatorStandalone).standalone === true;
+
+    if (isPWA) {
+      // PWA 환경에서는 같은 창에서 열기 (_self)
+      window.open(kakaoURL, "_self");
+    } else {
+      window.location.href = kakaoURL;
+    }
   };
 
   const handleAppleLogin = () => {
-    window.location.href = appleURL;
+    // iOS PWA에서 Done 탭 모달 방지를 위해 window.open 사용
+    const isPWA =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      (window.navigator as NavigatorStandalone).standalone === true;
+
+    if (isPWA) {
+      // PWA 환경에서는 같은 창에서 열기 (_self)
+      window.open(appleURL, "_self");
+    } else {
+      window.location.href = appleURL;
+    }
   };
 
   return (
