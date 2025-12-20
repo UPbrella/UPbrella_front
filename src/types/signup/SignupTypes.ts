@@ -1,8 +1,9 @@
 import { ChangeEvent, MouseEvent } from "react";
 
 export type TInputs = {
-  name: string;
+  name?: string;
   phoneNumber: string;
+  email?: string;
   bank: string;
   accountNumber: string;
 };
