@@ -37,19 +37,17 @@ const SignUpRequiredForm = ({
                 labelSubtitle2="사용됩니다."
               />
             </div>
-            {!name && (
-              <div className="mb-16">
-                <SignUpInputBox
-                  labelTitle="이름 (선택)"
-                  labelInput="이름입력"
-                  name="name"
-                  value={name || ""}
-                  onChangeValue={onChangeValue}
-                  isValid={isNameValid}
-                  validLabel={"국문, 영문만 입력 가능합니다."}
-                />
-              </div>
-            )}
+            <div className="mb-16">
+              <SignUpInputBox
+                labelTitle="이름"
+                labelInput="이름입력"
+                name="name"
+                value={name}
+                onChangeValue={onChangeValue}
+                isValid={isNameValid}
+                validLabel={"국문, 영문만 입력 가능합니다."}
+              />
+            </div>
             <div>
               <SignUpInputBox
                 labelTitle="전화번호"

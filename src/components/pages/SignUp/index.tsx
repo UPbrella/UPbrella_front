@@ -59,8 +59,9 @@ const SignUpPage = () => {
         setIsPhoneNumberValid(true);
       }
     };
-    // 전화번호만 필수, 이름은 선택사항 (Apple 로그인 시 이미 제공될 수 있음)
-    const isPass = !!phoneNumber && isPhoneNumberValid && isFirstAllow && isSecondAllow;
+    // 이름과 전화번호 모두 필수
+    const isPass =
+      !!name && !!phoneNumber && isNameValid && isPhoneNumberValid && isFirstAllow && isSecondAllow;
     setIsDone(isPass);
     handleNameValid();
     handlePhoneNumberValid();

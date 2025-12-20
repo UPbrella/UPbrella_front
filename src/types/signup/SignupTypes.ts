@@ -1,7 +1,7 @@
 import { ChangeEvent, MouseEvent } from "react";
 
 export type TInputs = {
-  name?: string;
+  name: string;
   phoneNumber: string;
   email?: string;
   bank: string;
@@ -31,7 +31,7 @@ export type SignUpNotRequiredFormProps = {
 };
 
 export type SignUpRequiredFormProps = {
-  name?: string;
+  name: string;
   onChangeValue: (e: ChangeEvent<HTMLInputElement>) => void;
   phoneNumber: string;
   isNameValid: boolean;
