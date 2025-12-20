@@ -2,7 +2,7 @@ import SignUpNotRequiredForm from "@/components/templates/SignUp/SignUpNotRequir
 import SignUpRequiredForm from "@/components/templates/SignUp/SignUpRequired";
 import { formatPhoneNumber, validateNumber } from "@/utils/utils";
 import { MouseEvent, ChangeEvent, useEffect, useState, useRef } from "react";
-import { useUpbrellaSignUp } from "@/hooks/queries/userQueries";
+import { useUpbrellaSignUp, useGetSocialSession } from "@/hooks/queries/userQueries";
 import { TInputs } from "@/types/signup/SignupTypes";
 import SeoMetaTag from "@/utils/SeoMetaTag";
 
@@ -14,6 +14,8 @@ const SignUpPage = () => {
     bank: "",
     accountNumber: "",
   });
+
+  const { data: socialSession } = useGetSocialSession();
   const [isNameValid, setIsNameValid] = useState(true);
   const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(true);
   const [isAllAllow, setIsAllAllow] = useState(false);
@@ -29,6 +31,18 @@ const SignUpPage = () => {
   const { name, phoneNumber, bank, accountNumber } = inputs;
 
   const { mutate: signUpMutate } = useUpbrellaSignUp();
+
+  // 소셜 로그인 세션에서 이름과 이메일 자동 채우기
+  useEffect(() => {
+    if (socialSession?.data?.data) {
+      const { name: sessionName, email: sessionEmail } = socialSession.data.data;
+      setInputs((prev) => ({
+        ...prev,
+        name: sessionName || prev.name,
+        email: sessionEmail || prev.email,
+      }));
+    }
+  }, [socialSession]);
 
   useEffect(() => {
     const handleNameValid = () => {
