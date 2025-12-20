@@ -7,7 +7,6 @@ import { $axios } from "@/lib/axios";
 import { loginInfo, loginState } from "@/recoil";
 import { BASIC_ROUTES_URL } from "@/routes/basicRouter";
 import { TInfos } from "@/types/mypage/MypageTypes";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -57,22 +56,19 @@ const MypageInfoPage = () => {
       setIsDeleted(false);
       setIsDeleteAllowed(false);
     } catch {
-      await axios
-        .all([
-          $axios.post("/users/logout", { withCredentials: true }),
-          $axios.delete("/users/loggedIn", { withCredentials: true }),
-        ])
-        .then(() => {
-          setIsDeleted(false);
-          setIsLogin(false);
-          navigate(BASIC_ROUTES_URL.root.path());
-          location.reload();
-          toast.success("회원탈퇴 완료했습니다!");
-        })
-        .catch(() => {
-          setIsDeleted(false);
-          toast.error("오류가 발생했습니다. 다시 시도해주세요.");
-        });
+      try {
+        // 탈퇴 먼저, 로그아웃은 나중에
+        await $axios.delete("/users/loggedIn", { withCredentials: true });
+        await $axios.post("/users/logout", { withCredentials: true });
+        setIsDeleted(false);
+        setIsLogin(false);
+        navigate(BASIC_ROUTES_URL.root.path());
+        location.reload();
+        toast.success("회원탈퇴 완료했습니다!");
+      } catch {
+        setIsDeleted(false);
+        toast.error("오류가 발생했습니다. 다시 시도해주세요.");
+      }
     }
   };
 

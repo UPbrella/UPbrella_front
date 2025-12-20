@@ -10,6 +10,7 @@ const SignUpPage = () => {
   const [inputs, setInputs] = useState<TInputs>({
     name: "",
     phoneNumber: "",
+    email: "",
     bank: "",
     accountNumber: "",
   });
@@ -44,8 +45,8 @@ const SignUpPage = () => {
         setIsPhoneNumberValid(true);
       }
     };
-    const isPass =
-      !!name && !!phoneNumber && isNameValid && isPhoneNumberValid && isFirstAllow && isSecondAllow;
+    // 전화번호만 필수, 이름은 선택사항 (Apple 로그인 시 이미 제공될 수 있음)
+    const isPass = !!phoneNumber && isPhoneNumberValid && isFirstAllow && isSecondAllow;
     setIsDone(isPass);
     handleNameValid();
     handlePhoneNumberValid();

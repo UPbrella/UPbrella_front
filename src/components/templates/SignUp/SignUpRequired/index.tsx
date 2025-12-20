@@ -31,23 +31,25 @@ const SignUpRequiredForm = ({
           <section className="w-full">
             <div className="mb-28">
               <SignUpText
-                labelTitle="이름과 전화번호를 입력해주세요!"
+                labelTitle="전화번호를 입력해주세요!"
                 labelSubtitle1="수집된 개인정보는"
                 labelSubtitleBold="서비스 운영의 목적으로만"
                 labelSubtitle2="사용됩니다."
               />
             </div>
-            <div className="mb-16">
-              <SignUpInputBox
-                labelTitle="이름"
-                labelInput="이름입력"
-                name="name"
-                value={name}
-                onChangeValue={onChangeValue}
-                isValid={isNameValid}
-                validLabel={"국문, 영문만 입력 가능합니다."}
-              />
-            </div>
+            {!name && (
+              <div className="mb-16">
+                <SignUpInputBox
+                  labelTitle="이름 (선택)"
+                  labelInput="이름입력"
+                  name="name"
+                  value={name}
+                  onChangeValue={onChangeValue}
+                  isValid={isNameValid}
+                  validLabel={"국문, 영문만 입력 가능합니다."}
+                />
+              </div>
+            )}
             <div>
               <SignUpInputBox
                 labelTitle="전화번호"
