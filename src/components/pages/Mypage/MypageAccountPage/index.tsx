@@ -4,14 +4,14 @@ import MypageModalTwoBtnChildren from "@/components/molecules/Mypage/MypageModal
 import MypageAccountCard from "@/components/organisms/Mypage/MypageAccountCard";
 import MypageLayout from "@/components/pages/Mypage/MypageLayout";
 import { $axios } from "@/lib/axios";
-import { loginInfo, loginState } from "@/recoil";
+import { loginInfo } from "@/recoil";
 import { BASIC_ROUTES_URL } from "@/routes/basicRouter";
 import { TAccountPageInputs, TAccountPageStatus } from "@/types/mypage/MypageTypes";
 import { validateNumber } from "@/utils/utils";
 import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState, useRecoilValueLoadable } from "recoil";
+import { useRecoilValueLoadable } from "recoil";
 
 const MypageAccountPage = () => {
   const [inputs, setInputs] = useState<TAccountPageInputs>({
@@ -27,7 +27,6 @@ const MypageAccountPage = () => {
     isRegistered: false,
   });
 
-  const [isLogin] = useRecoilState<boolean>(loginState);
   const loginInfoValue = useRecoilValueLoadable(loginInfo);
   const bankInput = useRef<HTMLInputElement>(null);
 
@@ -51,20 +50,19 @@ const MypageAccountPage = () => {
           }
           break;
         case "loading":
-          <div>Loading...</div>;
-          break;
+          // 로딩 중에는 아무것도 하지 않음
+          return;
         case "hasError":
-          break;
+          // 에러 발생 시 로그인 페이지로 리다이렉트
+          toast.error(`로그인 세션이 만료되었습니다.
+      다시 로그인해주세요.`);
+          navigate(BASIC_ROUTES_URL.root.path());
+          return;
       }
     };
 
     getBankAccountInfo();
-    if (!isLogin) {
-      toast.error(`로그인 세션이 만료되었습니다. 
-      다시 로그인해주세요.`);
-      navigate(BASIC_ROUTES_URL.root.path());
-    }
-  }, [loginInfoValue.state, loginInfoValue.contents, isLogin, navigate]);
+  }, [loginInfoValue.state, loginInfoValue.contents, navigate]);
   const handleInputValue = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 

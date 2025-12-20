@@ -21,7 +21,7 @@ const MypageInfoPage = () => {
   });
   const [isDeleted, setIsDeleted] = useState<boolean>(false);
   const [isDeleteAllowed, setIsDeleteAllowed] = useState<boolean>(true);
-  const [isLogin, setIsLogin] = useRecoilState<boolean>(loginState);
+  const [, setIsLogin] = useRecoilState<boolean>(loginState);
   const loginInfoValue = useRecoilValueLoadable(loginInfo);
 
   const navigate = useNavigate();
@@ -39,19 +39,18 @@ const MypageInfoPage = () => {
           break;
         }
         case "loading":
-          <div>Loading...</div>;
-          break;
+          // 로딩 중에는 아무것도 하지 않음
+          return;
         case "hasError":
-          break;
+          // 에러 발생 시 로그인 페이지로 리다이렉트
+          toast.error(`로그인 세션이 만료되었습니다.
+      다시 로그인해주세요.`);
+          navigate(BASIC_ROUTES_URL.root.path());
+          return;
       }
     };
     getInfos();
-    if (!isLogin) {
-      toast.error(`로그인 세션이 만료되었습니다. 
-      다시 로그인해주세요.`);
-      navigate(BASIC_ROUTES_URL.root.path());
-    }
-  }, [isLogin, loginInfoValue.contents, loginInfoValue.state, navigate]);
+  }, [loginInfoValue.contents, loginInfoValue.state, navigate]);
   const handleDeleteUser = async () => {
     try {
       await $axios.get("/users/loggedIn/umbrella", { withCredentials: true });
