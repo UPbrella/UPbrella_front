@@ -36,10 +36,12 @@ const SignUpPage = () => {
   useEffect(() => {
     if (socialSession?.data?.data) {
       const { name: sessionName, email: sessionEmail } = socialSession.data.data;
+
+      // sessionName이 null이 아니고 빈 문자열이 아닐 때만 자동 채우기
       setInputs((prev) => ({
         ...prev,
-        name: sessionName || prev.name,
-        email: sessionEmail || prev.email,
+        name: sessionName && sessionName.trim() !== "" ? sessionName : prev.name,
+        email: sessionEmail && sessionEmail.trim() !== "" ? sessionEmail : prev.email,
       }));
     }
   }, [socialSession]);

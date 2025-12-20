@@ -96,21 +96,17 @@ export const useKakaoLogin = () => {
 
 // 애플 로그인
 export const useAppleLogin = () => {
-  const code = new URL(window.location.href).searchParams.get("code");
   const { mutate: upbrellaLogin } = useUpbrellaLogin();
-  const navigate = useNavigate();
-  const setIsLogin = useSetRecoilState(loginState);
 
   return useMutation({
-    mutationFn: async () => await $axios.post("/users/oauth/apple/login", { code }),
+    mutationFn: async () => {
+      // Apple 콜백은 이미 /auth/apple에서 처리되었고 세션에 저장됨
+      // 바로 업브렐라 로그인 진행
+      return Promise.resolve();
+    },
     onSuccess: () => {
       // 성공 시, 업브렐라 로그인
       upbrellaLogin();
-    },
-    onError: () => {
-      toast.error("애플 계정을 확인해주세요.");
-      navigate(BACKGROUND_IMAGE_ROUTES_URL.login.path());
-      setIsLogin(false);
     },
   });
 };
