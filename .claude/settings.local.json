@@ -3,7 +3,9 @@
     "allow": [
       "Bash(brew install:*)",
       "Bash(magick:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(npm run lint:*)",
+      "Bash(npm run build:*)"
     ],
     "deny": [],
     "ask": []

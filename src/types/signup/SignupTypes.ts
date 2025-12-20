@@ -31,7 +31,7 @@ export type SignUpNotRequiredFormProps = {
 };
 
 export type SignUpRequiredFormProps = {
-  name: string;
+  name?: string;
   onChangeValue: (e: ChangeEvent<HTMLInputElement>) => void;
   phoneNumber: string;
   isNameValid: boolean;
