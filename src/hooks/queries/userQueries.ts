@@ -12,7 +12,7 @@ import { BACKGROUND_IMAGE_ROUTES_URL } from "@/routes/backgroundImageRouter";
 import { BASIC_ROUTES_URL } from "@/routes/basicRouter";
 import { TUserRes } from "@/types/admin/userTypes";
 import { TApiResponse, TCustomError } from "@/types/commonTypes";
-import { TInputs } from "@/types/signup/SignupTypes";
+import { TInputs, TSocialUserSession } from "@/types/signup/SignupTypes";
 import { getErrorMessage } from "@/utils/error";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
@@ -25,6 +25,7 @@ export const USER_QUERY_KEYS = {
   users: () => ["users"],
   blackUsers: () => ["black-users"],
   rentHistories: () => ["rent-histories"],
+  socialSession: () => ["social-session"],
 } as const;
 
 //
@@ -186,6 +187,16 @@ export const useGetRentHistories = () => {
           ? dayjs(e.returnAt).add(9, "h").format("YYYY-MM-DD HH:mm:ss")
           : e.returnAt,
       })),
+  });
+};
+
+// 세션에 저장된 소셜 로그인 정보 조회
+export const useGetSocialSession = () => {
+  return useQuery({
+    queryKey: USER_QUERY_KEYS.socialSession(),
+    queryFn: async () =>
+      await $axios.get<TApiResponse<TSocialUserSession>>("/users/session/social"),
+    retry: 0,
   });
 };
 

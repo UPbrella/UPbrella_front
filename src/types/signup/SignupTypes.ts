@@ -8,6 +8,12 @@ export type TInputs = {
   accountNumber: string;
 };
 
+export type TSocialUserSession = {
+  name: string | null;
+  email: string | null;
+  provider: string | null;
+};
+
 export type SignUpNotRequiredFormProps = {
   bank: string;
   accountNumber: string;
