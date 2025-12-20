@@ -59,6 +59,7 @@ const useUpbrellaLogin = () => {
     onError: (err: TCustomError) => {
       if (err.response?.data.code === 400) {
         // signup
+        queryClient.invalidateQueries(USER_QUERY_KEYS.socialSession());
         navigate(BACKGROUND_IMAGE_ROUTES_URL.signup.path());
         return;
       }
