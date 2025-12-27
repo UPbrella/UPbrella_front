@@ -37,9 +37,9 @@ const SignUpPage = () => {
     if (socialSession?.data?.data) {
       const { name: sessionName, email: sessionEmail } = socialSession.data.data;
 
-      // sessionName이 null이 아니고 빈 문자열이 아닐 때만 자동 채우기
       setInputs((prev) => ({
         ...prev,
+        // 이름이 있으면 기본값으로 채우기 (사용자가 수정 가능)
         name: sessionName && sessionName.trim() !== "" ? sessionName : prev.name,
         email: sessionEmail && sessionEmail.trim() !== "" ? sessionEmail : prev.email,
       }));
