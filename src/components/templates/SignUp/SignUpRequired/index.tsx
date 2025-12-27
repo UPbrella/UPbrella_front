@@ -8,6 +8,7 @@ import { SignUpRequiredFormProps } from "@/types/signup/SignupTypes";
 
 const SignUpRequiredForm = ({
   name,
+  namePlaceholder,
   onChangeValue,
   phoneNumber,
   isNameValid,
@@ -40,7 +41,7 @@ const SignUpRequiredForm = ({
             <div className="mb-16">
               <SignUpInputBox
                 labelTitle="이름"
-                labelInput="이름입력"
+                labelInput={namePlaceholder || "이름입력"}
                 name="name"
                 value={name}
                 onChangeValue={onChangeValue}

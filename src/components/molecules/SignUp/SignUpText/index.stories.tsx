@@ -11,7 +11,7 @@ const Template: StoryFn<typeof SignUpText> = (args: SignUpTextProps) => <SignUpT
 
 export const Required = Template.bind({});
 Required.args = {
-  labelTitle: "이름과 전화번호를 입력해주세요!",
+  labelTitle: "이름과 전화번호를 입력해주세요!!",
   labelSubtitle1: "수집된 개인정보는",
   labelSubtitle2: "사용됩니다.",
   labelSubtitleBold: "서비스 운영의 목적으로만",
