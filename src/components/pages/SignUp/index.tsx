@@ -32,22 +32,15 @@ const SignUpPage = () => {
 
   const { mutate: signUpMutate } = useUpbrellaSignUp();
 
-  // 애플 로그인 여부 확인
-  const isAppleLogin = socialSession?.data?.data?.provider === "apple";
-
-  // 애플 로그인에서 받은 이름 (placeholder로 사용)
-  const appleName =
-    isAppleLogin && socialSession?.data?.data?.name && socialSession.data.data.name.trim() !== ""
-      ? socialSession.data.data.name
-      : "";
-
-  // 소셜 로그인 세션에서 이메일 자동 채우기
+  // 소셜 로그인 세션에서 이름과 이메일 자동 채우기
   useEffect(() => {
     if (socialSession?.data?.data) {
-      const { email: sessionEmail } = socialSession.data.data;
+      const { name: sessionName, email: sessionEmail } = socialSession.data.data;
 
       setInputs((prev) => ({
         ...prev,
+        // 이름이 있으면 기본값으로 채우기 (사용자가 수정 가능)
+        name: sessionName && sessionName.trim() !== "" ? sessionName : prev.name,
         email: sessionEmail && sessionEmail.trim() !== "" ? sessionEmail : prev.email,
       }));
     }
@@ -55,12 +48,6 @@ const SignUpPage = () => {
 
   useEffect(() => {
     const handleNameValid = () => {
-      // 애플 로그인이고 이름이 비어있지만 appleName이 있으면 유효
-      if (isAppleLogin && !name && appleName) {
-        setIsNameValid(true);
-        return;
-      }
-      // 이름이 입력되었으면 검증
       if (!!name && !/^[가-힣a-zA-Z]{2,6}$/.test(name)) {
         setIsNameValid(false);
       } else {
@@ -74,28 +61,13 @@ const SignUpPage = () => {
         setIsPhoneNumberValid(true);
       }
     };
-    // 애플 로그인이고 appleName이 있으면 name이 비어있어도 통과
-    const isNameRequired = isAppleLogin && appleName ? true : !!name;
+    // 이름과 전화번호 모두 필수
     const isPass =
-      isNameRequired &&
-      !!phoneNumber &&
-      isNameValid &&
-      isPhoneNumberValid &&
-      isFirstAllow &&
-      isSecondAllow;
+      !!name && !!phoneNumber && isNameValid && isPhoneNumberValid && isFirstAllow && isSecondAllow;
     setIsDone(isPass);
     handleNameValid();
     handlePhoneNumberValid();
-  }, [
-    name,
-    phoneNumber,
-    isNameValid,
-    isPhoneNumberValid,
-    isFirstAllow,
-    isSecondAllow,
-    isAppleLogin,
-    appleName,
-  ]);
+  }, [name, phoneNumber, isNameValid, isPhoneNumberValid, isFirstAllow, isSecondAllow]);
 
   const handleInputValue = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -170,12 +142,7 @@ const SignUpPage = () => {
   };
 
   const onSubmitButton = () => {
-    // 애플 로그인이고 이름이 비어있으면 appleName 사용
-    const finalInputs = {
-      ...inputs,
-      name: name || appleName,
-    };
-    signUpMutate(finalInputs);
+    signUpMutate(inputs);
   };
 
   return (
@@ -204,7 +171,6 @@ const SignUpPage = () => {
       ) : (
         <SignUpRequiredForm
           name={name}
-          namePlaceholder={appleName}
           onChangeValue={handleInputValue}
           phoneNumber={phoneNumber}
           isNameValid={isNameValid}
