@@ -48,7 +48,7 @@ const SignUpPage = () => {
 
   useEffect(() => {
     const handleNameValid = () => {
-      if (!!name && !/^[가-힣a-zA-Z]{2,6}$/.test(name)) {
+      if (!!name && !/^[가-힣a-zA-Z\s]{2,20}$/.test(name)) {
         setIsNameValid(false);
       } else {
         setIsNameValid(true);
