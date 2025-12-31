@@ -12,6 +12,7 @@ const SignUpRequiredForm = ({
   onChangeValue,
   phoneNumber,
   isNameValid,
+  nameValidationMessage,
   isPhoneNumberValid,
   isAllAllow,
   isFirstAllow,
@@ -46,7 +47,7 @@ const SignUpRequiredForm = ({
                 value={name}
                 onChangeValue={onChangeValue}
                 isValid={isNameValid}
-                validLabel={"국문, 영문만 입력 가능합니다."}
+                validLabel={nameValidationMessage || "국문, 영문만 입력 가능합니다."}
               />
             </div>
             <div>
