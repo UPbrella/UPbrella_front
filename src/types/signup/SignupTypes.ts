@@ -36,6 +36,7 @@ export type SignUpRequiredFormProps = {
   onChangeValue: (e: ChangeEvent<HTMLInputElement>) => void;
   phoneNumber: string;
   isNameValid: boolean;
+  nameValidationMessage?: string;
   isPhoneNumberValid: boolean;
   isAllAllow?: boolean;
   onClickAllAllow: () => void;

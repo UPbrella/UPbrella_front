@@ -17,6 +17,7 @@ const SignUpPage = () => {
 
   const { data: socialSession } = useGetSocialSession();
   const [isNameValid, setIsNameValid] = useState(true);
+  const [nameValidationMessage, setNameValidationMessage] = useState("");
   const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(true);
   const [isAllAllow, setIsAllAllow] = useState(false);
   const [isFirstAllow, setIsFirstAllow] = useState(false);
@@ -48,11 +49,28 @@ const SignUpPage = () => {
 
   useEffect(() => {
     const handleNameValid = () => {
-      if (!!name && !/^[가-힣a-zA-Z\s]{2,20}$/.test(name)) {
-        setIsNameValid(false);
-      } else {
+      if (!name) {
         setIsNameValid(true);
+        setNameValidationMessage("");
+        return;
       }
+
+      // 길이 체크 (20자 초과)
+      if (name.length > 20) {
+        setIsNameValid(false);
+        setNameValidationMessage("최대 20자까지 입력 가능합니다.");
+        return;
+      }
+
+      // 형식 체크 (한글, 영문, 공백만 허용, 최소 2자)
+      if (!/^[가-힣a-zA-Z\s]{2,20}$/.test(name)) {
+        setIsNameValid(false);
+        setNameValidationMessage("국문, 영문만 입력 가능합니다.");
+        return;
+      }
+
+      setIsNameValid(true);
+      setNameValidationMessage("");
     };
     const handlePhoneNumberValid = () => {
       if (!!phoneNumber && phoneNumber.length < 13) {
@@ -174,6 +192,7 @@ const SignUpPage = () => {
           onChangeValue={handleInputValue}
           phoneNumber={phoneNumber}
           isNameValid={isNameValid}
+          nameValidationMessage={nameValidationMessage}
           isPhoneNumberValid={isPhoneNumberValid}
           isAllAllow={isAllAllow}
           onClickAllAllow={handleIsAllAllows}
