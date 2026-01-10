@@ -115,8 +115,8 @@ const RentPage = () => {
 
   // POST 우산대여신청
   const onClickPostBtn = () => {
-    // 전화번호에서 하이픈 제거
-    const phoneNumber = phone.replace(/-/g, "");
+    // 전화번호 (하이픈 포함)
+    const phoneNumber = phone.trim();
 
     createMutate(
       { region, storeId, umbrellaId, phoneNumber, conditionReport },
