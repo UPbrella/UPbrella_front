@@ -1,33 +1,26 @@
-import SignUpProgress from "@/components/molecules/SignUp/SignUpProgress";
-import SignUpText from "@/components/molecules/SignUp/SignUpText";
-import SignUpInputBox from "@/components/molecules/SignUp/SignUpInputBox";
+import SignUpFormButton from "@/components/atoms/SignUp/SignUpFormButton";
 import SignUpAllAllowBox from "@/components/molecules/SignUp/SignUpAllAllowBox";
 import SignUpAllowBox from "@/components/molecules/SignUp/SignUpAllowBox";
-import SignUpFormButton from "@/components/atoms/SignUp/SignUpFormButton";
+import SignUpInputBox from "@/components/molecules/SignUp/SignUpInputBox";
+import SignUpProgress from "@/components/molecules/SignUp/SignUpProgress";
+import SignUpText from "@/components/molecules/SignUp/SignUpText";
 import { SignUpRequiredFormProps } from "@/types/signup/SignupTypes";
+import { Controller } from "react-hook-form";
 
 const SignUpRequiredForm = ({
-  name,
-  namePlaceholder,
-  onChangeValue,
-  phoneNumber,
-  isNameValid,
-  nameValidationMessage,
-  isPhoneNumberValid,
-  isAllAllow,
-  isFirstAllow,
-  onClickAllAllow,
-  isSecondAllow,
-  onClickFirstAllow,
-  onClickSecondAllow,
-  isDone,
+  register,
+  control,
+  errors,
+  watch,
+  isValid,
   onClickButton,
   onClickDetailTOSPage,
   onClickDetailPPPage,
+  onPhoneNumberChange,
 }: SignUpRequiredFormProps) => {
   return (
     <main className="flex flex-col items-center flex-1">
-      <article className="flex flex-col items-center justify-center flex-1 p-20 max-h-760 xl:max-w-440 xl:w-full lg:max-w-640 lg:w-full md:w-full">
+      <article className="flex flex-col items-center justify-center flex-1 p-20 xl:h-760 xl:max-w-440 xl:w-full lg:max-w-640 lg:w-full md:w-full lg:max-h-720">
         <SignUpProgress isInProgress1={true} isInProgress2={false} />
         <section className="flex flex-col justify-between flex-1 w-full mt-40">
           <section className="w-full">
@@ -42,49 +35,65 @@ const SignUpRequiredForm = ({
             <div className="mb-16">
               <SignUpInputBox
                 labelTitle="이름"
-                labelInput={namePlaceholder || "이름입력"}
-                name="name"
-                value={name}
-                onChangeValue={onChangeValue}
-                isValid={isNameValid}
-                validLabel={nameValidationMessage || "국문, 영문만 입력 가능합니다."}
+                labelInput="이름입력"
+                registration={register("name")}
+                value={watch("name")}
+                error={errors.name?.message}
+                isRequired={true}
               />
             </div>
             <div>
               <SignUpInputBox
                 labelTitle="전화번호"
                 labelInput="010-1234-5678"
-                name="phoneNumber"
-                value={phoneNumber}
-                onChangeValue={onChangeValue}
-                isValid={isPhoneNumberValid}
-                validLabel={"010 뒤 8자리를 입력해주세요."}
+                registration={register("phoneNumber")}
+                value={watch("phoneNumber") || ""}
+                error={errors.phoneNumber?.message}
+                onChange={(e) => onPhoneNumberChange?.(e.target.value)}
               />
             </div>
           </section>
           <section className="mt-32">
-            <SignUpAllAllowBox
-              isAllow={isAllAllow}
-              onClickAllow={onClickAllAllow}
-              label="전체동의"
+            <Controller
+              name="termsOfService"
+              control={control}
+              render={({ field: { value: tosValue, onChange: tosOnChange } }) => (
+                <Controller
+                  name="privacyPolicy"
+                  control={control}
+                  render={({ field: { value: ppValue, onChange: ppOnChange } }) => (
+                    <>
+                      <SignUpAllAllowBox
+                        isAllow={Boolean(tosValue && ppValue)}
+                        onClickAllow={() => {
+                          const newStatus = !(tosValue && ppValue);
+                          tosOnChange(newStatus);
+                          ppOnChange(newStatus);
+                        }}
+                        label="전체동의"
+                      />
+                      <div className="my-4">
+                        <SignUpAllowBox
+                          isAllow={Boolean(tosValue)}
+                          onClickAllow={() => tosOnChange(!tosValue)}
+                          label="(필수) 업브렐라 이용약관"
+                          onClickDetailPage={onClickDetailTOSPage}
+                        />
+                      </div>
+                      <div className="mb-24">
+                        <SignUpAllowBox
+                          isAllow={Boolean(ppValue)}
+                          onClickAllow={() => ppOnChange(!ppValue)}
+                          label="(필수) 개인정보 수집 및 이용동의"
+                          onClickDetailPage={onClickDetailPPPage}
+                        />
+                      </div>
+                    </>
+                  )}
+                />
+              )}
             />
-            <div className="my-4">
-              <SignUpAllowBox
-                isAllow={isFirstAllow}
-                onClickAllow={onClickFirstAllow}
-                label="(필수) 업브렐라 이용약관"
-                onClickDetailPage={onClickDetailTOSPage}
-              />
-            </div>
-            <div className="mb-24">
-              <SignUpAllowBox
-                isAllow={isSecondAllow}
-                onClickAllow={onClickSecondAllow}
-                label="(필수) 개인정보 수집 및 이용동의"
-                onClickDetailPage={onClickDetailPPPage}
-              />
-            </div>
-            <SignUpFormButton label="다음" isDone={isDone} onClick={onClickButton} />
+            <SignUpFormButton label="다음" isDone={isValid} onClick={onClickButton} />
           </section>
         </section>
       </article>

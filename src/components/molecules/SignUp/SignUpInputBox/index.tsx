@@ -1,33 +1,46 @@
 import SignUpFormInput from "@/components/atoms/SignUp/SignUpFormInput";
 import SignUpFormInputTitle from "@/components/atoms/SignUp/SignUpFormInputTitle";
 import { ChangeEvent } from "react";
+import { UseFormRegisterReturn } from "react-hook-form";
 
 export type SignUpInputBoxProps = {
   labelTitle: string;
   labelInput: string;
-  name: string;
-  value: string;
-  onChangeValue: (e: ChangeEvent<HTMLInputElement>) => void;
-  isValid: boolean;
-  validLabel: string;
+  registration: UseFormRegisterReturn;
+  value?: string;
+  error?: string;
+  isRequired?: boolean;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
 const SignUpInputBox = ({
   labelTitle,
   labelInput,
-  name,
+  registration,
   value,
-  onChangeValue,
-  isValid,
-  validLabel,
+  error,
+  isRequired = false,
+  onChange,
 }: SignUpInputBoxProps) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    registration.onChange(e);
+    onChange?.(e);
+  };
+
   return (
     <section>
       <div className="mb-8">
-        <SignUpFormInputTitle label={labelTitle} isRequired={false} />
+        <SignUpFormInputTitle label={labelTitle} isRequired={isRequired} />
       </div>
-      <SignUpFormInput label={labelInput} name={name} value={value} onChange={onChangeValue} />
-      {!isValid && <div className="mt-4 text-red text-14 text-normal leading-20">{validLabel}</div>}
+      <SignUpFormInput
+        label={labelInput}
+        name={registration.name}
+        value={value}
+        onChange={handleChange}
+        onBlur={registration.onBlur}
+        ref={registration.ref}
+      />
+      {error && <div className="mt-4 text-red text-14 text-normal leading-20">{error}</div>}
     </section>
   );
 };

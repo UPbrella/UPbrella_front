@@ -7,6 +7,14 @@ export default {
   component: SignUpInputBox,
 } as Meta<typeof SignUpInputBox>;
 
+// Mock registration for Storybook
+const mockRegistration = {
+  name: "mockField" as const,
+  onChange: async () => undefined,
+  onBlur: async () => undefined,
+  ref: () => undefined,
+};
+
 const Template: StoryFn<typeof SignUpInputBox> = (args: SignUpInputBoxProps) => (
   <SignUpInputBox {...args} />
 );
@@ -15,12 +23,14 @@ export const Name = Template.bind({});
 Name.args = {
   labelTitle: "이름",
   labelInput: "이름 입력",
-  name: "name",
+  registration: mockRegistration,
+  value: "",
 };
 
 export const PhoneNumber = Template.bind({});
 PhoneNumber.args = {
   labelTitle: "전화번호",
   labelInput: "010-1234-5678",
-  name: "number",
+  registration: mockRegistration,
+  value: "",
 };

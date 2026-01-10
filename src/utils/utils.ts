@@ -32,3 +32,18 @@ export const deleteItemAtIndex = <T>({ arr, index }: { arr: T[]; index: number }
 export const validateNumber = (num: string) => {
   return /^\d+$/.test(num) || num === "";
 };
+
+// 전화번호 유효성 검사 함수
+// 빈 값이거나 010-0000-0000 형식(13자)이면 유효
+export const PHONE_NUMBER_ERROR_MESSAGE = "010 뒤 8자리를 입력해주세요.";
+
+export const isValidPhoneNumber = (value: string | undefined | null): boolean => {
+  if (!value || value.length === 0) return true;
+  return value.length === 13;
+};
+
+export const getPhoneNumberError = (value: string | undefined | null): string => {
+  if (!value || value.length === 0) return "";
+  if (value.length !== 13) return PHONE_NUMBER_ERROR_MESSAGE;
+  return "";
+};
