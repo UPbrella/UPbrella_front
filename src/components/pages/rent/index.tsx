@@ -183,14 +183,18 @@ const RentPage = () => {
             {/* 전화번호 필드: 항상 입력 가능 (필수) */}
             <section className="mb-32">
               <div className="mb-8">
-                <SignUpFormInputTitle label="전화번호" isRequired />
+                <SignUpFormInputTitle label="전화번호" isRequired={isRent ? false : true} />
               </div>
-              <SignUpFormInput
-                label="010-1234-5678"
-                name="phoneNumber"
-                value={phone}
-                onChange={handlePhoneNumberChange}
-              />
+              {isRent ? (
+                <FormBasic label="전화번호" value={phone} />
+              ) : (
+                <SignUpFormInput
+                  label="010-1234-5678"
+                  name="phoneNumber"
+                  value={phone}
+                  onChange={handlePhoneNumberChange}
+                />
+              )}
               {phoneError && (
                 <div className="mt-4 text-red text-14 text-normal leading-20">{phoneError}</div>
               )}
