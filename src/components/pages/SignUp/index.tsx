@@ -101,7 +101,7 @@ const SignUpPage = () => {
   const onSubmit = (data: SignUpFormData) => {
     const submitData: TInputs = {
       name: data.name,
-      phoneNumber: data.phoneNumber?.trim() || undefined,
+      phoneNumber: data.phoneNumber?.trim() || null,
       email: data.email,
       bank: data.bank || "",
       accountNumber: data.accountNumber || "",
