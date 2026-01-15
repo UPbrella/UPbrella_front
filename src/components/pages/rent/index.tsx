@@ -1,25 +1,27 @@
+import { postRent } from "@/api/formApi";
 import FormBasic from "@/components/atoms/Form/FormBasic";
-import FormStatus from "@/components/atoms/Form/FormStatus";
 import FormButton from "@/components/atoms/Form/FormButton";
-import FormLocationMolecules from "@/components/molecules/FormLocationMolecules";
-import { useEffect, useState } from "react";
+import FormStatus from "@/components/atoms/Form/FormStatus";
+import RentDeposit from "@/components/atoms/Form/RentDeposit";
 import RentModalAccount from "@/components/atoms/Form/RentModalAccount";
 import RentModalFinish from "@/components/atoms/Form/RentModalFinish";
+import RentModalStorageIssue from "@/components/atoms/Form/RentModalStorageIssue";
+import SignUpFormInput from "@/components/atoms/SignUp/SignUpFormInput";
+import SignUpFormInputTitle from "@/components/atoms/SignUp/SignUpFormInputTitle";
+import ErrorComponent from "@/components/molecules/ErrorComponent";
+import FormLocationMolecules from "@/components/molecules/FormLocationMolecules";
 import FormModal from "@/components/molecules/FormModal";
+import { HeaderContainer } from "@/components/organisms/Header/HeaderContainer";
 import { useGetRentFormData, useGetReturnUmbrella } from "@/hooks/queries/formQueries";
 import { loginInfo, redirectUrl } from "@/recoil";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { formatPhoneNumber } from "@/utils/utils";
-import { useMutation } from "@tanstack/react-query";
-import { postRent } from "@/api/formApi";
-import RentModalStorageIssue from "@/components/atoms/Form/RentModalStorageIssue";
-import { useParams } from "react-router-dom";
-import { HeaderContainer } from "@/components/organisms/Header/HeaderContainer";
-import ErrorComponent from "@/components/molecules/ErrorComponent";
 import { TCustomError } from "@/types/commonTypes";
 import { getErrorMessage } from "@/utils/error";
+import { formatPhoneNumber, getPhoneNumberError, isValidPhoneNumber } from "@/utils/utils";
+import { useMutation } from "@tanstack/react-query";
+import { ChangeEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import RentDeposit from "@/components/atoms/Form/RentDeposit";
+import { useParams } from "react-router-dom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 const RentPage = () => {
   // 대여 전(false), 대여 후(true)
@@ -45,6 +47,7 @@ const RentPage = () => {
 
   // 에러메시지
   const [subError, setSubError] = useState("");
+  const [phoneError, setPhoneError] = useState("");
 
   // hook
   const { data, isError, isLoading: rentFormDataLoading } = useGetRentFormData(umbrellaId);
@@ -60,9 +63,18 @@ const RentPage = () => {
   // 로그인 유저 정보 조회 (name, phone)
   useEffect(() => {
     setName(userInfo.name);
-    const formattedPhone = formatPhoneNumber(userInfo.phoneNumber);
-    setPhone(formattedPhone);
+    if (userInfo.phoneNumber) {
+      const formattedPhone = formatPhoneNumber(userInfo.phoneNumber);
+      setPhone(formattedPhone);
+    }
   }, [userInfo]);
+
+  // 전화번호 변경 핸들러
+  const handlePhoneNumberChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatPhoneNumber(e.target.value);
+    setPhone(formatted);
+    setPhoneError(getPhoneNumberError(formatted));
+  };
 
   useEffect(() => {
     if (data) {
@@ -103,8 +115,11 @@ const RentPage = () => {
 
   // POST 우산대여신청
   const onClickPostBtn = () => {
+    // 전화번호 (하이픈 포함)
+    const phoneNumber = phone.trim();
+
     createMutate(
-      { region, storeId, umbrellaId, conditionReport },
+      { region, storeId, umbrellaId, phoneNumber, conditionReport },
       {
         onError: (err) => {
           const error = err as TCustomError;
@@ -113,6 +128,9 @@ const RentPage = () => {
           return;
         },
         onSuccess: ({ data }) => {
+          // 보증금 모달 닫기
+          setIsOpenDepositModal(false);
+
           // 보관함이 있는 지점
           if (data) {
             setLockNumber(data.password.toString());
@@ -144,11 +162,11 @@ const RentPage = () => {
       ) : (
         <>
           <HeaderContainer />
-          <div className="flex-col max-w-2xl px-20 mx-auto pb-50">
+          <div className="flex-col px-20 mx-auto max-w-2xl pb-50">
             <div className="mt-20 font-semibold text-black text-24 leading-32">
               {isRent ? "우산을 빌렸어요!" : "우산을 빌릴까요?"}
             </div>
-            <div className="max-w-2xl p-16 mt-16 mb-32 border border-gray-200 rounded-12">
+            <div className="p-16 mt-16 mb-32 max-w-2xl border border-gray-200 rounded-12">
               <ul className="ml-16 list-disc text-8">
                 <li className="text-14 leading-20 gray-700">
                   수집된 개인정보는 <p className="inline font-semibold">서비스 운영의 목적으로만</p>{" "}
@@ -161,7 +179,22 @@ const RentPage = () => {
               </ul>
             </div>
             <FormBasic label="이름" value={name} />
-            <FormBasic label="전화번호" value={phone} />
+
+            {/* 전화번호 필드: 항상 입력 가능 (필수) */}
+            <section className="mb-32">
+              <div className="mb-8">
+                <SignUpFormInputTitle label="전화번호" isRequired />
+              </div>
+              <SignUpFormInput
+                label="010-1234-5678"
+                name="phoneNumber"
+                value={phone}
+                onChange={handlePhoneNumberChange}
+              />
+              {phoneError && (
+                <div className="mt-4 text-red text-14 text-normal leading-20">{phoneError}</div>
+              )}
+            </section>
             <FormLocationMolecules region={region} storeName={storeName} />
             <FormBasic label="우산번호" value={umbrellaUuid} />
 
@@ -177,7 +210,11 @@ const RentPage = () => {
               maxCharLimit={maxCharLimit}
             />
             {!isRent && (
-              <FormButton label="대여하기" isActive={true} handleOpen={handleOpenDepositModal} />
+              <FormButton
+                label="대여하기"
+                isActive={phone.length === 13 && isValidPhoneNumber(phone)}
+                handleOpen={handleOpenDepositModal}
+              />
             )}
 
             {isOpenDepositModal && (

@@ -9,10 +9,10 @@ const SignUpFormButton = ({ label, isDone, onClick }: SignUpFormButtonProps) => 
 
   return (
     <div
-      className={`flex w-full h-56 px-32 ${isDoneColor} justify-center item-center rounded-8 `}
+      className={`flex justify-center px-32 w-full h-56 transition-all cursor-pointer ${isDoneColor} item-center rounded-8`}
       onClick={onClick}
     >
-      <button className="text-white font-semibold text-18 leading-24">{label}</button>
+      <button className="font-semibold text-white text-18 leading-24">{label}</button>
     </div>
   );
 };

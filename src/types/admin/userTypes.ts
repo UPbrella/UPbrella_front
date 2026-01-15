@@ -1,7 +1,7 @@
 export type TUserRes = {
   id: number;
   name: string;
-  phoneNumber: string;
+  phoneNumber?: string | null;
   bank: string | null;
   accountNumber: string | null;
   adminStatus: boolean;

@@ -27,6 +27,7 @@ export type TRentDetail = {
   region: string;
   storeId: number;
   umbrellaId: number;
+  phoneNumber: string;
   conditionReport?: string;
   salt?: string;
   signature?: string;
