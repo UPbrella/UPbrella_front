@@ -2,13 +2,15 @@ import SignUpFormInput from "@/components/atoms/SignUp/SignUpFormInput";
 import SignUpFormInputBankName from "@/components/atoms/SignUp/SignUpFormInputBankName";
 import SignUpFormInputTitle from "@/components/atoms/SignUp/SignUpFormInputTitle";
 import { ChangeEvent } from "react";
+import { UseFormRegisterReturn } from "react-hook-form";
 
 export type SignUpInputAccountBoxProps = {
   labelTitle: string;
   labelInput: string;
   bank: string;
+  accountNumberRegistration: UseFormRegisterReturn;
   accountNumber: string;
-  onChangeValue: (e: ChangeEvent<HTMLInputElement>) => void;
+  onChangeValue?: (e: ChangeEvent<HTMLInputElement>) => void;
   onClick: () => void;
   bankRef: React.RefObject<HTMLInputElement>;
 };
@@ -17,15 +19,21 @@ const SignUpInputAccountBox = ({
   labelTitle,
   labelInput,
   bank,
+  accountNumberRegistration,
   accountNumber,
   onChangeValue,
   onClick,
   bankRef,
 }: SignUpInputAccountBoxProps) => {
+  const handleAccountNumberChange = (e: ChangeEvent<HTMLInputElement>) => {
+    accountNumberRegistration.onChange(e);
+    onChangeValue?.(e);
+  };
+
   return (
     <section>
       <div className="mb-8">
-        <SignUpFormInputTitle label={labelTitle} isRequired={true} />
+        <SignUpFormInputTitle label={labelTitle} isRequired={false} />
       </div>
       <div className="flex">
         <div className="mr-4">
@@ -33,22 +41,24 @@ const SignUpInputAccountBox = ({
             label="은행명"
             name="bank"
             value={bank}
-            onChange={onChangeValue}
+            onChange={() => undefined}
             onClick={onClick}
             bankRef={bankRef}
           />
         </div>
         <div className="flex-1">
           <SignUpFormInput
+            ref={accountNumberRegistration.ref}
             label={labelInput}
-            name="accountNumber"
+            name={accountNumberRegistration.name}
             value={accountNumber}
-            onChange={onChangeValue}
+            onChange={handleAccountNumberChange}
+            onBlur={accountNumberRegistration.onBlur}
           />
         </div>
       </div>
-      <div className="text-gray-600 text-14 font-normal leading-20 mt-4">
-        * ‘-’은 빼고 입력해주세요!
+      <div className="mt-4 font-normal text-gray-600 text-14 leading-20">
+        * '-'은 빼고 입력해주세요!
       </div>
     </section>
   );

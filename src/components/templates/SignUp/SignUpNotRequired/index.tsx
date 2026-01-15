@@ -1,19 +1,18 @@
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import SignUpProgress from "@/components/molecules/SignUp/SignUpProgress";
-import SignUpText from "@/components/molecules/SignUp/SignUpText";
-import SignUpFormButton from "@/components/atoms/SignUp/SignUpFormButton";
-import SignUpInputAccountBox from "@/components/molecules/SignUp/SignUpInputAccountBox";
-import { BankIcon } from "@/constants/BankIcon";
-import BankModal from "@/components/organisms/BankModal";
 import BottomSheet from "@/components/atoms/BottomSheet";
 import BankContent from "@/components/atoms/Form/BankContent";
+import SignUpFormButton from "@/components/atoms/SignUp/SignUpFormButton";
+import SignUpInputAccountBox from "@/components/molecules/SignUp/SignUpInputAccountBox";
+import SignUpProgress from "@/components/molecules/SignUp/SignUpProgress";
+import SignUpText from "@/components/molecules/SignUp/SignUpText";
+import BankModal from "@/components/organisms/BankModal";
+import { BankIcon } from "@/constants/BankIcon";
 import { SignUpNotRequiredFormProps } from "@/types/signup/SignupTypes";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
 const SignUpNotRequiredForm = ({
-  bank,
-  accountNumber,
+  register,
+  watch,
   handleBackClick,
-  onChangeValue,
   onClickBankArrow,
   onClickButton,
   isOpenModal,
@@ -23,19 +22,23 @@ const SignUpNotRequiredForm = ({
   handleClose,
   handleClickBank,
   bankRef,
+  onAccountNumberChange,
 }: SignUpNotRequiredFormProps) => {
   const banks = Object.entries(BankIcon);
+  const bank = watch("bank") || "";
+  const accountNumber = watch("accountNumber") || "";
 
   return (
-    <main className="flex flex-col items-center flex-1">
-      <article className="flex flex-col items-center justify-center flex-1 p-20 xl:h-760 xl:max-w-440 xl:w-full lg:max-w-640 lg:w-full md:w-full lg:max-h-720">
+    <main className="flex flex-col flex-1 items-center">
+      <article className="flex flex-col flex-1 justify-center items-center p-20 xl:h-760 xl:max-w-440 xl:w-full lg:max-w-640 lg:w-full md:w-full lg:max-h-720">
         <div className="flex justify-between w-full">
           <ChevronLeftIcon onClick={handleBackClick} />
           <div className="flex justify-center w-full">
             <SignUpProgress isInProgress1={false} isInProgress2={true} />
           </div>
+          <div className="min-h-24 min-w-24" />
         </div>
-        <section className="flex flex-col justify-between flex-1 w-full mt-40">
+        <section className="flex flex-col flex-1 justify-between mt-40 w-full">
           <section className="w-full">
             <div className="mb-28">
               <SignUpText
@@ -51,7 +54,8 @@ const SignUpNotRequiredForm = ({
                 labelInput="계좌번호"
                 bank={bank}
                 accountNumber={accountNumber}
-                onChangeValue={onChangeValue}
+                accountNumberRegistration={register("accountNumber")}
+                onChangeValue={(e) => onAccountNumberChange?.(e.target.value)}
                 onClick={onClickBankArrow}
                 bankRef={bankRef}
               />
@@ -66,11 +70,11 @@ const SignUpNotRequiredForm = ({
                     {banks.map(([bankName, icon]) => (
                       <div key={bankName}>
                         <div
-                          className="flex flex-col items-center justify-center w-full p-12 mb-8 cursor-pointer"
+                          className="flex flex-col justify-center items-center p-12 mb-8 w-full cursor-pointer"
                           onClick={handleClickBank}
                         >
                           <div className="w-24 h-24">{icon}</div>
-                          <div className={`mt-4 text-15 leading-22 text-gray-700`}>{bankName}</div>
+                          <div className={`mt-4 text-gray-700 text-15 leading-22`}>{bankName}</div>
                         </div>
                       </div>
                     ))}

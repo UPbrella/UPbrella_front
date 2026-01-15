@@ -17,7 +17,7 @@ const RentModalAccount = ({
 }: RentModalAccountProps) => {
   const handleFinishDepositModal = () => {
     onClickPostBtn(); // 보관함이 있는 경우 이 시점에 비밀번호 설정
-    handleCloseDepositModal(); // (1) 보증금 입금 안내 모달 close
+    // 모달 닫기는 onSuccess에서 처리
   };
 
   return (

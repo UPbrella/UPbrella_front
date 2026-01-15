@@ -1,35 +1,42 @@
 import SignUpNotRequiredForm from "@/components/templates/SignUp/SignUpNotRequired";
 import SignUpRequiredForm from "@/components/templates/SignUp/SignUpRequired";
-import { formatPhoneNumber, validateNumber } from "@/utils/utils";
-import { MouseEvent, ChangeEvent, useEffect, useState, useRef } from "react";
-import { useUpbrellaSignUp, useGetSocialSession } from "@/hooks/queries/userQueries";
+import { useGetSocialSession, useUpbrellaSignUp } from "@/hooks/queries/userQueries";
+import { SignUpFormData, signUpSchema } from "@/schemas/signUpSchema";
 import { TInputs } from "@/types/signup/SignupTypes";
 import SeoMetaTag from "@/utils/SeoMetaTag";
+import { formatPhoneNumber, validateNumber } from "@/utils/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { MouseEvent, useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 
 const SignUpPage = () => {
-  const [inputs, setInputs] = useState<TInputs>({
-    name: "",
-    phoneNumber: "",
-    email: "",
-    bank: "",
-    accountNumber: "",
+  const {
+    register,
+    control,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors, isValid },
+  } = useForm<SignUpFormData>({
+    resolver: zodResolver(signUpSchema),
+    mode: "onChange",
+    defaultValues: {
+      name: "",
+      phoneNumber: "",
+      email: "",
+      bank: "",
+      accountNumber: "",
+      termsOfService: false,
+      privacyPolicy: false,
+    },
   });
 
   const { data: socialSession } = useGetSocialSession();
-  const [isNameValid, setIsNameValid] = useState(true);
-  const [nameValidationMessage, setNameValidationMessage] = useState("");
-  const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(true);
-  const [isAllAllow, setIsAllAllow] = useState(false);
-  const [isFirstAllow, setIsFirstAllow] = useState(false);
-  const [isSecondAllow, setIsSecondAllow] = useState(false);
-  const [isDone, setIsDone] = useState<boolean>(false);
   const [isNext, setIsNext] = useState<boolean>(false);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
   const bankInput = useRef<HTMLInputElement>(null);
-
-  const { name, phoneNumber, bank, accountNumber } = inputs;
 
   const { mutate: signUpMutate } = useUpbrellaSignUp();
 
@@ -38,104 +45,34 @@ const SignUpPage = () => {
     if (socialSession?.data?.data) {
       const { name: sessionName, email: sessionEmail } = socialSession.data.data;
 
-      setInputs((prev) => ({
-        ...prev,
-        // 이름이 있으면 기본값으로 채우기 (사용자가 수정 가능)
-        name: sessionName && sessionName.trim() !== "" ? sessionName : prev.name,
-        email: sessionEmail && sessionEmail.trim() !== "" ? sessionEmail : prev.email,
-      }));
+      if (sessionName && sessionName.trim() !== "") {
+        setValue("name", sessionName, { shouldValidate: true });
+      }
+      if (sessionEmail && sessionEmail.trim() !== "") {
+        setValue("email", sessionEmail);
+      }
     }
-  }, [socialSession]);
+  }, [socialSession, setValue]);
 
-  useEffect(() => {
-    const handleNameValid = () => {
-      if (!name) {
-        setIsNameValid(true);
-        setNameValidationMessage("");
-        return;
-      }
-
-      // 길이 체크 (20자 초과)
-      if (name.length > 20) {
-        setIsNameValid(false);
-        setNameValidationMessage("최대 20자까지 입력 가능합니다.");
-        return;
-      }
-
-      // 형식 체크 (한글, 영문, 공백만 허용, 최소 2자)
-      if (!/^[가-힣a-zA-Z\s]{2,20}$/.test(name)) {
-        setIsNameValid(false);
-        setNameValidationMessage("국문, 영문만 입력 가능합니다.");
-        return;
-      }
-
-      setIsNameValid(true);
-      setNameValidationMessage("");
-    };
-    const handlePhoneNumberValid = () => {
-      if (!!phoneNumber && phoneNumber.length < 13) {
-        setIsPhoneNumberValid(false);
-      } else {
-        setIsPhoneNumberValid(true);
-      }
-    };
-    // 이름과 전화번호 모두 필수
-    const isPass =
-      !!name && !!phoneNumber && isNameValid && isPhoneNumberValid && isFirstAllow && isSecondAllow;
-    setIsDone(isPass);
-    handleNameValid();
-    handlePhoneNumberValid();
-  }, [name, phoneNumber, isNameValid, isPhoneNumberValid, isFirstAllow, isSecondAllow]);
-
-  const handleInputValue = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-
-    if (name === "accountNumber") {
-      if (validateNumber(value)) {
-        setInputs({ ...inputs, [name]: value });
-      }
-      return;
-    }
-
-    if (name === "phoneNumber") {
-      const phoneValue = formatPhoneNumber(value);
-      setInputs({ ...inputs, [name]: phoneValue });
-    } else {
-      setInputs({ ...inputs, [name]: value });
-    }
+  // 전화번호 포맷팅 핸들러
+  const handlePhoneNumberChange = (value: string) => {
+    const formatted = formatPhoneNumber(value);
+    setValue("phoneNumber", formatted, { shouldValidate: true });
   };
 
-  const handleIsAllAllows = () => {
-    const status = !isAllAllow;
-    setIsAllAllow(status);
-    setIsFirstAllow(status);
-    setIsSecondAllow(status);
-  };
-
-  const handleIsFirstAllow = () => {
-    const status = !isFirstAllow;
-    if (status) {
-      setIsFirstAllow(status);
-    } else {
-      setIsFirstAllow(status);
-      setIsAllAllow(status);
-    }
-  };
-  const handleIsSecondAllow = () => {
-    const status = !isSecondAllow;
-    if (status) {
-      setIsSecondAllow(status);
-    } else {
-      setIsSecondAllow(status);
-      setIsAllAllow(status);
+  // 계좌번호 숫자만 입력 핸들러
+  const handleAccountNumberChange = (value: string) => {
+    if (validateNumber(value)) {
+      setValue("accountNumber", value, { shouldValidate: true });
     }
   };
 
   const onClickButton = () => {
-    if (isDone) {
+    if (isValid) {
       setIsNext(true);
     }
   };
+
   const handleBackClick = () => {
     setIsNext(false);
   };
@@ -146,21 +83,31 @@ const SignUpPage = () => {
   };
 
   const handleClickBank = (event: MouseEvent<HTMLDivElement>) => {
-    const bankName = event.currentTarget.textContent; // 선택한 은행의 이름을 가져옴
-    if (bankInput.current) {
-      setInputs({ ...inputs, [bankInput.current.name]: bankName });
-      setIsOpenModal(!isOpenModal);
+    const bankName = event.currentTarget.textContent;
+    if (bankName) {
+      setValue("bank", bankName);
+      setIsOpenModal(false);
     }
   };
+
   const setBank = (value: string) => {
-    setInputs({ ...inputs, bank: value });
+    setValue("bank", value);
   };
+
   const handleClose = () => {
     setIsOpenModal(!isOpenModal);
   };
 
-  const onSubmitButton = () => {
-    signUpMutate(inputs);
+  const onSubmit = (data: SignUpFormData) => {
+    const submitData: TInputs = {
+      name: data.name,
+      phoneNumber: data.phoneNumber?.trim() || undefined,
+      email: data.email,
+      bank: data.bank || "",
+      accountNumber: data.accountNumber || "",
+    };
+
+    signUpMutate(submitData);
   };
 
   return (
@@ -172,10 +119,9 @@ const SignUpPage = () => {
       />
       {isNext ? (
         <SignUpNotRequiredForm
-          bank={bank}
-          accountNumber={accountNumber}
+          register={register}
+          watch={watch}
           handleBackClick={handleBackClick}
-          onChangeValue={handleInputValue}
           onClickBankArrow={onClickBankArrow}
           isOpenModal={isOpenModal}
           isBottomSheetOpen={isBottomSheetOpen}
@@ -183,23 +129,18 @@ const SignUpPage = () => {
           setBank={setBank}
           handleClose={handleClose}
           handleClickBank={handleClickBank}
-          onClickButton={onSubmitButton}
+          onClickButton={handleSubmit(onSubmit)}
           bankRef={bankInput}
+          onAccountNumberChange={handleAccountNumberChange}
         />
       ) : (
         <SignUpRequiredForm
-          name={name}
-          onChangeValue={handleInputValue}
-          phoneNumber={phoneNumber}
-          isNameValid={isNameValid}
-          nameValidationMessage={nameValidationMessage}
-          isPhoneNumberValid={isPhoneNumberValid}
-          isAllAllow={isAllAllow}
-          onClickAllAllow={handleIsAllAllows}
-          isFirstAllow={isFirstAllow}
-          isSecondAllow={isSecondAllow}
-          onClickFirstAllow={handleIsFirstAllow}
-          onClickSecondAllow={handleIsSecondAllow}
+          register={register}
+          control={control}
+          errors={errors}
+          watch={watch}
+          isValid={isValid}
+          onClickButton={onClickButton}
           onClickDetailTOSPage={() => {
             const url = `${window.location.origin}/info/tos`;
             window.open(url, "_blank", "noopener, noreferrer");
@@ -208,11 +149,11 @@ const SignUpPage = () => {
             const url = `${window.location.origin}/info/pp`;
             window.open(url, "_blank", "noopener, noreferrer");
           }}
-          isDone={isDone}
-          onClickButton={onClickButton}
+          onPhoneNumberChange={handlePhoneNumberChange}
         />
       )}
     </>
   );
 };
+
 export default SignUpPage;

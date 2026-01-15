@@ -1,8 +1,10 @@
-import { ChangeEvent, MouseEvent } from "react";
+import { SignUpFormData } from "@/schemas/signUpSchema";
+import { MouseEvent } from "react";
+import { Control, FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
 
 export type TInputs = {
   name: string;
-  phoneNumber: string;
+  phoneNumber?: string;
   email?: string;
   bank: string;
   accountNumber: string;
@@ -15,10 +17,9 @@ export type TSocialUserSession = {
 };
 
 export type SignUpNotRequiredFormProps = {
-  bank: string;
-  accountNumber: string;
+  register: UseFormRegister<SignUpFormData>;
+  watch: UseFormWatch<SignUpFormData>;
   handleBackClick?: () => void;
-  onChangeValue: (e: ChangeEvent<HTMLInputElement>) => void;
   onClickBankArrow: () => void;
   onClickButton?: () => void;
   isOpenModal: boolean;
@@ -28,24 +29,17 @@ export type SignUpNotRequiredFormProps = {
   handleClose: () => void;
   handleClickBank: (event: MouseEvent<HTMLDivElement>) => void;
   bankRef: React.RefObject<HTMLInputElement>;
+  onAccountNumberChange?: (value: string) => void;
 };
 
 export type SignUpRequiredFormProps = {
-  name: string;
-  namePlaceholder?: string;
-  onChangeValue: (e: ChangeEvent<HTMLInputElement>) => void;
-  phoneNumber: string;
-  isNameValid: boolean;
-  nameValidationMessage?: string;
-  isPhoneNumberValid: boolean;
-  isAllAllow?: boolean;
-  onClickAllAllow: () => void;
-  isFirstAllow?: boolean;
-  onClickFirstAllow: () => void;
-  onClickSecondAllow: () => void;
-  isSecondAllow?: boolean;
-  isDone?: boolean;
+  register: UseFormRegister<SignUpFormData>;
+  control: Control<SignUpFormData>;
+  errors: FieldErrors<SignUpFormData>;
+  watch: UseFormWatch<SignUpFormData>;
+  isValid: boolean;
   onClickButton?: () => void;
   onClickDetailTOSPage: () => void;
   onClickDetailPPPage: () => void;
+  onPhoneNumberChange?: (value: string) => void;
 };

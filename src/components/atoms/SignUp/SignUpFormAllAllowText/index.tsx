@@ -5,7 +5,7 @@ export type SignUpFormAllAllowTextProps = {
 
 const SignUpFormAllAllowText = ({ label, onClick }: SignUpFormAllAllowTextProps) => {
   return (
-    <div className="text-black text-16 font-semibold leading-24" onClick={onClick}>
+    <div className="font-semibold text-black cursor-pointer text-16 leading-24" onClick={onClick}>
       {label}
     </div>
   );

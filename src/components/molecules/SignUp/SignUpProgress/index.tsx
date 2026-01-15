@@ -7,7 +7,7 @@ export type SignUpProgressProps = {
 
 const SignUpProgress = ({ isInProgress1, isInProgress2 }: SignUpProgressProps) => {
   return (
-    <div className="flex justify-between w-24">
+    <div className="flex justify-between items-center w-24 h-24">
       <div className="mr-8">
         <SignUpProgressCircle isInProgress={isInProgress1} />
       </div>
