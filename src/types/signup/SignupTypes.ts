@@ -4,7 +4,7 @@ import { Control, FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-
 
 export type TInputs = {
   name: string;
-  phoneNumber?: string;
+  phoneNumber?: string | null;
   email?: string;
   bank: string;
   accountNumber: string;
