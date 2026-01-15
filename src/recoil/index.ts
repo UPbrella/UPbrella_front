@@ -1,4 +1,6 @@
 import { $axios } from "@/lib/axios";
+import { TUserRes } from "@/types/admin/userTypes";
+import { TApiResponse } from "@/types/commonTypes";
 import { atom, selector } from "recoil";
 import { recoilPersist } from "recoil-persist";
 
@@ -13,7 +15,9 @@ export const loginState = atom({
 export const loginInfo = selector({
   key: "loginInfo",
   get: async () => {
-    const response = await $axios.get("/users/loggedIn", { withCredentials: true });
+    const response = await $axios.get<TApiResponse<TUserRes>>("/users/loggedIn", {
+      withCredentials: true,
+    });
     return response.data.data;
   },
 });

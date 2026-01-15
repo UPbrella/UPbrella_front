@@ -1,29 +1,29 @@
-import FormBasic from "@/components/atoms/Form/FormBasic";
-import FormStatus from "@/components/atoms/Form/FormStatus";
-import FormButton from "@/components/atoms/Form/FormButton";
-import FormLocationMolecules from "@/components/molecules/FormLocationMolecules";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { useEffect, useState } from "react";
+import { patchReturn } from "@/api/formApi";
 import BottomSheet from "@/components/atoms/BottomSheet";
 import BankContent from "@/components/atoms/Form/BankContent";
-import FormModal from "@/components/molecules/FormModal";
+import FormBasic from "@/components/atoms/Form/FormBasic";
+import FormButton from "@/components/atoms/Form/FormButton";
+import FormStatus from "@/components/atoms/Form/FormStatus";
 import ReturnModal from "@/components/atoms/Form/ReturnModal";
+import ErrorComponent from "@/components/molecules/ErrorComponent";
+import FormLocationMolecules from "@/components/molecules/FormLocationMolecules";
+import FormModal from "@/components/molecules/FormModal";
+import { HeaderContainer } from "@/components/organisms/Header/HeaderContainer";
 import {
   useGetReturnFormData,
   useGetReturnFormLockData,
   useGetReturnUmbrella,
 } from "@/hooks/queries/formQueries";
-import { useRecoilValue, useSetRecoilState } from "recoil";
 import { loginInfo, redirectUrl } from "@/recoil";
-import { formatPhoneNumber } from "@/utils/utils";
-import { useMutation } from "@tanstack/react-query";
-import { patchReturn } from "@/api/formApi";
-import { useLocation } from "react-router-dom";
-import { HeaderContainer } from "@/components/organisms/Header/HeaderContainer";
-import ErrorComponent from "@/components/molecules/ErrorComponent";
 import { TCustomError } from "@/types/commonTypes";
 import { getErrorMessage } from "@/utils/error";
+import { formatPhoneNumber } from "@/utils/utils";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useMutation } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useLocation } from "react-router-dom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 const ReturnPage = () => {
   // 반납전(false), 반납후(true)
@@ -67,7 +67,7 @@ const ReturnPage = () => {
   // 로그인 유저 정보 조회 (이름, 전화번호, 은행명, 계좌번호)
   useEffect(() => {
     setName(userInfo.name);
-    const formattedPhone = formatPhoneNumber(userInfo.phoneNumber);
+    const formattedPhone = formatPhoneNumber(userInfo.phoneNumber ?? "");
     setPhone(formattedPhone);
   }, [userInfo]);
 

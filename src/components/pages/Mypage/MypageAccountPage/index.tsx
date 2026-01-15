@@ -41,7 +41,7 @@ const MypageAccountPage = () => {
           if (loginInfoValue.contents.bank) {
             const data = {
               ["bank"]: loginInfoValue.contents.bank,
-              ["accountNumber"]: loginInfoValue.contents.accountNumber,
+              ["accountNumber"]: loginInfoValue.contents.accountNumber ?? "",
             };
             setInputs({ ...data });
             setHasBankAccountInfo(true);
