@@ -31,7 +31,7 @@ const MypageInfoPage = () => {
         case "hasValue": {
           const data = {
             name: loginInfoValue.contents.name,
-            phoneNumber: loginInfoValue.contents.phoneNumber,
+            phoneNumber: loginInfoValue.contents.phoneNumber ?? "",
             email: loginInfoValue.contents.email,
           };
           setInfos({ ...data });
