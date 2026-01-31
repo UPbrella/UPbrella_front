@@ -68,16 +68,22 @@ jobs:
           echo "VITE_APPLE_CLIENT_ID=${VITE_APPLE_CLIENT_ID}" >> .env
           echo "VITE_APPLE_REDIRECT_URI=${VITE_APPLE_REDIRECT_URI}" >> .env
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18
+          cache: "pnpm"
 
       - name: Install dependencies
-        run: npm install
+        run: pnpm install --frozen-lockfile
 
       - name: Generate build
-        run: npm run build
+        run: pnpm run build
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
