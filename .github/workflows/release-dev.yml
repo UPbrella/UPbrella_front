@@ -49,28 +49,23 @@ jobs:
           echo "VITE_EMAIL_TEMPLATE_ID"=${VITE_EMAIL_TEMPLATE_ID} >> .env
           echo "VITE_EMAIL_PUB_KEY"=${VITE_EMAIL_PUB_KEY} >> .env
 
-      - name: Set node@v1
-        uses: actions/setup-node@v3
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
 
-      - name: check Node v
-        run: node -v
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: "pnpm"
 
-      - name: Install npm
-        run: sudo apt install npm
-
-      - name: check npm
-        run: npm -v
-
-      - name: install dependency
-        run: npm install
-        working-directory: ${{ env.working-directory }}
-
-      - name: install CI
-        run: npm ci
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
         working-directory: ${{ env.working-directory }}
 
       - name: Generate build
-        run: npm run build
+        run: pnpm run build
         working-directory: ${{ env.working-directory }}
 
       - name: Upload to AWS S3
