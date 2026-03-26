@@ -65,7 +65,7 @@ export default {
         kakaoblack: "#000000",
       },
       backgroundImage: {
-        basic: "url('/src/assets/basicbackground.png')",
+        basic: "url('/src/shared/assets/basicbackground.png')",
       },
     },
   },
