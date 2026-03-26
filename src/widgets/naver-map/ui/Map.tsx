@@ -6,7 +6,6 @@ type TProps = {
   borderRadius?: string;
 };
 
-// 네이버 map 으로 사용할 컴포넌트
 const Map = forwardRef<HTMLDivElement, TProps>(function Map(
   { width = "100%", height = "60vh", borderRadius = "0px" }: TProps,
   ref

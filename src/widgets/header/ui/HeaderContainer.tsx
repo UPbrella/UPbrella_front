@@ -1,18 +1,21 @@
-import { useState, useEffect } from "react";
-import { useNavigate, Link, NavLink, useLocation } from "react-router-dom";
-import { useGetUserStatus } from "@/hooks/queries/userQueries";
-import { TUserRes } from "@/types/admin/userTypes";
-import { ADMIN_ROUTES_URL } from "@/routes/adminRouter";
-import Logo from "@/assets/main_logo.svg";
-import HeaderMyPage from "@/components/atoms/Header/HeaderMyPage";
-import MobileMenu from "@/components/molecules/MobileMenu";
-import MenuIcon from "@mui/icons-material/Menu";
+import {
+  ADMIN_ROUTES_URL,
+  BACKGROUND_IMAGE_ROUTES_URL,
+  BASIC_ROUTES_URL,
+  LAYOUT_ROUTES_URL,
+} from "@/app/router/routes";
+import { useGetUserStatus } from "@/entities/user/api/user.queries";
+import { TUserRes } from "@/entities/user/model/types";
+import Logo from "@/shared/assets/main_logo.svg";
+import { FixWidthWrapper } from "@/shared/ui/FixWidthWrapper";
+import HeaderMyPage from "@/widgets/header/ui/HeaderMyPage";
+import MobileMenu from "@/widgets/header/ui/MobileMenu";
 import ArrowBackIosNewSharpIcon from "@mui/icons-material/ArrowBackIosNewSharp";
+import MenuIcon from "@mui/icons-material/Menu";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import { BASIC_ROUTES_URL } from "@/routes/basicRouter";
-import { LAYOUT_ROUTES_URL } from "@/routes/layoutRouter";
-import { BACKGROUND_IMAGE_ROUTES_URL } from "@/routes/backgroundImageRouter";
-import { FixWidthWrapper } from "@/components/pages/story/UpbrellaStoryPage";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 
 type THeaderProps = {
   isLoading: boolean;
@@ -74,10 +77,10 @@ const DesktopHeader = ({ isLoading, userRes }: THeaderProps) => {
   const [infoBubbleOpen, setInfoBubbleOpen] = useState(false);
 
   return (
-    <div className="relative items-center justify-between hidden w-full py-8 xl:flex">
+    <div className="hidden relative justify-between items-center py-8 w-full xl:flex">
       <Link to={"/"}>
         <img
-          className="w-64 h-64 p-8"
+          className="p-8 w-64 h-64"
           src={Logo}
           alt="Logo"
           onError={(e) => {
@@ -113,7 +116,7 @@ const DesktopHeader = ({ isLoading, userRes }: THeaderProps) => {
 
         {userRes ? (
           <div
-            className="relative flex items-center cursor-pointer"
+            className="flex relative items-center cursor-pointer"
             onClick={() => setInfoBubbleOpen((prev) => !prev)}
           >
             <PersonOutlineOutlinedIcon sx={{ fontSize: "20px" }} />
@@ -129,7 +132,7 @@ const DesktopHeader = ({ isLoading, userRes }: THeaderProps) => {
         ) : (
           <button
             onClick={() => navigate(BACKGROUND_IMAGE_ROUTES_URL.login.path())}
-            className="h-48 gap-8 font-semibold text-white w-82 rounded-8 bg-primary-500 text-16 leading-24"
+            className="gap-8 h-48 font-semibold text-white w-82 rounded-8 bg-primary-500 text-16 leading-24"
           >
             로그인
           </button>
@@ -159,11 +162,7 @@ const MobileHeader = ({ userRes }: THeaderProps) => {
 
   return (
     <>
-      <div
-        className={
-          menuOpen ? "hidden" : "flex justify-center items-center cursor-pointer relative xl:hidden"
-        }
-      >
+      <div className="flex relative justify-center items-center cursor-pointer xl:hidden">
         <div
           className="absolute left-0 cursor-pointer"
           onClick={() => {
@@ -192,13 +191,26 @@ const MobileHeader = ({ userRes }: THeaderProps) => {
         </Link>
       </div>
 
-      {/* openMenu */}
-      {menuOpen && (
-        <div className="fixed top-0 bottom-0 left-0 right-0 flex justify-center p-20 bg-white xl:hidden">
-          <div className="xl:hidden smMaxLg:w-full smMaxLg:max-w-640">
+      {createPortal(
+        <>
+          {/* Drawer overlay */}
+          <div
+            className={`fixed inset-0 z-[9998] bg-black/40 xl:hidden transition-opacity duration-300 ${
+              menuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+            }`}
+            onClick={() => setMenuOpen(false)}
+          />
+
+          {/* Drawer panel */}
+          <div
+            className={`fixed inset-y-0 left-0 z-[9999] w-4/5 max-w-[360px] bg-white p-20 xl:hidden transition-transform duration-300 ease-in-out ${
+              menuOpen ? "translate-x-0" : "-translate-x-full"
+            }`}
+          >
             <MobileMenu userRes={userRes} setMenuOpen={setMenuOpen} />
           </div>
-        </div>
+        </>,
+        document.body
       )}
     </>
   );

@@ -1,5 +1,5 @@
-import webMarker from "@/assets/webMarker.svg";
-import webMarker_inactive from "@/assets/webMarker_inactive.svg";
+import webMarker from "@/shared/assets/webMarker.svg";
+import webMarker_inactive from "@/shared/assets/webMarker_inactive.svg";
 
 export const createClusterIcon = (pointCount: number, hasActiveStore: boolean): string => {
   const iconSrc = hasActiveStore ? webMarker : webMarker_inactive;

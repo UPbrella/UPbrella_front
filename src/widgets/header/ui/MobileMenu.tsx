@@ -1,18 +1,18 @@
 import { Link, useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
-import Logo from "@/assets/main_logo.svg";
+import Logo from "@/shared/assets/main_logo.svg";
 import CloseSharpIcon from "@mui/icons-material/CloseSharp";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import { useLogout } from "@/hooks/queries/userQueries";
-import { TUserRes } from "@/types/admin/userTypes";
+import { useLogout } from "@/entities/user/api/user.queries";
+import { TUserRes } from "@/entities/user/model/types";
 import { Fragment } from "react";
-import CardFooter from "@/components/organisms/CardFooter";
-import { headerNavItems } from "@/components/organisms/Header/HeaderContainer";
-import { LAYOUT_ROUTES_URL } from "@/routes/layoutRouter";
-import { BACKGROUND_IMAGE_ROUTES_URL } from "@/routes/backgroundImageRouter";
+import CardFooter from "@/entities/store/ui/CardFooter";
+import { headerNavItems } from "@/widgets/header/ui/HeaderContainer";
+import { LAYOUT_ROUTES_URL } from "@/app/router/routes";
+import { BACKGROUND_IMAGE_ROUTES_URL } from "@/app/router/routes";
 
-export type TMenu = {
+type TMenu = {
   userRes: TUserRes | null;
   setMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };

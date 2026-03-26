@@ -1,6 +1,6 @@
 import Supercluster from "supercluster";
 
-export interface ClusterPoint {
+interface ClusterPoint {
   type: "Feature";
   properties: {
     cluster?: boolean;

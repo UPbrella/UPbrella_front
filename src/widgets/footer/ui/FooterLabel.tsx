@@ -1,5 +1,5 @@
-import { BASIC_ROUTES_URL } from "@/routes/basicRouter";
-import { LAYOUT_ROUTES_URL } from "@/routes/layoutRouter";
+import { BASIC_ROUTES_URL } from "@/app/router/routes";
+import { LAYOUT_ROUTES_URL } from "@/app/router/routes";
 import { useNavigate } from "react-router-dom";
 
 const FooterLabel = () => {

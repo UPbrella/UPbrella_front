@@ -2,10 +2,10 @@ import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
-import "@/components/organisms/ImgSwiper/styles.css";
-import DefaultImg from "@/assets/Story/section4-1.jpeg";
+import "@/widgets/image-swiper/ui/ImgSwiper/styles.css";
+import DefaultImg from "@/shared/assets/Story/section4-1.jpeg";
 
-export type TImgSwiper = {
+type TImgSwiper = {
   images: Array<string>;
 };
 

@@ -1,5 +1,5 @@
-import { useLogout } from "@/hooks/queries/userQueries";
-import { LAYOUT_ROUTES_URL } from "@/routes/layoutRouter";
+import { useLogout } from "@/entities/user/api/user.queries";
+import { LAYOUT_ROUTES_URL } from "@/app/router/routes";
 import { Link } from "react-router-dom";
 
 const HeaderMyPage = () => {

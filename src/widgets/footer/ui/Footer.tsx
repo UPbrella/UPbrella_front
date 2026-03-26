@@ -1,6 +1,6 @@
-import FooterLabel from "@/components/molecules/Footer/FooterLabel";
-import FooterSns from "@/components/molecules/Footer/FooterSNS";
-import { FixWidthWrapper } from "@/components/pages/story/UpbrellaStoryPage";
+import FooterLabel from "@/widgets/footer/ui/FooterLabel";
+import FooterSns from "@/widgets/footer/ui/FooterSNS";
+import { FixWidthWrapper } from "@/shared/ui/FixWidthWrapper";
 
 const Footer = () => {
   return (

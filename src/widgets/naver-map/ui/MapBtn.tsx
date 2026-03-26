@@ -2,9 +2,9 @@ import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import MyLocationOutlinedIcon from "@mui/icons-material/MyLocationOutlined";
 import { Dispatch, ReactNode, SetStateAction } from "react";
-import { getUserPosition } from "@/utils/map/mapHelper";
+import { getUserPosition } from "@/widgets/naver-map/lib/mapHelper";
 import { useNavigate } from "react-router-dom";
-import { BASIC_ROUTES_URL } from "@/routes/basicRouter";
+import { BASIC_ROUTES_URL } from "@/app/router/routes";
 
 const mapIcons: { icon: ReactNode; title: string }[] = [
   { icon: <MyLocationOutlinedIcon />, title: "현재 위치 검색" },
@@ -12,7 +12,7 @@ const mapIcons: { icon: ReactNode; title: string }[] = [
   { icon: <QuestionMarkIcon />, title: "이용안내 확인" },
 ];
 
-export type MapBtnProps = {
+type MapBtnProps = {
   map: naver.maps.Map | undefined;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
 };
