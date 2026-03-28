@@ -28,6 +28,7 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
   const { kakao } = window;
 
   // client
+  const [isDirty, setIsDirty] = useState(false);
   const [storeData, setStoreData] = useState(selectedStore);
 
   // server
@@ -39,6 +40,7 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
   useEffect(() => {
     if (selectedStore) {
       setStoreData(selectedStore);
+      setIsDirty(false);
     }
   }, [selectedStore]);
 
@@ -69,6 +71,7 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
   const onChangeStoreData = (e: {
     target: { name: string; value: string | number | null | TStoreBusinessHours[] };
   }) => {
+    setIsDirty(true);
     const { name, value } = e.target;
     if (name === "contactNumber") {
       if (typeof value === "string") {
@@ -168,9 +171,13 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
     <CustomModal
       isOpen={isOpen}
       handleClose={() => {
-        if (window.confirm("작성중인 내용이 모두 사라집니다.")) {
-          onCloseModal();
+        if (isDirty) {
+          if (window.confirm("작성중인 내용이 모두 사라집니다.")) {
+            onCloseModal();
+          }
+          return;
         }
+        onCloseModal();
       }}
       titleText={`협업지점 ${!selectedStoreId ? "추가" : "수정"}`}
       footerContents={

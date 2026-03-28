@@ -24,6 +24,7 @@ type TProps = {
 const MIN_LOCKER_SECRET_KEY_COUNT = 32;
 
 const LockerModal = ({ isOpen, handleClose, storesListRes, selectedLocker }: TProps) => {
+  const [isDirty, setIsDirty] = useState(false);
   const [storeId, setStoreId] = useState(selectedLocker?.storeMetaId);
   const [secretKey, setSecretKey] = useState(selectedLocker?.secretKey);
 
@@ -100,9 +101,13 @@ const LockerModal = ({ isOpen, handleClose, storesListRes, selectedLocker }: TPr
     <CustomModal
       isOpen={isOpen}
       handleClose={() => {
-        if (window.confirm("작성중인 내용이 모두 사라집니다.")) {
-          handleClose();
+        if (isDirty) {
+          if (window.confirm("작성중인 내용이 모두 사라집니다.")) {
+            handleClose();
+          }
+          return;
         }
+        handleClose();
       }}
       titleText={`보관함 ${selectedLocker ? "수정 및 삭제" : "추가"}`}
       isLoading={isPostMutating || isPatchMutating || isDeleteMutating}
@@ -150,6 +155,7 @@ const LockerModal = ({ isOpen, handleClose, storesListRes, selectedLocker }: TPr
             name="selectedStoreId"
             menuItems={storeOptions}
             onChange={(_, value) => {
+              setIsDirty(true);
               setStoreId(value as number);
             }}
           />
@@ -161,7 +167,10 @@ const LockerModal = ({ isOpen, handleClose, storesListRes, selectedLocker }: TPr
             placeholder="ex.ASDF1234"
             value={secretKey}
             name="secretKey"
-            onChange={(e) => setSecretKey(e.target.value)}
+            onChange={(e) => {
+              setIsDirty(true);
+              setSecretKey(e.target.value);
+            }}
           />
         </StoreFormWrapper>
       </div>

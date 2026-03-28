@@ -1,16 +1,17 @@
-import SelectBox from "@/shared/ui/SelectBox";
-import CustomModal from "@/shared/ui/Modal";
-import StoreFormWrapper from "@/pages/admin/store/ui/StoreFormWrapper";
-import { convertUmbrellaData } from "@/features/admin-umbrella/lib/umbrella-helpers";
+import { TAdminStoreDetail } from "@/entities/store/model/types";
 import {
   UMBRELLAS_QUERY_KEYS,
   usePatchUmbrellas,
   usePostUmbrellas,
 } from "@/entities/umbrella/api/umbrella.queries";
-import { TAdminStoreDetail } from "@/entities/store/model/types";
 import { TUmbrellaRes } from "@/entities/umbrella/model/types";
-import { TCustomError } from "@/shared/model/types";
+import { convertUmbrellaData } from "@/features/admin-umbrella/lib/umbrella-helpers";
+import StoreFormWrapper from "@/pages/admin/store/ui/StoreFormWrapper";
 import { getErrorMessage } from "@/shared/api/error";
+import logo from "@/shared/assets/main_logo.svg";
+import { TCustomError } from "@/shared/model/types";
+import CustomModal from "@/shared/ui/Modal";
+import SelectBox from "@/shared/ui/SelectBox";
 import {
   Button,
   FormControlLabel,
@@ -19,11 +20,10 @@ import {
   TextField,
   TextareaAutosize,
 } from "@mui/material";
-import { useState } from "react";
-import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { QRCodeCanvas } from "qrcode.react";
-import logo from "@/shared/assets/main_logo.svg";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 type TProps = {
   isOpen: boolean;
@@ -48,6 +48,7 @@ const UmbrellaModal = ({
 }: TProps) => {
   // client
   const [isReadOnly, setIsReadOnly] = useState(!!umbrellaRes);
+  const [isDirty, setIsDirty] = useState(false);
   const [umbrellaData, setUmbrellaData] = useState(convertUmbrellaData(umbrellaRes));
   const QR_CODE_URL = `${window.location.origin}/rent/form/${umbrellaRes?.id}`;
 
@@ -59,13 +60,14 @@ const UmbrellaModal = ({
   const storeFilter = storeId === 0 ? undefined : storeId;
 
   const onChangeData = (name: string, value: string | number | boolean) => {
+    setIsDirty(true);
     setUmbrellaData((prev) => {
       return { ...prev, [name]: value };
     });
   };
 
   const handleCloseModal = () => {
-    if (!isReadOnly) {
+    if (!isReadOnly && isDirty) {
       if (window.confirm("작성하고 있는 내용이 사라집니다.")) {
         handleClose();
         return;
