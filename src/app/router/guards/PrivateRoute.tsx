@@ -4,6 +4,8 @@ import React, { useEffect } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 
+const isMockMode = import.meta.env.VITE_MOCK_MODE === "true";
+
 const PrivateRoutes: React.FC = () => {
   const { pathname, search } = useLocation();
   const { isLoading, isError } = useGetUserStatus();
@@ -12,13 +14,13 @@ const PrivateRoutes: React.FC = () => {
   const setRedirectUrl = useSetRecoilState(redirectUrl);
 
   useEffect(() => {
-    if (isError) {
+    if (!isMockMode && isError) {
       setRedirectUrl(path);
     }
   }, [isError, path, setRedirectUrl]);
 
-  if (isLoading) return <></>;
-  if (isError) {
+  if (!isMockMode && isLoading) return <></>;
+  if (!isMockMode && isError) {
     return <Navigate to="/login" replace={true} />;
   }
 

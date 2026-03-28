@@ -4,16 +4,18 @@ import { useGetUserStatus } from "@/entities/user";
 import { BASIC_ROUTES_URL } from "@/app/router/routes";
 import SeoMetaTag from "@/shared/ui/SeoMetaTag";
 
+const isMockMode = import.meta.env.VITE_MOCK_MODE === "true";
+
 const AdminRoutes = () => {
   const { data, isLoading, isError } = useGetUserStatus();
   const navigate = useNavigate();
 
   useLayoutEffect(() => {
-    if (isError || (data && !data.data.data.adminStatus))
+    if (!isMockMode && (isError || (data && !data.data.data.adminStatus)))
       return navigate(BASIC_ROUTES_URL.forbidden.path(), { replace: true });
   }, [data, isError, navigate]);
 
-  if (isLoading) {
+  if (!isMockMode && isLoading) {
     return <></>;
   }
 
