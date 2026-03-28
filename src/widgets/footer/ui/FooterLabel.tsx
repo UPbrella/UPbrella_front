@@ -1,8 +1,10 @@
 import { BASIC_ROUTES_URL } from "@/app/router/routes";
 import { LAYOUT_ROUTES_URL } from "@/app/router/routes";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 const FooterLabel = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   return (
     <div className="flex gap-6 text-sm text-gray-700">
@@ -15,7 +17,7 @@ const FooterLabel = () => {
           });
         }}
       >
-        이용약관
+        {t("common.footer.tos")}
       </button>
       <button
         onClick={() => {
@@ -26,7 +28,7 @@ const FooterLabel = () => {
           });
         }}
       >
-        개인정보처리방침
+        {t("common.footer.privacy")}
       </button>
       <button
         className="font-semibold"

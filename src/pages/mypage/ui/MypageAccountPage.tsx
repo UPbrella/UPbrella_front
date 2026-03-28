@@ -12,8 +12,10 @@ import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValueLoadable } from "recoil";
+import { useTranslation } from "react-i18next";
 
 const MypageAccountPage = () => {
+  const { t } = useTranslation();
   const [inputs, setInputs] = useState<TAccountPageInputs>({
     bank: "",
     accountNumber: "",
@@ -50,19 +52,16 @@ const MypageAccountPage = () => {
           }
           break;
         case "loading":
-          // 로딩 중에는 아무것도 하지 않음
           return;
         case "hasError":
-          // 에러 발생 시 로그인 페이지로 리다이렉트
-          toast.error(`로그인 세션이 만료되었습니다.
-      다시 로그인해주세요.`);
+          toast.error(t("toast.error.sessionExpired"));
           navigate(BASIC_ROUTES_URL.root.path());
           return;
       }
     };
 
     getBankAccountInfo();
-  }, [loginInfoValue.state, loginInfoValue.contents, navigate]);
+  }, [loginInfoValue.state, loginInfoValue.contents, navigate, t]);
   const handleInputValue = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
@@ -86,7 +85,7 @@ const MypageAccountPage = () => {
   };
 
   const handleClickBank = (event: MouseEvent<HTMLDivElement>) => {
-    const bankName = event.currentTarget.textContent; // 선택한 은행의 이름을 가져옴
+    const bankName = event.currentTarget.textContent;
     if (bankInput.current) {
       setInputs({ ...inputs, [bankInput.current.name]: bankName });
       setIsOpenModal(!isOpenModal);
@@ -107,7 +106,6 @@ const MypageAccountPage = () => {
       setStatus({ ...status, isDeleted: false });
     });
   };
-  //   계좌 등록과 수정 모두 같은 patch api 요청
   const handleChangeAccount = async () => {
     await $axios.patch("/users/bankAccount", { ...inputs }, { withCredentials: true }).then(() => {
       setInputs({ ...inputs });
@@ -152,8 +150,8 @@ const MypageAccountPage = () => {
           {status.isDeleted ? (
             <MypageModal width="320">
               <MypageModalTwoBtnChildren
-                label="계좌를 삭제하시겠어요?"
-                btnLabel="삭제"
+                label={t("mypage.account.deleteConfirm")}
+                btnLabel={t("mypage.account.deleteBtn")}
                 onClickCancel={() => {
                   setStatus({ ...status, isDeleted: false });
                 }}
@@ -164,7 +162,7 @@ const MypageAccountPage = () => {
           {status.isChanged ? (
             <MypageModal width="320">
               <MypageModalChildren
-                label="계좌 변경 완료!"
+                label={t("mypage.account.changeComplete")}
                 onClickBtn={() => {
                   setStatus({ ...status, isChanged: false });
                 }}
@@ -174,7 +172,7 @@ const MypageAccountPage = () => {
           {status.isRegistered ? (
             <MypageModal width="320">
               <MypageModalChildren
-                label="계좌 등록 완료!"
+                label={t("mypage.account.registerComplete")}
                 onClickBtn={() => {
                   setStatus({ ...status, isRegistered: false });
                 }}

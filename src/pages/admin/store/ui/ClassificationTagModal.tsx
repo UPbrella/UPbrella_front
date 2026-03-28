@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Button, TextField } from "@mui/material";
 import CustomModal from "@/shared/ui/Modal";
 import Map from "@/widgets/naver-map/ui/Map";
@@ -24,13 +25,13 @@ const ClassificationTagModal = ({
   tagData,
   setTagData,
 }: TProps) => {
+  const { t } = useTranslation();
   const { naver } = window;
   const isNewTag = !selectedId;
   const mapElement = useRef(null);
 
   const [location, setLocation] = useState<naver.maps.LatLng>();
 
-  // 좌표 변경 때, location state 변경
   useEffect(() => {
     const _location = new naver.maps.LatLng(
       tagData.latitude ?? DEFAULT_COORDINATE.lat,
@@ -39,7 +40,6 @@ const ClassificationTagModal = ({
     setLocation(_location);
   }, [naver.maps.LatLng, tagData.latitude, tagData.longitude]);
 
-  // map 생성
   useEffect(() => {
     if (!mapElement.current || !naver || !location) return;
 
@@ -70,7 +70,9 @@ const ClassificationTagModal = ({
 
   return (
     <CustomModal
-      titleText={`대여소 위치 페이지 내 지역 태그 ${isNewTag ? "추가" : "조회"}`}
+      titleText={
+        isNewTag ? t("admin.store.tag.regionAddTitle") : t("admin.store.tag.regionViewTitle")
+      }
       handleClose={() => {
         handleClose();
         setSelectedId(undefined);
@@ -79,7 +81,7 @@ const ClassificationTagModal = ({
       footerContents={
         !selectedId && (
           <Button size="large" autoFocus onClick={onClickSaveBtn}>
-            추가
+            {t("admin.common.add")}
           </Button>
         )
       }
@@ -90,7 +92,7 @@ const ClassificationTagModal = ({
         } `}
       >
         <div className="flex items-center gap-5">
-          태그 이름 :
+          {t("admin.store.tag.nameLabel")}
           <TextField
             variant="standard"
             value={tagData.name}
@@ -104,7 +106,8 @@ const ClassificationTagModal = ({
         </div>
         <div className="flex flex-col gap-2">
           <div>
-            <b>위도</b> {tagData.latitude} <b>경도</b> {tagData.longitude}
+            <b>{t("admin.store.form.latitude")}</b> {tagData.latitude}{" "}
+            <b>{t("admin.store.form.longitude")}</b> {tagData.longitude}
           </div>
           <Map ref={mapElement} />
         </div>

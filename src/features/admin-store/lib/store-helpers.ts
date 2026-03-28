@@ -8,6 +8,7 @@ import {
   TStoreTableData,
 } from "@/entities/store/model/types";
 import { toast } from "react-hot-toast";
+import i18n from "@/shared/lib/i18n";
 
 export const storeInitializer = (res?: TAdminStoreDetail): TStoreParams => {
   if (res) {
@@ -54,7 +55,7 @@ export const storeInitializer = (res?: TAdminStoreDetail): TStoreParams => {
     address: "",
     addressDetail: "",
     umbrellaLocation: "",
-    businessHour: "매일 12:30 ~ 23:00",
+    businessHour: i18n.t("admin.store.defaultBusinessHour"),
     contactNumber: "",
     instagramId: "",
     latitude: null,
@@ -142,7 +143,7 @@ export const isValidateStoreSave = (params: TStoreParams) => {
     !longitude ||
     !latitude
   ) {
-    toast.error("필수값을 입력해주세요.");
+    toast.error(i18n.t("admin.common.requiredError"));
     return false;
   }
 

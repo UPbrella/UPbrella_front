@@ -6,19 +6,20 @@ import HowReturn from "@/pages/info/ui/HowReturn";
 import FAQ from "@/pages/info/ui/FAQ";
 import Footer from "@/widgets/footer/ui/Footer";
 import SeoMetaTag from "@/shared/ui/SeoMetaTag";
+import { useTranslation } from "react-i18next";
 
-const InfoMenu = ["우산 대여 방법", "우산 반납 방법", "자주 묻는 질문"];
-
-// 이용안내 페이지
 const InfoPage = () => {
+  const { t } = useTranslation();
   const [activeInfoMenuIndex, setActiveInfoMenuIndex] = useState(0);
+
+  const InfoMenu = [t("info.tab.howRent"), t("info.tab.howReturn"), t("info.tab.faq")];
 
   return (
     <>
       <SeoMetaTag
-        title={"이용안내"}
-        description={"지구를 지키는 작은 우산, 업브렐라 서비스의 이용방법 안내입니다."}
-        keywords={", 이용 안내, 이용 방법"}
+        title={t("seo.info.title")}
+        description={t("seo.info.desc")}
+        keywords={t("seo.info.keywords")}
       />
       <div className="bg-white">
         <HeaderContainer />
@@ -26,7 +27,7 @@ const InfoPage = () => {
         <FixWidthWrapper>
           <div className="flex items-center px-10">
             <div className="flex flex-col justify-center flex-1 px-0 xl:px-40">
-              <div className="pt-24 pb-32 font-semibold text-24">이용안내</div>
+              <div className="pt-24 pb-32 font-semibold text-24">{t("info.pageTitle")}</div>
 
               <div className="flex w-full gap-2 overflow-auto flex-nowrap smMaxLg:max-w-600">
                 {InfoMenu.map((title, index) => (

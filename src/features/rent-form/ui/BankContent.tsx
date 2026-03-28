@@ -1,5 +1,6 @@
 import { MouseEventHandler } from "react";
 import { BankIcon } from "@/shared/constants/bank-icons";
+import { useTranslation } from "react-i18next";
 
 type BankContentProps = {
   setBank: (value: string) => void;
@@ -7,11 +8,12 @@ type BankContentProps = {
 };
 
 const BankContent = ({ setBank, setIsBottomSheetOpen }: BankContentProps) => {
+  const { t } = useTranslation();
   const banks = Object.entries(BankIcon);
 
   const handleClickBank: MouseEventHandler<HTMLDivElement> = (event) => {
-    event.stopPropagation(); // 이벤트버블링
-    const bankName = event.currentTarget.textContent || ""; // 선택한 은행의 이름을 가져옴
+    event.stopPropagation();
+    const bankName = event.currentTarget.textContent || "";
     setBank(bankName);
     setIsBottomSheetOpen(false);
   };
@@ -19,7 +21,7 @@ const BankContent = ({ setBank, setIsBottomSheetOpen }: BankContentProps) => {
   return (
     <div className="flex flex-col">
       <div className="sticky top-0 z-1 font-semibold text-20 leading-26 text-gray-700 ml-20 pb-24 bg-white">
-        은행을 선택해주세요
+        {t("auth.signup.step2.selectBank")}
       </div>
       <div className="mt-24 mx-20 grid grid-cols-3 gap-4">
         {banks.map(([bankName, icon]) => (

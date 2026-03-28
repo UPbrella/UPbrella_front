@@ -2,25 +2,27 @@ import { LAYOUT_ROUTES_URL } from "@/app/router/routes";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const MypageNav = () => {
+  const { t } = useTranslation();
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const location = useLocation();
   const navList = [
     {
-      name: "이용내역",
+      name: t("mypage.nav.rent"),
       path: LAYOUT_ROUTES_URL.myPageRent.path(),
     },
     {
-      name: "환급계좌 등록/변경",
+      name: t("mypage.nav.account"),
       path: LAYOUT_ROUTES_URL.myPageAccount.path(),
     },
     {
-      name: "개인정보 조회",
+      name: t("mypage.nav.info"),
       path: LAYOUT_ROUTES_URL.myPageInfo.path(),
     },
     {
-      name: "문의하기",
+      name: t("mypage.nav.contact"),
       path: LAYOUT_ROUTES_URL.myPageContact.path(),
     },
   ] as const;

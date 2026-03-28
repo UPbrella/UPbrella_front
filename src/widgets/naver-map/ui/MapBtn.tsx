@@ -1,15 +1,16 @@
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import MyLocationOutlinedIcon from "@mui/icons-material/MyLocationOutlined";
-import { Dispatch, ReactNode, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
+import { useTranslation } from "react-i18next";
 import { getUserPosition } from "@/widgets/naver-map/lib/mapHelper";
 import { useNavigate } from "react-router-dom";
 import { BASIC_ROUTES_URL } from "@/app/router/routes";
 
-const mapIcons: { icon: ReactNode; title: string }[] = [
-  { icon: <MyLocationOutlinedIcon />, title: "현재 위치 검색" },
-  { icon: <RestartAltIcon />, title: "정보 다시 가져오기" },
-  { icon: <QuestionMarkIcon />, title: "이용안내 확인" },
+const mapIconConfigs = [
+  { icon: <MyLocationOutlinedIcon />, titleKey: "store.map.searchCurrent" as const },
+  { icon: <RestartAltIcon />, titleKey: "store.map.refreshInfo" as const },
+  { icon: <QuestionMarkIcon />, titleKey: "store.map.viewGuide" as const },
 ];
 
 type MapBtnProps = {
@@ -18,6 +19,7 @@ type MapBtnProps = {
 };
 
 const MapBtn = ({ map, setIsLoading }: MapBtnProps) => {
+  const { t } = useTranslation();
   const { naver } = window;
   const navigate = useNavigate();
 
@@ -59,10 +61,10 @@ const MapBtn = ({ map, setIsLoading }: MapBtnProps) => {
   };
   return (
     <div className="flex flex-col gap-2">
-      {mapIcons.map(({ icon, title }, index) => (
+      {mapIconConfigs.map(({ icon, titleKey }, index) => (
         <div
           key={index + "key"}
-          title={title}
+          title={t(titleKey)}
           className="grid bg-white border border-gray-300 w-44 h-44 rounded-99 text-28 place-content-center hover:cursor-pointer"
           onClick={() => handleIconClick(index)}
         >

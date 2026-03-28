@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import CustomModal from "@/shared/ui/Modal";
 import StoreModalContents from "@/pages/admin/store/ui/StoreModalBody";
 import { TStoreBusinessHours, TStoreParams } from "@/entities/store/model/types";
@@ -23,8 +24,8 @@ type TProps = {
   selectedStoreId?: number;
 };
 
-// 협업지점 modal
 const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TProps) => {
+  const { t } = useTranslation();
   const { kakao } = window;
 
   // client
@@ -44,14 +45,11 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
     }
   }, [selectedStore]);
 
-  // 주소에 따라 위도, 경도 저장
   const getCoordinateByAddress = (address: string) => {
-    // TODO: loading 걸리는 것 확인
     kakao.maps.load(() => {
       const geocoder = new kakao.maps.services.Geocoder();
       geocoder.addressSearch(address, (result: TKakaoAddressResult[], status: string) => {
         if (status === kakao.maps.services.Status.OK) {
-          // x: longitude, y: latitude
           if (result[0]) {
             setStoreData((prev) => ({
               ...prev,
@@ -60,8 +58,7 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
               longitude: +result[0].x,
             }));
           } else {
-            // console.error("위도, 경도 정보를 못 받아왔습니다.");
-            toast.error("위도, 경도 정보를 못 받아왔습니다. 다시 주소를 입력해주세요.");
+            toast.error(t("admin.store.toast.coordError"));
           }
         }
       });
@@ -83,13 +80,11 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
       }
     }
 
-    // 주소
     if (name === "address") {
       getCoordinateByAddress(value as string);
       return;
     }
 
-    // 주소
     if (name === "content") {
       if ((value as string).length > 200) return;
       setStoreData({
@@ -99,7 +94,6 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
       return;
     }
 
-    // 그외
     setStoreData({
       ...storeData,
       [name]: value,
@@ -109,13 +103,12 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
   const onClickSaveStore = () => {
     if (!isValidateStoreSave(storeData)) return;
 
-    // 수정
     if (selectedStoreId) {
       updateStore(
         { storeId: selectedStoreId, params: storeData },
         {
           onSuccess: () => {
-            toast.success("지점이 수정 되었습니다.");
+            toast.success(t("admin.store.toast.editSuccess"));
             queryClient.invalidateQueries([...STORE_QUERY_KEYS.stores()]);
             queryClient.invalidateQueries([
               ...STORE_QUERY_KEYS.storeBusinessHours(selectedStoreId),
@@ -124,7 +117,7 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
             return;
           },
           onError: () => {
-            toast.error("수정에 실패했어요.");
+            toast.error(t("admin.store.toast.editFail"));
             return;
           },
         }
@@ -132,35 +125,33 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
       return;
     }
 
-    // 생성
     createStore(storeData, {
       onSuccess: () => {
-        toast.success("지점이 생성 되었습니다.");
+        toast.success(t("admin.store.toast.createSuccess"));
         queryClient.invalidateQueries([...STORE_QUERY_KEYS.stores()]);
         onCloseModal();
         return;
       },
       onError: () => {
-        toast.error("생성에 실패했어요.");
+        toast.error(t("admin.store.toast.createFail"));
         return;
       },
     });
     return;
   };
 
-  // 삭제
   const onClickDeleteStore = () => {
     if (!selectedStoreId) return;
-    if (window.confirm("정말 삭제하시겠습니까 ?")) {
+    if (window.confirm(t("admin.common.deleteConfirm"))) {
       removeStore(selectedStoreId, {
         onSuccess: () => {
-          toast.success("지점이 삭제 되었습니다.");
+          toast.success(t("admin.store.toast.deleteSuccess"));
           queryClient.invalidateQueries(["stores"]);
           onCloseModal();
           return;
         },
         onError: () => {
-          toast.error("삭제에 실패했어요.");
+          toast.error(t("admin.store.toast.deleteFail"));
           return;
         },
       });
@@ -172,14 +163,14 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
       isOpen={isOpen}
       handleClose={() => {
         if (isDirty) {
-          if (window.confirm("작성중인 내용이 모두 사라집니다.")) {
+          if (window.confirm(t("admin.common.discardConfirm"))) {
             onCloseModal();
           }
           return;
         }
         onCloseModal();
       }}
-      titleText={`협업지점 ${!selectedStoreId ? "추가" : "수정"}`}
+      titleText={!selectedStoreId ? t("admin.store.modalAdd") : t("admin.store.modalEdit")}
       footerContents={
         !selectedStoreId ? (
           <>
@@ -190,7 +181,7 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
                 onClickSaveStore();
               }}
             >
-              추가
+              {t("admin.common.add")}
             </Button>
           </>
         ) : (
@@ -202,7 +193,7 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
                 onClickSaveStore();
               }}
             >
-              수정
+              {t("admin.common.edit")}
             </Button>
             <Button
               color="error"
@@ -212,7 +203,7 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
                 onClickDeleteStore();
               }}
             >
-              삭제
+              {t("admin.common.delete")}
             </Button>
           </>
         )

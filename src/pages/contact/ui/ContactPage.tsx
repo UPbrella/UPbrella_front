@@ -9,8 +9,10 @@ import toast from "react-hot-toast";
 import Footer from "@/widgets/footer/ui/Footer";
 import { HeaderContainer } from "@/widgets/header/ui/HeaderContainer";
 import SeoMetaTag from "@/shared/ui/SeoMetaTag";
+import { useTranslation } from "react-i18next";
 
 const ContactPage = () => {
+  const { t } = useTranslation();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -21,7 +23,6 @@ const ContactPage = () => {
 
   const formattedPhone = formatPhoneNumber(phone);
 
-  // 필수조건 입력 => setIsActive(true)
   useEffect(() => {
     if (name && email && title && content) {
       setIsActive(true);
@@ -30,12 +31,10 @@ const ContactPage = () => {
     }
   }, [name, email, title, content]);
 
-  // Email 설정
   const SERVICE_ID = import.meta.env.VITE_EMAIL_SERVICE_ID;
   const TEMPLATE_ID = import.meta.env.VITE_EMAIL_TEMPLATE_ID;
   const PUB_KEY = import.meta.env.VITE_EMAIL_PUB_KEY;
 
-  // 이메일 전송
   const form = useRef<HTMLFormElement>(null);
 
   const sendEmail = async (e: React.FocusEvent<HTMLFormElement>) => {
@@ -51,12 +50,11 @@ const ContactPage = () => {
         setContent("");
         setIsComplete(true);
       } catch {
-        toast.error("잘못된 요청이거나 서버 오류입니다.");
+        toast.error(t("toast.error.defaultApi"));
       }
     }
   };
 
-  // 토스트메시지
   useEffect(() => {
     const timer = setTimeout(() => {
       if (isComplete) {
@@ -72,8 +70,8 @@ const ContactPage = () => {
   return (
     <>
       <SeoMetaTag
-        title={"contact us"}
-        description={"업브렐라와 함께하고 싶으신가요?"}
+        title={t("seo.contact.title")}
+        description={t("seo.contact.desc")}
         keywords={", contact us"}
       />
       <div className="flex flex-col min-h-screen">
@@ -89,7 +87,7 @@ const ContactPage = () => {
                       CONTACT US
                     </div>
                     <div className="mb-40 text-gray-700 text-16 leading-24 lg:mb-20">
-                      업브렐라와의 사업 제휴 관련 문의하시고 싶은 내용을 작성해주세요.
+                      {t("contact.pageDesc")}
                     </div>
                     <div className="lgMaxMin:mb-40">
                       <Instagram />
@@ -102,14 +100,14 @@ const ContactPage = () => {
                   >
                     <div className="flex">
                       <Input
-                        label="이름"
-                        placeholder="이름 입력"
+                        label={t("contact.name")}
+                        placeholder={t("contact.namePlaceholder")}
                         setValue={setName}
                         name="name"
                         value={name}
                       />
                       <Input
-                        label="연락처"
+                        label={t("contact.phone")}
                         optional
                         placeholder="010-1234-5678"
                         setValue={setPhone}
@@ -118,22 +116,22 @@ const ContactPage = () => {
                       />
                     </div>
                     <Input
-                      label="이메일"
+                      label={t("contact.email")}
                       placeholder="upbrella@gmail.com"
                       setValue={setEmail}
                       name="email"
                       value={email}
                     />
                     <Input
-                      label="제목"
-                      placeholder="제목 입력"
+                      label={t("contact.subject")}
+                      placeholder={t("contact.subjectPlaceholder")}
                       setValue={setTitle}
                       name="title"
                       value={title}
                     />
                     <TextArea
-                      label="문의 사항"
-                      placeholder="문의 사항을 작성해주세요!"
+                      label={t("contact.message")}
+                      placeholder={t("contact.messagePlaceholder")}
                       setValue={setContent}
                       name="content"
                       value={content}
@@ -145,7 +143,7 @@ const ContactPage = () => {
                 {isComplete && (
                   <div className="fixed right-[80px] bottom-[100px] md:left-0 md:right-0 md:bottom-[20px] flex items-end justify-end md:justify-center w-full h-full">
                     <div className="h-48 py-12 text-center text-white bg-gray-700 w-330 rounded-8 text-15 leading-24">
-                      문의 접수 완료!
+                      {t("contact.success")}
                     </div>
                   </div>
                 )}

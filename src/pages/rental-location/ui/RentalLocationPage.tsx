@@ -16,6 +16,7 @@ import { getDistanceFromLatLonInKm, getUserPosition } from "@/entities/store/lib
 import SeoMetaTag from "@/shared/ui/SeoMetaTag";
 import { CircularProgress } from "@mui/material";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import Map from "@/widgets/naver-map/ui/Map";
 import Supercluster from "supercluster";
 import { createClusterManager, getClustersInBounds } from "@/widgets/naver-map/lib/markerCluster";
@@ -26,6 +27,7 @@ import {
 
 // 대여소 위치 페이지
 const RentalLocationPage = () => {
+  const { t } = useTranslation();
   const { naver } = window;
   const mapElement = useRef<HTMLDivElement | null>(null);
   // Ref를 사용하여 맵의 너비 동적으로 가져오기
@@ -256,9 +258,9 @@ const RentalLocationPage = () => {
   return (
     <>
       <SeoMetaTag
-        title={"대여소 위치"}
-        description={"업브렐라와 함께하는 대여소 위치를 지도로 안내하는 페이지입니다."}
-        keywords={", 대여소, 위치, 지도"}
+        title={t("seo.rentalLocation.title")}
+        description={t("seo.rentalLocation.desc")}
+        keywords={t("seo.rentalLocation.keywords")}
       />
 
       <div className="flex flex-col flex-1 pb-20">

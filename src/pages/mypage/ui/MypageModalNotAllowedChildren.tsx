@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 type MypageModalNotAllowedChildrenProps = {
   label: string;
   notAllowedMessage: string;
@@ -8,6 +10,8 @@ const MypageModalNotAllowedChildren = ({
   notAllowedMessage,
   onClickBtn,
 }: MypageModalNotAllowedChildrenProps) => {
+  const { t } = useTranslation();
+
   return (
     <div className="flex flex-col justify-center items-center">
       <div className="w-full">
@@ -20,7 +24,7 @@ const MypageModalNotAllowedChildren = ({
         className="w-160 h-56 px-32 flex justify-center items-center bg-primary-500 rounded-8"
         onClick={onClickBtn}
       >
-        <p className="text-white text-18 font-semibold leading-24">확인</p>
+        <p className="text-white text-18 font-semibold leading-24">{t("common.btn.confirm")}</p>
       </button>
     </div>
   );

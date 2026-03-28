@@ -22,8 +22,10 @@ import { ChangeEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useTranslation } from "react-i18next";
 
 const RentPage = () => {
+  const { t } = useTranslation();
   // 대여 전(false), 대여 후(true)
   const [isRent, setIsRent] = useState(false);
   const { id } = useParams();
@@ -60,7 +62,6 @@ const RentPage = () => {
     setRedirectUrl("/");
   }, [setRedirectUrl]);
 
-  // 로그인 유저 정보 조회 (name, phone)
   useEffect(() => {
     setName(userInfo.name);
     if (userInfo.phoneNumber) {
@@ -69,7 +70,6 @@ const RentPage = () => {
     }
   }, [userInfo]);
 
-  // 전화번호 변경 핸들러
   const handlePhoneNumberChange = (e: ChangeEvent<HTMLInputElement>) => {
     const formatted = formatPhoneNumber(e.target.value);
     setPhone(formatted);
@@ -90,32 +90,28 @@ const RentPage = () => {
   }
 
   if (umbrellaData) {
-    // Error <1> 사용자가 이미 대여중인 우산이 있는 경우
     return (
       <div>
         <ErrorComponent
-          error="죄송합니다. 페이지를 찾을 수 없어요:("
-          subError="현재 회원님께서 이미 대여 중인 우산이 있는 경우 중복 대여가 불가능합니다!"
+          error={t("common.error.pageNotFound")}
+          subError={t("rent.error.alreadyRented")}
         />
       </div>
     );
   }
 
   if (isError) {
-    // Error <2> 존재하지 않는 우산 고유 번호인 경우
     return (
       <div>
         <ErrorComponent
-          error="죄송합니다. 페이지를 찾을 수 없어요:("
-          subError="[ERROR] 해당 우산은 대여 불가능한 우산입니다."
+          error={t("common.error.pageNotFound")}
+          subError={t("rent.error.unavailable")}
         />
       </div>
     );
   }
 
-  // POST 우산대여신청
   const onClickPostBtn = () => {
-    // 전화번호 (하이픈 포함)
     const phoneNumber = phone.trim();
 
     createMutate(
@@ -128,65 +124,56 @@ const RentPage = () => {
           return;
         },
         onSuccess: ({ data }) => {
-          // 보증금 모달 닫기
           setIsOpenDepositModal(false);
 
-          // 보관함이 있는 지점
           if (data) {
             setLockNumber(data.password.toString());
             setIsOpenLockPwModal(true);
           } else {
             setIsRent(true);
-            toast.success("우산 대여 완료!");
+            toast.success(t("toast.success.rentComplete"));
           }
         },
       }
     );
   };
 
-  // 보증금 입금 안내 모달
   const handleOpenDepositModal = () => {
     setIsOpenDepositModal(true);
   };
 
-  // 자물쇠 비밀번호 안내 모달
   const handleCloseDepositModal = () => setIsOpenDepositModal(false);
 
-  // 보관함 모달
   const handleCloseLockPwModal = () => setIsOpenLockPwModal(false);
 
   return (
     <>
       {subError ? (
-        <ErrorComponent error="죄송합니다. 페이지를 찾을 수 없어요:(" subError={subError} />
+        <ErrorComponent error={t("common.error.pageNotFound")} subError={subError} />
       ) : (
         <>
           <HeaderContainer />
           <div className="flex-col px-20 mx-auto max-w-2xl pb-50">
             <div className="mt-20 font-semibold text-black text-24 leading-32">
-              {isRent ? "우산을 빌렸어요!" : "우산을 빌릴까요?"}
+              {isRent ? t("rent.form.titleAfter") : t("rent.form.titleBefore")}
             </div>
             <div className="p-16 mt-16 mb-32 max-w-2xl border border-gray-200 rounded-12">
               <ul className="ml-16 list-disc text-8">
-                <li className="text-14 leading-20 gray-700">
-                  수집된 개인정보는 <p className="inline font-semibold">서비스 운영의 목적으로만</p>{" "}
-                  사용됩니다.
-                </li>
-                <li className="text-14 leading-20 gray-700">
-                  우산을 빌린 지점이 아니더라도{" "}
-                  <p className="inline font-semibold">업브렐라 대여소 어디서나</p> 반납 가능합니다.
-                </li>
+                <li className="text-14 leading-20 gray-700">{t("rent.form.privacyNotice")}</li>
+                <li className="text-14 leading-20 gray-700">{t("rent.form.anywhereReturn")}</li>
               </ul>
             </div>
-            <FormBasic label="이름" value={name} />
+            <FormBasic label={t("rent.form.name")} value={name} />
 
-            {/* 전화번호 필드: 항상 입력 가능 (필수) */}
             <section className="mb-32">
               <div className="mb-8">
-                <SignUpFormInputTitle label="전화번호" isRequired={isRent ? false : true} />
+                <SignUpFormInputTitle
+                  label={t("rent.form.phone")}
+                  isRequired={isRent ? false : true}
+                />
               </div>
               {isRent ? (
-                <FormBasic label="전화번호" value={phone} />
+                <FormBasic label={t("rent.form.phone")} value={phone} />
               ) : (
                 <SignUpFormInput
                   label="010-1234-5678"
@@ -200,14 +187,13 @@ const RentPage = () => {
               )}
             </section>
             <FormLocationMolecules region={region} storeName={storeName} />
-            <FormBasic label="우산번호" value={umbrellaUuid} />
+            <FormBasic label={t("rent.form.umbrellaNo")} value={umbrellaUuid} />
 
-            {/* 보증금 안내 */}
             <RentDeposit />
 
             <FormStatus
-              label="상태신고"
-              placeholder={`우산이나 대여 환경에 문제가 있다면 ${maxCharLimit}자 이내로 작성해주세요`}
+              label={t("rent.form.conditionReport")}
+              placeholder={t("rent.form.conditionPlaceholder", { maxCharLimit })}
               setStatus={setConditionReport}
               status={conditionReport}
               isComplete={isRent}
@@ -215,7 +201,7 @@ const RentPage = () => {
             />
             {!isRent && (
               <FormButton
-                label="대여하기"
+                label={t("rent.form.submit")}
                 isActive={phone.length === 13 && isValidPhoneNumber(phone)}
                 handleOpen={handleOpenDepositModal}
               />

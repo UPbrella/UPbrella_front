@@ -1,8 +1,12 @@
+import { useTranslation } from "react-i18next";
+
 type TButtonProps = {
   isActive: boolean;
 };
 
 const Button = ({ isActive }: TButtonProps) => {
+  const { t } = useTranslation();
+
   return (
     <div>
       <button
@@ -12,7 +16,7 @@ const Button = ({ isActive }: TButtonProps) => {
         }`}
         disabled={!isActive}
       >
-        문의하기
+        {t("contact.submit")}
       </button>
     </div>
   );

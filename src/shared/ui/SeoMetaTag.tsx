@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
 
 type TProps = {
   title: string;
@@ -8,26 +9,26 @@ type TProps = {
   url: string;
 };
 
-const DEFAULT_META = {
-  title: "업브렐라(UPbrella) | ",
-  description: "지구를 지키는 작은 우산, 업브렐라를 펼쳐주세요! A Better Choice, UPbrella",
-  keywords:
-    "업브렐라, UPbrella, upbrella, Upbrella, 공유 우산 플랫폼, 우산 공유 플랫폼, 공유 우산, 우산, 공유 우산 서비스, 신촌, 연세대학교",
+const STATIC_DEFAULTS = {
   imgSrc: "https://upbrella.co.kr/assets/section3-af1c1a5c.png",
   url: "https://upbrella.co.kr/",
-} satisfies TProps;
+} satisfies Pick<TProps, "imgSrc" | "url">;
 
 const DEV_URL = "http://upbrella-dev.site";
 
 const SeoMetaTag = ({
   title,
   keywords,
-  description = DEFAULT_META.description,
-  imgSrc = DEFAULT_META.imgSrc,
-  url = DEFAULT_META.url,
+  description,
+  imgSrc = STATIC_DEFAULTS.imgSrc,
+  url = STATIC_DEFAULTS.url,
 }: Partial<TProps>) => {
-  const viewTitle = DEFAULT_META.title + (title ?? "공유 우산 플랫폼");
-  const viewKeywords = keywords ? DEFAULT_META.keywords + keywords : DEFAULT_META.keywords;
+  const { t } = useTranslation();
+  const resolvedDescription = description ?? t("seo.default.desc");
+  const titleSuffix = title ?? t("seo.default.suffix");
+  const viewTitle = `${t("seo.default.prefix")} ${titleSuffix}`;
+  const baseKeywords = t("seo.default.keywords");
+  const viewKeywords = keywords ? baseKeywords + keywords : baseKeywords;
   const robotsContent = window.location.origin === DEV_URL ? "noindex" : "all";
 
   return (
@@ -36,7 +37,7 @@ const SeoMetaTag = ({
 
       {/* basic */}
       <meta name="title" content={viewTitle} />
-      <meta name="description" content={description} />
+      <meta name="description" content={resolvedDescription} />
       <meta name="keywords" content={viewKeywords} />
       <meta name="robots" content={robotsContent} />
 
@@ -44,11 +45,11 @@ const SeoMetaTag = ({
       <meta property="og:type" content="website" />
       <meta property="og:title" content={viewTitle} />
       <meta property="og:site_name" content={viewTitle} />
-      <meta property="og:description" content={description} />
+      <meta property="og:description" content={resolvedDescription} />
       <meta property="og:image" content={imgSrc} />
       <meta property="og:url" content={url} />
       <meta name="twitter:title" content={viewTitle} />
-      <meta name="twitter:description" content={description} />
+      <meta name="twitter:description" content={resolvedDescription} />
       <meta name="twitter:image" content={imgSrc} />
 
       <link rel="canonical" href={url} />

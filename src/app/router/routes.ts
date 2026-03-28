@@ -33,32 +33,32 @@ import UpbrellaStoryPage from "@/pages/story/ui/UpbrellaStoryPage";
 // Admin routes
 export const ADMIN_ROUTES_URL = {
   rent: {
-    name: "대여/반납 현황 테이블",
+    name: "admin.menu.rent",
     path: () => "/admin/rent-history",
     component: RentHistoryPage,
   },
   umbrella: {
-    name: "우산 관리",
+    name: "admin.menu.umbrella",
     path: () => "/admin/umbrellas",
     component: UmbrellaAdminPage,
   },
   user: {
-    name: "회원 관리",
+    name: "admin.menu.user",
     path: () => "/admin/users",
     component: UserAdminPage,
   },
   feedback: {
-    name: "상태신고 / 개선사항 확인",
+    name: "admin.menu.feedback",
     path: () => "/admin/feedback",
     component: UmbrellaFeedBackPage,
   },
   store: {
-    name: "협업 지점 관리",
+    name: "admin.menu.store",
     path: () => "/admin/stores",
     component: StoreManagePage,
   },
   locker: {
-    name: "보관함 관리",
+    name: "admin.menu.locker",
     path: () => "/admin/locker",
     component: LockerAdminPage,
   },
@@ -69,47 +69,47 @@ export const ADMIN_ROUTES: TRoute[] = Object.values(ADMIN_ROUTES_URL);
 // Layout routes (with header/footer)
 export const LAYOUT_ROUTES_URL = {
   rentalLocation: {
-    name: "대여소 위치 페이지",
+    name: "routes.layout.rentalLocation",
     path: () => "/rentalLocation",
     component: RentalLocationPage,
   },
   rentalOffice: {
-    name: "협업지점 소개 페이지",
+    name: "routes.layout.rentalOffice",
     path: () => "/rentalOffice",
     component: RentalOfficePage,
   },
   rentalOfficeDetail: {
-    name: "협업 지점 상세 페이지",
+    name: "routes.layout.rentalOfficeDetail",
     path: (id = ":id") => `/rentalOffice/${id}`,
     component: OfficeDetailPage,
   },
   myPageRent: {
-    name: "마이페이지_이용내역",
+    name: "routes.layout.mypage.rent",
     path: () => "/members/mypage/rent",
     component: MypageRentPage,
   },
   myPageAccount: {
-    name: "마이페이지_계좌등록변경",
+    name: "routes.layout.mypage.account",
     path: () => "/members/mypage/account",
     component: MypageAccountPage,
   },
   myPageInfo: {
-    name: "마이페이지_개인정보조회",
+    name: "routes.layout.mypage.info",
     path: () => "/members/mypage/info",
     component: MypageInfoPage,
   },
   myPageContact: {
-    name: "마이페이지_문의하기",
+    name: "routes.layout.mypage.contact",
     path: () => "/members/mypage/contact",
     component: MypageContactPage,
   },
   infoTos: {
-    name: "이용약관 페이지",
+    name: "routes.layout.infoTos",
     path: () => "/info/tos",
     component: TermsOfService,
   },
   infoPp: {
-    name: "개인정보처리방침 페이지",
+    name: "routes.layout.infoPp",
     path: () => "/info/pp",
     component: PrivacyPolicy,
   },
@@ -120,12 +120,12 @@ export const LAYOUT_ROUTES: TRoute[] = Object.values(LAYOUT_ROUTES_URL);
 // Not layout routes (no header/footer, behind auth)
 const NOT_LAYOUT_ROUTES_URL = {
   rent: {
-    name: "대여폼 페이지",
+    name: "routes.notLayout.rentForm",
     path: (id = ":id") => `/rent/form/${id}`,
     component: RentPage,
   },
   return: {
-    name: "반납폼 페이지",
+    name: "routes.notLayout.returnForm",
     path: () => "/return/form",
     component: ReturnPage,
   },
@@ -136,22 +136,22 @@ export const NOT_LAYOUT_ROUTES: TRoute[] = Object.values(NOT_LAYOUT_ROUTES_URL);
 // Background image routes
 export const BACKGROUND_IMAGE_ROUTES_URL = {
   login: {
-    name: "로그인 페이지",
+    name: "routes.bgImage.login",
     path: () => "/login",
     component: LoginPage,
   },
   appleAuth: {
-    name: "애플 로그인 리다이렉트 페이지",
+    name: "routes.bgImage.appleAuth",
     path: () => "/auth/apple",
     component: AppleLoginRedirect,
   },
   auth: {
-    name: "로그인 리다이렉트 페이지",
+    name: "routes.bgImage.auth",
     path: () => "/auth",
     component: LoginRedirect,
   },
   signup: {
-    name: "회원가입 정보 입력 페이지",
+    name: "routes.bgImage.signup",
     path: () => "/members/signup/info",
     component: SignUpPage,
   },
@@ -162,27 +162,27 @@ export const BACKGROUND_IMAGE_ROUTES: TRoute[] = Object.values(BACKGROUND_IMAGE_
 // Basic routes (full width, no layout)
 export const BASIC_ROUTES_URL = {
   root: {
-    name: "메인",
+    name: "routes.basic.main",
     path: () => "/",
     component: UpbrellaStoryPage,
   },
   story: {
-    name: "업브렐라 이야기",
+    name: "routes.basic.story",
     path: () => "/about",
     component: UpbrellaStoryPage,
   },
   information: {
-    name: "이용안내",
+    name: "routes.basic.info",
     path: () => "/information",
     component: InfoPage,
   },
   contact: {
-    name: "contact us",
+    name: "routes.basic.contact",
     path: () => "/contact",
     component: ContactPage,
   },
   forbidden: {
-    name: "접근 금지 페이지",
+    name: "routes.basic.forbidden",
     path: () => "/forbidden",
     component: ForbiddenPage,
   },

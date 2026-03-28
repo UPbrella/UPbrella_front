@@ -17,9 +17,11 @@ import { TBlackUserRes, TUserRes } from "@/entities/user/model/types";
 import { InputSwitch } from "primereact/inputswitch";
 import { replaceItemAtIndex } from "@/shared/lib/utils";
 import { downloadExcel } from "@/shared/lib/excel";
+import { useTranslation } from "react-i18next";
 
-// TODO:user, black user 컴포넌트 분리
 const UserAdminPage = () => {
+  const { t } = useTranslation();
+
   // client
   const [searchWord, setSearchWord] = useState("");
   const [userData, setUserData] = useState<TUserRes[]>([]);
@@ -43,15 +45,15 @@ const UserAdminPage = () => {
   }, [userRes]);
 
   const handleUpdateBlackUser = (user: TUserRes) => {
-    if (window.confirm(`"${user.name}" 유저를 블랙리스트 등록하시겠습니까 ?`)) {
+    if (window.confirm(t("admin.user.blacklistConfirm", { name: user.name }))) {
       if (!user.id) {
-        toast.error("클라이언트 에러가 발생했습니다.");
+        toast.error(t("admin.common.clientError"));
         return;
       }
 
       mutateDeleteUser(user.id, {
         onError: () => {
-          toast.error("서버 에러가 발생했습니다.");
+          toast.error(t("admin.common.serverErrorToast"));
           return;
         },
       });
@@ -59,22 +61,21 @@ const UserAdminPage = () => {
   };
 
   const handleDeleteUser = (user: TBlackUserRes) => {
-    if (window.confirm(`${user.id} 유저를 완전 탈퇴시키겠습니까 ?`)) {
+    if (window.confirm(t("admin.user.withdrawConfirm", { id: user.id }))) {
       if (!user.id) {
-        toast.error("클라이언트 에러가 발생했습니다.");
+        toast.error(t("admin.common.clientError"));
         return;
       }
 
       mutateDeleteBlackUser(user.id, {
         onError: () => {
-          toast.error("서버 에러가 발생했습니다.");
+          toast.error(t("admin.common.serverErrorToast"));
           return;
         },
       });
     }
   };
 
-  // 회원 검색
   const onClickSearch = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -93,7 +94,7 @@ const UserAdminPage = () => {
   };
 
   const onChangeAdminStatus = ({ index, value }: { index: number; value: boolean }) => {
-    if (window.confirm(`${userData[index].name} 의 권한을 변경하시겠습니까?`)) {
+    if (window.confirm(t("admin.user.roleConfirm", { name: userData[index].name }))) {
       mutateAdminUser(userData[index].id, {
         onSuccess: () => {
           setUserData((prev) =>
@@ -105,7 +106,7 @@ const UserAdminPage = () => {
           );
         },
         onError: () => {
-          toast.error("서버 에러가 발생했습니다.");
+          toast.error(t("admin.common.serverErrorToast"));
           return;
         },
       });
@@ -115,16 +116,16 @@ const UserAdminPage = () => {
   const onClickExcelBtn = () => {
     if (userRes)
       downloadExcel({
-        fileName: "회원_조회_",
+        fileName: t("admin.user.excelFileName"),
         rows: userRes.map((e) => ({
-          [USER_ADMIN_TABLE.id.label]: e.id,
-          [USER_ADMIN_TABLE.name.label]: e.name,
-          [USER_ADMIN_TABLE.phoneNumber.label]: e.phoneNumber,
-          [USER_ADMIN_TABLE.bank.label]: e.bank ?? "-",
-          [USER_ADMIN_TABLE.accountNumber.label]: e.accountNumber ?? "-",
-          [USER_ADMIN_TABLE.email.label]: e.email,
-          [USER_ADMIN_TABLE.adminStatus.label]: e.adminStatus ? "O" : "X",
-          [USER_ADMIN_TABLE.createdAt.label]: e.createdAt ?? "-",
+          [t(USER_ADMIN_TABLE.id.labelKey)]: e.id,
+          [t(USER_ADMIN_TABLE.name.labelKey)]: e.name,
+          [t(USER_ADMIN_TABLE.phoneNumber.labelKey)]: e.phoneNumber,
+          [t(USER_ADMIN_TABLE.bank.labelKey)]: e.bank ?? "-",
+          [t(USER_ADMIN_TABLE.accountNumber.labelKey)]: e.accountNumber ?? "-",
+          [t(USER_ADMIN_TABLE.email.labelKey)]: e.email,
+          [t(USER_ADMIN_TABLE.adminStatus.labelKey)]: e.adminStatus ? "O" : "X",
+          [t(USER_ADMIN_TABLE.createdAt.labelKey)]: e.createdAt ?? "-",
         })),
       });
   };
@@ -133,7 +134,7 @@ const UserAdminPage = () => {
     <div className="flex flex-col gap-8">
       <div>
         <Typography className="!mb-16" variant="h5">
-          {"유저 조회"}
+          {t("admin.user.title")}
         </Typography>
         <div className="mb-16">
           <Button
@@ -142,24 +143,26 @@ const UserAdminPage = () => {
             disabled={isLoading && !userRes}
             onClick={onClickExcelBtn}
           >
-            데이터 다운로드
+            {t("admin.common.download")}
           </Button>
         </div>
 
         <div className="flex items-center justify-between mb-16 md:flex-col">
-          <Typography variant="h6">사용자 수 : {userRes?.length}</Typography>
+          <Typography variant="h6">
+            {t("admin.user.count")} {userRes?.length}
+          </Typography>
 
           <form className="flex gap-3" onSubmit={onClickSearch}>
             <Input
               value={searchWord}
               onChange={(e) => setSearchWord(e.target.value)}
-              placeholder="회원이름을 입력하세요"
+              placeholder={t("admin.user.searchPlaceholder")}
             />
             <Button variant="contained" type="submit">
-              검색
+              {t("admin.user.search")}
             </Button>
             <Button variant="contained" color="warning" onClick={() => setUserData(userRes ?? [])}>
-              초기화
+              {t("admin.user.reset")}
             </Button>
           </form>
         </div>
@@ -176,9 +179,9 @@ const UserAdminPage = () => {
                 <ProgressSpinner />
               </div>
             ) : isError ? (
-              "서버 에러입니다."
+              t("admin.common.serverError")
             ) : (
-              "결과가 없습니다."
+              t("admin.common.emptyResult")
             )
           }
         >
@@ -190,7 +193,7 @@ const UserAdminPage = () => {
               <Column
                 key={key}
                 style={{ minWidth }}
-                header={USER_ADMIN_TABLE[key].label}
+                header={t(USER_ADMIN_TABLE[key].labelKey)}
                 field={column}
                 body={
                   key === "adminStatus"
@@ -225,7 +228,7 @@ const UserAdminPage = () => {
                   color="error"
                   onClick={() => handleUpdateBlackUser(data)}
                 >
-                  블랙리스트 등록
+                  {t("admin.user.blacklistBtn")}
                 </Button>
               );
             }}
@@ -235,7 +238,7 @@ const UserAdminPage = () => {
       <Divider className="w-full" />
       <div>
         <Typography className="!mb-8" variant="h5">
-          {"블랙 리스트 유저 조회"}
+          {t("admin.user.blacklistTitle")}
         </Typography>
 
         <CssDataTable
@@ -251,15 +254,17 @@ const UserAdminPage = () => {
                 <ProgressSpinner />
               </div>
             ) : isBlackUsersError ? (
-              "서버 에러입니다."
+              t("admin.common.serverError")
             ) : (
-              "결과가 없습니다."
+              t("admin.common.emptyResult")
             )
           }
         >
           {Object.keys(USER_BLACKLIST_TABLE).map((column) => {
             const key = column as keyof Omit<TBlackUserRes, "id">;
-            return <Column key={key} header={USER_BLACKLIST_TABLE[key].label} field={column} />;
+            return (
+              <Column key={key} header={t(USER_BLACKLIST_TABLE[key].labelKey)} field={column} />
+            );
           })}
           <Column
             body={(data: TBlackUserRes) => {
@@ -270,7 +275,7 @@ const UserAdminPage = () => {
                   color="error"
                   onClick={() => handleDeleteUser(data)}
                 >
-                  완전 탈퇴
+                  {t("admin.user.fullWithdraw")}
                 </Button>
               );
             }}

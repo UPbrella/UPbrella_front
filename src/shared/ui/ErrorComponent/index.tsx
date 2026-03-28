@@ -2,6 +2,7 @@ import errorpage_img from "@/shared/assets/errorpage_img.png";
 import { HeaderContainer } from "@/widgets/header/ui/HeaderContainer";
 import { BASIC_ROUTES_URL } from "@/app/router/routes";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export type TErrorComponent = {
   error: string;
@@ -10,6 +11,7 @@ export type TErrorComponent = {
 
 const ErrorComponent = ({ error, subError }: TErrorComponent) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <div className="flex flex-col h-screen">
@@ -22,7 +24,7 @@ const ErrorComponent = ({ error, subError }: TErrorComponent) => {
           className="px-32 py-16 mt-32 font-semibold bg-primary-200 text-primary-500 text-18 rounded-8"
           onClick={() => navigate(BASIC_ROUTES_URL.root.path())}
         >
-          홈으로 돌아가기
+          {t("common.error.goHome")}
         </button>
       </div>
     </div>

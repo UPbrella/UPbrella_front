@@ -1,7 +1,8 @@
+import i18n from "@/shared/lib/i18n";
 import { TCustomError } from "@/shared/model/types";
 
 export const getErrorMessage = (error: TCustomError) => {
-  const defaultMessage = "잘못된 요청이거나 서버 오류입니다.";
+  const defaultMessage = i18n.t("common.error.defaultApi");
 
   if (error.response) {
     return error.response?.data?.message ?? defaultMessage;

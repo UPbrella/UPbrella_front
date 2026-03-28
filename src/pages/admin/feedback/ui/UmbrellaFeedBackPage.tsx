@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   useGetHistoriesImprovements,
   useGetHistoriesStatus,
@@ -5,14 +6,13 @@ import {
 import { FeedBackDataTable } from "@/entities/feedback/ui";
 
 const UmbrellaFeedBackPage = () => {
-  // 신고 내역 조회
+  const { t } = useTranslation();
+
   const { data: conditionReportsRes, isLoading: isLoadingCondition } = useGetHistoriesStatus();
 
-  // 개선 요청 내역 조회
   const { data: improvementReportsRes, isLoading: isLoadingImprovement } =
     useGetHistoriesImprovements();
 
-  // 'content'가 null이 아닌 항목만 필터링
   const filteredConditionReports = conditionReportsRes?.conditionReports.filter(
     (report) => report.content !== ""
   );
@@ -24,13 +24,13 @@ const UmbrellaFeedBackPage = () => {
   return (
     <div className="flex gap-8 md:flex-col">
       <FeedBackDataTable
-        title="신고 내역 조회 - 대여폼"
+        title={t("admin.feedback.reportTitle")}
         isLoading={isLoadingCondition}
         value={filteredConditionReports}
       />
 
       <FeedBackDataTable
-        title="개선 요청 내역 조회 - 반납폼"
+        title={t("admin.feedback.improvementTitle")}
         isLoading={isLoadingImprovement}
         value={filteredImprovementReports}
       />

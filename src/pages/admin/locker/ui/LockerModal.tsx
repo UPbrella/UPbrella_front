@@ -1,5 +1,6 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 import { Button, TextField } from "@mui/material";
 import {
   usePostLockers,
@@ -24,6 +25,7 @@ type TProps = {
 const MIN_LOCKER_SECRET_KEY_COUNT = 32;
 
 const LockerModal = ({ isOpen, handleClose, storesListRes, selectedLocker }: TProps) => {
+  const { t } = useTranslation();
   const [isDirty, setIsDirty] = useState(false);
   const [storeId, setStoreId] = useState(selectedLocker?.storeMetaId);
   const [secretKey, setSecretKey] = useState(selectedLocker?.secretKey);
@@ -37,15 +39,14 @@ const LockerModal = ({ isOpen, handleClose, storesListRes, selectedLocker }: TPr
   const { mutate: patchMutateLocker, isLoading: isPatchMutating } = usePatchLockers();
   const { mutate: deleteMutateLocker, isLoading: isDeleteMutating } = useDeleteLockers();
 
-  // 추가
   const onClickCreateBtn = () => {
     if (!storeId || !secretKey) {
-      toast.error("필수값을 입력해주세요.");
+      toast.error(t("admin.common.requiredError"));
       return;
     }
 
     if (secretKey.length < MIN_LOCKER_SECRET_KEY_COUNT) {
-      toast.error(`비밀키는 최소 ${MIN_LOCKER_SECRET_KEY_COUNT}자 이상이여야합니다.`);
+      toast.error(t("admin.locker.form.secretMinError", { count: MIN_LOCKER_SECRET_KEY_COUNT }));
       return;
     }
 
@@ -59,16 +60,15 @@ const LockerModal = ({ isOpen, handleClose, storesListRes, selectedLocker }: TPr
     );
   };
 
-  // 수정
   const onClickUpdateBtn = () => {
     if (!selectedLocker) return;
     if (!storeId || !secretKey) {
-      toast.error("필수값을 입력해주세요.");
+      toast.error(t("admin.common.requiredError"));
       return;
     }
 
     if (secretKey.length < MIN_LOCKER_SECRET_KEY_COUNT) {
-      toast.error(`비밀키는 최소 ${MIN_LOCKER_SECRET_KEY_COUNT}자 이상이여야합니다.`);
+      toast.error(t("admin.locker.form.secretMinError", { count: MIN_LOCKER_SECRET_KEY_COUNT }));
       return;
     }
 
@@ -85,10 +85,9 @@ const LockerModal = ({ isOpen, handleClose, storesListRes, selectedLocker }: TPr
     );
   };
 
-  // 삭제
   const onClickDeleteBtn = () => {
     if (!selectedLocker) return;
-    if (window.confirm("삭제하시겠습니까?")) {
+    if (window.confirm(t("admin.locker.deleteConfirm"))) {
       deleteMutateLocker(selectedLocker.id, {
         onSuccess: () => {
           handleClose();
@@ -102,14 +101,14 @@ const LockerModal = ({ isOpen, handleClose, storesListRes, selectedLocker }: TPr
       isOpen={isOpen}
       handleClose={() => {
         if (isDirty) {
-          if (window.confirm("작성중인 내용이 모두 사라집니다.")) {
+          if (window.confirm(t("admin.common.discardConfirm"))) {
             handleClose();
           }
           return;
         }
         handleClose();
       }}
-      titleText={`보관함 ${selectedLocker ? "수정 및 삭제" : "추가"}`}
+      titleText={selectedLocker ? t("admin.locker.modalEdit") : t("admin.locker.modalAdd")}
       isLoading={isPostMutating || isPatchMutating || isDeleteMutating}
       footerContents={
         selectedLocker ? (
@@ -121,7 +120,7 @@ const LockerModal = ({ isOpen, handleClose, storesListRes, selectedLocker }: TPr
                 onClickUpdateBtn();
               }}
             >
-              수정
+              {t("admin.common.edit")}
             </Button>
             <Button
               color="error"
@@ -131,7 +130,7 @@ const LockerModal = ({ isOpen, handleClose, storesListRes, selectedLocker }: TPr
                 onClickDeleteBtn();
               }}
             >
-              삭제
+              {t("admin.common.delete")}
             </Button>
           </>
         ) : (
@@ -142,15 +141,15 @@ const LockerModal = ({ isOpen, handleClose, storesListRes, selectedLocker }: TPr
               onClickCreateBtn();
             }}
           >
-            추가
+            {t("admin.common.add")}
           </Button>
         )
       }
     >
       <div className="flex flex-col gap-4 ">
-        <StoreFormWrapper label="협업 지점" isRequired>
+        <StoreFormWrapper label={t("admin.locker.form.store")} isRequired>
           <SelectBox
-            label="지점"
+            label={t("admin.locker.form.storeLabel")}
             value={storeId ?? ""}
             name="selectedStoreId"
             menuItems={storeOptions}
@@ -161,9 +160,9 @@ const LockerModal = ({ isOpen, handleClose, storesListRes, selectedLocker }: TPr
           />
         </StoreFormWrapper>
 
-        <StoreFormWrapper label="보관함 비밀키" isRequired>
+        <StoreFormWrapper label={t("admin.locker.form.secretKey")} isRequired>
           <TextField
-            label="비밀키"
+            label={t("admin.locker.form.secretLabel")}
             placeholder="ex.ASDF1234"
             value={secretKey}
             name="secretKey"

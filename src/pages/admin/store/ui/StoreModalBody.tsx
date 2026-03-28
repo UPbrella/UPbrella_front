@@ -3,6 +3,7 @@ import { TStoreBusinessHours, TStoreParams } from "@/entities/store/model/types"
 import { Button, TextField, TextareaAutosize, Typography } from "@mui/material";
 import SelectBox from "@/shared/ui/SelectBox";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { createSelectItems } from "@/shared/lib/select-box";
 import { DAY_OF_WEEK } from "@/shared/constants/date";
 import {
@@ -32,6 +33,7 @@ const StoreModalContents = ({
   onChangeStoreData,
   selectedStoreId,
 }: TProps) => {
+  const { t } = useTranslation();
   const [dayInputState, setDayInputState] = useState<TStoreBusinessHours>({
     date: "MONDAY",
     openAt: "11:00",
@@ -95,34 +97,30 @@ const StoreModalContents = ({
     });
   };
 
-  /* 협업지점 관련 내용 입력 폼 */
   return (
     <div className="flex flex-col gap-4 min-w-[700px]">
-      {/* 협업 지점명 */}
-      <StoreFormWrapper label="협업 지점명" isRequired>
+      <StoreFormWrapper label={t("admin.store.form.name")} isRequired>
         <TextField
-          placeholder="업브렐라 1호점"
+          placeholder={t("admin.store.form.namePlaceholder")}
           value={storeData.name}
           name="name"
           onChange={onChangeStoreData}
         />
       </StoreFormWrapper>
 
-      {/* 지점 분류 */}
-      <StoreFormWrapper label="지점 분류" isRequired>
+      <StoreFormWrapper label={t("admin.store.form.category")} isRequired>
         <TextField
-          placeholder="카페, 디저트"
+          placeholder={t("admin.store.form.categoryPlaceholder")}
           value={storeData.category}
           name="category"
           onChange={onChangeStoreData}
         />
       </StoreFormWrapper>
 
-      {/* 대여소 위치 내 지역 태그 */}
-      <StoreFormWrapper label="대여소 위치 내 지역 태그" isRequired>
+      <StoreFormWrapper label={t("admin.store.form.regionTag")} isRequired>
         <div>
           <SelectBox
-            label="대분류" // 명칭 미정
+            label={t("admin.store.form.majorClassification")}
             value={storeData.classificationId ?? ""}
             name="classificationId"
             onChange={(name, value) => onChangeStoreData({ target: { name, value } })}
@@ -131,11 +129,10 @@ const StoreModalContents = ({
         </div>
       </StoreFormWrapper>
 
-      {/* 협업지점 소개페이지 내 지역 태그 */}
-      <StoreFormWrapper label="협업지점 소개페이지 내 지역 태그" isRequired>
+      <StoreFormWrapper label={t("admin.store.form.officeTag")} isRequired>
         <div>
           <SelectBox
-            label="소분류" // 명칭 미정
+            label={t("admin.store.form.subClassification")}
             value={storeData.subClassificationId ?? ""}
             name="subClassificationId"
             onChange={(name, value) => onChangeStoreData({ target: { name, value } })}
@@ -144,10 +141,9 @@ const StoreModalContents = ({
         </div>
       </StoreFormWrapper>
 
-      {/* 영업 시간 - 화면 출력용 */}
-      <StoreFormWrapper label="영업 시간(화면 출력용)" isRequired>
+      <StoreFormWrapper label={t("admin.store.form.hoursDisplay")} isRequired>
         <TextareaAutosize
-          placeholder="매일 12:30 ~ 23:00"
+          placeholder={t("admin.store.defaultBusinessHour")}
           value={storeData.businessHour}
           name="businessHour"
           onChange={onChangeStoreData}
@@ -161,27 +157,25 @@ const StoreModalContents = ({
         />
       </StoreFormWrapper>
 
-      {/* 영업 시간 - 마커 활성화 여부용 */}
-      <StoreFormWrapper label="영업 시간(마커 활성화 여부용)" isRequired>
+      <StoreFormWrapper label={t("admin.store.form.hoursMarker")} isRequired>
         {isBusinessHError ? (
           <div className="flex items-center gap-8">
-            서버 에러입니다.
+            {t("admin.common.serverError")}
             <Button variant="contained" color="warning" onClick={() => refetchBusinessH()}>
-              다시 시도
+              {t("admin.common.retry")}
             </Button>
           </div>
         ) : (
           <div>
             <div className="flex items-center gap-4 w-[600px] lg:flex-col lg:w-auto">
               <SelectBox
-                label="요일"
+                label={t("admin.store.form.dayLabel")}
                 value={dayInputState.date}
                 name="date"
                 onChange={onChangeDayInput}
                 menuItems={createSelectItems(DAY_OF_WEEK)}
               />
               <div className="flex items-center gap-2">
-                {/* TODO: openAt < closeAt 검증 필요 */}
                 <TextField
                   placeholder="10:00"
                   value={dayInputState.openAt}
@@ -199,7 +193,7 @@ const StoreModalContents = ({
                   onClick={onClickHourAdd}
                   disabled={!!(selectedStoreId && isBusinessHLoading)}
                 >
-                  추가
+                  {t("admin.common.add")}
                 </Button>
               </div>
             </div>
@@ -219,8 +213,7 @@ const StoreModalContents = ({
         )}
       </StoreFormWrapper>
 
-      {/* 주소, 상세주소 */}
-      <StoreFormWrapper label="주소" isRequired>
+      <StoreFormWrapper label={t("admin.store.form.address")} isRequired>
         <StoreAddressInput
           storeData={storeData}
           setStoreData={setStoreData}
@@ -228,8 +221,7 @@ const StoreModalContents = ({
         />
       </StoreFormWrapper>
 
-      {/* 우산 위치 설명 */}
-      <StoreFormWrapper label="우산 위치 설명" isRequired>
+      <StoreFormWrapper label={t("admin.store.form.umbrellaLocation")} isRequired>
         <div className="flex items-center gap-2">
           <TextField
             placeholder="upbrella"
@@ -240,11 +232,10 @@ const StoreModalContents = ({
         </div>
       </StoreFormWrapper>
 
-      {/* 연락처 */}
-      <StoreFormWrapper label="연락처">
+      <StoreFormWrapper label={t("admin.store.form.contact")}>
         <div className="flex items-center gap-2">
           <TextField
-            placeholder="숫자만 입력해주세요."
+            placeholder={t("admin.store.form.numberPlaceholder")}
             value={storeData.contactNumber}
             name="contactNumber"
             onChange={onChangeStoreData}
@@ -252,8 +243,7 @@ const StoreModalContents = ({
         </div>
       </StoreFormWrapper>
 
-      {/* 인스타그램 계정 */}
-      <StoreFormWrapper label="인스타그램 계정">
+      <StoreFormWrapper label={t("admin.store.form.instagram")}>
         <div className="flex items-center gap-2">
           <TextField
             placeholder="upbrella"
@@ -264,8 +254,7 @@ const StoreModalContents = ({
         </div>
       </StoreFormWrapper>
 
-      {/* 소개글 */}
-      <StoreFormWrapper label="소개글">
+      <StoreFormWrapper label={t("admin.store.form.content")}>
         <div className="flex flex-col items-end gap-2">
           <TextareaAutosize
             placeholder="upbrella"
@@ -280,7 +269,7 @@ const StoreModalContents = ({
             onChange={onChangeStoreData}
             value={storeData.content}
           />
-          <span>{storeData.content.length} / 200자 입력 가능</span>
+          <span>{t("admin.store.form.contentCharCount", { count: storeData.content.length })}</span>
         </div>
       </StoreFormWrapper>
     </div>

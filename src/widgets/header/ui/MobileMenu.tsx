@@ -7,6 +7,7 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useLogout } from "@/entities/user/api/user.queries";
 import { TUserRes } from "@/entities/user/model/types";
 import { Fragment } from "react";
+import { useTranslation } from "react-i18next";
 import CardFooter from "@/entities/store/ui/CardFooter";
 import { headerNavItems } from "@/widgets/header/ui/HeaderContainer";
 import { LAYOUT_ROUTES_URL } from "@/app/router/routes";
@@ -18,6 +19,7 @@ type TMenu = {
 };
 
 const MobileMenu: React.FC<TMenu> = ({ userRes, setMenuOpen }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { mutate } = useLogout();
 
@@ -65,39 +67,39 @@ const MobileMenu: React.FC<TMenu> = ({ userRes, setMenuOpen }) => {
                 className="flex items-center justify-center py-8 pl-16 pr-6 font-semibold transition-all text-primary-500 bg-primary-200 rounded-99 text-14"
                 onClick={() => handleNavToUrl(LAYOUT_ROUTES_URL.myPageRent.path())}
               >
-                마이페이지 <NavigateNextIcon fontSize="small" />
+                {t("common.mobile.mypage")} <NavigateNextIcon fontSize="small" />
               </button>
             </div>
           ) : (
             <div className="mb-4">
               <div className="mb-16 font-semibold text-gray-700 text-20">
-                업브렐라를 찾아주셔서 감사해요!
+                {t("common.mobile.greeting")}
               </div>
               <button
                 className="w-full py-12 font-semibold text-white rounded-8 bg-primary-500"
                 onClick={() => handleNavToUrl(BACKGROUND_IMAGE_ROUTES_URL.login.path())}
               >
-                로그인
+                {t("common.mobile.login")}
               </button>
             </div>
           )}
-          {headerNavItems.map(({ name, path, isAdmin }) => {
+          {headerNavItems.map(({ nameKey, path, isAdmin }) => {
             // admin menu hide
             if (isAdmin) {
               if (!userRes || (userRes && !userRes.adminStatus)) return;
             }
 
             return (
-              <Fragment key={name}>
+              <Fragment key={nameKey}>
                 <div className="w-full h-1 my-16 bg-gray-200"></div>
                 <div>
                   <NavLink
                     onClick={() => handleMenuClose()}
-                    key={name}
+                    key={nameKey}
                     to={path}
                     className="px-16 font-semibold text-gray-700 transition-all text-15 hover:text-primary-500"
                   >
-                    {name}
+                    {t(nameKey)}
                   </NavLink>
                 </div>
               </Fragment>
@@ -109,7 +111,7 @@ const MobileMenu: React.FC<TMenu> = ({ userRes, setMenuOpen }) => {
               className="flex mx-16 font-semibold transition-all text-14 hover:text-primary-500"
               onClick={onClickLogout}
             >
-              로그아웃
+              {t("common.mobile.logout")}
             </button>
           )}
         </div>

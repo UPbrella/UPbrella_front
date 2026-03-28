@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 type MypageModalTwoBtnChildrenProps = {
   label: string;
   content?: string[];
@@ -12,6 +14,8 @@ const MypageModalTwoBtnChildren = ({
   onClickCancel,
   onClickOkay,
 }: MypageModalTwoBtnChildrenProps) => {
+  const { t } = useTranslation();
+
   return (
     <div className="flex flex-1 flex-col justify-center">
       <div className="flex justify-center text-gray-700 text-24 font-semibold leading-32 xl:mb-24 lg:mb-16 lg:text-18">
@@ -40,7 +44,9 @@ const MypageModalTwoBtnChildren = ({
           className="w-full h-56 px-32 flex justify-center items-center bg-white rounded-8 border border-gray-300 mr-8"
           onClick={onClickCancel}
         >
-          <p className="text-gray-700 text-18 font-semibold leading-24 lg:text-16">취소</p>
+          <p className="text-gray-700 text-18 font-semibold leading-24 lg:text-16">
+            {t("common.btn.cancel")}
+          </p>
         </button>
         <button
           className="w-full h-56 px-32 flex justify-center items-center bg-primary-500 rounded-8"

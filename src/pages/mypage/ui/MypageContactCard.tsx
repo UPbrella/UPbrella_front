@@ -1,23 +1,28 @@
 import MypageContactSection from "@/pages/mypage/ui/MypageContactSection";
+import { useTranslation } from "react-i18next";
 
 const MypageContactCard = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="xl:py-24 lg:pt-8 w-full">
-      <div className="text-black text-32 font-semibold leading-40 mb-24 lg:hidden">문의하기</div>
+      <div className="text-black text-32 font-semibold leading-40 mb-24 lg:hidden">
+        {t("mypage.contact.title")}
+      </div>
       <div className="xl:flex xl:justify-between">
         <div className="w-full xl:mr-8 lg:mb-16">
           <MypageContactSection
-            content1={`업브렐라 이용 관련 및 급한 문의는`}
-            content2={"업브렐라 인스타그램 계정으로 부탁드려요!"}
-            buttonContent="업브렐라 DM으로 문의하기"
+            content1={t("mypage.contact.urgentDesc1")}
+            content2={t("mypage.contact.urgentDesc2")}
+            buttonContent={t("mypage.contact.dmBtn")}
             url={"https://www.instagram.com/upbrella.sinchon/"}
           />
         </div>
         <div className="w-full xl:ml-8">
           <MypageContactSection
-            content1={`업브렐라와의 사업 제휴 관련 문의는`}
-            content2={"Contact Us에서 부탁드려요!"}
-            buttonContent="CONTACT US에서 문의하기"
+            content1={t("mypage.contact.bizDesc1")}
+            content2={t("mypage.contact.bizDesc2")}
+            buttonContent={t("mypage.contact.contactBtn")}
             url={"/contact"}
           />
         </div>

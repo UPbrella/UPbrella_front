@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { loginState, redirectUrl } from "@/features/auth";
 import { useAppleLogin } from "@/entities/user/api/user.queries";
+import { useTranslation } from "react-i18next";
 
 // apple login redirect page
 const AppleLoginRedirect = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [isLogin] = useRecoilState<boolean>(loginState);
 
   const { mutate: appleLogin } = useAppleLogin();
@@ -22,6 +24,6 @@ const AppleLoginRedirect = () => {
     }
   }, [path, isLogin, navigate]);
 
-  return <div>로그인 중...</div>;
+  return <div>{t("auth.login.loading")}</div>;
 };
 export default AppleLoginRedirect;

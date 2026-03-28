@@ -3,6 +3,7 @@ import SignUpFormInputBankName from "@/features/auth/ui/SignUpFormInputBankName"
 import SignUpFormInputTitle from "@/features/auth/ui/SignUpFormInputTitle";
 import { ChangeEvent } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 type SignUpInputAccountBoxProps = {
   labelTitle: string;
@@ -25,6 +26,8 @@ const SignUpInputAccountBox = ({
   onClick,
   bankRef,
 }: SignUpInputAccountBoxProps) => {
+  const { t } = useTranslation();
+
   const handleAccountNumberChange = (e: ChangeEvent<HTMLInputElement>) => {
     accountNumberRegistration.onChange(e);
     onChangeValue?.(e);
@@ -38,7 +41,7 @@ const SignUpInputAccountBox = ({
       <div className="flex">
         <div className="mr-4">
           <SignUpFormInputBankName
-            label="은행명"
+            label={t("return.form.bankName")}
             name="bank"
             value={bank}
             onChange={() => undefined}
@@ -58,7 +61,7 @@ const SignUpInputAccountBox = ({
         </div>
       </div>
       <div className="mt-4 font-normal text-gray-600 text-14 leading-20">
-        * '-'은 빼고 입력해주세요!
+        {t("return.form.accountHint1")}
       </div>
     </section>
   );

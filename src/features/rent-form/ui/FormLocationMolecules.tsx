@@ -1,4 +1,5 @@
 import FormLocation from "@/features/rent-form/ui/FormLocation";
+import { useTranslation } from "react-i18next";
 
 type FormLocationMoleculesProps = {
   region: string;
@@ -6,10 +7,12 @@ type FormLocationMoleculesProps = {
 };
 
 const FormLocationMolecules = ({ region, storeName }: FormLocationMoleculesProps) => {
+  const { t } = useTranslation();
+
   return (
     <div className="flex w-full justify-start">
-      <FormLocation label="지역" isTitle value={region} />
-      <FormLocation label="대여지점" value={storeName} />
+      <FormLocation label={t("rent.form.region")} isTitle value={region} />
+      <FormLocation label={t("rent.form.rentStore")} value={storeName} />
     </div>
   );
 };

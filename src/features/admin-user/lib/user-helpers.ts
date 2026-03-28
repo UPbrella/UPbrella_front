@@ -1,18 +1,23 @@
 import { TBlackUserRes, TUserRes } from "@/entities/user/model/types";
+import type ko from "@/shared/lib/i18n/locales/ko.json";
 
-export const USER_ADMIN_TABLE: Record<keyof TUserRes, { label: string; width?: string }> = {
-  id: { label: "사용자 고유번호" },
-  name: { label: "사용자 이름" },
-  phoneNumber: { label: "전화번호", width: "150px" },
-  bank: { label: "은행" },
-  accountNumber: { label: "계좌번호" },
-  email: { label: "이메일", width: "150px" },
-  adminStatus: { label: "관리자 여부" },
-  createdAt: { label: "가입 날짜" },
-} as const;
+type TI18nKey = keyof typeof ko;
 
-export const USER_BLACKLIST_TABLE: Record<keyof TBlackUserRes, { label: string; width?: string }> =
-  {
-    id: { label: `사용자 고유번호` },
-    blockedAt: { label: "블랙리스트 등재 시간" },
-  } as const;
+export const USER_ADMIN_TABLE: Record<keyof TUserRes, { labelKey: TI18nKey; width?: string }> = {
+  id: { labelKey: "admin.user.col.id" },
+  name: { labelKey: "admin.user.col.name" },
+  phoneNumber: { labelKey: "admin.user.col.phone", width: "150px" },
+  bank: { labelKey: "admin.user.col.bank" },
+  accountNumber: { labelKey: "admin.user.col.account" },
+  email: { labelKey: "admin.user.col.email", width: "150px" },
+  adminStatus: { labelKey: "admin.user.col.admin" },
+  createdAt: { labelKey: "admin.user.col.createdAt" },
+};
+
+export const USER_BLACKLIST_TABLE: Record<
+  keyof TBlackUserRes,
+  { labelKey: TI18nKey; width?: string }
+> = {
+  id: { labelKey: "admin.user.col.id" },
+  blockedAt: { labelKey: "admin.user.col.blockedAt" },
+};

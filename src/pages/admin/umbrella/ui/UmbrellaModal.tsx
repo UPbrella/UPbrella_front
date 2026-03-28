@@ -24,6 +24,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { QRCodeCanvas } from "qrcode.react";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 type TProps = {
   isOpen: boolean;
@@ -46,6 +47,7 @@ const UmbrellaModal = ({
   storeId,
   paginationParams,
 }: TProps) => {
+  const { t } = useTranslation();
   // client
   const [isReadOnly, setIsReadOnly] = useState(!!umbrellaRes);
   const [isDirty, setIsDirty] = useState(false);
@@ -68,7 +70,7 @@ const UmbrellaModal = ({
 
   const handleCloseModal = () => {
     if (!isReadOnly && isDirty) {
-      if (window.confirm("작성하고 있는 내용이 사라집니다.")) {
+      if (window.confirm(t("admin.common.discardConfirmAlt"))) {
         handleClose();
         return;
       }
@@ -80,12 +82,11 @@ const UmbrellaModal = ({
 
   const onClickSaveBtn = () => {
     if (!umbrellaData.storeMetaId || !umbrellaData.uuid) {
-      toast.error("필수값을 모두 입력해주세요.");
+      toast.error(t("admin.common.requiredAllError"));
       return;
     }
 
     if (umbrellaRes) {
-      // 수정
       patchMutate(
         {
           umbrellaId: umbrellaRes.id,
@@ -169,12 +170,12 @@ const UmbrellaModal = ({
       isLoading={isLoading}
       isOpen={isOpen}
       handleClose={handleCloseModal}
-      titleText={`우산 ${umbrellaRes ? "수정" : "추가"}`}
+      titleText={umbrellaRes ? t("admin.umbrella.modalEdit") : t("admin.umbrella.modalAdd")}
       footerContents={
         isReadOnly ? (
           <>
             <Button size="large" variant="contained" onClick={() => setIsReadOnly(false)}>
-              수정
+              {t("admin.common.edit")}
             </Button>
           </>
         ) : (
@@ -185,13 +186,13 @@ const UmbrellaModal = ({
                 size="large"
                 variant="outlined"
                 onClick={() => {
-                  if (window.confirm("취소하시겠습니까?")) {
+                  if (window.confirm(t("admin.common.cancelConfirm"))) {
                     setIsReadOnly(true);
                     setUmbrellaData(convertUmbrellaData(umbrellaRes));
                   }
                 }}
               >
-                취소
+                {t("admin.common.cancel")}
               </Button>
             )}
             <Button
@@ -201,15 +202,14 @@ const UmbrellaModal = ({
                 onClickSaveBtn();
               }}
             >
-              저장
+              {t("admin.common.save")}
             </Button>
           </>
         )
       }
     >
       <div className="flex flex-col gap-4">
-        {/* number */}
-        <StoreFormWrapper label="우산 관리번호" isRequired={!isReadOnly}>
+        <StoreFormWrapper label={t("admin.umbrella.form.uuid")} isRequired={!isReadOnly}>
           <div>
             {isReadOnly ? (
               <>{umbrellaData.uuid}</>
@@ -228,8 +228,7 @@ const UmbrellaModal = ({
           </div>
         </StoreFormWrapper>
 
-        {/* 지점 */}
-        <StoreFormWrapper label="현위치" isRequired={!isReadOnly}>
+        <StoreFormWrapper label={t("admin.umbrella.form.location")} isRequired={!isReadOnly}>
           <div>
             {isReadOnly ? (
               <>
@@ -238,7 +237,7 @@ const UmbrellaModal = ({
               </>
             ) : (
               <SelectBox
-                label="지점" // 명칭 미정
+                label={t("admin.umbrella.form.storeLabel")}
                 value={umbrellaData.storeMetaId ?? ""}
                 name="storeMetaId"
                 onChange={(name, value) => {
@@ -252,33 +251,42 @@ const UmbrellaModal = ({
           </div>
         </StoreFormWrapper>
 
-        {/* 대여가능 여부 */}
-        <StoreFormWrapper label="대여 가능 여부" isRequired={!isReadOnly}>
+        <StoreFormWrapper label={t("admin.umbrella.form.rentable")} isRequired={!isReadOnly}>
           <div>
             {isReadOnly ? (
-              <>{umbrellaData.rentable ? "대여 가능" : "대여 불가능"}</>
+              <>
+                {umbrellaData.rentable
+                  ? t("admin.umbrella.form.rentableYes")
+                  : t("admin.umbrella.form.rentableNo")}
+              </>
             ) : (
               <RadioGroup
                 value={umbrellaData.rentable}
                 name="rentable"
-                // onChange={onChangeStoreData}
                 onChange={(e) => {
                   const { name, value } = e.target;
                   onChangeData(name, value);
                 }}
               >
                 <div>
-                  <FormControlLabel value={true} control={<Radio />} label="대여 가능" />
-                  <FormControlLabel value={false} control={<Radio />} label="대여 불가능" />
+                  <FormControlLabel
+                    value={true}
+                    control={<Radio />}
+                    label={t("admin.umbrella.form.rentableYes")}
+                  />
+                  <FormControlLabel
+                    value={false}
+                    control={<Radio />}
+                    label={t("admin.umbrella.form.rentableNo")}
+                  />
                 </div>
               </RadioGroup>
             )}
           </div>
         </StoreFormWrapper>
 
-        {/* 분실 여부 */}
         {!isReadOnly && umbrellaRes && (
-          <StoreFormWrapper label="분실 여부">
+          <StoreFormWrapper label={t("admin.umbrella.form.missing")}>
             <div>
               <RadioGroup
                 value={umbrellaData.missed}
@@ -297,13 +305,13 @@ const UmbrellaModal = ({
           </StoreFormWrapper>
         )}
 
-        <StoreFormWrapper label="비고">
+        <StoreFormWrapper label={t("admin.umbrella.form.etc")}>
           <div>
             {isReadOnly ? (
               <>{umbrellaData.etc}</>
             ) : (
               <TextareaAutosize
-                placeholder="기타 사항을 작성해주세요."
+                placeholder={t("admin.umbrella.form.etcPlaceholder")}
                 value={umbrellaData.etc ?? ""}
                 name="etc"
                 onChange={(e) => {
@@ -323,7 +331,7 @@ const UmbrellaModal = ({
         </StoreFormWrapper>
 
         {isReadOnly && umbrellaRes && (
-          <StoreFormWrapper label="QR코드">
+          <StoreFormWrapper label={t("admin.umbrella.form.qr")}>
             <div className="flex flex-col items-center gap-[4px]">
               <QRCodeCanvas
                 size={200}
@@ -337,7 +345,7 @@ const UmbrellaModal = ({
                 }}
               />
               <Button variant="contained" onClick={handleDownloadClick}>
-                QR 이미지 다운로드
+                {t("admin.store.qrDownload")}
               </Button>
               <div>{QR_CODE_URL}</div>
             </div>

@@ -8,8 +8,10 @@ import { formatPhoneNumber, validateNumber } from "@/shared/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MouseEvent, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 const SignUpPage = () => {
+  const { t } = useTranslation();
   const {
     register,
     control,
@@ -40,7 +42,6 @@ const SignUpPage = () => {
 
   const { mutate: signUpMutate } = useUpbrellaSignUp();
 
-  // 소셜 로그인 세션에서 이름과 이메일 자동 채우기
   useEffect(() => {
     if (socialSession?.data?.data) {
       const { name: sessionName, email: sessionEmail } = socialSession.data.data;
@@ -54,13 +55,11 @@ const SignUpPage = () => {
     }
   }, [socialSession, setValue]);
 
-  // 전화번호 포맷팅 핸들러
   const handlePhoneNumberChange = (value: string) => {
     const formatted = formatPhoneNumber(value);
     setValue("phoneNumber", formatted, { shouldValidate: true });
   };
 
-  // 계좌번호 숫자만 입력 핸들러
   const handleAccountNumberChange = (value: string) => {
     if (validateNumber(value)) {
       setValue("accountNumber", value, { shouldValidate: true });
@@ -113,9 +112,9 @@ const SignUpPage = () => {
   return (
     <>
       <SeoMetaTag
-        title={"회원가입"}
-        description={"업브렐라 서비스 이용을 위한 회원가입 페이지입니다."}
-        keywords={", 회원가입, sign up"}
+        title={t("seo.signup.title")}
+        description={t("seo.signup.desc")}
+        keywords={t("seo.signup.keywords")}
       />
       {isNext ? (
         <SignUpNotRequiredForm

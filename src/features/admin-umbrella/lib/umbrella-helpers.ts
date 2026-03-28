@@ -4,27 +4,30 @@ import {
   TUmbrellaRes,
   TUmbrellaStatisticsRes,
 } from "@/entities/umbrella/model/types";
+import type ko from "@/shared/lib/i18n/locales/ko.json";
+
+type TI18nKey = keyof typeof ko;
 
 export const UMBRELLA_STATISTICS_TABLE: Record<
   keyof TUmbrellaStatisticsRes,
-  { label: string; width?: string }
+  { labelKey: TI18nKey; width?: string }
 > = {
-  totalRentCount: { label: "전체 대여 건수" },
-  totalUmbrellaCount: { label: "전체 우산 개수" },
-  rentableUmbrellaCount: { label: "대여 가능한 우산 개수" },
-  rentedUmbrellaCount: { label: "대여 중인 우산 개수" },
-  missingUmbrellaCount: { label: "분실 우산 개수" },
-  missingRate: { label: "분실률(%)" },
-} as const;
+  totalRentCount: { labelKey: "admin.umbrella.col.totalRent" },
+  totalUmbrellaCount: { labelKey: "admin.umbrella.col.totalCount" },
+  rentableUmbrellaCount: { labelKey: "admin.umbrella.col.rentableCount" },
+  rentedUmbrellaCount: { labelKey: "admin.umbrella.col.rentedCount" },
+  missingUmbrellaCount: { labelKey: "admin.umbrella.col.missingCount" },
+  missingRate: { labelKey: "admin.umbrella.col.missingRate" },
+};
 
-export const UMBRELLA_TABLE: Record<keyof TUmbrellaRes, { label: string; width?: string }> = {
-  id: { label: "id" },
-  uuid: { label: "우산 관리번호" },
-  historyId: { label: "현재 대여 일련번호(NO)" },
-  storeMetaId: { label: "현위치(지점번호)" },
-  rentable: { label: "가용 여부" },
-  etc: { label: "비고" },
-} as const;
+export const UMBRELLA_TABLE: Record<keyof TUmbrellaRes, { labelKey: TI18nKey; width?: string }> = {
+  id: { labelKey: "admin.umbrella.col.id" },
+  uuid: { labelKey: "admin.umbrella.col.uuid" },
+  historyId: { labelKey: "admin.umbrella.col.historyId" },
+  storeMetaId: { labelKey: "admin.umbrella.col.storeMetaId" },
+  rentable: { labelKey: "admin.umbrella.col.rentableLabel" },
+  etc: { labelKey: "admin.umbrella.col.etc" },
+};
 
 export const convertUmbrellaData = (res?: TUmbrellaRes) => {
   if (res) {

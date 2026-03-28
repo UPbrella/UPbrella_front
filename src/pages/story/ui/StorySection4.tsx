@@ -4,8 +4,11 @@ import sectionImg2 from "@/shared/assets/Story/section4-2.jpeg";
 import sectionImg3 from "@/shared/assets/Story/section4-3.jpeg";
 import sectionImg4 from "@/shared/assets/Story/section4-4.jpeg";
 import { SectionBullet } from "@/pages/story/ui/SectionBullet";
+import { useTranslation } from "react-i18next";
 
 const StorySection4 = () => {
+  const { t } = useTranslation();
+
   return (
     <CssSectionBg
       className={`mt-80 p-80 px-80 md:px-20  flex justify-center items-center gap-[40px]`}
@@ -15,9 +18,9 @@ const StorySection4 = () => {
       </div>
 
       <div className="flex-1 flex flex-col gap-[24px] font-semibold">
-        <header className="text-h18 lg:text-h15 text-primary-500">지역 공동체 의식 강화</header>
+        <header className="text-h18 lg:text-h15 text-primary-500">{t("story.s4.header")}</header>
         <div className="text-gray-700 text-h32 lg:text-h24">
-          ‘공유 우산’을 매개로 <br /> 학생과 지역 공동체가 <br /> 긴밀히 협업하는 플랫폼
+          {t("story.s4.line1")} <br /> {t("story.s4.line2")} <br /> {t("story.s4.line3")}
         </div>
 
         <div className="xl:hidden">
@@ -25,9 +28,9 @@ const StorySection4 = () => {
         </div>
 
         <div className="text-gray-600 text-h18 lg:text-h15">
-          현재 신촌, 한양대 인근 협업 지점의 인지도를 높이고,
-          <br className="lg:hidden" /> 업브렐라와 협업 지점 간 시너지를 창출하여
-          <br className="lg:hidden" /> 지역 상권을 활성화하고자 합니다.
+          {t("story.s4.line4")}
+          <br className="lg:hidden" /> {t("story.s4.line5")}
+          <br className="lg:hidden" /> {t("story.s4.line6")}
         </div>
       </div>
 
@@ -37,6 +40,7 @@ const StorySection4 = () => {
 };
 
 const Images = () => {
+  const { t } = useTranslation();
   const images = [sectionImg1, sectionImg2, sectionImg3, sectionImg4];
 
   return (
@@ -46,7 +50,7 @@ const Images = () => {
           key={i}
           className="object-cover w-[202px] aspect-square lg:w-full rounded-20"
           src={e}
-          alt={`업브렐라_이미지_section4_${i + 1}`}
+          alt={t("story.s4.imgAlt", { index: i + 1 })}
         />
       ))}
     </div>

@@ -1,5 +1,6 @@
 import "@/app/styles/index.css";
 import "@/app/styles/fonts/font.css";
+import "@/shared/lib/i18n";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";

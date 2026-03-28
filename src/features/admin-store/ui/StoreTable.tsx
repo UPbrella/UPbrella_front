@@ -1,16 +1,17 @@
+import { usePatchStoreActive, usePatchStoreInactive } from "@/entities/store/api/store.queries";
 import { TAdminStoreDetail, TStoreTableData, TStoreTableKey } from "@/entities/store/model/types";
-import { Button } from "@mui/material";
-import { CssDataTable } from "@/shared/ui/DataTable";
-import { Column } from "primereact/column";
 import { filterStoreTableView } from "@/features/admin-store/lib/store-helpers";
 import { STORE_ADMIN_TABLE } from "@/features/admin-store/lib/table-config";
-import { InputSwitch } from "primereact/inputswitch";
-import { usePatchStoreActive, usePatchStoreInactive } from "@/entities/store/api/store.queries";
-import CustomModal from "@/shared/ui/Modal";
-import useModalStatus from "@/shared/hooks/useModalStatus";
-import { useState } from "react";
-import { QRCodeCanvas } from "qrcode.react";
 import logo from "@/shared/assets/main_logo.svg";
+import useModalStatus from "@/shared/hooks/useModalStatus";
+import { CssDataTable } from "@/shared/ui/DataTable";
+import CustomModal from "@/shared/ui/Modal";
+import { Button } from "@mui/material";
+import { Column } from "primereact/column";
+import { InputSwitch } from "primereact/inputswitch";
+import { QRCodeCanvas } from "qrcode.react";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 type TProps = {
   storesRes: TAdminStoreDetail[];
@@ -18,6 +19,7 @@ type TProps = {
 };
 
 const StoreTable = ({ storesRes, onClickStoreRow }: TProps) => {
+  const { t } = useTranslation();
   const { isOpen, handleOpen, handleClose } = useModalStatus();
   const [selectedStore, setSelectedStore] = useState<TStoreTableData>();
 
@@ -28,21 +30,18 @@ const StoreTable = ({ storesRes, onClickStoreRow }: TProps) => {
   const filterStoreTableData = storesRes.map((storeRes) => filterStoreTableView(storeRes));
 
   const onMutateStoreActiveStatus = (storeRes: TStoreTableData, checked: boolean) => {
-    if (window.confirm(`${storeRes.name} 의 활성여부를 변경하시겠어요?`)) {
+    if (window.confirm(t("admin.store.activeConfirm", { name: storeRes.name }))) {
       if (checked) {
-        // 활성화
         mutateStoreActive(storeRes.id);
         return;
       }
 
-      // 비활성화
       mutateStoreInactive(storeRes.id);
     }
   };
 
   return (
     <>
-      {/* QR Modal */}
       {selectedStore && isOpen && (
         <StoreQRModal
           selectedStore={selectedStore}
@@ -51,7 +50,6 @@ const StoreTable = ({ storesRes, onClickStoreRow }: TProps) => {
         />
       )}
 
-      {/* Table */}
       <CssDataTable
         paginator
         rows={10}
@@ -62,7 +60,7 @@ const StoreTable = ({ storesRes, onClickStoreRow }: TProps) => {
         }}
         stripedRows
         value={filterStoreTableData}
-        emptyMessage={"결과가 없습니다."}
+        emptyMessage={t("admin.common.emptyResult")}
         onRowClick={(e) => {
           const storeRes = e.data as TStoreTableData;
           onClickStoreRow(storeRes.id, "store");
@@ -70,7 +68,7 @@ const StoreTable = ({ storesRes, onClickStoreRow }: TProps) => {
         rowHover
       >
         <Column
-          header="QR 코드"
+          header={t("admin.store.qr")}
           style={{ minWidth: "90px" }}
           body={(data: TStoreTableData) => (
             <Button
@@ -82,18 +80,18 @@ const StoreTable = ({ storesRes, onClickStoreRow }: TProps) => {
                 e.stopPropagation();
               }}
             >
-              확인
+              {t("admin.common.confirm")}
             </Button>
           )}
         />
         {Object.keys(STORE_ADMIN_TABLE).map((key) => {
           const field = key as TStoreTableKey;
-          const { label, minWidth } = STORE_ADMIN_TABLE[field];
+          const { labelKey, minWidth } = STORE_ADMIN_TABLE[field];
           return (
             <Column
               key={key}
               style={{ minWidth }}
-              header={label}
+              header={labelKey ? t(labelKey) : field}
               field={field}
               body={(data: TStoreTableData) => {
                 if (field === "activateStatus") {
@@ -118,7 +116,7 @@ const StoreTable = ({ storesRes, onClickStoreRow }: TProps) => {
                         e.stopPropagation();
                       }}
                     >
-                      이미지 업로드 및 확인
+                      {t("admin.store.imageUpload")}
                     </Button>
                   );
                 }
@@ -144,6 +142,7 @@ const StoreQRModal = ({
   handleCloseModal: () => void;
   selectedStore: TStoreTableData;
 }) => {
+  const { t } = useTranslation();
   const QR_CODE_URL = `${window.location.origin}/return/form?storeId=${selectedStore.id}`;
 
   const handleDownloadClick = () => {
@@ -159,7 +158,7 @@ const StoreQRModal = ({
     <CustomModal
       isOpen={isOpen}
       handleClose={handleCloseModal}
-      titleText={`"${selectedStore.name}" QR 코드`}
+      titleText={`"${selectedStore.name}" ${t("admin.store.qr")}`}
     >
       <div className="flex flex-col items-center gap-[4px] p-16">
         <QRCodeCanvas
@@ -174,7 +173,7 @@ const StoreQRModal = ({
           }}
         />
         <Button variant="contained" onClick={handleDownloadClick}>
-          QR 이미지 다운로드
+          {t("admin.store.qrDownload")}
         </Button>
         <div>{QR_CODE_URL}</div>
       </div>

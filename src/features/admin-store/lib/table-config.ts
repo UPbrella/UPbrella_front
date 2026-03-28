@@ -1,15 +1,21 @@
 import { TStoreTableKey } from "@/entities/store/model/types";
+import type ko from "@/shared/lib/i18n/locales/ko.json";
 
-export const STORE_ADMIN_TABLE: Record<TStoreTableKey, { label: string; minWidth?: string }> = {
-  id: { label: "id", minWidth: "60px" },
-  name: { label: "협업 지점명", minWidth: "150px" },
-  address: { label: "주소", minWidth: "250px" },
-  imageUrls: { label: "이미지", minWidth: "200px" },
-  activateStatus: { label: "활성여부", minWidth: "100px" },
-  category: { label: "분류", minWidth: "150px" },
-  umbrellaLocation: { label: "우산위치", minWidth: "130px" },
-  businessHour: { label: "영업시간", minWidth: "200px" },
-  contactNumber: { label: "전화번호", minWidth: "130px" },
-  instagramId: { label: "인스타그램", minWidth: "130px" },
-  content: { label: "대여 조건", minWidth: "300px" },
+type TI18nKey = keyof typeof ko;
+
+export const STORE_ADMIN_TABLE: Record<
+  TStoreTableKey,
+  { labelKey: TI18nKey | null; minWidth?: string }
+> = {
+  id: { labelKey: null, minWidth: "60px" },
+  name: { labelKey: "admin.store.columns.name", minWidth: "150px" },
+  address: { labelKey: "admin.store.columns.address", minWidth: "250px" },
+  imageUrls: { labelKey: "admin.store.columns.image", minWidth: "200px" },
+  activateStatus: { labelKey: "admin.store.columns.active", minWidth: "100px" },
+  category: { labelKey: "admin.store.columns.category", minWidth: "150px" },
+  umbrellaLocation: { labelKey: "admin.store.columns.location", minWidth: "130px" },
+  businessHour: { labelKey: "admin.store.columns.hours", minWidth: "200px" },
+  contactNumber: { labelKey: "admin.store.columns.contact", minWidth: "130px" },
+  instagramId: { labelKey: "admin.store.columns.instagram", minWidth: "130px" },
+  content: { labelKey: "admin.store.columns.intro", minWidth: "300px" },
 };

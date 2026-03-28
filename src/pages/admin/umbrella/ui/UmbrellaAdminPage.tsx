@@ -22,10 +22,12 @@ import { Column } from "primereact/column";
 import { Paginator } from "primereact/paginator";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
 import UmbrellaExcelButton from "@/pages/admin/umbrella/ui/UmbrellaExcelButton";
 
 const UmbrellaAdminPage = () => {
+  const { t } = useTranslation();
   // client
   const { isOpen, handleOpen, handleClose } = useModalStatus();
   const [storeFilter, setStoreFilter] = useState<"all" | number>("all");
@@ -54,7 +56,9 @@ const UmbrellaAdminPage = () => {
 
   const standard = () => {
     if (storeRes) {
-      return IsAllStore ? "전체" : storeRes.find((e) => e.id === storeFilter)?.name;
+      return IsAllStore
+        ? t("admin.umbrella.all")
+        : storeRes.find((e) => e.id === storeFilter)?.name;
     }
   };
 
@@ -64,7 +68,7 @@ const UmbrellaAdminPage = () => {
   };
 
   const onClickRemoveButton = (umbrellaId: number) => {
-    if (window.confirm(`${umbrellaId} 번 우산을 삭제하시겠습니까?`)) {
+    if (window.confirm(t("admin.umbrella.deleteConfirm", { id: umbrellaId }))) {
       const storeId = IsAllStore ? undefined : storeFilter;
 
       deleteMutate(umbrellaId, {
@@ -88,14 +92,14 @@ const UmbrellaAdminPage = () => {
         {/* filter */}
         <div>
           <SelectBox
-            label="지점 필터"
+            label={t("admin.umbrella.storeFilter")}
             name="store"
             disabled={isStoreLoading}
             value={storeFilter}
             menuItems={
               storeRes
                 ? [
-                    { label: "전체", value: "all" },
+                    { label: t("admin.umbrella.all"), value: "all" },
                     ...storeRes.map(({ id, name }) => ({ label: name, value: id })),
                   ]
                 : []
@@ -115,16 +119,15 @@ const UmbrellaAdminPage = () => {
               handleOpen();
             }}
           >
-            우산 새로 추가
+            {t("admin.umbrella.addNew")}
           </Button>
         </div>
       </div>
 
-      {/* 우산 대여 정보 현황 */}
       {umbrellaStatistics && standard() && (
         <div>
           <Typography className="!mb-16" variant="h5">
-            {`"${standard()}" 우산 대여 정보`}
+            {t("admin.umbrella.rentInfo", { name: standard() })}
           </Typography>
           <CssDataTable value={[umbrellaStatistics]}>
             {Object.keys(UMBRELLA_STATISTICS_TABLE).map((key) => {
@@ -133,7 +136,7 @@ const UmbrellaAdminPage = () => {
                 <Column
                   style={{ minWidth: "100px" }}
                   key={key}
-                  header={UMBRELLA_STATISTICS_TABLE[field].label}
+                  header={t(UMBRELLA_STATISTICS_TABLE[field].labelKey)}
                   field={field}
                 />
               );
@@ -142,24 +145,25 @@ const UmbrellaAdminPage = () => {
         </div>
       )}
 
-      {/* 우산 관리 테이블 */}
       {umbrellaRes && storeRes && (
         <>
           <div>
             <Typography className="!mb-16" variant="h5">
-              {"우산 관리 테이블"}
+              {t("admin.umbrella.tableTitle")}
             </Typography>
             <UmbrellaExcelButton
               storeId={IsAllStore ? 0 : storeFilter}
               totalCount={umbrellaStatistics?.totalUmbrellaCount}
               isLoading={isStatisticsLoading || isUmbrellasLoading}
-              storeName={storeRes.find((e) => e.id === storeFilter)?.name ?? "전체"}
+              storeName={
+                storeRes.find((e) => e.id === storeFilter)?.name ?? t("admin.umbrella.all")
+              }
             />
             <CssDataTable
               rowHover
               showGridlines
               value={umbrellaRes}
-              emptyMessage={"결과가 없습니다."}
+              emptyMessage={t("admin.common.emptyResult")}
               style={{
                 cursor: "pointer",
               }}
@@ -173,7 +177,7 @@ const UmbrellaAdminPage = () => {
                 return (
                   <Column
                     key={field}
-                    header={UMBRELLA_TABLE[field].label}
+                    header={t(UMBRELLA_TABLE[field].labelKey)}
                     field={field}
                     style={{ minWidth: "150px" }}
                     body={(data: TUmbrellaRes) => {
@@ -188,7 +192,9 @@ const UmbrellaAdminPage = () => {
                       }
 
                       if (field === "rentable") {
-                        return data[field] ? "대여 가능" : "대여 불가능(대여 중)";
+                        return data[field]
+                          ? t("admin.umbrella.status.rentable")
+                          : t("admin.umbrella.status.rented");
                       }
 
                       return data[field];
@@ -208,7 +214,7 @@ const UmbrellaAdminPage = () => {
                         onClickRemoveButton(data.id);
                       }}
                     >
-                      우산 삭제
+                      {t("admin.umbrella.deleteBtn")}
                     </Button>
                   );
                 }}

@@ -6,6 +6,7 @@ import SignUpProgress from "@/features/auth/ui/SignUpProgress";
 import SignUpText from "@/features/auth/ui/SignUpText";
 import { SignUpRequiredFormProps } from "@/features/auth/model/signup-types";
 import { Controller } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 const SignUpRequiredForm = ({
   register,
@@ -18,6 +19,8 @@ const SignUpRequiredForm = ({
   onClickDetailPPPage,
   onPhoneNumberChange,
 }: SignUpRequiredFormProps) => {
+  const { t } = useTranslation();
+
   return (
     <main className="flex flex-col items-center flex-1">
       <article className="flex flex-col items-center justify-center flex-1 p-20 xl:h-760 xl:max-w-440 xl:w-full lg:max-w-640 lg:w-full md:w-full lg:max-h-720">
@@ -26,16 +29,16 @@ const SignUpRequiredForm = ({
           <section className="w-full">
             <div className="mb-28">
               <SignUpText
-                labelTitle="전화번호를 입력해주세요!"
-                labelSubtitle1="수집된 개인정보는"
-                labelSubtitleBold="서비스 운영의 목적으로만"
-                labelSubtitle2="사용됩니다."
+                labelTitle={t("auth.signup.step1.title")}
+                labelSubtitle1={t("auth.signup.step1.privacyNotice1")}
+                labelSubtitleBold={t("auth.signup.step1.privacyNoticeBold")}
+                labelSubtitle2={t("auth.signup.step1.privacyNotice2")}
               />
             </div>
             <div className="mb-16">
               <SignUpInputBox
-                labelTitle="이름"
-                labelInput="이름입력"
+                labelTitle={t("auth.signup.step1.name")}
+                labelInput={t("auth.signup.step1.namePlaceholder")}
                 registration={register("name")}
                 value={watch("name")}
                 error={errors.name?.message}
@@ -44,7 +47,7 @@ const SignUpRequiredForm = ({
             </div>
             <div>
               <SignUpInputBox
-                labelTitle="전화번호"
+                labelTitle={t("auth.signup.step1.phone")}
                 labelInput="010-1234-5678"
                 registration={register("phoneNumber")}
                 value={watch("phoneNumber") || ""}
@@ -70,13 +73,13 @@ const SignUpRequiredForm = ({
                           tosOnChange(newStatus);
                           ppOnChange(newStatus);
                         }}
-                        label="전체동의"
+                        label={t("auth.signup.step1.agreeAll")}
                       />
                       <div className="my-4">
                         <SignUpAllowBox
                           isAllow={Boolean(tosValue)}
                           onClickAllow={() => tosOnChange(!tosValue)}
-                          label="(필수) 업브렐라 이용약관"
+                          label={t("auth.signup.step1.agreeTos")}
                           onClickDetailPage={onClickDetailTOSPage}
                         />
                       </div>
@@ -84,7 +87,7 @@ const SignUpRequiredForm = ({
                         <SignUpAllowBox
                           isAllow={Boolean(ppValue)}
                           onClickAllow={() => ppOnChange(!ppValue)}
-                          label="(필수) 개인정보 수집 및 이용동의"
+                          label={t("auth.signup.step1.agreePp")}
                           onClickDetailPage={onClickDetailPPPage}
                         />
                       </div>
@@ -93,7 +96,11 @@ const SignUpRequiredForm = ({
                 />
               )}
             />
-            <SignUpFormButton label="다음" isDone={isValid} onClick={onClickButton} />
+            <SignUpFormButton
+              label={t("auth.signup.step1.next")}
+              isDone={isValid}
+              onClick={onClickButton}
+            />
           </section>
         </section>
       </article>

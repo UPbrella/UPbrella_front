@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Column } from "primereact/column";
 import { Button, CircularProgress } from "@mui/material";
 import useModalStatus from "@/shared/hooks/useModalStatus";
@@ -10,6 +11,7 @@ import { CssDataTable } from "@/shared/ui/DataTable";
 import { TLockersRes } from "@/entities/locker/model/types";
 
 const LockerAdminPage = () => {
+  const { t } = useTranslation();
   // client
   const { isOpen, handleClose, handleOpen } = useModalStatus();
   const [selectedLocker, setSelectedLocker] = useState<TLockersRes>();
@@ -29,7 +31,7 @@ const LockerAdminPage = () => {
   if (isStoresLoading || isLockersLoading) {
     return (
       <div className="flex flex-col items-center gap-4 mt-56">
-        <div>데이터를 불러오는 중입니다.</div>
+        <div>{t("admin.common.loading")}</div>
         <CircularProgress
           size={70}
           sx={{
@@ -43,14 +45,14 @@ const LockerAdminPage = () => {
   if (isStoresError || isLockersError) {
     return (
       <div className="flex flex-col items-center mt-56">
-        <div>데이터를 불러오던 중 에러가 발생했습니다. 다시 요청해주세요.</div>
+        <div>{t("admin.common.loadError")}</div>
       </div>
     );
   }
 
   return (
     <div className="flex flex-col gap-8">
-      <ContentsTitle title={"보관함 목록"}>
+      <ContentsTitle title={t("admin.locker.title")}>
         <Button
           variant="contained"
           onClick={() => {
@@ -58,14 +60,13 @@ const LockerAdminPage = () => {
             handleOpen();
           }}
         >
-          추가
+          {t("admin.common.add")}
         </Button>
       </ContentsTitle>
 
-      {/* 테이블 */}
       <CssDataTable
         value={lockersListRes}
-        emptyMessage={"생성한 보관함이 없습니다."}
+        emptyMessage={t("admin.locker.empty")}
         stripedRows
         paginator
         rows={10}
@@ -88,15 +89,16 @@ const LockerAdminPage = () => {
         />
 
         <Column
-          header="협업 지점"
+          header={t("admin.locker.storeColumn")}
           field="storeMetaId"
           style={{ minWidth: "150px" }}
           body={(data: TLockersRes) =>
-            storesListRes.find((e) => e.id === data.storeMetaId)?.name ?? "잘못된 지점입니다."
+            storesListRes.find((e) => e.id === data.storeMetaId)?.name ??
+            t("admin.locker.invalidStore")
           }
         />
         <Column
-          header="비밀키"
+          header={t("admin.locker.secretKey")}
           field="secretKey"
           style={{ minWidth: "120px" }}
           body={(data: TLockersRes) => (
@@ -107,7 +109,6 @@ const LockerAdminPage = () => {
         />
       </CssDataTable>
 
-      {/* 모달 */}
       {isOpen && (
         <LockerModal
           isOpen={isOpen}

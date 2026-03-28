@@ -15,6 +15,7 @@ import type { TUserRes } from "../model/types";
 import type { TApiResponse, TCustomError } from "@/shared/model/types";
 import type { TInputs, TSocialUserSession } from "@/features/auth/model/signup-types";
 import { getErrorMessage } from "@/shared/api/error";
+import i18n from "@/shared/lib/i18n";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { toast } from "react-hot-toast";
@@ -56,7 +57,7 @@ const useUpbrellaLogin = () => {
         }
 
         navigate(BACKGROUND_IMAGE_ROUTES_URL.login.path());
-        toast.error("회원 정보를 가져오지 못했습니다.");
+        toast.error(i18n.t("toast.error.userInfoFailed"));
       });
     },
     onError: (err: TCustomError) => {
@@ -67,7 +68,7 @@ const useUpbrellaLogin = () => {
         return;
       }
 
-      toast.error("잘못된 요청입니다. 다시 로그인 해주세요.");
+      toast.error(i18n.t("toast.error.badRequest"));
       navigate(BACKGROUND_IMAGE_ROUTES_URL.login.path());
       setIsLogin(false);
 
@@ -90,7 +91,7 @@ export const useKakaoLogin = () => {
       upbrellaLogin();
     },
     onError: () => {
-      toast.error("카카오 계정을 확인해주세요.");
+      toast.error(i18n.t("toast.error.kakaoAccount"));
       navigate(BACKGROUND_IMAGE_ROUTES_URL.login.path());
       setIsLogin(false);
     },
@@ -126,7 +127,7 @@ export const useUpbrellaSignUp = () => {
     onSuccess: () => {
       setIsLogin(true);
       navigate(path);
-      toast.success("회원가입이 완료되었습니다.");
+      toast.success(i18n.t("toast.success.signupComplete"));
       queryClient.invalidateQueries(USER_QUERY_KEYS.userStatus());
       return;
     },
@@ -162,13 +163,13 @@ export const useLogout = () => {
   return useMutation({
     mutationFn: async () => await $axios.post("/users/logout"),
     onSuccess: () => {
-      toast.success("로그아웃 되었습니다.");
+      toast.success(i18n.t("toast.success.logoutComplete"));
       queryClient.invalidateQueries([...USER_QUERY_KEYS.userStatus()]);
       navigate(BASIC_ROUTES_URL.root.path());
       setRedirectUrl("/");
     },
     onError: () => {
-      toast.error("서버 에러입니다.");
+      toast.error(i18n.t("toast.error.serverErrorShort"));
     },
   });
 };
@@ -223,7 +224,7 @@ export const useDeleteUsers = () => {
     mutationFn: (userId: number) => deleteUsers(userId),
     onSuccess: () => {
       queryClient.invalidateQueries(USER_QUERY_KEYS.users());
-      toast.success("블랙리스트로 등록되었습니다.");
+      toast.success(i18n.t("toast.success.blacklistRegistered"));
     },
   });
 };
@@ -242,7 +243,7 @@ export const useDeleteBlackUsers = () => {
     mutationFn: (blackUserId: number) => deleteBlackUsers(blackUserId),
     onSuccess: () => {
       queryClient.invalidateQueries([...USER_QUERY_KEYS.blackUsers()]);
-      toast.success("탈퇴되었습니다.");
+      toast.success(i18n.t("toast.success.withdrawn"));
     },
   });
 };
@@ -251,7 +252,7 @@ export const usePatchAdminUsers = () => {
   return useMutation({
     mutationFn: (userId: number) => patchAdminUsers(userId),
     onSuccess: () => {
-      toast.success("변경되었습니다.");
+      toast.success(i18n.t("toast.success.changed"));
     },
   });
 };

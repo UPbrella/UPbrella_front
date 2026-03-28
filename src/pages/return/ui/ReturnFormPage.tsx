@@ -24,8 +24,10 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useLocation } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useTranslation } from "react-i18next";
 
 const ReturnPage = () => {
+  const { t } = useTranslation();
   // 반납전(false), 반납후(true)
   const [isReturn, setIsReturn] = useState(false);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
@@ -42,20 +44,17 @@ const ReturnPage = () => {
 
   const userInfo = useRecoilValue(loginInfo);
 
-  // 반납폼
-  // const [storeId, setStoreId] = useState(0);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [classificationName, setClassificationName] = useState("");
   const [rentStoreName, setRentStoreName] = useState("");
   const [umbrellaUuid, setUmbrellaUuid] = useState(0);
-  const [bank, setBank] = useState(userInfo.bank || "은행명");
+  const [bank, setBank] = useState(userInfo.bank || t("return.form.bankName"));
   const [accountNumber, setAccountNumber] = useState(userInfo.accountNumber || "");
   const [improvementReportContent, setImprovementReportContent] = useState("");
   const [elapsedDay, setElapsedDay] = useState(0);
   const maxCharLimit = 400;
 
-  // 에러메시지
   const [subError, setSubError] = useState("");
 
   const setRedirectUrl = useSetRecoilState(redirectUrl);
@@ -64,14 +63,12 @@ const ReturnPage = () => {
     setRedirectUrl("/");
   }, [setRedirectUrl]);
 
-  // 로그인 유저 정보 조회 (이름, 전화번호, 은행명, 계좌번호)
   useEffect(() => {
     setName(userInfo.name);
     const formattedPhone = formatPhoneNumber(userInfo.phoneNumber ?? "");
     setPhone(formattedPhone);
   }, [userInfo]);
 
-  // hook
   const {
     data: umbrellaData,
     isLoading: umbrellaDataLoading,
@@ -92,7 +89,6 @@ const ReturnPage = () => {
 
   const { mutate: updateRent } = useMutation(patchReturn);
 
-  // 보관함 없는 경우
   useEffect(() => {
     if (formData) {
       setClassificationName(formData.classificationName);
@@ -100,7 +96,6 @@ const ReturnPage = () => {
     }
   }, [formData]);
 
-  // 보관함 있는 경우
   useEffect(() => {
     if (formLockData) {
       setClassificationName(formLockData.classificationName);
@@ -115,7 +110,6 @@ const ReturnPage = () => {
     }
   }, [umbrellaData]);
 
-  // 필수조건 입력 확인
   useEffect(() => {
     if (bank !== "" && accountNumber && accountNumber.length !== 0) {
       setIsActive(true);
@@ -128,43 +122,39 @@ const ReturnPage = () => {
     return <></>;
   }
 
-  // 사용자가 빌린 우산 조회 (umbrellaUuid, 대여일수)
   if (getUmbrellaErrorMsg) {
     const error = getUmbrellaErrorMsg as TCustomError;
     const errorMsg = getErrorMessage(error);
 
     return (
       <div>
-        <ErrorComponent error="죄송합니다. 페이지를 찾을 수 없어요:(" subError={errorMsg} />
+        <ErrorComponent error={t("common.error.pageNotFound")} subError={errorMsg} />
       </div>
     );
   }
 
-  // 반납 폼 데이터 조회 (classificationName, rentStoreName) - 보관함 있는 경우
   if (getReturnFormLockErrorMsg && salt && signature) {
     const error = getReturnFormLockErrorMsg as TCustomError;
     const errorMsg = getErrorMessage(error);
 
     return (
       <div>
-        <ErrorComponent error="죄송합니다. 페이지를 찾을 수 없어요:(" subError={errorMsg} />
+        <ErrorComponent error={t("common.error.pageNotFound")} subError={errorMsg} />
       </div>
     );
   }
 
-  // 반납 폼 데이터 조회 (classificationName, rentStoreName) - 보관함 없는 경우
   if (getReturnFormErrorMsg) {
     const error = getReturnFormErrorMsg as TCustomError;
     const errorMsg = getErrorMessage(error);
 
     return (
       <div>
-        <ErrorComponent error="죄송합니다. 페이지를 찾을 수 없어요:(" subError={errorMsg} />
+        <ErrorComponent error={t("common.error.pageNotFound")} subError={errorMsg} />
       </div>
     );
   }
 
-  // POST 우산반납신청
   const onClickPatchBtn = () => {
     updateRent(
       {
@@ -182,7 +172,7 @@ const ReturnPage = () => {
         },
         onSuccess: () => {
           setIsReturn(true);
-          toast.success("우산 반납 완료!");
+          toast.success(t("toast.success.returnComplete"));
           return;
         },
       }
@@ -192,38 +182,33 @@ const ReturnPage = () => {
   return (
     <>
       {subError ? (
-        <ErrorComponent error="죄송합니다. 페이지를 찾을 수 없어요:(" subError={subError} />
+        <ErrorComponent error={t("common.error.pageNotFound")} subError={subError} />
       ) : (
         <>
           <HeaderContainer />
           <div className="flex-col max-w-2xl px-20 mx-auto pb-50">
             <div className="mt-20 mb-32 font-semibold text-black text-24 leading-32">
-              {!isReturn ? "우산을 반납할까요?" : "우산을 반납했어요!"}
+              {!isReturn ? t("return.form.titleBefore") : t("return.form.titleAfter")}
             </div>
             <div className="max-w-2xl p-16 mt-16 mb-32 border border-gray-200 rounded-12">
               <ul className="ml-16 list-disc text-8">
+                <li className="text-14 leading-20 gray-700">{t("return.form.privacyNotice")}</li>
                 <li className="text-14 leading-20 gray-700">
-                  수집된 개인정보는{" "}
-                  <span className="inline font-semibold">서비스 운영의 목적으로만</span> 사용됩니다.
-                </li>
-                <li className="text-14 leading-20 gray-700">
-                  대여 신청 시 정보를{" "}
-                  <span className="inline text-red">
-                    정확히 입력해주셔야{" "}
-                    <span className="inline font-semibold text-14">원활한 보증금 환급</span>
-                  </span>
-                  이 가능합니다.
+                  {t("return.form.accurateInfo1")}{" "}
+                  <span className="inline text-red">{t("return.form.accurateInfo2")}</span>
                 </li>
               </ul>
             </div>
 
-            <FormBasic label="이름" value={name} />
-            <FormBasic label="전화번호" value={phone} />
+            <FormBasic label={t("return.form.name")} value={name} />
+            <FormBasic label={t("return.form.phone")} value={phone} />
             <FormLocationMolecules region={classificationName} storeName={rentStoreName} />
-            <FormBasic label="우산번호" value={umbrellaUuid} />
+            <FormBasic label={t("return.form.umbrellaNo")} value={umbrellaUuid} />
 
             <div className="flex flex-col mb-32">
-              <div className="mb-8 text-gray-700 text-15 leading-22">환급받을 계좌</div>
+              <div className="mb-8 text-gray-700 text-15 leading-22">
+                {t("return.form.refundAccount")}
+              </div>
               <div className="flex justify-between w-full">
                 {isReturn ? (
                   <div className="relative flex items-center p-12 text-gray-500 bg-gray-100 w-120 rounded-8 text-15 leading-22">
@@ -242,7 +227,7 @@ const ReturnPage = () => {
                 ) : (
                   <div
                     className={`relative w-120 flex items-center rounded-8 p-12 border border-gray-300 bg-white ${
-                      bank !== "은행명" ? "text-gray-700" : "text-gray-500"
+                      bank !== t("return.form.bankName") ? "text-gray-700" : "text-gray-500"
                     }`}
                     onClick={() => setIsBottomSheetOpen(true)}
                   >
@@ -273,22 +258,21 @@ const ReturnPage = () => {
                 ) : (
                   <input
                     className={`ml-4 w-full rounded-8 p-12 focus:border-gray-600 focus:outline-none border border-gray-300`}
-                    placeholder={accountNumber ? accountNumber : "계좌번호"}
+                    placeholder={accountNumber ? accountNumber : t("return.form.accountNumber")}
                     value={accountNumber}
                     onChange={(e) => setAccountNumber(e.target.value)}
                   />
                 )}
               </div>
               <div className="mt-4 text-gray-600 text-14 leading-20">
-                * ‘-’은 빼고 입력해주세요! <br /> * 현재 ‘반납 페이지’에서 입력하신 은행, 계좌번호
-                정보는 보증금 환급이 완료됨에 따라 파기됩니다. <br /> * MYPAGE를 통해 정보를
-                저장하면 빠른 반납이 가능합니다.
+                {t("return.form.accountHint1")} <br /> {t("return.form.accountHint2")} <br />{" "}
+                {t("return.form.accountHint3")}
               </div>
             </div>
 
             <FormStatus
-              label="개선 요청 사항"
-              placeholder={`개선이 필요하다고 느낀 점이 있다면 ${maxCharLimit}자 이내로 작성해주세요`}
+              label={t("return.form.improvement")}
+              placeholder={t("return.form.improvementPlaceholder", { maxCharLimit })}
               setStatus={setImprovementReportContent}
               status={improvementReportContent}
               isComplete={isReturn}
@@ -297,7 +281,7 @@ const ReturnPage = () => {
 
             {!isReturn && (
               <FormButton
-                label="반납하기"
+                label={t("return.form.submit")}
                 isActive={isActive}
                 handleOpen={() => setIsOpenModal(true)}
               />

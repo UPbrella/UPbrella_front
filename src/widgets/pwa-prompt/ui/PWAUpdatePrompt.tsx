@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { useRegisterSW } from "virtual:pwa-register/react";
 
 interface NavigatorStandalone extends Navigator {
@@ -13,6 +14,7 @@ const isPWA = () => {
 };
 
 const PWAUpdatePrompt = () => {
+  const { t } = useTranslation();
   const {
     needRefresh: [needRefresh, setNeedRefresh],
     updateServiceWorker,
@@ -39,14 +41,14 @@ const PWAUpdatePrompt = () => {
       <div className="rounded-lg bg-white p-4 shadow-lg">
         <div className="flex items-start justify-between">
           <div className="flex-1">
-            <p className="mb-2 text-sm font-medium text-gray-900">새 버전이 있습니다</p>
-            <p className="text-sm text-gray-600">업데이트하여 최신 기능을 사용하세요.</p>
+            <p className="mb-2 text-sm font-medium text-gray-900">{t("common.pwa.newVersion")}</p>
+            <p className="text-sm text-gray-600">{t("common.pwa.updateDesc")}</p>
           </div>
 
           <button
             onClick={close}
             className="ml-4 text-gray-400 hover:text-gray-600"
-            aria-label="닫기"
+            aria-label={t("common.pwa.close")}
           >
             <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -64,13 +66,13 @@ const PWAUpdatePrompt = () => {
             onClick={() => updateServiceWorker(true)}
             className="flex-1 rounded-md bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600"
           >
-            업데이트
+            {t("common.pwa.update")}
           </button>
           <button
             onClick={close}
             className="flex-1 rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
           >
-            나중에
+            {t("common.pwa.later")}
           </button>
         </div>
       </div>

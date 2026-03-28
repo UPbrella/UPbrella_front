@@ -1,3 +1,5 @@
+import i18n from "@/shared/lib/i18n";
+
 export const formatPhoneNumber = (num: string) => {
   if (num.length > 13) {
     return num.substring(0, 13);
@@ -22,7 +24,7 @@ export const validateNumber = (num: string) => {
   return /^\d+$/.test(num) || num === "";
 };
 
-export const PHONE_NUMBER_ERROR_MESSAGE = "010 뒤 8자리를 입력해주세요.";
+export const PHONE_NUMBER_ERROR_MESSAGE = i18n.t("auth.validation.phoneFormat");
 
 export const isValidPhoneNumber = (value: string | undefined | null): boolean => {
   if (!value || value.length === 0) return true;

@@ -8,6 +8,7 @@ import BankModal from "@/shared/ui/BankModal";
 import { BankIcon } from "@/shared/constants/bank-icons";
 import { SignUpNotRequiredFormProps } from "@/features/auth/model/signup-types";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import { useTranslation } from "react-i18next";
 
 const SignUpNotRequiredForm = ({
   register,
@@ -24,6 +25,7 @@ const SignUpNotRequiredForm = ({
   bankRef,
   onAccountNumberChange,
 }: SignUpNotRequiredFormProps) => {
+  const { t } = useTranslation();
   const banks = Object.entries(BankIcon);
   const bank = watch("bank") || "";
   const accountNumber = watch("accountNumber") || "";
@@ -42,16 +44,15 @@ const SignUpNotRequiredForm = ({
           <section className="w-full">
             <div className="mb-28">
               <SignUpText
-                labelTitle="환급받을 계좌를 입력해주세요!"
-                labelSubtitle1="지금 한 번 입력해두면 반납할 땐 자동 입력됩니다 :)
-                "
-                labelSubtitleNextLine="선택사항이니 그냥 넘어가도 좋아요!"
+                labelTitle={t("auth.signup.step2.title")}
+                labelSubtitle1={t("auth.signup.step2.desc1")}
+                labelSubtitleNextLine={t("auth.signup.step2.desc2")}
               />
             </div>
             <div>
               <SignUpInputAccountBox
-                labelTitle="환급받을 계좌"
-                labelInput="계좌번호"
+                labelTitle={t("auth.signup.step2.accountLabel")}
+                labelInput={t("auth.signup.step2.accountPlaceholder")}
                 bank={bank}
                 accountNumber={accountNumber}
                 accountNumberRegistration={register("accountNumber")}
@@ -62,7 +63,7 @@ const SignUpNotRequiredForm = ({
             </div>
             {window.innerWidth > 1025 ? (
               <BankModal
-                titleText="은행을 선택해주세요"
+                titleText={t("auth.signup.step2.selectBank")}
                 isOpen={isOpenModal}
                 handleClose={handleClose}
                 children={
@@ -92,7 +93,11 @@ const SignUpNotRequiredForm = ({
             )}
           </section>
           <section>
-            <SignUpFormButton label="가입하기!" isDone={true} onClick={onClickButton} />
+            <SignUpFormButton
+              label={t("auth.signup.step2.submit")}
+              isDone={true}
+              onClick={onClickButton}
+            />
           </section>
         </section>
       </article>

@@ -1,6 +1,7 @@
 import { deleteLockers, getLockers, patchLockers, postLockers } from "./locker-api";
 import type { TCustomError } from "@/shared/model/types";
 import { getErrorMessage } from "@/shared/api/error";
+import i18n from "@/shared/lib/i18n";
 import toast from "react-hot-toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -26,7 +27,7 @@ export const usePostLockers = () => {
       toast.error(getErrorMessage(error));
     },
     onSuccess: () => {
-      toast.success("보관함 정보가 생성되었습니다.");
+      toast.success(i18n.t("admin.locker.toast.createSuccess"));
       queryClient.invalidateQueries(LOCKER_QUERY_KEYS.all);
     },
   });
@@ -42,7 +43,7 @@ export const usePatchLockers = () => {
       toast.error(getErrorMessage(error));
     },
     onSuccess: () => {
-      toast.success("보관함 정보가 수정되었습니다.");
+      toast.success(i18n.t("admin.locker.toast.editSuccess"));
       queryClient.invalidateQueries(LOCKER_QUERY_KEYS.all);
     },
   });
@@ -58,7 +59,7 @@ export const useDeleteLockers = () => {
       toast.error(getErrorMessage(error));
     },
     onSuccess: () => {
-      toast.success("보관함 정보가 삭제되었습니다.");
+      toast.success(i18n.t("admin.locker.toast.deleteSuccess"));
       queryClient.invalidateQueries(LOCKER_QUERY_KEYS.all);
     },
   });

@@ -2,6 +2,7 @@ import MypageBankInput from "@/pages/mypage/ui/MypageBankInput";
 import MypageFormTitle from "@/pages/mypage/ui/MypageFormTitle";
 import SignUpFormInput from "@/features/auth/ui/SignUpFormInput";
 import { ChangeEvent } from "react";
+import { useTranslation } from "react-i18next";
 
 type MypageBankAccountInputProps = {
   bank: string;
@@ -18,16 +19,18 @@ const MypageBankAccountInput = ({
   onClick,
   bankRef,
 }: MypageBankAccountInputProps) => {
+  const { t } = useTranslation();
+
   return (
     <section className="p-24 border border-solid border-gray-200 rounded-12">
       <div className="flex flex-col">
         <div className="flex mb-8 items-center">
           <div className="mr-40">
-            <MypageFormTitle label="은행" />
+            <MypageFormTitle label={t("mypage.account.bank")} />
           </div>
           <div className="xl:w-224 lg:w-full">
             <MypageBankInput
-              label="은행명"
+              label={t("mypage.account.bankName")}
               name="bank"
               value={bank}
               onChange={onChangeValue}
@@ -38,11 +41,11 @@ const MypageBankAccountInput = ({
         </div>
         <div className="flex mb-4 items-center">
           <div className="mr-40">
-            <MypageFormTitle label="계좌번호" />
+            <MypageFormTitle label={t("mypage.account.accountNumber")} />
           </div>
           <div className="xl:w-224 lg:w-full">
             <SignUpFormInput
-              label="계좌번호"
+              label={t("mypage.account.accountNumber")}
               name="accountNumber"
               value={accountNumber}
               onChange={onChangeValue}
@@ -54,7 +57,7 @@ const MypageBankAccountInput = ({
             <MypageFormTitle label="" />
           </div>
           <div className="text-gray-600 text-14 font-normal leading-20 mt-4">
-            * ‘-’은 빼고 입력해주세요!
+            {t("mypage.account.hint")}
           </div>
         </div>
       </div>

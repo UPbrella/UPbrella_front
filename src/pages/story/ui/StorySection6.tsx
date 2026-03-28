@@ -1,18 +1,18 @@
+import { useTranslation } from "react-i18next";
+
 const StorySection6 = () => {
+  const { t } = useTranslation();
+
   return (
     <section className="mt-80 flex gap-[16px] lg:flex-col px-40 md:px-0">
       <Card
-        header={"서비스고도화팀"}
-        content={
-          "서비스고도화팀은 사용자 경험을 조사하고, 대여/반납 데이터를 분석하여 서비스 운영을 위한 최적의 정책을 수립함으로써 업브렐라 이용자의 만족도를 높이고자 노력합니다."
-        }
+        header={t("story.s6.team1.name")}
+        content={t("story.s6.team1.desc")}
         bgColor={"#F6FBFF"}
       />
       <Card
-        header={"대외협력팀"}
-        content={
-          "대외협력팀은 신촌 상권과 제휴를 맺어 공유 우산을 보급하고, 마케팅으로 서비스 인지도를 높입니다. \n나아가 새로운 사업을 모색해 서비스의 확장에 힘쓰고 있습니다."
-        }
+        header={t("story.s6.team2.name")}
+        content={t("story.s6.team2.desc")}
         bgColor={"#FEF4F2"}
       />
     </section>

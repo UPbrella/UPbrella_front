@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { useGetStores } from "@/entities/store/api/store.queries";
 import useModalStatus from "@/shared/hooks/useModalStatus";
 import StoreTable from "@/features/admin-store/ui/StoreTable";
@@ -8,8 +9,8 @@ import StoreModal from "@/pages/admin/store/ui/StoreModal";
 import { storeInitializer } from "@/features/admin-store/lib/store-helpers";
 import StoreImagesModal from "@/pages/admin/store/ui/StoreImagesModal";
 
-// 협업지점 리스트 + 모달
 const StoreList = () => {
+  const { t } = useTranslation();
   // client
   const { isOpen, handleOpen, handleClose } = useModalStatus();
   const [selectedStoreId, setSelectedStoreId] = useState<number>();
@@ -34,8 +35,7 @@ const StoreList = () => {
   return (
     <>
       <div className="flex flex-col gap-8">
-        {/* 컨텐츠 헤더  */}
-        <ContentsTitle title={"협업지점 목록"}>
+        <ContentsTitle title={t("admin.store.listTitle")}>
           <Button
             variant="contained"
             onClick={() => {
@@ -43,16 +43,14 @@ const StoreList = () => {
               setModalType("store");
             }}
           >
-            추가
+            {t("admin.common.add")}
           </Button>
         </ContentsTitle>
 
-        {/* 협업 지점 테이블 */}
         {storesRes && <StoreTable storesRes={storesRes} onClickStoreRow={onClickStoreRow} />}
-        {isError && <>서버 에러입니다.</>}
+        {isError && <>{t("admin.common.serverError")}</>}
       </div>
 
-      {/* store 생성 및 수정 Modal */}
       {modalType === "store" && (
         <StoreModal
           isOpen={isOpen}

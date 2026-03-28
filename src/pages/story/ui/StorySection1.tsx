@@ -1,15 +1,19 @@
 import { SectionBullet } from "@/pages/story/ui/SectionBullet";
 import styled from "@emotion/styled";
+import { useTranslation } from "react-i18next";
 
 const StorySection1 = () => {
+  const { t } = useTranslation();
+
   return (
     <CssSectionBg className="h-[480px]">
       <CssSectionBgColor className="h-full">
         <div className="text-center text-gray-700 px-20 flex h-[100%] justify-center items-center font-bold text-h40 lg:text-h26">
           <div>
-            <div>갑작스럽게 내리는 비에</div>
+            <div>{t("story.s1.line1")}</div>
             <div>
-              <span className="text-primary-700">비닐 우산</span>을 구매하셨던 적이 있나요?
+              <span className="text-primary-700">{t("story.s1.highlight")}</span>
+              {t("story.s1.line2")}
             </div>
           </div>
 

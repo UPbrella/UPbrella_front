@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState, ChangeEvent } from "react";
+import { useTranslation } from "react-i18next";
 
 type FormStatusProps = {
   label: string;
@@ -17,6 +18,7 @@ const FormStatus = ({
   isComplete,
   maxCharLimit,
 }: FormStatusProps) => {
+  const { t } = useTranslation();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [isWriting, setIsWriting] = useState(false);
   const [charCount, setCharCount] = useState(status.length);
@@ -53,7 +55,7 @@ const FormStatus = ({
     <div className="flex-col max-w-2xl p-5 mb-32 h-full">
       <div className="flex items-center mb-4 text-gray-700 text-15 leading-22 font-normal">
         {label}
-        <div className="ml-4 text-gray-500 text-12 font-normal">(선택)</div>
+        <div className="ml-4 text-gray-500 text-12 font-normal">{t("common.label.optional")}</div>
       </div>
       {isComplete ? (
         <div className="w-full min-h-[48px] mt-4 rounded-8 p-12 gap-2.5 text-15 text-gray-500 leading-22 placeholder-gray-300 bg-gray-100">

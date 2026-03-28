@@ -15,6 +15,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import { useTranslation } from "react-i18next";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 
 type THeaderProps = {
@@ -24,27 +25,27 @@ type THeaderProps = {
 
 export const headerNavItems = [
   {
-    name: "업브렐라 이야기",
+    nameKey: "common.nav.story",
     path: BASIC_ROUTES_URL.story.path(),
     isAdmin: false,
   },
   {
-    name: "대여소 위치",
+    nameKey: "common.nav.rentalLocation",
     path: LAYOUT_ROUTES_URL.rentalLocation.path(),
     isAdmin: false,
   },
   {
-    name: "협업 지점 소개",
+    nameKey: "common.nav.rentalOffice",
     path: LAYOUT_ROUTES_URL.rentalOffice.path(),
     isAdmin: false,
   },
   {
-    name: "이용안내",
+    nameKey: "common.nav.info",
     path: BASIC_ROUTES_URL.information.path(),
     isAdmin: false,
   },
   {
-    name: "어드민",
+    nameKey: "common.nav.admin",
     path: ADMIN_ROUTES_URL.rent.path(),
     isAdmin: true,
   },
@@ -73,6 +74,7 @@ export const HeaderContainer = () => {
 };
 
 const DesktopHeader = ({ isLoading, userRes }: THeaderProps) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [infoBubbleOpen, setInfoBubbleOpen] = useState(false);
 
@@ -89,7 +91,7 @@ const DesktopHeader = ({ isLoading, userRes }: THeaderProps) => {
         />
       </Link>
       <div className="flex justify-between font-semibold text-gray-700 text-16 leading-24">
-        {headerNavItems.map(({ name, path, isAdmin }) => {
+        {headerNavItems.map(({ nameKey, path, isAdmin }) => {
           // admin menu hide
           if (isAdmin) {
             if (!userRes || (userRes && !userRes.adminStatus)) return;
@@ -97,7 +99,7 @@ const DesktopHeader = ({ isLoading, userRes }: THeaderProps) => {
 
           return (
             <NavLink
-              key={name}
+              key={nameKey}
               to={path}
               className={({ isActive }) => {
                 let defaultClassName = "transition-all mr-32 p-8 flex items-center";
@@ -109,7 +111,7 @@ const DesktopHeader = ({ isLoading, userRes }: THeaderProps) => {
                 return defaultClassName;
               }}
             >
-              {name}
+              {t(nameKey)}
             </NavLink>
           );
         })}
@@ -120,7 +122,7 @@ const DesktopHeader = ({ isLoading, userRes }: THeaderProps) => {
             onClick={() => setInfoBubbleOpen((prev) => !prev)}
           >
             <PersonOutlineOutlinedIcon sx={{ fontSize: "20px" }} />
-            <div className="ml-4">{userRes.name}님</div>
+            <div className="ml-4">{t("common.nav.userName", { name: userRes.name })}</div>
             {infoBubbleOpen && (
               <div className="absolute right-0 top-11">
                 <HeaderMyPage />
@@ -134,7 +136,7 @@ const DesktopHeader = ({ isLoading, userRes }: THeaderProps) => {
             onClick={() => navigate(BACKGROUND_IMAGE_ROUTES_URL.login.path())}
             className="gap-8 h-48 font-semibold text-white w-82 rounded-8 bg-primary-500 text-16 leading-24"
           >
-            로그인
+            {t("common.nav.login")}
           </button>
         )}
       </div>

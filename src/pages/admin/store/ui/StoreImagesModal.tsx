@@ -1,4 +1,5 @@
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 import CustomModal from "@/shared/ui/Modal";
 import { ChangeEvent } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -22,6 +23,7 @@ type TProps = {
 };
 
 const StoreImagesModal = ({ isOpen, onCloseModal, selectedStore }: TProps) => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const { mutate: saveMutate, isLoading: isSaveLoading } = useMutation(postStoreImage);
   const { mutate: removeMutate, isLoading: isRemoveLoading } = useMutation(deleteStoreImage);
@@ -38,7 +40,7 @@ const StoreImagesModal = ({ isOpen, onCloseModal, selectedStore }: TProps) => {
       formData.append("image", files[i]);
       const fileSize = files[i].size;
       if (fileSize > MAX_SIZE) {
-        toast.error("이미지 업로드 용량은 최대 10MB 입니다.");
+        toast.error(t("admin.store.image.maxSize"));
         return;
       }
     }
@@ -48,11 +50,11 @@ const StoreImagesModal = ({ isOpen, onCloseModal, selectedStore }: TProps) => {
       {
         onSuccess: () => {
           queryClient.invalidateQueries([...STORE_QUERY_KEYS.storeImages(selectedStore.id)]);
-          toast.success("이미지 업로드 성공 !");
+          toast.success(t("admin.store.image.uploadSuccess"));
           return;
         },
         onError: () => {
-          toast.error("이미지 업로드에 실패했어요.");
+          toast.error(t("admin.store.image.uploadFail"));
           return;
         },
       }
@@ -60,15 +62,15 @@ const StoreImagesModal = ({ isOpen, onCloseModal, selectedStore }: TProps) => {
   };
 
   const onRemoveImage = (imageId: number) => {
-    if (window.confirm("정말 삭제하시겠습니까 ?")) {
+    if (window.confirm(t("admin.common.deleteConfirm"))) {
       removeMutate(imageId, {
         onSuccess: () => {
           queryClient.invalidateQueries([...STORE_QUERY_KEYS.storeImages(selectedStore.id)]);
-          toast.success("이미지 삭제 성공 !");
+          toast.success(t("admin.store.image.deleteSuccess"));
           return;
         },
         onError: () => {
-          toast.error("이미지 삭제에 실패했어요.");
+          toast.error(t("admin.store.image.deleteFail"));
           return;
         },
       });
@@ -79,11 +81,11 @@ const StoreImagesModal = ({ isOpen, onCloseModal, selectedStore }: TProps) => {
     <CustomModal
       isOpen={isOpen}
       handleClose={onCloseModal}
-      titleText={`협업지점 이미지 업로드 및 조회`}
+      titleText={t("admin.store.image.title")}
       isLoading={isSaveLoading || isRemoveLoading}
       footerContents={
         <Button variant="contained" component="label">
-          이미지 업로드
+          {t("admin.store.image.upload")}
           <input
             type="file"
             accept="image/*"
@@ -103,8 +105,7 @@ const StoreImagesModal = ({ isOpen, onCloseModal, selectedStore }: TProps) => {
             gap={5}
           >
             {imagesRes.map(({ id, imageUrl }, i) => {
-              // 현재는 첫번째 요소가 썸네일
-              const isThumbnail = i === 0; // hack
+              const isThumbnail = i === 0;
               return (
                 <ImageListItem
                   style={isThumbnail ? { border: "1px solid black" } : {}}
@@ -129,7 +130,7 @@ const StoreImagesModal = ({ isOpen, onCloseModal, selectedStore }: TProps) => {
                         </IconButton>
                         {i === 0 && (
                           <Typography className="py-8" variant="h5" color="white">
-                            썸네일
+                            {t("admin.store.image.thumbnail")}
                           </Typography>
                         )}
                       </div>
@@ -142,7 +143,7 @@ const StoreImagesModal = ({ isOpen, onCloseModal, selectedStore }: TProps) => {
           </ImageList>
         ) : (
           <Typography variant="h6" className="text-center min-w-[500px] my-16">
-            {isLoading ? "Loading..." : isError ? "Server Error" : "이미지를 업로드 해주세요."}
+            {isLoading ? "Loading..." : isError ? "Server Error" : t("admin.store.image.empty")}
           </Typography>
         )}
       </div>

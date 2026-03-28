@@ -3,6 +3,7 @@ import NearMeOutlinedIcon from "@mui/icons-material/NearMeOutlined";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
+import { useTranslation } from "react-i18next";
 
 export type TNaverDirectionBtn = {
   elon: number;
@@ -12,6 +13,8 @@ export type TNaverDirectionBtn = {
 
 const NaverDirectionBtn = ({ elon, elat, address }: TNaverDirectionBtn) => {
   const [url, setUrl] = useState<string>();
+  const { t, i18n } = useTranslation();
+  const currentLocationLabel = encodeURIComponent(t("store.currentLocation"));
 
   useEffect(() => {
     (async () => {
@@ -22,9 +25,9 @@ const NaverDirectionBtn = ({ elon, elat, address }: TNaverDirectionBtn) => {
         const position = await getUserPosition();
         const { latitude, longitude } = position.coords;
         if (isMobile) {
-          naverMapURL = `nmap://route/walk?slat=${latitude}&slng=${longitude}&sname=현재위치&dlat=${elat}&dlng=${elon}&dname=${encodedAddress}&appname=com.example.myapp`;
+          naverMapURL = `nmap://route/walk?slat=${latitude}&slng=${longitude}&sname=${currentLocationLabel}&dlat=${elat}&dlng=${elon}&dname=${encodedAddress}&appname=com.example.myapp`;
         } else {
-          naverMapURL = `http://map.naver.com/index.nhn?slng=${longitude}&slat=${latitude}&stext=현재위치&elng=${elon}&elat=${elat}&etext=${encodedAddress}&menu=route&pathType=1`;
+          naverMapURL = `http://map.naver.com/index.nhn?slng=${longitude}&slat=${latitude}&stext=${currentLocationLabel}&elng=${elon}&elat=${elat}&etext=${encodedAddress}&menu=route&pathType=1`;
         }
       } catch (error) {
         if (isMobile) {
@@ -36,7 +39,7 @@ const NaverDirectionBtn = ({ elon, elat, address }: TNaverDirectionBtn) => {
         setUrl(naverMapURL);
       }
     })();
-  }, [address, elat, elon]);
+  }, [address, elat, elon, currentLocationLabel, i18n.language]);
 
   return (
     <div className="flex items-center">
@@ -55,7 +58,7 @@ const NaverDirectionBtn = ({ elon, elat, address }: TNaverDirectionBtn) => {
         }
       >
         <NearMeOutlinedIcon />
-        네이버 길찾기
+        {t("store.naverDirection")}
         {!url && (
           <ProgressSpinner
             style={{ width: "20px", height: "auto", margin: 0 }}

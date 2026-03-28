@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import DaumPostcode from "react-daum-postcode";
 import Map from "@/widgets/naver-map/ui/Map";
 import { TextField } from "@mui/material";
@@ -17,8 +18,8 @@ type TProps = {
   }) => void;
 };
 
-// 협업지점 주소 입력란
 const StoreAddressInput = ({ storeData, onChangeStoreData, setStoreData }: TProps) => {
+  const { t } = useTranslation();
   const { naver } = window;
   const mapElement = useRef(null);
 
@@ -26,7 +27,6 @@ const StoreAddressInput = ({ storeData, onChangeStoreData, setStoreData }: TProp
   const [location, setLocation] = useState<naver.maps.LatLng>();
   const [marker, setMarker] = useState<naver.maps.Marker>();
 
-  // map 처음 한번 생성
   useEffect(() => {
     if (!mapElement.current || !naver) return;
 
@@ -62,7 +62,6 @@ const StoreAddressInput = ({ storeData, onChangeStoreData, setStoreData }: TProp
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [naver]);
 
-  // 좌표 변경 때, location state 변경
   useEffect(() => {
     const _location = new naver.maps.LatLng(
       storeData.latitude ?? DEFAULT_COORDINATE.lat,
@@ -71,7 +70,6 @@ const StoreAddressInput = ({ storeData, onChangeStoreData, setStoreData }: TProp
     setLocation(_location);
   }, [naver.maps.LatLng, storeData.latitude, storeData.longitude]);
 
-  // location에 따라 marker와 지도 이동
   useEffect(() => {
     if (map && location && marker) {
       marker.setPosition(location);
@@ -83,10 +81,10 @@ const StoreAddressInput = ({ storeData, onChangeStoreData, setStoreData }: TProp
     <div className="flex flex-col gap-4">
       <div className="flex flex-col max-w-[300px] self-end gap-4">
         <div className="flex-1 flex justify-between items-center gap-4">
-          주소
+          {t("admin.store.form.address")}
           <TextField
             className="w-200"
-            placeholder="주소 검색 후 선택해주세요."
+            placeholder={t("admin.store.form.addressSearchPlaceholder")}
             disabled
             value={storeData.address}
             name="address"
@@ -95,10 +93,10 @@ const StoreAddressInput = ({ storeData, onChangeStoreData, setStoreData }: TProp
         </div>
         {storeData.address && (
           <div className="flex-1 flex justify-between items-center gap-4">
-            상세 주소
+            {t("admin.store.form.detailAddress")}
             <TextField
               className="w-200"
-              placeholder="상세 주소를 입력해주세요."
+              placeholder={t("admin.store.form.detailAddressPlaceholder")}
               name="addressDetail"
               value={storeData.addressDetail}
               onChange={onChangeStoreData}
@@ -109,7 +107,6 @@ const StoreAddressInput = ({ storeData, onChangeStoreData, setStoreData }: TProp
       <div className="flex max-w-[600px]">
         <DaumPostcode
           onComplete={(res) => {
-            // logic
             onChangeStoreData({
               target: {
                 name: "address",
@@ -123,8 +120,12 @@ const StoreAddressInput = ({ storeData, onChangeStoreData, setStoreData }: TProp
         <div className="flex flex-col gap-5">
           <Map ref={mapElement} width="300px" height="400px" />
           <div className="flex flex-col">
-            <div>위도: {storeData.latitude}</div>
-            <div>경도: {storeData.longitude}</div>
+            <div>
+              {t("admin.store.form.latitude")}: {storeData.latitude}
+            </div>
+            <div>
+              {t("admin.store.form.longitude")}: {storeData.longitude}
+            </div>
           </div>
         </div>
       </div>

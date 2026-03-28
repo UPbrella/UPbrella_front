@@ -1,5 +1,6 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button, Chip, TextField } from "@mui/material";
 import CustomModal from "@/shared/ui/Modal";
@@ -12,6 +13,7 @@ import { deleteSubClassification, postSubClassification } from "@/entities/store
 type TTagDataState = Omit<TSubClassification, "id" | "type"> & { id?: number };
 
 const SubClassificationTagList = () => {
+  const { t } = useTranslation();
   // client
   const { isOpen, handleOpen, handleClose } = useModalStatus();
   const [tagData, setTagData] = useState<TTagDataState>({ name: "" });
@@ -22,20 +24,19 @@ const SubClassificationTagList = () => {
   const { mutate: createMutate } = useMutation(postSubClassification);
   const { mutate: deleteMutate } = useMutation(deleteSubClassification);
 
-  // create fn
   const onClickSaveBtn = () => {
     if (!tagData.name) {
-      toast.error("이름을 입력해주세요.");
+      toast.error(t("admin.store.tag.nameError"));
       return;
     }
 
     createMutate(tagData, {
       onError: () => {
-        toast.error("생성에 실패했어요.");
+        toast.error(t("admin.store.toast.createFail"));
         return;
       },
       onSuccess: () => {
-        toast.success("태그 생성이 되었습니다.");
+        toast.success(t("admin.store.tag.createSuccess"));
         queryClient.invalidateQueries(["subClassifications"]);
         handleClose();
         return;
@@ -43,16 +44,15 @@ const SubClassificationTagList = () => {
     });
   };
 
-  // delete fn
   const onClickDeleteBtn = (id: number) => {
-    if (window.confirm("정말 삭제하시겠습니까 ?")) {
+    if (window.confirm(t("admin.common.deleteConfirm"))) {
       deleteMutate(id, {
         onError: () => {
-          toast.error("삭제에 실패했어요.");
+          toast.error(t("admin.store.toast.deleteFail"));
           return;
         },
         onSuccess: () => {
-          toast.success("태그가 삭제 되었습니다.");
+          toast.success(t("admin.store.tag.deleteSuccess"));
           queryClient.invalidateQueries(["subClassifications"]);
           return;
         },
@@ -68,7 +68,7 @@ const SubClassificationTagList = () => {
 
   return (
     <>
-      <ContentsTitle title={"협업 지점 소개 페이지 내 지역 태그"}>
+      <ContentsTitle title={t("admin.store.tag.officeTitle")}>
         <>
           <Button
             variant="contained"
@@ -79,7 +79,7 @@ const SubClassificationTagList = () => {
               });
             }}
           >
-            추가
+            {t("admin.common.add")}
           </Button>
         </>
       </ContentsTitle>
@@ -104,9 +104,8 @@ const SubClassificationTagList = () => {
         })}
       </div>
 
-      {/* modal */}
       <CustomModal
-        titleText={`협업 지점 소개 페이지 내 지역 태그 추가`}
+        titleText={t("admin.store.tag.officeAddTitle")}
         handleClose={() => {
           handleClose();
           setTagData({
@@ -116,13 +115,13 @@ const SubClassificationTagList = () => {
         isOpen={isOpen}
         footerContents={
           <Button size="large" onClick={onClickSaveBtn}>
-            추가
+            {t("admin.common.add")}
           </Button>
         }
       >
         <div className={`flex flex-col gap-6 w-[400px]`}>
           <div className="flex items-center gap-5">
-            태그 이름 :
+            {t("admin.store.tag.nameLabel")}
             <TextField
               autoFocus
               variant="standard"

@@ -1,5 +1,6 @@
 import { TRentHistoriesRes } from "@/entities/user/api/user-api";
 import dayjs from "dayjs";
+import { useTranslation } from "react-i18next";
 
 type MypageRentSectionProps = {
   rentInfo: TRentHistoriesRes;
@@ -14,6 +15,7 @@ const getReturnDue = (rentedAt: string) => {
 };
 
 const MypageRentSection = ({ rentInfo, isProfile, isRecent }: MypageRentSectionProps) => {
+  const { t } = useTranslation();
   const { umbrellaUuid, rentedAt, rentedStore, returnAt, isRefunded, isReturned } = rentInfo;
 
   const color =
@@ -24,17 +26,26 @@ const MypageRentSection = ({ rentInfo, isProfile, isRecent }: MypageRentSectionP
   return (
     <div className={`flex w-full text-gray-700 border border-solid ${padding} ${color} rounded-12`}>
       <div className="flex flex-col gap-2 text-15">
-        <Field label="우산 번호" value={`${umbrellaUuid}번`} />
-        <Field label="대여 일자" value={rentedAt} />
-        <Field label="대여 지점" value={rentedStore} />
         <Field
-          label="반납 기한"
+          label={t("mypage.rent.umbrellaNo")}
+          value={`${umbrellaUuid}${t("return.modal.numberSuffix")}`}
+        />
+        <Field label={t("mypage.rent.rentDate")} value={rentedAt} />
+        <Field label={t("mypage.rent.rentStore")} value={rentedStore} />
+        <Field
+          label={t("mypage.rent.returnDue")}
           value={isReturned ? getReturnDue(rentedAt) : returnAt}
           isPrimary={!isReturned}
         />
-        <Field label="반납 일자" value={isReturned ? returnAt : ""} />
-        <Field label="반납 여부" value={isReturned ? "반납 완료" : "반납 전"} />
-        <Field label="환급 여부" value={isRefunded ? "환급 완료" : "환급 전"} />
+        <Field label={t("mypage.rent.returnDate")} value={isReturned ? returnAt : ""} />
+        <Field
+          label={t("mypage.rent.returnStatus")}
+          value={isReturned ? t("mypage.rent.returned") : t("mypage.rent.notReturned")}
+        />
+        <Field
+          label={t("mypage.rent.refundStatus")}
+          value={isRefunded ? t("mypage.rent.refunded") : t("mypage.rent.notRefunded")}
+        />
       </div>
     </div>
   );

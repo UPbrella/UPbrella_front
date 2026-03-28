@@ -1,16 +1,17 @@
 import { SectionBullet } from "@/pages/story/ui/SectionBullet";
 import styled from "@emotion/styled";
+import { useTranslation } from "react-i18next";
 
 const StorySection5 = () => {
+  const { t } = useTranslation();
+
   return (
     <CssSectionBg className="h-[400px]">
       <CssSectionBgColor className="h-full">
         <div className="text-center text-white px-20 flex flex-col gap-[24px] h-[100%] justify-center items-center font-semibold">
-          <div className="text-h18 lg:text-h15 text-primary-500">업브렐라 팀</div>
-          <div className="text-h32 lg:text-h24">업브렐라 팀을 소개합니다!</div>
-          <div className="text-h18 lg:text-h15">
-            더 지속가능한 플랫폼, 더 편리한 플랫폼을 만들기 위해 저희 팀은 모였습니다.
-          </div>
+          <div className="text-h18 lg:text-h15 text-primary-500">{t("story.s5.label")}</div>
+          <div className="text-h32 lg:text-h24">{t("story.s5.title")}</div>
+          <div className="text-h18 lg:text-h15">{t("story.s5.desc")}</div>
           <SectionBullet index={3} />
         </div>
       </CssSectionBgColor>

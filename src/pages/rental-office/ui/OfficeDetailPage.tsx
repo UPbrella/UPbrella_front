@@ -2,8 +2,10 @@ import Card from "@/entities/store/ui/Card";
 import { useGetStoreDetail } from "@/entities/store/api/store.queries";
 import SeoMetaTag from "@/shared/ui/SeoMetaTag";
 import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const OfficeDetailPage = () => {
+  const { t } = useTranslation();
   const { id } = useParams();
   const parsedId = id ? parseInt(id) : 1;
   const { data: useGetStoreDetailData } = useGetStoreDetail(parsedId);
@@ -11,9 +13,9 @@ const OfficeDetailPage = () => {
   return (
     <>
       <SeoMetaTag
-        title={"협업 지점 소개"}
-        description={"업브렐라와 함께하는 협업 지점 소개 페이지입니다."}
-        keywords={", 대여소, 지점, 소개"}
+        title={t("seo.officeDetail.title")}
+        description={t("seo.officeDetail.desc")}
+        keywords={t("seo.officeDetail.keywords")}
       />
 
       {useGetStoreDetailData && (

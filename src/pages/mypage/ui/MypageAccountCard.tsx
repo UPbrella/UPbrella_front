@@ -4,6 +4,7 @@ import MypageBankAccountInput from "@/pages/mypage/ui/MypageBankAccountInput";
 import BankModal from "@/shared/ui/BankModal";
 import { BankIcon } from "@/shared/constants/bank-icons";
 import { ChangeEvent, MouseEvent } from "react";
+import { useTranslation } from "react-i18next";
 
 type MypageAccountCardProps = {
   bank: string;
@@ -41,11 +42,12 @@ const MypageAccountCard = ({
   onClickChangeButton,
   onClickRegisterButton,
 }: MypageAccountCardProps) => {
+  const { t } = useTranslation();
   const banks = Object.entries(BankIcon);
   return (
     <div className="xl:py-24 lg:pt-8">
       <div className="text-black text-32 font-semibold leading-40 mb-24 lg:hidden">
-        환급계좌 등록/변경
+        {t("mypage.account.title")}
       </div>
       <MypageBankAccountInput
         bank={bank}
@@ -56,7 +58,7 @@ const MypageAccountCard = ({
       />
       {window.innerWidth > 1025 ? (
         <BankModal
-          titleText="은행을 선택해주세요"
+          titleText={t("mypage.account.selectBank")}
           isOpen={isOpenModal}
           handleClose={handleClose}
           children={
@@ -91,7 +93,7 @@ const MypageAccountCard = ({
             className="xl:h-56 lg:h-48 border border-solid border-gray-300 rounded-8 text-gray-700 xl:text-18 lg:text-16 font-semibold leading-24 xl:px-32 lg:px-20 mr-8"
             onClick={onClickDeleteButton}
           >
-            계좌 삭제
+            {t("mypage.account.delete")}
           </button>
         ) : (
           <div></div>
@@ -102,12 +104,12 @@ const MypageAccountCard = ({
                 className="xl:h-56 lg:h-48 border border-solid bg-primary-200 rounded-8 text-primary-500 xl:text-18 lg:text-16 font-semibold leading-24 xl:px-32 lg:px-20"
                 onClick={onClickChangeButton}
               >
-                계좌 변경
+                {t("mypage.account.change")}
               </button>
             )) ||
             (!isInputCompleted && (
               <button className="xl:h-56 lg:h-48 border border-solid bg-primary-100 rounded-8 text-primary-300 xl:text-18 lg:text-16 font-semibold leadin-24 xl:px-32 lg:px-20 disabled:hover">
-                계좌 변경
+                {t("mypage.account.change")}
               </button>
             ))
           : (isInputCompleted && (
@@ -115,12 +117,12 @@ const MypageAccountCard = ({
                 className="xl:h-56 lg:h-48 border border-solid bg-primary-200 rounded-8 text-primary-500 xl:text-18 lg:text-16 font-semibold leading-24 xl:px-32 lg:px-20"
                 onClick={onClickRegisterButton}
               >
-                계좌 등록
+                {t("mypage.account.register")}
               </button>
             )) ||
             (!isInputCompleted && (
               <button className="xl:h-56 lg:h-48 border border-solid bg-primary-100 rounded-8 text-primary-300 xl:text-18 lg:text-16 font-semibold leading-24 xl:px-32 lg:px-20 disabled:hover">
-                계좌 등록
+                {t("mypage.account.register")}
               </button>
             ))}
       </div>

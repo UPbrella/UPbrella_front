@@ -1,8 +1,10 @@
 import { useLogout } from "@/entities/user/api/user.queries";
 import { LAYOUT_ROUTES_URL } from "@/app/router/routes";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 const HeaderMyPage = () => {
+  const { t } = useTranslation();
   const { mutate } = useLogout();
 
   const onClickLogout = () => {
@@ -16,7 +18,7 @@ const HeaderMyPage = () => {
         className="flex items-center justify-center flex-1 w-full transition-all hover:bg-gray-200"
       >
         <div className="w-full text-center text-black text-semibold text-16 leading-24">
-          마이페이지
+          {t("common.nav.mypage")}
         </div>
       </Link>
       <div className="w-full border-t border-gray-200"></div>
@@ -24,7 +26,7 @@ const HeaderMyPage = () => {
         className="flex items-center justify-center flex-1 transition-all text-semibold text-16 leading-24 text-red hover:bg-gray-200"
         onClick={onClickLogout}
       >
-        로그아웃
+        {t("common.nav.logout")}
       </div>
     </div>
   );

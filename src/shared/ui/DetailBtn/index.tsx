@@ -1,6 +1,7 @@
 import { LAYOUT_ROUTES_URL } from "@/app/router/routes";
 import StorefrontOutlinedIcon from "@mui/icons-material/StorefrontOutlined";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export type TDetailBtn = {
   id: number;
@@ -8,6 +9,7 @@ export type TDetailBtn = {
 
 const DetailBtn = ({ id }: TDetailBtn) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const handleDetailClick = () => {
     navigate(LAYOUT_ROUTES_URL.rentalOfficeDetail.path(`${id}`));
   };
@@ -17,7 +19,7 @@ const DetailBtn = ({ id }: TDetailBtn) => {
       onClick={handleDetailClick}
     >
       <StorefrontOutlinedIcon className="mr-2" />
-      소개 더보기
+      {t("store.detail.title")}
     </button>
   );
 };

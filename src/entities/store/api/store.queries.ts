@@ -10,6 +10,7 @@ import {
   getStoreBusinessHours,
   getStoreImages,
 } from "./store-api";
+import i18n from "@/shared/lib/i18n";
 import toast from "react-hot-toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -103,7 +104,7 @@ export const usePatchStoreActive = () => {
     mutationFn: patchStoreActive,
     onSuccess: () => queryClient.invalidateQueries([...STORE_QUERY_KEYS.stores()]),
     onError: () => {
-      toast.error("지점 이미지가 존재하지 않으면 영업지점을 활성화할 수 없습니다.");
+      toast.error(i18n.t("admin.store.toast.imageRequired"));
     },
   });
 };
@@ -115,7 +116,7 @@ export const usePatchStoreInactive = () => {
     mutationFn: patchStoreInactive,
     onSuccess: () => queryClient.invalidateQueries([...STORE_QUERY_KEYS.stores()]),
     onError: () => {
-      toast.error("서버 에러입니다.");
+      toast.error(i18n.t("toast.error.serverErrorShort"));
     },
   });
 };

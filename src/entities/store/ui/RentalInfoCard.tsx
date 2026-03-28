@@ -1,12 +1,13 @@
+import { TStoreListDetail } from "@/entities/store/model/types";
 import NaverDirectionBtn from "@/shared/ui/NaverDirectionBtn";
 import RentalLocationTitle from "@/shared/ui/RentalLocationTitle";
-import UmbrellaSharpIcon from "@mui/icons-material/UmbrellaSharp";
 import AccessTimeSharpIcon from "@mui/icons-material/AccessTimeSharp";
 import CallOutlinedIcon from "@mui/icons-material/CallOutlined";
-import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
-import WavingHandOutlinedIcon from "@mui/icons-material/WavingHandOutlined";
 import InstagramIcon from "@mui/icons-material/Instagram";
-import { TStoreListDetail } from "@/entities/store/model/types";
+import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
+import UmbrellaSharpIcon from "@mui/icons-material/UmbrellaSharp";
+import WavingHandOutlinedIcon from "@mui/icons-material/WavingHandOutlined";
+import { useTranslation } from "react-i18next";
 
 type TRentalCard = {
   storeDetail: TStoreListDetail;
@@ -40,12 +41,14 @@ const RentalInfoCard = ({ storeDetail }: TRentalCard) => {
 export default RentalInfoCard;
 
 const AvailableUmbrella = ({ availableUmbrellaCount }: { availableUmbrellaCount: number }) => {
+  const { t } = useTranslation();
   return (
     <div className="flex gap-[16px]">
       <UmbrellaSharpIcon className="text-gray-400" />
       <span>
-        대여가능 우산 <span className="font-bold text-primary-500">{availableUmbrellaCount}</span>{" "}
-        개
+        {t("store.availableUmbrella")}{" "}
+        <span className="font-bold text-primary-500">{availableUmbrellaCount}</span>{" "}
+        {t("store.countSuffix")}
       </span>
     </div>
   );
