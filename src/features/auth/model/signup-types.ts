@@ -1,5 +1,4 @@
 import { SignUpFormData } from "@/features/auth/model/signup-schema";
-import { MouseEvent } from "react";
 import { Control, FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
 
 export type TInputs = {
@@ -27,7 +26,6 @@ export type SignUpNotRequiredFormProps = {
   setIsBottomSheetOpen: (value: boolean) => void;
   setBank: (value: string) => void;
   handleClose: () => void;
-  handleClickBank: (event: MouseEvent<HTMLDivElement>) => void;
   bankRef: React.RefObject<HTMLInputElement>;
   onAccountNumberChange?: (value: string) => void;
 };

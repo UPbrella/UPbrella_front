@@ -8,7 +8,7 @@ import { loginInfo } from "@/features/auth";
 import { BASIC_ROUTES_URL } from "@/app/router/routes";
 import { TAccountPageInputs, TAccountPageStatus } from "@/entities/user/model/types";
 import { validateNumber } from "@/shared/lib/utils";
-import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValueLoadable } from "recoil";
@@ -84,13 +84,6 @@ const MypageAccountPage = () => {
     setIsOpenModal(!isOpenModal);
   };
 
-  const handleClickBank = (event: MouseEvent<HTMLDivElement>) => {
-    const bankName = event.currentTarget.textContent;
-    if (bankInput.current) {
-      setInputs({ ...inputs, [bankInput.current.name]: bankName });
-      setIsOpenModal(!isOpenModal);
-    }
-  };
   const setBank = (value: string) => {
     setInputs({ ...inputs, bank: value });
   };
@@ -137,7 +130,6 @@ const MypageAccountPage = () => {
               setIsBottomSheetOpen={setIsBottomSheetOpen}
               setBank={setBank}
               handleClose={handleClose}
-              handleClickBank={handleClickBank}
               hasBankAccountInfo={hasBankAccountInfo}
               isInputCompleted={bank !== "" && accountNumber !== ""}
               onClickDeleteButton={() => {

@@ -322,30 +322,30 @@ seo.tos.title,이용 약관,Terms of Service
 seo.tos.desc,업브렐라 서비스 이용 약관 페이지입니다.,UPbrella Terms of Service.
 seo.pp.title,개인정보처리방침,Privacy Policy
 seo.pp.desc,업브렐라 개인정보처리방침 페이지입니다.,UPbrella Privacy Policy.
-constants.bank.NH,NH농협,NH농협
-constants.bank.kakao,카카오뱅크,카카오뱅크
-constants.bank.KB,KB국민,KB국민
-constants.bank.shinhan,신한,신한
-constants.bank.woori,우리,우리
-constants.bank.toss,토스뱅크,토스뱅크
-constants.bank.IBK,IBK기업,IBK기업
-constants.bank.hana,하나,하나
-constants.bank.saemaeul,새마을,새마을
-constants.bank.busan,부산,부산
-constants.bank.daegu,대구,대구
-constants.bank.kbank,케이뱅크,케이뱅크
-constants.bank.shinhyup,신협,신협
-constants.bank.epost,우체국,우체국
-constants.bank.SC,SC제일,SC제일
-constants.bank.gyeongnam,경남,경남
-constants.bank.gwangju,광주,광주
-constants.bank.suhyup,수협,수협
-constants.bank.jeonbuk,전북,전북
-constants.bank.fsb,저축은행,저축은행
-constants.bank.jeju,제주,제주
-constants.bank.citi,씨티,씨티
-constants.bank.KDB,KDB산업,KDB산업
-constants.bank.nfcf,산림조합,산림조합
+constants.bank.NH,NH농협,NH Bank
+constants.bank.kakao,카카오뱅크,Kakao Bank
+constants.bank.KB,KB국민,KB Kookmin
+constants.bank.shinhan,신한,Shinhan
+constants.bank.woori,우리,Woori
+constants.bank.toss,토스뱅크,Toss Bank
+constants.bank.IBK,IBK기업,IBK
+constants.bank.hana,하나,Hana
+constants.bank.saemaeul,새마을,Saemaeul
+constants.bank.busan,부산,Busan
+constants.bank.daegu,대구,Daegu
+constants.bank.kbank,케이뱅크,K Bank
+constants.bank.shinhyup,신협,Shinhyup
+constants.bank.epost,우체국,ePost
+constants.bank.SC,SC제일,SC First
+constants.bank.gyeongnam,경남,Gyeongnam
+constants.bank.gwangju,광주,Gwangju
+constants.bank.suhyup,수협,Suhyup
+constants.bank.jeonbuk,전북,Jeonbuk
+constants.bank.fsb,저축은행,Savings Bank
+constants.bank.jeju,제주,Jeju
+constants.bank.citi,씨티,Citi
+constants.bank.KDB,KDB산업,KDB
+constants.bank.nfcf,산림조합,NFCF
 constants.day.monday,월요일,Monday
 constants.day.tuesday,화요일,Tuesday
 constants.day.wednesday,수요일,Wednesday

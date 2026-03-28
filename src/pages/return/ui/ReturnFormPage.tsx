@@ -1,6 +1,8 @@
 import { patchReturn } from "@/features/rent-form/api/form-api";
 import BottomSheet from "@/shared/ui/BottomSheet";
 import BankContent from "@/features/rent-form/ui/BankContent";
+import BankModal from "@/shared/ui/BankModal";
+import { BANKS } from "@/shared/constants/bank-icons";
 import FormBasic from "@/features/rent-form/ui/FormBasic";
 import FormButton from "@/features/rent-form/ui/FormButton";
 import FormStatus from "@/features/rent-form/ui/FormStatus";
@@ -31,6 +33,7 @@ const ReturnPage = () => {
   // 반납전(false), 반납후(true)
   const [isReturn, setIsReturn] = useState(false);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
+  const [isBankModalOpen, setIsBankModalOpen] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isActive, setIsActive] = useState(false);
 
@@ -229,7 +232,13 @@ const ReturnPage = () => {
                     className={`relative w-120 flex items-center rounded-8 p-12 border border-gray-300 bg-white ${
                       bank !== t("return.form.bankName") ? "text-gray-700" : "text-gray-500"
                     }`}
-                    onClick={() => setIsBottomSheetOpen(true)}
+                    onClick={() => {
+                      if (window.innerWidth > 1025) {
+                        setIsBankModalOpen(true);
+                      } else {
+                        setIsBottomSheetOpen(true);
+                      }
+                    }}
                   >
                     <div className="cursor-pointer w-120 text-15 leading-22 focus:outline-none">
                       {bank}
@@ -242,13 +251,6 @@ const ReturnPage = () => {
                         color: "#1C1B1F",
                       }}
                     />
-                    <BottomSheet
-                      isBottomSheetOpen={isBottomSheetOpen}
-                      setIsBottomSheetOpen={setIsBottomSheetOpen}
-                      snapPoints={[484, 272, 0]}
-                    >
-                      <BankContent setBank={setBank} setIsBottomSheetOpen={setIsBottomSheetOpen} />
-                    </BottomSheet>
                   </div>
                 )}
                 {isReturn ? (
@@ -269,6 +271,41 @@ const ReturnPage = () => {
                 {t("return.form.accountHint3")}
               </div>
             </div>
+
+            {window.innerWidth > 1025 ? (
+              <BankModal
+                titleText={t("auth.signup.step2.selectBank")}
+                isOpen={isBankModalOpen}
+                handleClose={() => setIsBankModalOpen(false)}
+              >
+                <div className="grid grid-cols-3 gap-4">
+                  {BANKS.map(({ apiKey, labelKey, icon }) => (
+                    <div key={apiKey}>
+                      <div
+                        className="w-full mb-8 p-12 flex flex-col items-center justify-center cursor-pointer"
+                        onClick={() => {
+                          setBank(apiKey);
+                          setIsBankModalOpen(false);
+                        }}
+                      >
+                        <div className="w-24 h-24">
+                          <img src={icon} alt={t(labelKey)} />
+                        </div>
+                        <div className="mt-4 text-15 leading-22 text-gray-700">{t(labelKey)}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </BankModal>
+            ) : (
+              <BottomSheet
+                isBottomSheetOpen={isBottomSheetOpen}
+                setIsBottomSheetOpen={setIsBottomSheetOpen}
+                snapPoints={[484, 272, 0]}
+              >
+                <BankContent setBank={setBank} setIsBottomSheetOpen={setIsBottomSheetOpen} />
+              </BottomSheet>
+            )}
 
             <FormStatus
               label={t("return.form.improvement")}

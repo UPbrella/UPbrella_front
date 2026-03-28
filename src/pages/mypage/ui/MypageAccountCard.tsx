@@ -2,8 +2,8 @@ import BottomSheet from "@/shared/ui/BottomSheet";
 import BankContent from "@/features/rent-form/ui/BankContent";
 import MypageBankAccountInput from "@/pages/mypage/ui/MypageBankAccountInput";
 import BankModal from "@/shared/ui/BankModal";
-import { BankIcon } from "@/shared/constants/bank-icons";
-import { ChangeEvent, MouseEvent } from "react";
+import { BANKS, getBankDisplayName } from "@/shared/constants/bank-icons";
+import { ChangeEvent } from "react";
 import { useTranslation } from "react-i18next";
 
 type MypageAccountCardProps = {
@@ -17,7 +17,6 @@ type MypageAccountCardProps = {
   setIsBottomSheetOpen: (value: boolean) => void;
   setBank: (value: string) => void;
   handleClose: () => void;
-  handleClickBank: (event: MouseEvent<HTMLDivElement>) => void;
   hasBankAccountInfo: boolean;
   isInputCompleted: boolean;
   onClickDeleteButton: () => void;
@@ -35,7 +34,6 @@ const MypageAccountCard = ({
   setIsBottomSheetOpen,
   setBank,
   handleClose,
-  handleClickBank,
   hasBankAccountInfo,
   isInputCompleted,
   onClickDeleteButton,
@@ -43,14 +41,13 @@ const MypageAccountCard = ({
   onClickRegisterButton,
 }: MypageAccountCardProps) => {
   const { t } = useTranslation();
-  const banks = Object.entries(BankIcon);
   return (
     <div className="xl:py-24 lg:pt-8">
       <div className="text-black text-32 font-semibold leading-40 mb-24 lg:hidden">
         {t("mypage.account.title")}
       </div>
       <MypageBankAccountInput
-        bank={bank}
+        bank={getBankDisplayName(bank, t)}
         accountNumber={accountNumber}
         onChangeValue={onChangeValue}
         onClick={onClickBankArrow}
@@ -63,14 +60,19 @@ const MypageAccountCard = ({
           handleClose={handleClose}
           children={
             <div className="grid grid-cols-3 gap-4">
-              {banks.map(([bankName, icon]) => (
-                <div key={bankName}>
+              {BANKS.map(({ apiKey, labelKey, icon }) => (
+                <div key={apiKey}>
                   <div
-                    className="w-full mb-8 p-12 flex flex-col items-center justify-center  cursor-pointer"
-                    onClick={handleClickBank}
+                    className="w-full mb-8 p-12 flex flex-col items-center justify-center cursor-pointer"
+                    onClick={() => {
+                      setBank(apiKey);
+                      handleClose();
+                    }}
                   >
-                    <div className="w-24 h-24">{icon}</div>
-                    <div className={`mt-4 text-15 leading-22 text-gray-700`}>{bankName}</div>
+                    <div className="w-24 h-24">
+                      <img src={icon} alt={t(labelKey)} />
+                    </div>
+                    <div className="mt-4 text-15 leading-22 text-gray-700">{t(labelKey)}</div>
                   </div>
                 </div>
               ))}

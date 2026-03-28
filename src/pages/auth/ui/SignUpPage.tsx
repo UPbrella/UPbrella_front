@@ -6,7 +6,7 @@ import { TInputs } from "@/features/auth/model/signup-types";
 import SeoMetaTag from "@/shared/ui/SeoMetaTag";
 import { formatPhoneNumber, validateNumber } from "@/shared/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { MouseEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
@@ -81,15 +81,8 @@ const SignUpPage = () => {
     setIsBottomSheetOpen(!isBottomSheetOpen);
   };
 
-  const handleClickBank = (event: MouseEvent<HTMLDivElement>) => {
-    const bankName = event.currentTarget.textContent;
-    if (bankName) {
-      setValue("bank", bankName);
-      setIsOpenModal(false);
-    }
-  };
-
   const setBank = (value: string) => {
+    setIsOpenModal(false);
     setValue("bank", value);
   };
 
@@ -127,7 +120,6 @@ const SignUpPage = () => {
           setIsBottomSheetOpen={setIsBottomSheetOpen}
           setBank={setBank}
           handleClose={handleClose}
-          handleClickBank={handleClickBank}
           onClickButton={handleSubmit(onSubmit)}
           bankRef={bankInput}
           onAccountNumberChange={handleAccountNumberChange}

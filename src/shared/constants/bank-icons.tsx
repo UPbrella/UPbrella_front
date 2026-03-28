@@ -1,4 +1,6 @@
-import i18n from "@/shared/lib/i18n";
+import type { TFunction } from "i18next";
+import type ko from "@/shared/lib/i18n/locales/ko.json";
+
 import NhIcon from "@/shared/assets/BankIcon/nonghyub.svg";
 import KakaoIcon from "@/shared/assets/BankIcon/kakaobank.svg";
 import KbIcon from "@/shared/assets/BankIcon/kb.svg";
@@ -21,29 +23,44 @@ import CitiIcon from "@/shared/assets/BankIcon/citi.svg";
 import KdbIcon from "@/shared/assets/BankIcon/kdb.svg";
 import NfcfIcon from "@/shared/assets/BankIcon/nfcf.svg";
 
-export const BankIcon = {
-  NH농협: <img src={NhIcon} alt={i18n.t("constants.bank.NH")} />,
-  카카오뱅크: <img src={KakaoIcon} alt={i18n.t("constants.bank.kakao")} />,
-  KB국민: <img src={KbIcon} alt={i18n.t("constants.bank.KB")} />,
-  신한: <img src={ShinhanIcon} alt={i18n.t("constants.bank.shinhan")} />,
-  우리: <img src={WooriIcon} alt={i18n.t("constants.bank.woori")} />,
-  토스뱅크: <img src={TossbankIcon} alt={i18n.t("constants.bank.toss")} />,
-  IBK기업: <img src={IbkIcon} alt={i18n.t("constants.bank.IBK")} />,
-  하나: <img src={HanaIcon} alt={i18n.t("constants.bank.hana")} />,
-  새마을: <img src={MgIcon} alt={i18n.t("constants.bank.saemaeul")} />,
-  부산: <img src={BusanIcon} alt={i18n.t("constants.bank.busan")} />,
-  대구: <img src={DaeguIcon} alt={i18n.t("constants.bank.daegu")} />,
-  케이뱅크: <img src={KbankIcon} alt={i18n.t("constants.bank.kbank")} />,
-  신협: <img src={Shinhyubcon} alt={i18n.t("constants.bank.shinhyup")} />,
-  우체국: <img src={EpostIcon} alt={i18n.t("constants.bank.epost")} />,
-  SC제일: <img src={ScIcon} alt={i18n.t("constants.bank.SC")} />,
-  경남: <img src={BusanIcon} alt={i18n.t("constants.bank.gyeongnam")} />,
-  광주: <img src={GwangjuIcon} alt={i18n.t("constants.bank.gwangju")} />,
-  수협: <img src={SuhyubIcon} alt={i18n.t("constants.bank.suhyup")} />,
-  전북: <img src={GwangjuIcon} alt={i18n.t("constants.bank.jeonbuk")} />,
-  저축은행: <img src={FsbIcon} alt={i18n.t("constants.bank.fsb")} />,
-  제주: <img src={ShinhanIcon} alt={i18n.t("constants.bank.jeju")} />,
-  씨티: <img src={CitiIcon} alt={i18n.t("constants.bank.citi")} />,
-  KDB산업: <img src={KdbIcon} alt={i18n.t("constants.bank.KDB")} />,
-  산림조합: <img src={NfcfIcon} alt={i18n.t("constants.bank.nfcf")} />,
+type TI18nKey = keyof typeof ko;
+
+export type TBank = {
+  apiKey: string;
+  labelKey: TI18nKey;
+  icon: string;
 };
+
+export const BANKS: TBank[] = [
+  { apiKey: "NH농협", labelKey: "constants.bank.NH", icon: NhIcon },
+  { apiKey: "카카오뱅크", labelKey: "constants.bank.kakao", icon: KakaoIcon },
+  { apiKey: "KB국민", labelKey: "constants.bank.KB", icon: KbIcon },
+  { apiKey: "신한", labelKey: "constants.bank.shinhan", icon: ShinhanIcon },
+  { apiKey: "우리", labelKey: "constants.bank.woori", icon: WooriIcon },
+  { apiKey: "토스뱅크", labelKey: "constants.bank.toss", icon: TossbankIcon },
+  { apiKey: "IBK기업", labelKey: "constants.bank.IBK", icon: IbkIcon },
+  { apiKey: "하나", labelKey: "constants.bank.hana", icon: HanaIcon },
+  { apiKey: "새마을", labelKey: "constants.bank.saemaeul", icon: MgIcon },
+  { apiKey: "부산", labelKey: "constants.bank.busan", icon: BusanIcon },
+  { apiKey: "대구", labelKey: "constants.bank.daegu", icon: DaeguIcon },
+  { apiKey: "케이뱅크", labelKey: "constants.bank.kbank", icon: KbankIcon },
+  { apiKey: "신협", labelKey: "constants.bank.shinhyup", icon: Shinhyubcon },
+  { apiKey: "우체국", labelKey: "constants.bank.epost", icon: EpostIcon },
+  { apiKey: "SC제일", labelKey: "constants.bank.SC", icon: ScIcon },
+  { apiKey: "경남", labelKey: "constants.bank.gyeongnam", icon: BusanIcon },
+  { apiKey: "광주", labelKey: "constants.bank.gwangju", icon: GwangjuIcon },
+  { apiKey: "수협", labelKey: "constants.bank.suhyup", icon: SuhyubIcon },
+  { apiKey: "전북", labelKey: "constants.bank.jeonbuk", icon: GwangjuIcon },
+  { apiKey: "저축은행", labelKey: "constants.bank.fsb", icon: FsbIcon },
+  { apiKey: "제주", labelKey: "constants.bank.jeju", icon: ShinhanIcon },
+  { apiKey: "씨티", labelKey: "constants.bank.citi", icon: CitiIcon },
+  { apiKey: "KDB산업", labelKey: "constants.bank.KDB", icon: KdbIcon },
+  { apiKey: "산림조합", labelKey: "constants.bank.nfcf", icon: NfcfIcon },
+];
+
+const bankLabelMap = new Map(BANKS.map((b) => [b.apiKey, b.labelKey]));
+
+export function getBankDisplayName(apiKey: string, t: TFunction): string {
+  const labelKey = bankLabelMap.get(apiKey);
+  return labelKey ? t(labelKey) : apiKey;
+}

@@ -5,7 +5,8 @@ import SignUpInputAccountBox from "@/features/auth/ui/SignUpInputAccountBox";
 import SignUpProgress from "@/features/auth/ui/SignUpProgress";
 import SignUpText from "@/features/auth/ui/SignUpText";
 import BankModal from "@/shared/ui/BankModal";
-import { BankIcon } from "@/shared/constants/bank-icons";
+import { BANKS } from "@/shared/constants/bank-icons";
+import { getBankDisplayName } from "@/shared/constants/bank-icons";
 import { SignUpNotRequiredFormProps } from "@/features/auth/model/signup-types";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { useTranslation } from "react-i18next";
@@ -21,12 +22,10 @@ const SignUpNotRequiredForm = ({
   setIsBottomSheetOpen,
   setBank,
   handleClose,
-  handleClickBank,
   bankRef,
   onAccountNumberChange,
 }: SignUpNotRequiredFormProps) => {
   const { t } = useTranslation();
-  const banks = Object.entries(BankIcon);
   const bank = watch("bank") || "";
   const accountNumber = watch("accountNumber") || "";
 
@@ -53,7 +52,7 @@ const SignUpNotRequiredForm = ({
               <SignUpInputAccountBox
                 labelTitle={t("auth.signup.step2.accountLabel")}
                 labelInput={t("auth.signup.step2.accountPlaceholder")}
-                bank={bank}
+                bank={getBankDisplayName(bank, t)}
                 accountNumber={accountNumber}
                 accountNumberRegistration={register("accountNumber")}
                 onChangeValue={(e) => onAccountNumberChange?.(e.target.value)}
@@ -68,14 +67,19 @@ const SignUpNotRequiredForm = ({
                 handleClose={handleClose}
                 children={
                   <div className="grid grid-cols-3 gap-4">
-                    {banks.map(([bankName, icon]) => (
-                      <div key={bankName}>
+                    {BANKS.map(({ apiKey, labelKey, icon }) => (
+                      <div key={apiKey}>
                         <div
                           className="flex flex-col justify-center items-center p-12 mb-8 w-full cursor-pointer"
-                          onClick={handleClickBank}
+                          onClick={() => {
+                            setBank(apiKey);
+                            handleClose();
+                          }}
                         >
-                          <div className="w-24 h-24">{icon}</div>
-                          <div className={`mt-4 text-gray-700 text-15 leading-22`}>{bankName}</div>
+                          <div className="w-24 h-24">
+                            <img src={icon} alt={t(labelKey)} />
+                          </div>
+                          <div className="mt-4 text-gray-700 text-15 leading-22">{t(labelKey)}</div>
                         </div>
                       </div>
                     ))}

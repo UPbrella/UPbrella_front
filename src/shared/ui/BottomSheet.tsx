@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import Sheet, { SheetRef } from "react-modal-sheet";
 
 type BottomSheetProps = {
@@ -17,29 +17,18 @@ const BottomSheet = ({
   _className,
 }: BottomSheetProps) => {
   const ref = useRef<SheetRef>();
-  const contentRef = useRef<HTMLDivElement>(null);
   const snapTo = (i: number) => ref.current?.snapTo(i);
+  const mountKeyRef = useRef(0);
+  const prevOpenRef = useRef(false);
 
-  // 외부 클릭 시 바텀시트 닫기
-  const handleOutsideClick = (event: MouseEvent) => {
-    if (!contentRef.current?.contains(event.target as Node)) {
-      setIsBottomSheetOpen(false);
-    }
-  };
-
-  useEffect(() => {
-    if (isBottomSheetOpen) {
-      document.addEventListener("mousedown", handleOutsideClick);
-    } else {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    }
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  });
+  if (isBottomSheetOpen && !prevOpenRef.current) {
+    mountKeyRef.current += 1;
+  }
+  prevOpenRef.current = isBottomSheetOpen;
 
   return (
     <Sheet
+      key={mountKeyRef.current}
       ref={ref}
       isOpen={isBottomSheetOpen}
       onClose={() => setIsBottomSheetOpen(false)}
@@ -50,11 +39,12 @@ const BottomSheet = ({
       <Sheet.Container>
         <Sheet.Header />
         <Sheet.Content>
-          <div ref={contentRef} style={{ overflow: "auto" }} onScroll={() => snapTo(0)}>
+          <div style={{ overflow: "auto" }} onScroll={() => snapTo(0)}>
             {children}
           </div>
         </Sheet.Content>
       </Sheet.Container>
+      <Sheet.Backdrop onTap={() => setIsBottomSheetOpen(false)} />
     </Sheet>
   );
 };
