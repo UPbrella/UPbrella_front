@@ -183,10 +183,10 @@ return.form.accountHint1,"* '-'은 빼고 입력해주세요!",* Please enter wi
 return.form.accountHint2,"* 현재 '반납 페이지'에서 입력하신 은행, 계좌번호 정보는 보증금 환급이 완료됨에 따라 파기됩니다.",* Your bank account information entered on this page will be deleted once the deposit refund is complete.
 return.form.accountHint3,* MYPAGE를 통해 정보를 저장하면 빠른 반납이 가능합니다.,* Save your info via MYPAGE for faster returns.
 return.form.improvement,개선 요청 사항,Improvement Requests
-return.form.improvementPlaceholder,개선이 필요하다고 느낀 점이 있다면 {{maxCharLimit}}자 이내로 작성해주세요,"Please describe any improvements within {maxCharLimit} characters"
+return.form.improvementPlaceholder,개선이 필요하다고 느낀 점이 있다면 {{maxCharLimit}}자 이내로 작성해주세요,"Please describe any improvements within {{maxCharLimit}} characters"
 return.form.submit,반납하기,Return
-return.modal.confirmLine1,'{{storeName}}'에서,From '{storeName}'
-return.modal.confirmLine2,'{{number}}'번 우산을 반납할까요?,Return umbrella '{number}'?
+return.modal.confirmLine1,'{{storeName}}'에서,From '{{storeName}}'
+return.modal.confirmLine2,'{{number}}'번 우산을 반납할까요?,Return umbrella '{{number}}'?
 return.modal.region,지역,Region
 return.modal.rentStore,대여지점,Rental Point
 return.modal.umbrellaNo,우산번호,Umbrella No.
@@ -206,7 +206,7 @@ mypage.nav.info,개인정보 조회,My Info
 mypage.nav.contact,문의하기,Contact Us
 mypage.profile.nameSuffix,님,
 mypage.profile.impact1,{{name}}님은 비닐우산이 썩는,"You have saved the Earth from"
-mypage.profile.impact2,{{count}}년의 세월을 줄였습니다.,{count} years of plastic umbrella waste.
+mypage.profile.impact2,{{count}}년의 세월을 줄였습니다.,{{count}} years of plastic umbrella waste.
 mypage.profile.currentRent,대여 중인 우산, Active Rentals
 mypage.profile.noRent,대여 중인 우산이 없습니다.,No umbrella currently rented.
 mypage.profile.noRentDesc1,"지구를 지키는 작은 우산,","A small umbrella protecting the Earth,"

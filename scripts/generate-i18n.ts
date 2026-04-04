@@ -70,7 +70,10 @@ function resolveUnicodeEscapes(s: string): string {
 function buildJSON(rows: { key: string; ko: string; en: string }[], lang: "ko" | "en") {
   const obj: Record<string, string> = {};
   for (const row of rows) {
-    obj[row.key] = resolveUnicodeEscapes(row[lang]);
+    const value = resolveUnicodeEscapes(row[lang]);
+    if (value) {
+      obj[row.key] = value;
+    }
   }
   return obj;
 }
