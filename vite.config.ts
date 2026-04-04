@@ -26,7 +26,7 @@ export default ({ mode }) => {
         manifest: false, // Use existing manifest.json
         workbox: {
           globPatterns: ["**/*.{js,css,html,ico,png,svg,woff,woff2}"],
-          maximumFileSizeToCacheInBytes: 10 * 1024 * 1024, // 10MB
+          maximumFileSizeToCacheInBytes: 3 * 1024 * 1024, // 3MB
           runtimeCaching: [
             {
               urlPattern: /^https:\/\/api\.upbrella\.co\.kr\/.*/i,

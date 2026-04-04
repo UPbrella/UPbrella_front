@@ -82,6 +82,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Generate i18n JSON from CSV
+        run: pnpm run i18n:generate
+
       - name: Generate build
         run: pnpm run build
 

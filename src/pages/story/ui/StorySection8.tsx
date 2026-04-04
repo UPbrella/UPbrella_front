@@ -1,0 +1,50 @@
+import FormButton from "@/features/rent-form/ui/FormButton";
+import { BASIC_ROUTES_URL } from "@/app/router/routes";
+import styled from "@emotion/styled";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+
+const StorySection8 = () => {
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+
+  return (
+    <CssSectionBg className="mt-80 h-[400px]">
+      <CssSectionBgColor className="h-full">
+        <div className="text-center text-white px-20 flex flex-col gap-[40px] h-[100%] justify-center items-center">
+          <div className="flex flex-col gap-[24px] font-semibold">
+            <div className="text-h32 lg:text-h24">
+              {t("story.s8.line1")} <br /> {t("story.s8.line2")}
+            </div>
+            <div className="text-gray-200 text-h18 lg:text-h15">A Better Choice, UPbrella</div>
+          </div>
+          <div className="w-155">
+            <FormButton
+              label={t("story.s8.cta")}
+              handleOpen={() => {
+                navigate(BASIC_ROUTES_URL.information.path());
+                window.scrollTo({
+                  top: 0,
+                  behavior: "smooth",
+                });
+              }}
+              isActive
+            />
+          </div>
+        </div>
+      </CssSectionBgColor>
+    </CssSectionBg>
+  );
+};
+
+const CssSectionBg = styled.section`
+  background-image: url("/assets/section8_bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+`;
+
+const CssSectionBgColor = styled.div`
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%);
+`;
+
+export default StorySection8;

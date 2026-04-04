@@ -1,0 +1,627 @@
+key,ko,en
+common.nav.story,업브렐라 이야기,UPbrella Story
+common.nav.rentalLocation,대여소 위치,Rental Locations
+common.nav.rentalOffice,협업 지점 소개,Partner Locations
+common.nav.info,이용안내,Service Guide
+common.nav.admin,어드민,Admin
+common.nav.login,로그인,Login
+common.nav.userName,"{{name}}님","{{name}}"
+common.nav.mypage,마이페이지,My Page
+common.nav.logout,로그아웃,Logout
+common.mobile.greeting,업브렐라를 찾아주셔서 감사해요!,Welcome to UPbrella!
+common.mobile.mypage,마이페이지,My Page
+common.mobile.login,로그인,Login
+common.mobile.logout,로그아웃,Logout
+common.footer.tos,이용약관,Terms of Service
+common.footer.privacy,개인정보처리방침,Privacy Policy
+common.error.pageNotFound,"죄송합니다. 페이지를 찾을 수 없어요:(","Sorry, page not found :("
+common.error.notFoundDesc,"접근할 수 없는 페이지거나, 아직 개발중인 페이지입니다.",This page is inaccessible or still under development.
+common.error.forbidden,접근 권한이 없습니다.,Access denied.
+common.error.goHome,홈으로 돌아가기,Back to Home
+common.error.goMain,메인 페이지로 돌아가기,Back to Main
+common.error.defaultApi,잘못된 요청이거나 서버 오류입니다.,Invalid request or server error.
+common.pwa.newVersion,새 버전이 있습니다,New Version Available
+common.pwa.updateDesc,업데이트하여 최신 기능을 사용하세요.,Update to use the latest features.
+common.pwa.update,업데이트,Update
+common.pwa.later,나중에,Later
+common.pwa.close,닫기,Close
+common.offline.title,인터넷 연결이 끊어졌습니다,No Internet Connection
+common.offline.desc,네트워크 연결을 확인하고 다시 시도해주세요.,Check your network connection and try again.
+common.offline.retry,다시 시도,Retry
+common.btn.confirm,확인,Confirm
+common.btn.cancel,취소,Cancel
+common.label.optional,(선택),(Optional)
+story.s1.line1,갑작스럽게 내리는 비에,Have you ever bought
+story.s1.highlight,비닐 우산,a plastic umbrella
+story.s1.line2,을 구매하셨던 적이 있나요?,because of sudden rain?
+story.s2.line1,쉽게 판매되고 쉽게 망가지는,"Cheap plastic umbrellas"
+story.s2.highlight1,비닐 우산은,are mostly landfilled
+story.s2.line2,"대부분 매립·소각돼","or incinerated,"
+story.s2.highlight2,온실가스,releasing greenhouse
+story.s2.line3,를 발생시켜요.,gases.
+story.s2.card1.title,국내 연간 우산 판매량,Annual Umbrella Sales in Korea
+story.s2.card1.value,"약 5,000만 개",approx. 50 million
+story.s2.card2.title,서울시 1개 구 기준 1주간 버려지는 우산의 양,Umbrellas Discarded per Week (1 Seoul District)
+story.s2.card2.value,약 1톤,approx. 1 ton
+story.s3.header,환경적 임팩트 창출,Creating Positive Environmental Impact
+story.s3.line1,"업브렐라는 The Better Choice,","UPbrella is The Better Choice,"
+story.s3.line2,더 나은 선택을 지향합니다.,committed to a better alternative.
+story.s3.line3,"업브렐라 이용으로 비닐우산 1개를 구매하지 않음으로써,","Every time you use UPbrella instead of buying a plastic umbrella,"
+story.s3.line4,우리는 비닐우산이 썩는데 걸리는 100년을 줄일 수 있습니다.,we shorten the 100-year decomposition cycle of plastic umbrellas.
+story.s3.line5,"비가 오는 날, 누구나 쉽게 할 수 있는 작은 행동이 모여","On rainy days, small actions that anyone can take"
+story.s3.line6,더 나은 세상을 만들 수 있다고 여깁니다.,add up to make a better world.
+story.s4.header,지역 공동체 의식 강화,Strengthening Community Bonds
+story.s4.line1,\u2018공유 우산\u2019을 매개로,"Through \u2018shared umbrellas\u2019"
+story.s4.line2,학생과 지역 공동체가,students and the local community
+story.s4.line3,긴밀히 협업하는 플랫폼,collaborate on our platform.
+story.s4.line4,"현재 신촌, 한양대 인근 협업 지점의 인지도를 높이고,","We aim to raise recognition of partner locations near Sinchon and Hanyang University,"
+story.s4.line5,업브렐라와 협업 지점 간 시너지를 창출하여,"create synergy between UPbrella and partner locations,"
+story.s4.line6,지역 상권을 활성화하고자 합니다.,and revitalize the local businesses.
+story.s5.label,업브렐라 팀,Teams at UPbrella
+story.s5.title,업브렐라 팀을 소개합니다!,Meet the Teams at UPbrella!
+story.s5.desc,"더 지속가능한 플랫폼, 더 편리한 플랫폼을 만들기 위해 저희 팀은 모였습니다.",Our team came together to build a more sustainable and convenient platform.
+story.s6.team1.name,서비스고도화팀,Service Enhancement Team
+story.s6.team1.desc,"서비스고도화팀은 사용자 경험을 조사하고, 대여/반납 데이터를 분석하여 서비스 운영을 위한 최적의 정책을 수립함으로써 업브렐라 이용자의 만족도를 높이고자 노력합니다.","The Service Enhancement Team researches user experience and analyzes rental/return data to establish optimal service policies, striving to elevate user satisfaction."
+story.s6.team2.name,대외협력팀,External Relations Team
+story.s6.team2.desc,"대외협력팀은 신촌 상권과 제휴를 맺어 공유 우산을 보급하고, 마케팅으로 서비스 인지도를 높입니다. 나아가 새로운 사업을 모색해 서비스의 확장에 힘쓰고 있습니다.","The External Relations Team partners with Sinchon businesses to distribute shared umbrellas and raise service awareness through marketing, while also exploring new business opportunities for expansion."
+story.s7.title,업브렐라 발자취,Journey of UPbrella
+story.s7.desc1,"업브렐라는 연세대학교 학부생으로 구성된 팀으로,","UPbrella is a team of Yonsei University undergraduates"
+story.s7.desc2,신촌 기반 우산 공유 플랫폼으로서 2021년 4월 12일 출범하였습니다.,"that launched on April 12, 2021 as a Sinchon-based shared umbrella platform."
+story.s7.yearSuffix,년,
+story.s7.monthSuffix,월,
+story.s8.line1,"지구를 지키는 작은 우산,",A small umbrella protecting the Earth —
+story.s8.line2,업브렐라를 펼쳐주세요!,Open UPbrella!
+story.s8.cta,대여방법 알아보기,How to Rent
+info.pageTitle,이용안내,Service Guide
+info.tab.howRent,우산 대여 방법,How to Borrow an Umbrella
+info.tab.howReturn,우산 반납 방법,How to Return an Umbrella
+info.tab.faq,자주 묻는 질문,FAQ
+info.rent.step1.title,가까운 협업 지점 방문하기,Visit the Nearest Partner Location
+info.rent.step1.desc,"홈페이지 '대여소 위치'페이지 내 가장 가까운 협업 지점 방문하기 ※ 교외 지점의 경우 반드시 영업시간을 확인해주세요!","Visit the nearest partner location via the 'Rental Locations' page on our website. ※ For off-campus locations, please check the operating hours!"
+info.rent.step2.title,우산 손잡이 상단 혹은 측면의 QR코드 스캔,Scan the QR code on the top or side of the umbrella handle
+info.rent.step3.title,카카오 로그인 & 대여폼 자동완성,Kakao Login & Auto-fill Rental Info
+info.rent.step3.desc,"카카오 로그인하면, 대여할 우산 정보가 자동완성됩니다 :)","Once you log in with Kakao, the umbrella rental info will be auto-filled :)"
+info.rent.step4.title,업브렐라 계좌 복사 후 보증금 1만원 이체!,"Copy the UPbrella account number and transfer a ₩10,000 deposit!"
+info.rent.step4.desc1,2주 이내에 정상적으로 반납해주시면 보증금을 다시 돌려드려요!,"If you return umbrella normally within two weeks, we will return the deposit back to you!"
+info.rent.step4.desc2,"무료로 공유 우산 대여하며 지갑도 지키고, 환경도 지키고!","Rent UPbrella for free, protect your wallet, and protect the environment!"
+info.rent.step5.title,우산 대여 완료!,Umbrella rental complete!
+info.rent.step5.desc1,다음 이용자분들을 위해 사용 후 빠르게 반납 부탁드립니다 😊,Please return it quickly after using it for the next users 😊
+info.rent.step5.desc2,원활한 서비스 운영을 위해 최대 대여 기간은 14일로 한정하고 있습니다.,"For smooth service operation, the maximum rental period is limited to 14 days."
+info.return.step1.title,가까운 협업 지점 방문하기,Visit the Nearest Partner Location
+info.return.step1.desc,"홈페이지 '대여소 위치'페이지 내 가장 가까운 협업 지점 방문하기 ※ 대여한 지점이 아닌 다른 지점에서도 반납 가능해요!","Visit the nearest partner location via the 'Rental Locations' page on our website. ※ You can return the umbrella at any partner location, not just where you rented it!"
+info.return.step2.title,우산 반납,Umbrella Return
+info.return.step2.desc,우산을 먼저 우산 보관함에 반납해주세요!,Please return the umbrella to the umbrella storage box first!
+info.return.step3.title,우산 보관함 혹은 보관대 옆 가판대 QR 스캔,Scan the QR code of the umbrella storage box or rack
+info.return.step3.desc,반납폼 제출까지 완료해주셔야 보증급 환급이 가능해요!,You must complete the return form submission to receive your deposit refund!
+info.return.step4.title,카카오 로그인 & 반납폼 자동완성,Kakao Login & Auto-fill Return Info
+info.return.step4.desc1,"카카오 로그인을 하면, 반납할 우산 정보가 자동완성됩니다 :)","If you log in to Kakao, the umbrella information to return will be automatically completed :)"
+info.return.step4.desc2,환급받을 계좌는 한 번 더 확인해주세요!,Please double-check your refund account details!
+info.return.step5.title,담당자 확인 후 보증급 환급 완료!,Deposit refunded after staff confirmation!
+info.return.step5.desc1,보증금 환급은 평균적으로 2 ~ 3일이 소요됩니다 😊,Deposit refunds typically take 2–3 business days 😊
+info.return.step5.desc2,갑작스러운 우천 시엔 대여-반납량이 많아 조금 더 소요될 수 있는 점 양해 부탁드려요!,"During sudden rainy weather, high volume may cause slight delays — thank you for your patience!"
+info.faq.q1,우산 대여와 반납 지점이 일치해야 하나요?,Should the umbrella rental and return points match?
+info.faq.a1,대여 지점과 반납 지점이 일치하지 않아도 됩니다! 이용자분의 현 위치에서 가장 가까운 협업 지점에 대여/반납해주시면 됩니다!,Rental and return locations do not need to match! Simply use the nearest partner location to you.
+info.faq.q2,영업시간은 어떻게 확인하나요?,How do I check the opening hours?
+info.faq.a2,"연세대학교 교내의 경우 24시간 동안 대여, 반납 가능하며 교외 지점(카페)의 경우 협업 지점의 '영업시간'내 방문해주셔야 대여, 반납이 가능합니다! 협업 지점의 영업시간은 '대여소 위치'페이지 내 해당 지점을 클릭하시면 확인하실 수 있습니다!","On-campus locations at Yonsei University are available 24/7. For off-campus locations (cafes), you must visit during their operating hours. You can check hours by clicking on the location in the 'Rental Locations' page."
+info.faq.q3,보증급 환급은 언제 이루어지나요?,When will the guarantee payment be refunded?
+info.faq.a3,"평균적으로 2~3일이 소요됩니다. 갑작스러운 우천 시 대여-반납량이 많아 조금 더 소요될 수 있는 점 양해부탁드립니다! 더욱 편리하면서도 이용자분의 지갑과 환경 모두를 지킬 수 있는 업브렐라가 되도록 노력하겠습니다. 즉각적인 문의가 필요하신 경우, UPbrella 카카오 플러스 친구로 문의주세요!(카카오 통합검색창에 영문으로 'upbrella'검색)","It typically takes 2–3 business days. During sudden rainy weather, high rental/return volume may cause slight delays — we appreciate your understanding. For urgent inquiries, please reach out via UPbrella's Kakao Plus channel (search 'upbrella' in the Kakao search bar)."
+auth.login.title,로그인,Login
+auth.login.kakao,카카오로 3초 만에 시작하기,Start with Kakao
+auth.login.apple,Apple로 3초 만에 시작하기,Start with Apple
+auth.login.loading,로그인 중...,Logging in...
+auth.signup.step1.title,전화번호를 입력해주세요!,Please enter your phone number!
+auth.signup.step1.privacyNotice1,수집된 개인정보는,Your personal information
+auth.signup.step1.privacyNoticeBold,서비스 운영의 목적으로만,is used solely for
+auth.signup.step1.privacyNotice2,사용됩니다.,operating this service.
+auth.signup.step1.name,이름,Name
+auth.signup.step1.namePlaceholder,이름입력,Enter Name
+auth.signup.step1.phone,전화번호,Phone Number
+auth.signup.step1.agreeAll,전체동의,Agree to All
+auth.signup.step1.agreeTos,(필수) 업브렐라 이용약관,(Required) UPbrella Terms and Conditions
+auth.signup.step1.agreePp,(필수) 개인정보 수집 및 이용동의,(Required) Consent to collect and use personal information
+auth.signup.step1.next,다음,Next
+auth.signup.step2.title,환급받을 계좌를 입력해주세요!,Please enter the account number for your refund!
+auth.signup.step2.desc1,"지금 한 번 입력해두면 반납할 땐 자동 입력됩니다 :)","If you enter it once now, it will be automatically entered when you return it :)"
+auth.signup.step2.desc2,선택사항이니 그냥 넘어가도 좋아요!,"It's an option, so you can just move on!"
+auth.signup.step2.accountLabel,환급받을 계좌,Refund Account
+auth.signup.step2.accountPlaceholder,계좌번호,Account No.
+auth.signup.step2.selectBank,은행을 선택해주세요,Please select a bank
+auth.signup.step2.submit,가입하기!,Sign up!
+auth.validation.nameMin,최소 2자 이상 입력해주세요.,Please enter at least 2 characters.
+auth.validation.nameMax,"최대 20자까지 입력 가능합니다.",You can enter up to 20 characters.
+auth.validation.nameFormat,"국문, 영문만 입력 가능합니다.",You can enter only Korean and English.
+auth.validation.phoneFormat,010 뒤 8자리를 입력해주세요.,Please enter 8 digits after 010.
+auth.validation.termsRequired,필수 동의 항목입니다.,This is a mandatory consent item.
+rent.form.titleBefore,우산을 빌릴까요?,Would you like to borrow an umbrella?
+rent.form.titleAfter,우산을 빌렸어요!,You've borrowed an umbrella!
+rent.form.privacyNotice,수집된 개인정보는 서비스 운영의 목적으로만 사용됩니다.,Your personal information is used solely for operating this service.
+rent.form.anywhereReturn,우산을 빌린 지점이 아니더라도 업브렐라 대여소 어디서나 반납 가능합니다.,"You can return the umbrella at any UPbrella rental location, even if it differs from where you rented."
+rent.form.name,이름,Name
+rent.form.phone,전화번호,Phone Number
+rent.form.region,지역,Region
+rent.form.rentStore,대여지점,Rental Point
+rent.form.umbrellaNo,우산번호,Umbrella No.
+rent.form.conditionReport,상태신고,Condition Report
+rent.form.conditionPlaceholder,우산이나 대여 환경에 문제가 있다면 {{maxCharLimit}}자 이내로 작성해주세요,"If there is a problem with the umbrella or rental environment, please write within {{maxCharLimit}} characters"
+rent.form.submit,대여하기,Rent
+rent.deposit.title,보증금 입금,Deposit Payment
+rent.deposit.step1,"1. {{bankName}} {{accountNumber}} {{accountName}} 계좌복사",1. Copy bank info
+rent.deposit.step2,"2. 보증금 10,000원 입금","2. Transfer ₩10,000 deposit"
+rent.deposit.step3,3. 대여 완료!,3. Rental Complete!
+rent.deposit.refundNotice,14일 이내 반납 시 보증금 전액 환급됩니다.,"If you return it within 14 days, the deposit will be fully refunded."
+rent.deposit.copyBtn,계좌 복사하기,Copy Account
+rent.modal.confirmLine1,'{{storeName}}'에서,From '{{storeName}}'
+rent.modal.confirmLine2,'{{number}}'번 우산을 빌릴까요?,Would you like to borrow the umbrella '{{number}}'?
+rent.modal.blacklistWarning1,우산 미반납 시 블랙리스트로 등록되어,"Failure to return the umbrella will result in being blacklisted,"
+rent.modal.blacklistWarning2,영구적으로 우산 대여가 불가능합니다.,permanently preventing future rentals.
+rent.finish.title,대여완료!,Rental Complete!
+rent.finish.lockPassword,사물함 비밀번호:,Locker password:
+rent.finish.lockGuide,번호를 입력하면 우산함이 열릴 거예요!,Enter the password to open the umbrella locker!
+rent.finish.thanks,UPbrella 서비스를 이용해주셔서 감사합니다 :),Thank you for using UPbrella service :)
+rent.finish.refundNotice,14일 이내 반납 시 보증금 전액 환급됩니다.,"If you return it within 14 days, the deposit will be fully refunded."
+rent.finish.storageIssue,보관함이 안 열려요:(,The storage box won't open:(
+rent.storage.title,불편을 드려 죄송합니다 😢,Sorry for the inconvenience 😢
+rent.storage.desc,보관함 화면 좌측 상단에 표기된 4자리 숫자를 입력해주시면 다른 비밀번호를 안내드릴게요!,"If you enter the 4 digits marked at the top left of the storage box screen, I'll give you another password!"
+rent.storage.placeholder,4자리 숫자를 입력해주세요,Please enter a 4-digit number
+rent.storage.error,4자리 숫자만 입력해주세요.,Please enter only 4 digits.
+rent.error.alreadyRented,현재 회원님께서 이미 대여 중인 우산이 있는 경우 중복 대여가 불가능합니다!,You already have an active rental. Duplicate rentals are not allowed.
+rent.error.unavailable,[ERROR] 해당 우산은 대여 불가능한 우산입니다.,[ERROR] The umbrella is not available for rent.
+return.form.titleBefore,우산을 반납할까요?,Return the Umbrella?
+return.form.titleAfter,우산을 반납했어요!,Umbrella Returned!
+return.form.privacyNotice,수집된 개인정보는 서비스 운영의 목적으로만 사용됩니다.,Your personal information is used solely for operating this service.
+return.form.accurateInfo1,대여 신청 시 정보를,Please ensure your information
+return.form.accurateInfo2,정확히 입력해주셔야 원활한 보증금 환급이 가능합니다.,is accurate so your deposit can be refunded smoothly.
+return.form.name,이름,Name
+return.form.phone,전화번호,Phone Number
+return.form.umbrellaNo,우산번호,Umbrella No.
+return.form.region,지역,Region
+return.form.rentStore,대여지점,Rental Point
+return.form.refundAccount,환급받을 계좌,Refund Account
+return.form.bankName,은행명,Bank Name
+return.form.accountNumber,계좌번호,Account No.
+return.form.accountHint1,"* '-'은 빼고 입력해주세요!",* Please enter without \u2018-\u2019!
+return.form.accountHint2,"* 현재 '반납 페이지'에서 입력하신 은행, 계좌번호 정보는 보증금 환급이 완료됨에 따라 파기됩니다.",* Your bank account information entered on this page will be deleted once the deposit refund is complete.
+return.form.accountHint3,* MYPAGE를 통해 정보를 저장하면 빠른 반납이 가능합니다.,* Save your info via MYPAGE for faster returns.
+return.form.improvement,개선 요청 사항,Improvement Requests
+return.form.improvementPlaceholder,개선이 필요하다고 느낀 점이 있다면 {{maxCharLimit}}자 이내로 작성해주세요,"Please describe any improvements within {{maxCharLimit}} characters"
+return.form.submit,반납하기,Return
+return.modal.confirmLine1,'{{storeName}}'에서,From '{{storeName}}'
+return.modal.confirmLine2,'{{number}}'번 우산을 반납할까요?,Return umbrella '{{number}}'?
+return.modal.region,지역,Region
+return.modal.rentStore,대여지점,Rental Point
+return.modal.umbrellaNo,우산번호,Umbrella No.
+return.modal.rentDays,대여일수,Rental Days
+return.modal.refundAccount,환급받을 계좌,Refund Account
+return.modal.numberSuffix,번,#
+return.modal.daySuffix,일,day(s)
+return.modal.editNotice,해당 정보가 틀리다면 반드시 수정 부탁드려요!,"Please correct any incorrect information!"
+return.modal.refundNormal,보증금 환급은 2-3일 이내로 이루어질 예정입니다.,Your deposit will be refunded within 2–3 business days.
+return.modal.refundOverdue,대여일수가 14일이 넘어 보증금 환급이 어렵습니다.,Deposit refund is unavailable as the rental period exceeded 14 days.
+return.modal.thanks,UPbrella 서비스를 이용해주셔서 감사합니다 :),Thank you for using UPbrella :)
+return.modal.edit,수정,Edit
+return.modal.complete,반납 완료!,Return Done!
+mypage.nav.rent,이용내역,History
+mypage.nav.account,환급계좌 등록/변경,Refund Account
+mypage.nav.info,개인정보 조회,My Info
+mypage.nav.contact,문의하기,Contact Us
+mypage.profile.nameSuffix,님,
+mypage.profile.impact1,{{name}}님은 비닐우산이 썩는,"You have saved the Earth from"
+mypage.profile.impact2,{{count}}년의 세월을 줄였습니다.,{{count}} years of plastic umbrella waste.
+mypage.profile.currentRent,대여 중인 우산, Active Rentals
+mypage.profile.noRent,대여 중인 우산이 없습니다.,No umbrella currently rented.
+mypage.profile.noRentDesc1,"지구를 지키는 작은 우산,","A small umbrella protecting the Earth,"
+mypage.profile.noRentDesc2,업브렐라와 함께 펼쳐주세요!,open it with UPbrella!
+mypage.rent.title,이용 내역,Rental History
+mypage.rent.empty,이용 내역이 아직 없어요!,No rental history yet!
+mypage.rent.umbrellaNo,우산 번호,Umbrella No.
+mypage.rent.rentDate,대여 일자,Rental Date
+mypage.rent.rentStore,대여 지점,Rental Point
+mypage.rent.returnDue,반납 기한,Return Due
+mypage.rent.returnDate,반납 일자,Return Date
+mypage.rent.returnStatus,반납 여부,Return Status
+mypage.rent.returned,반납 완료,Returned
+mypage.rent.notReturned,반납 전,Not Returned
+mypage.rent.refundStatus,환급 여부,Refund Status
+mypage.rent.refunded,환급 완료,Refunded
+mypage.rent.notRefunded,환급 전,Pending
+mypage.account.title,환급계좌 등록/변경,Refund Account
+mypage.account.bank,은행,Bank
+mypage.account.bankName,은행명,Bank Name
+mypage.account.accountNumber,계좌번호,Account No.
+mypage.account.hint,"* '-'은 빼고 입력해주세요!",* Please enter without '-'!
+mypage.account.selectBank,은행을 선택해주세요,Select a bank
+mypage.account.delete,계좌 삭제,Delete Account
+mypage.account.change,계좌 변경,Change Account
+mypage.account.register,계좌 등록,Add Account
+mypage.account.deleteConfirm,계좌를 삭제하시겠어요?,Do you want to delete this account?	
+mypage.account.deleteBtn,삭제,Delete
+mypage.account.changeComplete,계좌 변경 완료!,Account Updated!
+mypage.account.registerComplete,계좌 등록 완료!,Account Registered!
+mypage.info.title,개인정보조회,Personal Info
+mypage.info.name,이름,Name
+mypage.info.phone,전화번호,Phone Number
+mypage.info.email,이메일,Email
+mypage.info.withdraw,회원 탈퇴,Delete Account
+mypage.info.withdrawConfirm,정말 탈퇴하시겠어요?,Are you sure you want to delete this account?
+mypage.info.withdrawDesc1,그동안 업브렐라를 이용해주셔서 감사합니다.,Thank you for using UPbrella.
+mypage.info.withdrawDesc2,"회원탈퇴를 하실 경우, 아래와 같이 회원정보가 처리됩니다.","If you delete your account, your account information will be handled as follows."
+mypage.info.withdrawDesc3,"탈퇴 신청 즉시 회원 탈퇴 처리되며, 회원 정보는 삭제 처리됩니다.","Your account will be deleted immediately, and all your information will be permanently removed."""
+mypage.info.withdrawDesc4,"대여 중인 우산이 남아있는 경우, 즉시 탈퇴가 불가하니 문의 바랍니다.","If you have an active rental, you cannot delete your account. Please contact us."
+mypage.info.withdrawBtn,탈퇴,Delete Account
+mypage.info.withdrawNotAllowed,지금은 탈퇴가 불가합니다,Deletion Unavailable
+mypage.info.withdrawNotAllowedDesc,"현재 대여 중인 우산이 있어 탈퇴가 불가하오니, 인스타그램 DM 문의 바랍니다.","You have an active rental. Deletion is unavailable. Please contact us via Instagram DM."
+mypage.contact.title,문의하기,Inquiry
+mypage.contact.urgentDesc1,업브렐라 이용 관련 및 급한 문의는,"For urgent UPbrella inquiries,"
+mypage.contact.urgentDesc2,업브렐라 인스타그램 계정으로 부탁드려요!,please reach out via our Instagram!
+mypage.contact.dmBtn,업브렐라 DM으로 문의하기,DM Us on IG
+mypage.contact.bizDesc1,업브렐라와의 사업 제휴 관련 문의는,"For business partnership inquiries,"
+mypage.contact.bizDesc2,Contact Us에서 부탁드려요!,please visit Contact Us!
+mypage.contact.contactBtn,CONTACT US에서 문의하기,Contact Us
+store.availableUmbrella,대여가능 우산,Available Umbrellas
+store.countSuffix,개,available
+store.naverDirection,네이버 길찾기,Get Directions
+store.currentLocation,현재위치,Current Location
+store.map.searchCurrent,현재 위치 검색,Search My Location
+store.map.refreshInfo,정보 다시 가져오기,Refresh Info
+store.map.viewGuide,이용안내 확인,View Guide
+store.detail.title,소개 더보기,Learn More
+contact.pageDesc,업브렐라와의 사업 제휴 관련 문의하시고 싶은 내용을 작성해주세요.,Please write your business partnership inquiry for UPbrella.
+contact.instagramDesc1,업브렐라 이용 안내 관련 및 급한 문의는,"For service-related or urgent inquiries,"
+contact.instagramDesc2,업브렐라 인스타그램 계정으로 부탁드려요!,please contact us via our Instagram account!
+contact.instagramBtn,업브렐라 DM으로 문의하기,DM Us on Instagram
+contact.name,이름,Name
+contact.namePlaceholder,이름 입력,Enter your name
+contact.phone,연락처,Phone
+contact.email,이메일,Email
+contact.subject,제목,Subject
+contact.subjectPlaceholder,제목 입력,Enter subject
+contact.message,문의 사항,Message
+contact.messagePlaceholder,문의 사항을 작성해주세요!,Please write your message!
+contact.submit,문의하기,Submit
+contact.success,문의 접수 완료!,Inquiry Submitted!
+toast.success.rentComplete,우산 대여 완료!,Rental Complete!
+toast.success.rentSubmit,대여신청 성공,Rental Applied!
+toast.success.returnComplete,우산 반납 완료!,Return Complete!
+toast.success.accountCopy,계좌 복사 완료!,Account Copied!
+toast.success.signupComplete,회원가입이 완료되었습니다.,Registration complete.
+toast.success.logoutComplete,로그아웃 되었습니다.,You have been logged out.
+toast.success.withdrawComplete,회원탈퇴 완료했습니다!,Account deleted!
+toast.success.blacklistRegistered,블랙리스트로 등록되었습니다.,Registered as blacklisted.
+toast.success.withdrawn,탈퇴되었습니다.,Account removed.
+toast.success.changed,변경되었습니다.,Changes saved.
+toast.success.appleLogin,Apple 로그인 성공!,Apple login failed.
+toast.error.appleLoginFailed,Apple 로그인에 실패했습니다.,Failed to receive Apple ID token.
+toast.error.noIdToken,Apple ID 토큰을 받지 못했습니다.,A server error occurred.
+toast.error.serverError,서버 오류가 발생했습니다.,Login failed.
+toast.error.loginFailed,로그인에 실패했습니다.,Apple login successful!
+toast.error.sessionExpired,"로그인 세션이 만료되었습니다. 다시 로그인해주세요.",Your session has expired. Please log in again.
+toast.error.retryError,오류가 발생했습니다. 다시 시도해주세요.,An error occurred. Please try again.
+toast.error.defaultApi,잘못된 요청이거나 서버 오류입니다.,Invalid request or server error.
+toast.error.kakaoAccount,카카오 계정을 확인해주세요.,Please check your Kakao account.
+toast.error.userInfoFailed,회원 정보를 가져오지 못했습니다.,Failed to retrieve user info.
+toast.error.badRequest,잘못된 요청입니다. 다시 로그인 해주세요.,Invalid request. Please log in again.
+toast.error.serverErrorShort,서버 에러입니다.,Server error.
+toast.error.storeImageRequired,지점 이미지가 존재하지 않으면 영업지점을 활성화할 수 없습니다.,A location cannot be activated without an image.
+seo.default.prefix,업브렐라(UPbrella) |,UPbrella \
+seo.default.suffix,공유 우산 플랫폼,Shared Umbrella Platform
+seo.default.desc,"지구를 지키는 작은 우산, 업브렐라를 펼쳐주세요! A Better Choice, UPbrella","A small umbrella protecting the Earth. Open UPbrella! A Better Choice, UPbrella"
+seo.default.keywords,"업브렐라, UPbrella, upbrella, Upbrella, 공유 우산 플랫폼, 우산 공유 플랫폼, 공유 우산, 우산, 공유 우산 서비스, 신촌, 연세대학교","UPbrella, upbrella, shared umbrella platform, umbrella sharing, umbrella rental, Sinchon, Yonsei University"
+seo.login.title,로그인,Login
+seo.login.desc,업브렐라 서비스 이용을 위한 로그인 페이지입니다.,Login page to use the UPbrella service.
+seo.signup.title,회원가입,Sign Up
+seo.signup.desc,업브렐라 서비스 이용을 위한 회원가입 페이지입니다.,Sign up page to use the UPbrella service.
+seo.info.title,이용안내,Service Guide
+seo.info.desc,"지구를 지키는 작은 우산, 업브렐라 서비스의 이용방법 안내입니다.","How to use UPbrella, the shared umbrella service protecting the Earth."
+seo.contact.title,contact us,Contact Us
+seo.contact.desc,업브렐라와 함께하고 싶으신가요?,Want to partner with UPbrella?
+seo.rentalLocation.title,대여소 위치,Rental Locations
+seo.rentalLocation.desc,업브렐라와 함께하는 대여소 위치를 지도로 안내하는 페이지입니다.,Find UPbrella rental locations on the map.
+seo.officeDetail.title,협업 지점 소개,Partner Location Info
+seo.officeDetail.desc,업브렐라와 함께하는 협업 지점 소개 페이지입니다.,Introducing partner locations collaborating with UPbrella.
+seo.tos.title,이용 약관,Terms of Service
+seo.tos.desc,업브렐라 서비스 이용 약관 페이지입니다.,UPbrella Terms of Service page.
+seo.pp.title,개인정보처리방침,Privacy Policy
+seo.pp.desc,업브렐라 개인정보처리방침 페이지입니다.,UPbrella Privacy Policy page.
+constants.bank.NH,NH농협,NH Nonghyup
+constants.bank.kakao,카카오뱅크,KakaoBank
+constants.bank.KB,KB국민,KB Kookmin
+constants.bank.shinhan,신한,Shinhan
+constants.bank.woori,우리,Woori
+constants.bank.toss,토스뱅크,Toss Bank
+constants.bank.IBK,IBK기업,IBK
+constants.bank.hana,하나,KEB Hana
+constants.bank.saemaeul,새마을,MG Saemaul
+constants.bank.busan,부산,Busan
+constants.bank.daegu,대구,Daegu
+constants.bank.kbank,케이뱅크,K bank
+constants.bank.shinhyup,신협,Shinhyup
+constants.bank.epost,우체국,Korea Post
+constants.bank.SC,SC제일,SC First
+constants.bank.gyeongnam,경남,Gyeongnam
+constants.bank.gwangju,광주,Gwangju
+constants.bank.suhyup,수협,Suhyup
+constants.bank.jeonbuk,전북,Jeonbuk
+constants.bank.fsb,저축은행,Savings Bank
+constants.bank.jeju,제주,Jeju
+constants.bank.citi,씨티,Citi
+constants.bank.KDB,KDB산업,KDB 
+constants.bank.nfcf,산림조합,NFCF
+constants.day.monday,월요일,Monday
+constants.day.tuesday,화요일,Tuesday
+constants.day.wednesday,수요일,Wednesday
+constants.day.thursday,목요일,Thursday
+constants.day.friday,금요일,Friday
+constants.day.saturday,토요일,Saturday
+constants.day.sunday,일요일,Sunday
+routes.basic.main,메인,Main
+routes.basic.story,업브렐라 이야기,UPbrella Story
+routes.basic.info,이용안내,Service Guide
+routes.basic.forbidden,접근 금지 페이지,Forbidden Page
+routes.layout.rentalLocation,대여소 위치 페이지,Rental Locations
+routes.layout.rentalOffice,협업지점 소개 페이지,Partner Locations
+routes.layout.mypage.rent,마이페이지_이용내역,Mypage_History
+routes.layout.mypage.account,마이페이지_환급계좌,Mypage_RefundAccount
+routes.layout.mypage.info,마이페이지_개인정보,Mypage_PersonalInfo
+routes.layout.mypage.contact,마이페이지_문의하기,Mypage_Contact
+routes.bgImage.login,로그인 페이지,Login Page
+routes.bgImage.signup,회원가입 정보 입력 페이지,Sign Up Page
+routes.notLayout.rentForm,대여폼 페이지,Rental Form Page
+routes.notLayout.returnForm,반납폼 페이지,Return Form Page
+routes.admin.rent,대여/반납 현황 테이블,Rental/Return Table
+routes.admin.feedback,상태신고 / 개선사항 확인,Reports / Feedback
+admin.common.emptyResult,결과가 없습니다.,No results found.
+admin.common.serverError,서버 에러입니다.,Server error.
+admin.common.loading,데이터를 불러오는 중입니다.,Loading data...
+admin.common.loadError,"데이터를 불러오던 중 에러가 발생했습니다. 다시 요청해주세요.",An error occurred while loading data. Please try again.
+admin.common.add,추가,Add
+admin.common.edit,수정,Edit
+admin.common.delete,삭제,Delete
+admin.common.save,저장,Save
+admin.common.cancel,취소,Cancel
+admin.common.confirm,확인,Confirm
+admin.common.download,데이터 다운로드,Download Data
+admin.common.deleteConfirm,정말 삭제하시겠습니까 ?,Are you sure you want to delete?
+admin.common.discardConfirm,작성중인 내용이 모두 사라집니다.,All unsaved changes will be lost.
+admin.common.discardConfirmAlt,작성하고 있는 내용이 사라집니다.,Your current changes will be lost.
+admin.common.cancelConfirm,취소하시겠습니까?,Are you sure you want to cancel?
+admin.common.requiredError,필수값을 입력해주세요.,Please fill in the required field.
+admin.common.requiredAllError,필수값을 모두 입력해주세요.,Please fill in all required fields.
+admin.common.clientError,클라이언트 에러가 발생했습니다.,A client error occurred.
+admin.common.serverErrorToast,서버 에러가 발생했습니다.,A server error occurred.
+admin.common.changeSuccess,성공적으로 변경되었습니다.,Changes saved successfully.
+admin.common.deleteSuccess,성공적으로 삭제하였습니다.,Deleted successfully.
+admin.user.title,유저 조회,User Management
+admin.user.count,사용자 수 :,Total Users:
+admin.user.searchPlaceholder,회원이름을 입력하세요,Search by member name
+admin.user.search,검색,Search
+admin.user.reset,초기화,Reset
+admin.user.blacklistBtn,블랙리스트 등록,Add to Blacklist
+admin.user.blacklistTitle,블랙 리스트 유저 조회,Blacklisted Users
+admin.user.fullWithdraw,완전 탈퇴,Permanently Delete
+admin.user.blacklistConfirm,"\"{{name}}\" 유저를 블랙리스트 등록하시겠습니까 ?","Add \"{{name}}\" to the blacklist?"
+admin.user.withdrawConfirm,{{id}} 유저를 완전 탈퇴시키겠습니까 ?,Permanently delete user {{id}}?
+admin.user.roleConfirm,{{name}} 의 권한을 변경하시겠습니까?,Change the role for {{name}}?
+admin.user.col.id,사용자 고유번호,User ID
+admin.user.col.name,사용자 이름,Name
+admin.user.col.phone,전화번호,Phone
+admin.user.col.bank,은행,Bank
+admin.user.col.account,계좌번호,Account No.
+admin.user.col.email,이메일,Email
+admin.user.col.admin,관리자 여부,Admin
+admin.user.col.createdAt,가입 날짜,Joined
+admin.user.col.blockedAt,블랙리스트 등재 시간,Blacklisted At
+admin.store.listTitle,협업지점 목록,Partner Location List
+admin.store.columns.name,협업 지점명,Location Name
+admin.store.columns.address,주소,Address
+admin.store.columns.image,이미지,Image
+admin.store.columns.active,활성여부,Active
+admin.store.columns.category,분류,Category
+admin.store.columns.location,우산위치,Umbrella Location
+admin.store.columns.hours,영업시간,Business Hours
+admin.store.columns.contact,연락처,Contact
+admin.store.columns.instagram,인스타,Instagram
+admin.store.columns.intro,소개,Description
+admin.store.qr,QR 코드,QR Code
+admin.store.imageUpload,이미지 업로드 및 확인,Upload & View Images
+admin.store.qrDownload,QR 이미지 다운로드,Download QR Image
+admin.store.activeConfirm,{{name}} 의 활성여부를 변경하시겠어요?,Change active status for {{name}}?
+admin.store.modalAdd,협업지점 추가,Add Partner Location
+admin.store.modalEdit,협업지점 수정,Edit Partner Location
+admin.store.form.name,협업 지점명,Location Name
+admin.store.form.category,지점 분류,Category
+admin.store.form.regionTag,대여소 위치 내 지역 태그,Region Tag for Rental Locations
+admin.store.form.officeTag,협업지점 소개페이지 내 지역 태그,Region Tag for Partner Locations
+admin.store.form.hoursDisplay,영업 시간(화면 출력용),Business Hours (Display)
+admin.store.form.hoursMarker,영업 시간(마커 활성화 여부용),Business Hours (Marker Activation)
+admin.store.form.address,주소,Address
+admin.store.form.detailAddress,상세 주소,Detail Address
+admin.store.form.umbrellaLocation,우산 위치 설명,Umbrella Location Description
+admin.store.form.contact,연락처,Contact
+admin.store.form.instagram,인스타그램 계정,Instagram Account
+admin.store.form.content,소개글,Description
+admin.store.form.dayLabel,요일,Day
+admin.store.form.contentCharCount,{{count}} / 200자 입력 가능,{{count}} / 200 characters
+admin.store.toast.editSuccess,지점이 수정 되었습니다.,Location updated.
+admin.store.toast.createSuccess,지점이 생성 되었습니다.,Location created.
+admin.store.toast.deleteSuccess,지점이 삭제 되었습니다.,Location deleted.
+admin.store.toast.editFail,수정에 실패했어요.,Failed to update.
+admin.store.toast.createFail,생성에 실패했어요.,Failed to create.
+admin.store.toast.deleteFail,삭제에 실패했어요.,Failed to delete.
+admin.store.toast.coordError,"위도, 경도 정보를 못 받아왔습니다. 다시 주소를 입력해주세요.",Could not retrieve coordinates. Please re-enter the address.
+admin.store.toast.imageRequired,지점 이미지가 존재하지 않으면 영업지점을 활성화할 수 없습니다.,A store image is required to activate the location.
+admin.store.image.title,협업지점 이미지 업로드 및 조회,Upload & View Partner Location Images
+admin.store.image.upload,이미지 업로드,Upload Image
+admin.store.image.thumbnail,썸네일,Thumbnail
+admin.store.image.maxSize,이미지 업로드 용량은 최대 10MB 입니다.,Maximum upload size is 10MB.
+admin.store.image.uploadSuccess,이미지 업로드 성공 !,Image uploaded!
+admin.store.image.uploadFail,이미지 업로드에 실패했어요.,Image upload failed.
+admin.store.image.deleteSuccess,이미지 삭제 성공 !,Image deleted!
+admin.store.image.deleteFail,이미지 삭제에 실패했어요.,Image deletion failed.
+admin.store.image.empty,이미지를 업로드 해주세요.,Please upload an image.
+admin.store.tag.regionTitle,대여소 위치 페이지 내 지역 태그,Region Tags for Rental Locations
+admin.store.tag.officeTitle,협업 지점 소개 페이지 내 지역 태그,Region Tags for Partner Locations
+admin.store.tag.nameLabel,태그 이름 :,Tag Name:
+admin.store.tag.nameError,이름을 입력해주세요.,Please enter a name.
+admin.store.tag.createSuccess,태그 생성이 되었습니다.,Tag created.
+admin.store.tag.deleteSuccess,태그가 삭제 되었습니다.,Tag deleted.
+admin.umbrella.addNew,우산 새로 추가,Add New Umbrella
+admin.umbrella.rentInfo,"\"{{name}}\" 우산 대여 정보","Rental info for umbrella \"{{name}}\""
+admin.umbrella.tableTitle,우산 관리 테이블,Umbrella Management
+admin.umbrella.storeFilter,지점 필터,Location Filter
+admin.umbrella.all,전체,All
+admin.umbrella.downloadList,우산 목록 다운로드,Download Umbrella List
+admin.umbrella.deleteConfirm,{{id}} 번 우산을 삭제하시겠습니까?,Delete umbrella #{{id}}?
+admin.umbrella.deleteBtn,우산 삭제,Delete Umbrella
+admin.umbrella.modalAdd,우산 추가,Add Umbrella
+admin.umbrella.modalEdit,우산 수정,Edit Umbrella
+admin.umbrella.form.uuid,우산 관리번호,Umbrella ID
+admin.umbrella.form.location,현위치,Current Location
+admin.umbrella.form.storeLabel,지점,Location
+admin.umbrella.form.rentable,대여 가능 여부,Availability
+admin.umbrella.form.rentableYes,대여 가능,Available
+admin.umbrella.form.rentableNo,대여 불가능,Unavailable
+admin.umbrella.form.missing,분실 여부,Missing Status
+admin.umbrella.form.etc,비고,Notes
+admin.umbrella.form.qr,QR코드,QR Code
+admin.umbrella.status.rentable,대여 가능,Available
+admin.umbrella.status.rented,대여 불가능(대여 중),Unavailable (On Rent)
+admin.umbrella.col.totalRent,전체 대여 건수,Total Rentals
+admin.umbrella.col.totalCount,전체 우산 개수,Total Umbrellas
+admin.umbrella.col.rentableCount,대여 가능한 우산 개수,Available Umbrellas
+admin.umbrella.col.rentedCount,대여 중인 우산 개수,Rented Umbrellas
+admin.umbrella.col.missingCount,분실 우산 개수,Missing Umbrellas
+admin.umbrella.col.missingRate,분실률(%),Missing Rate (%)
+admin.umbrella.col.id,id,ID
+admin.umbrella.col.uuid,우산 관리번호,Umbrella ID
+admin.umbrella.col.historyId,현재 대여 일련번호(NO),Current Rental No.
+admin.umbrella.col.storeMetaId,현위치(지점번호),Current Location (Store No.)
+admin.umbrella.col.rentableLabel,가용 여부,Availability
+admin.umbrella.col.etc,비고,Notes
+admin.umbrella.toast.createSuccess,우산 생성이 완료되었습니다.,Umbrella created.
+admin.umbrella.toast.editSuccess,우산 수정이 완료되었습니다.,Umbrella updated.
+admin.umbrella.toast.deleteSuccess,우산이 삭제 되었습니다.,Umbrella deleted.
+admin.rent.title,"대여, 반납 현황 조회",Rental / Return Status
+admin.rent.refundFilter,보증금 환급 여부,Deposit Refund Status
+admin.rent.filterAll,전체,All
+admin.rent.filterIncomplete,미완료,Pending
+admin.rent.filterComplete,환급 완료,Refunded
+admin.rent.deleteAccountBtn,계좌 정보 삭제,Delete Account Info
+admin.rent.deleteAccountConfirm,계좌정보를 삭제하시겠습니까 ?,Delete this account information?
+admin.rent.deleteAfterRefund,보증금 환급 후에 삭제 가능합니다.,Can only be deleted after deposit refund.
+admin.rent.col.id,일련 번호,No.
+admin.rent.col.name,이름,Name
+admin.rent.col.phone,전화번호,Phone
+admin.rent.col.rentStore,대여 지점,Rental Location
+admin.rent.col.rentAt,대여 날짜,Rental Date
+admin.rent.col.umbrellaUuid,우산 고유 번호,Umbrella ID
+admin.rent.col.elapsedDay,대여 경과 일수,Days Elapsed
+admin.rent.col.depositPaid,보증금 입금 여부,Deposit Paid
+admin.rent.col.depositPaidYes,입금,Paid
+admin.rent.col.depositPaidNo,미입금,Unpaid
+admin.rent.col.refunded,보증금 환급 여부,Deposit Refunded
+admin.rent.col.bank,환급 은행,Refund Bank
+admin.rent.col.accountNumber,환급 계좌 번호,Refund Account No.
+admin.rent.col.returnAt,반납 날짜,Return Date
+admin.rent.col.returnStore,반납 지점,Return Location
+admin.rent.col.totalRentalDay,총 대여 기간,Total Rental Days
+admin.rent.col.etc,비고,Notes
+admin.locker.title,보관함 목록,Locker List
+admin.locker.empty,생성한 보관함이 없습니다.,No lockers created.
+admin.locker.storeColumn,협업 지점,Partner Location
+admin.locker.invalidStore,잘못된 지점입니다.,Invalid location.
+admin.locker.secretKey,비밀키,Secret Key
+admin.locker.modalAdd,보관함 추가,Add Locker
+admin.locker.modalEdit,보관함 수정 및 삭제,Edit / Delete Locker
+admin.locker.form.store,협업 지점,Partner Location
+admin.locker.form.secretKey,보관함 비밀키,Locker Secret Key
+admin.locker.form.storeLabel,지점,Location
+admin.locker.form.secretLabel,비밀키,Secret Key
+admin.locker.form.secretMinError,비밀키는 최소 {{count}}자 이상이여야합니다.,Secret key must be at least {{count}} characters.
+admin.locker.deleteConfirm,삭제하시겠습니까?,Are you sure you want to delete?
+admin.locker.toast.createSuccess,보관함 정보가 생성되었습니다.,Locker created.
+admin.locker.toast.editSuccess,보관함 정보가 수정되었습니다.,Locker updated.
+admin.locker.toast.deleteSuccess,보관함 정보가 삭제되었습니다.,Locker deleted.
+admin.feedback.reportTitle,신고 내역 조회 - 대여폼,Condition Reports — Rental Form
+admin.feedback.improvementTitle,개선 요청 내역 조회 - 반납폼,Improvement Requests — Return Form
+admin.feedback.col.umbrellaUuid,우산 고유번호,Umbrella ID
+admin.feedback.col.content,내용,Content
+admin.menu.rent,대여/반납 현황,Rentals / Returns
+admin.menu.store,협업지점 관리,Partner Locations
+admin.menu.umbrella,우산 관리,Umbrellas
+admin.menu.user,회원 관리,Users
+admin.menu.locker,보관함 관리,Lockers
+admin.menu.feedback,상태신고/개선사항,Reports / Feedback
+admin.menu.wrongPath,잘못된 경로로 들어오셨습니다.,You've accessed an invalid path.
+admin.store.form.namePlaceholder,업브렐라 1호점,UPbrella Branch 1
+admin.store.form.categoryPlaceholder,"카페, 디저트","Café, Dessert"
+admin.common.retry,재시도,Retry
+admin.store.defaultBusinessHour,매일 12:30 ~ 23:00,Daily 12:30 – 23:00
+admin.store.form.majorClassification,대분류,Major Category
+admin.store.form.subClassification,소분류,Subcategory
+admin.store.form.numberPlaceholder,숫자만 입력해주세요.,Numbers only.
+admin.store.form.addressSearchPlaceholder,주소 검색 후 선택해주세요.,Search and select an address.
+admin.store.form.detailAddressPlaceholder,상세 주소를 입력해주세요.,Enter detail address.
+admin.store.form.latitude,위도,Latitude
+admin.store.form.longitude,경도,Longitude
+admin.store.tag.regionAddTitle,대여소 위치 페이지 내 지역 태그 추가,Add Region Tag for Rental Locations
+admin.store.tag.regionViewTitle,대여소 위치 페이지 내 지역 태그 조회,View Region Tags for Rental Locations
+admin.store.tag.officeAddTitle,협업 지점 소개 페이지 내 지역 태그 추가,Add Region Tag for Partner Locations
+admin.user.excelFileName,회원_조회_,User_Data_
+admin.rent.excelFileName,대여_반납_조회_,Rental_Return_Data_
+admin.umbrella.excelFileName,{{storeName}}_우산_조회,{{storeName}}_Umbrella_Data
+admin.umbrella.form.etcPlaceholder,기타 사항을 작성해주세요.,Enter any additional notes.
+rent.modal.afterQuotedStore,에서, —
+rent.modal.afterQuotedUmbrellaRent,번 우산을 빌릴까요?, — rent this umbrella?
+return.modal.afterQuotedStore,에서, —
+return.modal.afterQuotedUmbrellaReturn,번 우산을 반납할까요?, — return this umbrella?
+story.s3.imgAlt,업브렐라 이미지,UPbrella image
+story.s4.imgAlt,업브렐라_이미지_section4_{{index}},UPbrella_image_section4_{{index}}
+seo.login.keywords,", 로그인, login",", login, sign in"
+seo.signup.keywords,", 회원가입, sign up",", sign up, register"
+seo.info.keywords,", 이용 안내, 이용 방법",", how it works, usage guide"
+seo.rentalLocation.keywords,", 대여소, 위치, 지도",", rental, location, map"
+seo.officeDetail.keywords,", 대여소, 지점, 소개",", partner, location, about"
+mypage.title,마이페이지,MYPAGE
+mypage.loading,우산 대여 내역을 불러오는 중...,Loading rental history...
+mypage.error.title,죄송합니다. 마이페이지를 불러오지 못했어요 :),"Sorry, we couldn't load your page :)"
+mypage.error.retry,잠시 후에 다시 시도해주세요.,Please try again in a moment.
+story.history.2025.03.0,개강 이벤트,New Semester Opening Event
+story.history.2025.03.1,4차 우산 제작,4th Umbrella Production
+story.history.2025.03.2,업브렐라 사업 소개 릴스 발행,UPbrella Business Introduction Reels Published
+story.history.2025.03.3,"교외 협업 지점 확대 (트리클, 렛미얼론)","Off-campus Partner Expansion (Trickle, Let Me Alone)"
+story.history.2025.03.4,협업 지점 소개 릴스 발행,Partner Location Introduction Reels Published
+story.history.2025.05.0,2025-1학기 스트리스부스 행사 참가,2025 Spring Street Booth Event Participation
+story.history.2025.05.1,[RC 교육원 협업] 폐우산 활용 활동 진행,[RC Education Center] Used Umbrella Upcycling Activity
+story.history.2025.06.0,환경 보호 릴스 발행,Environmental Protection Reels Published
+story.history.2024.03.0,2024 연세대학교 고등교육혁신원 워크스테이션 팀 선정,Selected for 2024 Yonsei Univ. IHEI Workstation Team
+story.history.2024.03.1,각 지점별 3차 우산 배치,3rd Umbrella Deployment at Each Location
+story.history.2024.03.2,개강 이벤트,New Semester Opening Event
+story.history.2024.04.0,중간고사 이벤트,Midterm Exam Event
+story.history.2024.04.1,송도 지점 우산 설치,Songdo Location Umbrella Installation
+story.history.2024.05.0,"[총동연 협업] 교내 우산 지점 확대 (학생회관, 대강당)","[Student Council] On-campus Expansion (Student Center, Auditorium)"
+story.history.2024.05.1,교외 지점 철수 및 대체지점 설치,Off-campus Location Withdrawal & Replacement
+story.history.2024.05.2,교내 우산 지점 확대 (제1공학관),On-campus Expansion (Engineering Building 1)
+story.history.2024.06.0,[UIC 협업] 학생회실 설치,[UIC Collaboration] Student Council Room Installation
+story.history.2024.07.0,[총동연 협업] 우산한입 공동발행,[Student Council] Joint 'Umbrella Bite' Publication
+story.history.2024.07.1,여름방학 LEI 프로그램 진행 (8기),Summer LEI Program (8th Cohort)
+story.history.2024.09.0,크라우드펀딩 오프라인 행사,Crowdfunding Offline Event
+story.history.2024.09.1,사용자 만족도 조사 실행,User Satisfaction Survey
+story.history.2024.10.0,2024-2학기 스트리트부스 리딩팀 선정,Selected as 2024-2 Street Booth Leading Team
+story.history.2024.12.0,2024-2학기 IHEI FESTA 진행,2024-2 IHEI FESTA
+story.history.2023.02.0,연세대학교 고등교육혁신원 워크스테이션 우수팀 선정,Selected as Yonsei Univ. IHEI Workstation Outstanding Team
+story.history.2023.02.1,"신촌 버블티킹, 왓츠유얼컬러 지점 신설","New Locations in Sinchon: Bubble Tea King, What's Your Color"
+story.history.2023.03.0,2023 연세대학교 고등교육혁신원 워크스테이션 팀 선정,Selected for 2023 Yonsei Univ. IHEI Workstation Team
+story.history.2023.04.0,"WP커피, 아스터, 아지트커피 연대서문점 지점 신설","New Locations: WP Coffee, Aster, Azit Coffee (Yonsei West Gate)"
+story.history.2022.02.0,연세대학교 고등교육혁신원 Peer Championship 수상,Yonsei Univ. IHEI Peer Championship Award
+story.history.2022.03.0,모티브 스터디카페 지점 신설,New Location: Motive Study Café
+story.history.2022.04.0,2022 연세대학교 고등교육혁신원 워크스테이션 팀 선정,Selected for 2022 Yonsei Univ. IHEI Workstation Team
+story.history.2022.06.0,연세대학교 중앙도서관 지점 신설,New Location: Yonsei University Central Library
+story.history.2022.09.0,서울시 제로캠퍼스 동아리 선정,Selected for Seoul Zero Campus Club
+story.history.2022.11.0,"신촌 안다르커피, 엘피스카페 지점 신설","New Locations in Sinchon: Andar Coffee, Elpis Café"
+story.history.2021.04.0,2021 연세대학교 고등교육혁신원 워크스테이션 팀 선정,Selected for 2021 Yonsei Univ. IHEI Workstation Team
+story.history.2021.05.0,업사이클링 브랜드 큐클리프(CUECLYP)와 협업,Collaboration with Upcycling Brand CUECLYP
+story.history.2021.06.0,2021 서대문구 그린프로젝트 공모전 당선,Won 2021 Seodaemun-gu Green Project Contest
+story.history.2021.07.0,"신촌 상점 5곳과 협약 체결, 베타 서비스 런칭","Partnered with 5 Sinchon Shops, Beta Service Launch"
+story.history.2021.08.0,연세대학교 지점 확대,Yonsei University Location Expansion
+story.history.2021.09.0,정식 서비스 런칭,Official Service Launch
+story.history.2021.11.0,서대문구 탄소중립 캠페인 '그린이음' 참여,Participated in Seodaemun-gu Carbon Neutral Campaign 'Green Ieum'
