@@ -1028,6 +1028,4 @@ UPbrella 서비스에서 사용되는 모든 한국어 UI 텍스트를 정리한
 | `admin.feedback.reportTitle`      | 신고 내역 조회 - 대여폼      |         | 피드백 관리   | 제목      |      |      |
 | `admin.feedback.improvementTitle` | 개선 요청 내역 조회 - 반납폼 |         | 피드백 관리   | 제목      |      |      |
 | `admin.feedback.col.umbrellaUuid` | 우산 고유번호                |         | 피드백 테이블 | 컬럼 헤더 |      |      |
-| `admin.feedback.col.content`      | 내용                         |         | 피드백 테이블 | 컬럼 헤더 |      |      |
-
-https://docs.google.com/spreadsheets/d/e/2PACX-1vTOSp0Ubsj3YK0KgCcK9dI-mGjdDUsVgfIySXFb2nxAFqEebFi3siT_m1H8yDN9o0uw_V14WA7w5m2f/pub?gid=0&single=true&output=csv
+| `admin.feedback.col.content`      | 내용                         |         | 피드백 테이블 | 컬럼 헤더 |      |
