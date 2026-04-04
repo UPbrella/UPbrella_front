@@ -18,10 +18,10 @@ function parseCSV(raw: string): { key: string; ko: string; en: string }[] {
     throw new Error(`CSV must have "key", "ko", "en" columns. Found: ${headers.join(", ")}`);
   }
 
-  return dataLines.map((line, lineNum) => {
+  return dataLines.map((line) => {
     const cols = parseCSVLine(line);
-    if (cols.length < 3) {
-      throw new Error(`Line ${lineNum + 2}: expected at least 3 columns, got ${cols.length}`);
+    while (cols.length < headers.length) {
+      cols.push("");
     }
     return { key: cols[keyIdx], ko: cols[koIdx], en: cols[enIdx] };
   });
@@ -35,10 +35,7 @@ function parseCSVLine(line: string): string[] {
   for (let i = 0; i < line.length; i++) {
     const ch = line[i];
     if (inQuotes) {
-      if (ch === "\\" && i + 1 < line.length && line[i + 1] === '"') {
-        current += '"';
-        i++;
-      } else if (ch === '"') {
+      if (ch === '"') {
         if (i + 1 < line.length && line[i + 1] === '"') {
           current += '"';
           i++;
@@ -63,14 +60,16 @@ function parseCSVLine(line: string): string[] {
   return result;
 }
 
-function resolveUnicodeEscapes(s: string): string {
-  return s.replace(/\\u([0-9a-fA-F]{4})/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)));
+function resolveEscapes(s: string): string {
+  return s
+    .replace(/\\u([0-9a-fA-F]{4})/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
+    .replace(/\\"/g, '"');
 }
 
 function buildJSON(rows: { key: string; ko: string; en: string }[], lang: "ko" | "en") {
   const obj: Record<string, string> = {};
   for (const row of rows) {
-    const value = resolveUnicodeEscapes(row[lang]);
+    const value = resolveEscapes(row[lang]);
     if (value) {
       obj[row.key] = value;
     }
@@ -78,7 +77,10 @@ function buildJSON(rows: { key: string; ko: string; en: string }[], lang: "ko" |
   return obj;
 }
 
-const raw = readFileSync(CSV_PATH, "utf-8");
+const raw = readFileSync(CSV_PATH, "utf-8")
+  .replace(/^\uFEFF/, "")
+  .replace(/\r\n/g, "\n")
+  .replace(/\r/g, "\n");
 const rows = parseCSV(raw);
 
 mkdirSync(OUT_DIR, { recursive: true });
