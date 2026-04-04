@@ -8,6 +8,7 @@ import { useGetUserStatus } from "@/entities/user/api/user.queries";
 import { TUserRes } from "@/entities/user/model/types";
 import Logo from "@/shared/assets/main_logo.svg";
 import { FixWidthWrapper } from "@/shared/ui/FixWidthWrapper";
+import LanguageSwitcher from "@/shared/ui/LanguageSwitcher";
 import HeaderMyPage from "@/widgets/header/ui/HeaderMyPage";
 import MobileMenu from "@/widgets/header/ui/MobileMenu";
 import ArrowBackIosNewSharpIcon from "@mui/icons-material/ArrowBackIosNewSharp";
@@ -102,7 +103,7 @@ const DesktopHeader = ({ isLoading, userRes }: THeaderProps) => {
               key={nameKey}
               to={path}
               className={({ isActive }) => {
-                let defaultClassName = "transition-all mr-32 p-8 flex items-center";
+                let defaultClassName = "transition-all mr-12 2xl:mr-32 p-8 flex items-center";
                 if (isActive) {
                   defaultClassName +=
                     " text-primary-500 border-solid border-b-2 border-primary-500";
@@ -115,6 +116,10 @@ const DesktopHeader = ({ isLoading, userRes }: THeaderProps) => {
             </NavLink>
           );
         })}
+
+        <div className="flex items-center p-8 mr-12 2xl:mr-32">
+          <LanguageSwitcher />
+        </div>
 
         {userRes ? (
           <div

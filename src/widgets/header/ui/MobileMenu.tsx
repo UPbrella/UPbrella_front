@@ -1,17 +1,16 @@
-import { Link, useNavigate } from "react-router-dom";
-import { NavLink } from "react-router-dom";
-import Logo from "@/shared/assets/main_logo.svg";
-import CloseSharpIcon from "@mui/icons-material/CloseSharp";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import { BACKGROUND_IMAGE_ROUTES_URL, LAYOUT_ROUTES_URL } from "@/app/router/routes";
+import CardFooter from "@/entities/store/ui/CardFooter";
 import { useLogout } from "@/entities/user/api/user.queries";
 import { TUserRes } from "@/entities/user/model/types";
+import Logo from "@/shared/assets/main_logo.svg";
+import LanguageSwitcher from "@/shared/ui/LanguageSwitcher";
+import { headerNavItems } from "@/widgets/header/ui/HeaderContainer";
+import CloseSharpIcon from "@mui/icons-material/CloseSharp";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
-import CardFooter from "@/entities/store/ui/CardFooter";
-import { headerNavItems } from "@/widgets/header/ui/HeaderContainer";
-import { LAYOUT_ROUTES_URL } from "@/app/router/routes";
-import { BACKGROUND_IMAGE_ROUTES_URL } from "@/app/router/routes";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 type TMenu = {
   userRes: TUserRes | null;
@@ -38,12 +37,12 @@ const MobileMenu: React.FC<TMenu> = ({ userRes, setMenuOpen }) => {
   };
 
   return (
-    <div className="relative flex flex-col justify-between w-full h-full">
+    <div className="flex relative flex-col justify-between w-full h-full">
       <div className="bg-white z-100">
-        <div className="flex items-center justify-between py-16">
+        <div className="flex justify-between items-center py-16">
           <Link to={"/"}>
             <img
-              className="w-32 h-32"
+              className="p-2 w-32 h-32"
               src={Logo}
               alt="Logo"
               onError={(e) => {
@@ -51,8 +50,13 @@ const MobileMenu: React.FC<TMenu> = ({ userRes, setMenuOpen }) => {
               }}
             />
           </Link>
-          <div className="cursor-pointer" onClick={handleMenuClose}>
-            <CloseSharpIcon />
+          <div className="flex gap-3 items-center">
+            <div className="pt-2">
+              <LanguageSwitcher />
+            </div>
+            <div className="cursor-pointer" onClick={handleMenuClose}>
+              <CloseSharpIcon />
+            </div>
           </div>
         </div>
 
@@ -64,7 +68,7 @@ const MobileMenu: React.FC<TMenu> = ({ userRes, setMenuOpen }) => {
                 <span className="ml-8">{userRes.name}</span>
               </div>
               <button
-                className="flex items-center justify-center py-8 pl-16 pr-6 font-semibold transition-all text-primary-500 bg-primary-200 rounded-99 text-14"
+                className="flex justify-center items-center py-8 pr-6 pl-16 font-semibold transition-all text-primary-500 bg-primary-200 rounded-99 text-14"
                 onClick={() => handleNavToUrl(LAYOUT_ROUTES_URL.myPageRent.path())}
               >
                 {t("common.mobile.mypage")} <NavigateNextIcon fontSize="small" />
@@ -76,7 +80,7 @@ const MobileMenu: React.FC<TMenu> = ({ userRes, setMenuOpen }) => {
                 {t("common.mobile.greeting")}
               </div>
               <button
-                className="w-full py-12 font-semibold text-white rounded-8 bg-primary-500"
+                className="py-12 w-full font-semibold text-white rounded-8 bg-primary-500"
                 onClick={() => handleNavToUrl(BACKGROUND_IMAGE_ROUTES_URL.login.path())}
               >
                 {t("common.mobile.login")}
@@ -91,7 +95,7 @@ const MobileMenu: React.FC<TMenu> = ({ userRes, setMenuOpen }) => {
 
             return (
               <Fragment key={nameKey}>
-                <div className="w-full h-1 my-16 bg-gray-200"></div>
+                <div className="my-16 w-full h-1 bg-gray-200"></div>
                 <div>
                   <NavLink
                     onClick={() => handleMenuClose()}
@@ -105,7 +109,7 @@ const MobileMenu: React.FC<TMenu> = ({ userRes, setMenuOpen }) => {
               </Fragment>
             );
           })}
-          <div className="w-full h-1 my-16 bg-gray-200"></div>
+          <div className="my-16 w-full h-1 bg-gray-200"></div>
           {userRes && (
             <button
               className="flex mx-16 font-semibold transition-all text-14 hover:text-primary-500"
