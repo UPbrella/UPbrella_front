@@ -379,7 +379,7 @@ admin.common.delete,삭제,
 admin.common.save,저장,
 admin.common.cancel,취소,
 admin.common.confirm,확인,
-admin.common.download,데이터 다운로드,
+admin.common.download,데이터 다운로드,Data Download
 admin.common.deleteConfirm,정말 삭제하시겠습니까 ?,
 admin.common.discardConfirm,작성중인 내용이 모두 사라집니다.,
 admin.common.discardConfirmAlt,작성하고 있는 내용이 사라집니다.,

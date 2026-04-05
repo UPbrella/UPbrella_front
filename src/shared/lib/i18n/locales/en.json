@@ -365,5 +365,6 @@
   "routes.notLayout.rentForm": "Rental Form Page",
   "routes.notLayout.returnForm": "Return Form Page",
   "routes.admin.rent": "Rental/Return Table",
-  "routes.admin.feedback": "Reports / Feedback"
+  "routes.admin.feedback": "Reports / Feedback",
+  "admin.common.download": "Data Download"
 }
