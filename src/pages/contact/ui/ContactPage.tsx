@@ -1,0 +1,165 @@
+import Instagram from "@/features/contact/ui/Instagram";
+import React, { ReactNode, useEffect, useRef, useState } from "react";
+import Input from "@/features/contact/ui/Input";
+import TextArea from "@/features/contact/ui/TextArea";
+import Button from "@/features/contact/ui/Button";
+import emailjs from "@emailjs/browser";
+import { formatPhoneNumber } from "@/shared/lib/utils";
+import toast from "react-hot-toast";
+import Footer from "@/widgets/footer/ui/Footer";
+import { HeaderContainer } from "@/widgets/header/ui/HeaderContainer";
+import SeoMetaTag from "@/shared/ui/SeoMetaTag";
+import { useTranslation } from "react-i18next";
+
+const ContactPage = () => {
+  const { t } = useTranslation();
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [isActive, setIsActive] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
+
+  const formattedPhone = formatPhoneNumber(phone);
+
+  useEffect(() => {
+    if (name && email && title && content) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+    }
+  }, [name, email, title, content]);
+
+  const SERVICE_ID = import.meta.env.VITE_EMAIL_SERVICE_ID;
+  const TEMPLATE_ID = import.meta.env.VITE_EMAIL_TEMPLATE_ID;
+  const PUB_KEY = import.meta.env.VITE_EMAIL_PUB_KEY;
+
+  const form = useRef<HTMLFormElement>(null);
+
+  const sendEmail = async (e: React.FocusEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (isActive && form.current) {
+      try {
+        await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form.current, PUB_KEY);
+        setName("");
+        setPhone("");
+        setEmail("");
+        setTitle("");
+        setContent("");
+        setIsComplete(true);
+      } catch {
+        toast.error(t("toast.error.defaultApi"));
+      }
+    }
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (isComplete) {
+        setIsComplete(false);
+      }
+    }, 1500);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [isComplete]);
+
+  return (
+    <>
+      <SeoMetaTag
+        title={t("seo.contact.title")}
+        description={t("seo.contact.desc")}
+        keywords={", contact us"}
+      />
+      <div className="flex flex-col min-h-screen">
+        <div className="flex-1 h-full bg-cover ">
+          <FixWidthWrapper>
+            <HeaderContainer />
+
+            <div className="h-full max-w-[1280px] mx-auto pb-20 w-full flex flex-col justify-between">
+              <div className="flex items-center justify-center h-full mt-100 lg:my-20">
+                <div className="flex items-start justify-between w-full h-full lg:flex-col lg:px-0 ">
+                  <div className="flex flex-col w-full py-24 lg:py-0 ">
+                    <div className="mb-8 font-semibold text-black text-24 leading-32">
+                      CONTACT US
+                    </div>
+                    <div className="mb-40 text-gray-700 text-16 leading-24 lg:mb-20">
+                      {t("contact.pageDesc")}
+                    </div>
+                    <div className="lgMaxMin:mb-40">
+                      <Instagram />
+                    </div>
+                  </div>
+                  <form
+                    ref={form}
+                    onSubmit={sendEmail}
+                    className="w-full h-full p-32 bg-white rounded-20 lg:p-0 md:mt-40 mdMaxMin:ml-0 mdMaxMin:w-full"
+                  >
+                    <div className="flex">
+                      <Input
+                        label={t("contact.name")}
+                        placeholder={t("contact.namePlaceholder")}
+                        setValue={setName}
+                        name="name"
+                        value={name}
+                      />
+                      <Input
+                        label={t("contact.phone")}
+                        optional
+                        placeholder="010-1234-5678"
+                        setValue={setPhone}
+                        name="phone"
+                        value={formattedPhone}
+                      />
+                    </div>
+                    <Input
+                      label={t("contact.email")}
+                      placeholder="upbrella@gmail.com"
+                      setValue={setEmail}
+                      name="email"
+                      value={email}
+                    />
+                    <Input
+                      label={t("contact.subject")}
+                      placeholder={t("contact.subjectPlaceholder")}
+                      setValue={setTitle}
+                      name="title"
+                      value={title}
+                    />
+                    <TextArea
+                      label={t("contact.message")}
+                      placeholder={t("contact.messagePlaceholder")}
+                      setValue={setContent}
+                      name="content"
+                      value={content}
+                    />
+                    <Button isActive={isActive} />
+                  </form>
+                </div>
+
+                {isComplete && (
+                  <div className="fixed right-[80px] bottom-[100px] md:left-0 md:right-0 md:bottom-[20px] flex items-end justify-end md:justify-center w-full h-full">
+                    <div className="h-48 py-12 text-center text-white bg-gray-700 w-330 rounded-8 text-15 leading-24">
+                      {t("contact.success")}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </FixWidthWrapper>
+        </div>
+
+        <Footer />
+      </div>
+    </>
+  );
+};
+
+const FixWidthWrapper = ({ children }: { children: ReactNode }) => {
+  return <div className="max-w-[1440px] mx-auto md:px-20 sm:mx-0">{children}</div>;
+};
+
+export default ContactPage;

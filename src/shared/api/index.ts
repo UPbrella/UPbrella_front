@@ -1,0 +1,1 @@
+export { $axios } from "./client";

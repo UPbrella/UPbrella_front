@@ -1,0 +1,110 @@
+name: Sync Translations from Google Sheets
+
+on:
+  repository_dispatch:
+    types: [translation-update]
+  workflow_dispatch:
+    inputs:
+      target_branch:
+        description: "checkout할 브랜치 (테스트: develop, 운영: release)"
+        default: "release"
+        type: string
+      deploy:
+        description: "배포까지 실행할지 (테스트 시 false)"
+        type: boolean
+        default: true
+
+env:
+  GOOGLE_SHEET_CSV_URL: ${{ secrets.GOOGLE_SHEET_CSV_URL }}
+
+jobs:
+  sync-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    env:
+      TARGET_BRANCH: ${{ github.event.inputs.target_branch || 'release' }}
+      SHOULD_DEPLOY: ${{ github.event.inputs.deploy != 'false' && 'true' || 'false' }}
+
+    steps:
+      - name: Checkout target branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TARGET_BRANCH }}
+
+      - name: Download translations CSV from Google Sheets
+        run: curl -L -o translations.csv "$GOOGLE_SHEET_CSV_URL"
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate i18n JSON from CSV
+        run: pnpm run i18n:generate
+
+      - name: Check for translation changes
+        id: changes
+        run: git diff --quiet || echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Commit updated translations
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add translations.csv src/shared/lib/i18n/locales/
+          git commit -m "[chore] Sync translations from Google Sheets"
+          git push origin ${{ env.TARGET_BRANCH }}
+
+      - name: Generate Environment Variables File for Production
+        if: env.SHOULD_DEPLOY == 'true'
+        env:
+          VITE_UPBRELLA_API_BASE_URL: ${{ secrets.VITE_UPBRELLA_API_BASE_URL_PROD }}
+          VITE_NAVER_MAP_API_KEY: ${{ secrets.VITE_NAVER_MAP_API_KEY }}
+          VITE_KAKAO_MAP_API_KEY: ${{ secrets.VITE_KAKAO_MAP_API_KEY }}
+          VITE_KAKAO_LOGIN_REST_API_KEY: ${{ secrets.VITE_KAKAO_LOGIN_REST_API_KEY }}
+          VITE_EMAIL_SERVICE_ID: ${{ secrets.VITE_EMAIL_SERVICE_ID }}
+          VITE_EMAIL_TEMPLATE_ID: ${{ secrets.VITE_EMAIL_TEMPLATE_ID }}
+          VITE_EMAIL_PUB_KEY: ${{ secrets.VITE_EMAIL_PUB_KEY }}
+          VITE_APPLE_CLIENT_ID: ${{ secrets.VITE_APPLE_CLIENT_ID }}
+          VITE_APPLE_REDIRECT_URI: ${{ secrets.VITE_APPLE_REDIRECT_URI }}
+        run: |
+          echo "VITE_UPBRELLA_API_BASE_URL=${VITE_UPBRELLA_API_BASE_URL}" >> .env
+          echo "VITE_NAVER_MAP_API_KEY=${VITE_NAVER_MAP_API_KEY}" >> .env
+          echo "VITE_KAKAO_MAP_API_KEY=${VITE_KAKAO_MAP_API_KEY}" >> .env
+          echo "VITE_KAKAO_LOGIN_REST_API_KEY=${VITE_KAKAO_LOGIN_REST_API_KEY}" >> .env
+          echo "VITE_EMAIL_SERVICE_ID=${VITE_EMAIL_SERVICE_ID}" >> .env
+          echo "VITE_EMAIL_TEMPLATE_ID=${VITE_EMAIL_TEMPLATE_ID}" >> .env
+          echo "VITE_EMAIL_PUB_KEY=${VITE_EMAIL_PUB_KEY}" >> .env
+          echo "VITE_APPLE_CLIENT_ID=${VITE_APPLE_CLIENT_ID}" >> .env
+          echo "VITE_APPLE_REDIRECT_URI=${VITE_APPLE_REDIRECT_URI}" >> .env
+
+      - name: Build
+        if: env.SHOULD_DEPLOY == 'true'
+        run: pnpm run build
+
+      - name: Configure AWS credentials
+        if: env.SHOULD_DEPLOY == 'true'
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Upload to S3
+        if: env.SHOULD_DEPLOY == 'true'
+        run: aws s3 sync ./dist/ s3://${{ secrets.S3_BUCKET_NAME }} --region ${{ secrets.AWS_REGION }}
+
+      - name: Invalidate CloudFront Cache
+        if: env.SHOULD_DEPLOY == 'true'
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.DISTRIBUTION_ID }} --paths "/*"

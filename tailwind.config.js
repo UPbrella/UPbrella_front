@@ -15,6 +15,7 @@ export default {
       mdMaxLg: { max: "1279px", min: "1025px" },
       lgMaxMin: { max: "1279px", min: "640px" },
       xl: { min: "1025px" },
+      "2xl": { min: "1280px" },
     },
     fontSize: {
       h14: ["14px", "20px"],
@@ -65,7 +66,7 @@ export default {
         kakaoblack: "#000000",
       },
       backgroundImage: {
-        basic: "url('/src/assets/basicbackground.png')",
+        basic: "url('/src/shared/assets/basicbackground.png')",
       },
     },
   },
