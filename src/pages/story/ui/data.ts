@@ -19,6 +19,18 @@ export const getUpbrellaHistories = (): THistorySteps[] => [
         details: [i18n.t("story.history.2025.05.0"), i18n.t("story.history.2025.05.1")],
       },
       { month: "06", details: [i18n.t("story.history.2025.06.0")] },
+      {
+        month: "10",
+        details: [i18n.t("story.history.2025.10.0"), i18n.t("story.history.2025.10.1")],
+      },
+      {
+        month: "11",
+        details: [i18n.t("story.history.2025.11.0"), i18n.t("story.history.2025.11.1")],
+      },
+      {
+        month: "12",
+        details: [i18n.t("story.history.2025.12.0"), i18n.t("story.history.2025.12.1")],
+      },
     ],
   },
   {
