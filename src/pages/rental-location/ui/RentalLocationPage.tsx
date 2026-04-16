@@ -3,262 +3,81 @@ import {
   useGetClassificationsStore,
   useGetStoreDetail,
 } from "@/entities/store/api/store.queries";
-import { getDistanceFromLatLonInKm, getUserPosition } from "@/entities/store/lib/location-utils";
 import { TClassification } from "@/entities/store/model/types";
 import Card from "@/entities/store/ui/Card";
 import MobileCard from "@/entities/store/ui/MobileCard";
+import { useStoreSelection } from "@/pages/rental-location/lib/useStoreSelection";
 import ClassificationsButtons from "@/pages/rental-location/ui/ClassificationsButtons";
 import { DEFAULT_COORDINATE } from "@/shared/constants/map";
+import { useUserGeolocation } from "@/shared/hooks/useUserGeolocation";
 import BottomSheet from "@/shared/ui/BottomSheet";
 import SeoMetaTag from "@/shared/ui/SeoMetaTag";
-import {
-  createClusterIcon,
-  createSingleMarkerIcon,
-} from "@/widgets/naver-map/lib/clusterMarkerUtils";
-import { createClusterManager, getClustersInBounds } from "@/widgets/naver-map/lib/markerCluster";
+import { useMapMarkers } from "@/widgets/naver-map/lib/useMapMarkers";
+import { useNaverMap } from "@/widgets/naver-map/lib/useNaverMap";
 import "@/widgets/naver-map/styles/clusterMarker.css";
 import "@/widgets/naver-map/styles/markerLabel.css";
 import Map from "@/widgets/naver-map/ui/Map";
 import MapBtn from "@/widgets/naver-map/ui/MapBtn";
 import { CircularProgress } from "@mui/material";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Supercluster from "supercluster";
 
-// 대여소 위치 페이지
+// 대여소 위치 페이지 — 커스텀 훅으로 로직을 분리하여 조합만 담당
 const RentalLocationPage = () => {
   const { t } = useTranslation();
-  const { naver } = window;
   const mapElement = useRef<HTMLDivElement | null>(null);
-  // Ref를 사용하여 맵의 너비 동적으로 가져오기
   const mapWidth = mapElement.current?.offsetWidth ?? null;
 
-  // client
-  // 선택 대분류
+  // UI 상태
   const [selectedClassification, setSelectedClassification] = useState<TClassification>();
-  // 선택 지점
-  const [selectedStoreId, setSelectedStoreId] = useState<number>();
-  const [map, setMap] = useState<naver.maps.Map>();
-  const markersRef = useRef<naver.maps.Marker[]>([]);
-  const [userPosition, setUserPosition] = useState<{ lat: number; lng: number } | null>(null);
   const [isBottomOpen, setIsBottomOpen] = useState(false);
-  const [showInitialCard, setShowInitialCard] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const clusterRef = useRef<Supercluster | null>(null);
 
-  // server
+  // 서버 데이터: 대분류 목록 조회
   const { data: classificationsRes } = useGetClassifications();
-  const { data: storeDetail } = useGetStoreDetail(selectedStoreId ?? 0);
+  // 사용자가 선택한 대분류, 없으면 첫 번째 대분류를 기본값으로 사용
+  const effectiveClassification = selectedClassification ?? classificationsRes?.[0];
+
+  // 선택된 대분류의 협업지점 목록 조회
   const { data: storeListRes, isFetching } = useGetClassificationsStore(
-    selectedClassification?.id ?? 0
+    effectiveClassification?.id ?? 0
   );
 
-  // 대분류 초깃값 설정
-  useEffect(() => {
-    if (classificationsRes && !!classificationsRes.length) {
-      setSelectedClassification(classificationsRes[0]);
-    }
-  }, [classificationsRes]);
-
-  // map 처음 한번 생성
-  useEffect(() => {
-    if (!mapElement.current || !naver || map) return;
-
-    const _location = new naver.maps.LatLng(
-      selectedClassification?.latitude ?? DEFAULT_COORDINATE.lat,
-      selectedClassification?.longitude ?? DEFAULT_COORDINATE.lng
-    );
-    const mapOptions: naver.maps.MapOptions = {
-      center: _location,
-      zoom: 15,
-    };
-
-    const _map = new naver.maps.Map(mapElement.current, mapOptions);
-    setMap(_map);
-  }, [classificationsRes, map, naver, selectedClassification]);
-
-  // 대분류 변경시 지도 position 움직임
-  useEffect(() => {
-    if (map && selectedClassification) {
-      const { latitude, longitude } = selectedClassification;
-      if (!latitude || !longitude) return;
-
-      const _location = new naver.maps.LatLng(latitude, longitude);
-      map.setCenter(_location);
-    }
-  }, [map, naver.maps.LatLng, selectedClassification]);
-
+  // 활성화된(openStatus) 매장만 필터링
   const activeStores = useMemo(
     () => storeListRes?.filter((store) => store.openStatus) ?? [],
     [storeListRes]
   );
 
-  // 클러스터 매니저 초기화
-  useEffect(() => {
-    if (activeStores.length === 0) return;
+  // 대분류의 위경도를 지도 중심 좌표로 변환
+  const center = useMemo(
+    () => ({
+      lat: effectiveClassification?.latitude ?? DEFAULT_COORDINATE.lat,
+      lng: effectiveClassification?.longitude ?? DEFAULT_COORDINATE.lng,
+    }),
+    [effectiveClassification?.latitude, effectiveClassification?.longitude]
+  );
 
-    clusterRef.current = createClusterManager(activeStores);
+  // 커스텀 훅: 네이버 맵 생성 + 중심 이동
+  const { map } = useNaverMap(mapElement, center);
+  // 커스텀 훅: 유저 현재 위치 조회
+  const { position: userPosition } = useUserGeolocation();
+  // 커스텀 훅: 매장 자동 선택 (가까운 순 or 랜덤)
+  const { selectedStoreId, setSelectedStoreId } = useStoreSelection(activeStores, userPosition);
+  // 선택된 매장 상세 조회
+  const { data: storeDetail } = useGetStoreDetail(selectedStoreId ?? 0);
 
-    // 클러스터 재생성 시 마커도 업데이트
-    if (map) {
-      updateMarkers();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeStores, map]);
+  // 마커 클릭 시: 매장 선택 + 바텀시트 열기
+  const handleStoreSelect = useCallback(
+    (storeId: number) => {
+      setSelectedStoreId(storeId);
+      setIsBottomOpen(true);
+    },
+    [setSelectedStoreId]
+  );
 
-  // 마커 업데이트 함수
-  const updateMarkers = useCallback(() => {
-    if (!map || !clusterRef.current) return;
-
-    // 기존 마커 제거
-    markersRef.current.forEach((marker) => marker.setMap(null));
-    markersRef.current = [];
-
-    const clusters = getClustersInBounds(clusterRef.current, map);
-    const newMarkers: naver.maps.Marker[] = [];
-
-    clusters.forEach((cluster) => {
-      const [lng, lat] = cluster.geometry.coordinates;
-      const isCluster = cluster.properties.cluster;
-
-      let iconContent: string;
-      let size: naver.maps.Size;
-      let anchor: naver.maps.Point;
-
-      if (isCluster) {
-        // 클러스터 마커
-        const pointCount = cluster.properties.point_count || 0;
-        const hasActiveStore = cluster.properties.hasActiveStore || false;
-        iconContent = createClusterIcon(pointCount, hasActiveStore);
-        size = new naver.maps.Size(32, 40);
-        anchor = new naver.maps.Point(16, 40);
-      } else {
-        // 개별 마커
-        const { storeId, name, openStatus } = cluster.properties;
-        const isSelected = storeId === selectedStoreId;
-        iconContent = createSingleMarkerIcon(name, openStatus, isSelected);
-        size = isSelected ? new naver.maps.Size(44, 60) : new naver.maps.Size(32, 40);
-        anchor = isSelected ? new naver.maps.Point(22, 60) : new naver.maps.Point(16, 40);
-      }
-
-      const marker = new naver.maps.Marker({
-        position: new naver.maps.LatLng(lat, lng),
-        map: map,
-        icon: {
-          content: iconContent,
-          size: size,
-          anchor: anchor,
-        },
-      });
-
-      naver.maps.Event.addListener(marker, "click", () => {
-        if (isCluster && clusterRef.current) {
-          // 클러스터 클릭 시 확대
-          const expansionZoom = clusterRef.current.getClusterExpansionZoom(cluster.id as number);
-          map.setCenter(new naver.maps.LatLng(lat, lng));
-          map.setZoom(expansionZoom);
-        } else {
-          // 개별 마커 클릭 시 상세 정보 표시
-          setSelectedStoreId(cluster.properties.storeId);
-          setIsBottomOpen(true);
-        }
-      });
-
-      newMarkers.push(marker);
-    });
-
-    markersRef.current = newMarkers;
-  }, [
-    map,
-    selectedStoreId,
-    naver.maps.LatLng,
-    naver.maps.Marker,
-    naver.maps.Point,
-    naver.maps.Size,
-    naver.maps.Event,
-  ]);
-
-  // 지도 이동/줌 이벤트 리스너
-  useEffect(() => {
-    if (!map) return;
-
-    const updateListener = naver.maps.Event.addListener(map, "idle", updateMarkers);
-
-    // 초기 마커 표시
-    updateMarkers();
-
-    return () => {
-      naver.maps.Event.removeListener(updateListener);
-    };
-  }, [map, updateMarkers, naver.maps.Event]);
-
-  // selectedStoreId 변경 시 마커 업데이트
-  useEffect(() => {
-    updateMarkers();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedStoreId]);
-
-  useEffect(() => {
-    if (activeStores.length > 0 && showInitialCard) {
-      const randomIndex = Math.floor(Math.random() * activeStores.length);
-      const randomStore = activeStores[randomIndex].id;
-      setSelectedStoreId(randomStore);
-      setShowInitialCard(false);
-    }
-  }, [activeStores, showInitialCard]);
-
-  useEffect(() => {
-    if (userPosition && activeStores.length > 0) {
-      const distances = activeStores.map((store) =>
-        getDistanceFromLatLonInKm(
-          userPosition.lat,
-          userPosition.lng,
-          store.latitude,
-          store.longitude
-        )
-      );
-
-      const minDistanceIndex = distances.indexOf(Math.min(...distances));
-
-      if (!showInitialCard) {
-        setSelectedStoreId(activeStores[minDistanceIndex].id);
-      }
-    }
-  }, [userPosition, activeStores, showInitialCard]);
-
-  useEffect(() => {
-    getUserPosition().then(
-      (position) =>
-        position &&
-        setUserPosition({ lat: position.coords.latitude, lng: position.coords.longitude })
-    );
-  }, []);
-
-  useEffect(() => {
-    if (activeStores.length > 0) {
-      let selectedStore;
-
-      if (userPosition) {
-        const distances = activeStores.map((store) =>
-          getDistanceFromLatLonInKm(
-            userPosition.lat,
-            userPosition.lng,
-            store.latitude,
-            store.longitude
-          )
-        );
-
-        const minDistanceIndex = distances.indexOf(Math.min(...distances));
-
-        selectedStore = activeStores[minDistanceIndex];
-      } else {
-        const randomIndex = Math.floor(Math.random() * activeStores.length);
-        selectedStore = activeStores[randomIndex];
-      }
-
-      setSelectedStoreId(selectedStore.id);
-    }
-  }, [activeStores, userPosition]);
+  // 커스텀 훅: 클러스터/마커 생성·제거·이벤트 일괄 관리
+  useMapMarkers(map, activeStores, selectedStoreId, handleStoreSelect);
 
   return (
     <>
@@ -291,7 +110,7 @@ const RentalLocationPage = () => {
               {classificationsRes && (
                 <ClassificationsButtons
                   classificationsRes={classificationsRes}
-                  selectedClassification={selectedClassification}
+                  selectedClassification={effectiveClassification}
                   setSelectedClassification={setSelectedClassification}
                 />
               )}
