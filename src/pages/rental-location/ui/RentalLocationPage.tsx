@@ -1,29 +1,29 @@
-import BottomSheet from "@/shared/ui/BottomSheet";
-import MapBtn from "@/widgets/naver-map/ui/MapBtn";
-import MobileCard from "@/entities/store/ui/MobileCard";
-import Card from "@/entities/store/ui/Card";
-import { DEFAULT_COORDINATE } from "@/shared/constants/map";
-import ClassificationsButtons from "@/pages/rental-location/ui/ClassificationsButtons";
 import {
   useGetClassifications,
   useGetClassificationsStore,
   useGetStoreDetail,
 } from "@/entities/store/api/store.queries";
-import "@/widgets/naver-map/styles/markerLabel.css";
-import "@/widgets/naver-map/styles/clusterMarker.css";
-import { TClassification } from "@/entities/store/model/types";
 import { getDistanceFromLatLonInKm, getUserPosition } from "@/entities/store/lib/location-utils";
+import { TClassification } from "@/entities/store/model/types";
+import Card from "@/entities/store/ui/Card";
+import MobileCard from "@/entities/store/ui/MobileCard";
+import ClassificationsButtons from "@/pages/rental-location/ui/ClassificationsButtons";
+import { DEFAULT_COORDINATE } from "@/shared/constants/map";
+import BottomSheet from "@/shared/ui/BottomSheet";
 import SeoMetaTag from "@/shared/ui/SeoMetaTag";
-import { CircularProgress } from "@mui/material";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import Map from "@/widgets/naver-map/ui/Map";
-import Supercluster from "supercluster";
-import { createClusterManager, getClustersInBounds } from "@/widgets/naver-map/lib/markerCluster";
 import {
   createClusterIcon,
   createSingleMarkerIcon,
 } from "@/widgets/naver-map/lib/clusterMarkerUtils";
+import { createClusterManager, getClustersInBounds } from "@/widgets/naver-map/lib/markerCluster";
+import "@/widgets/naver-map/styles/clusterMarker.css";
+import "@/widgets/naver-map/styles/markerLabel.css";
+import Map from "@/widgets/naver-map/ui/Map";
+import MapBtn from "@/widgets/naver-map/ui/MapBtn";
+import { CircularProgress } from "@mui/material";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import Supercluster from "supercluster";
 
 // 대여소 위치 페이지
 const RentalLocationPage = () => {
@@ -88,18 +88,23 @@ const RentalLocationPage = () => {
     }
   }, [map, naver.maps.LatLng, selectedClassification]);
 
+  const activeStores = useMemo(
+    () => storeListRes?.filter((store) => store.openStatus) ?? [],
+    [storeListRes]
+  );
+
   // 클러스터 매니저 초기화
   useEffect(() => {
-    if (!storeListRes || storeListRes.length === 0) return;
+    if (activeStores.length === 0) return;
 
-    clusterRef.current = createClusterManager(storeListRes);
+    clusterRef.current = createClusterManager(activeStores);
 
     // 클러스터 재생성 시 마커도 업데이트
     if (map) {
       updateMarkers();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [storeListRes, map]);
+  }, [activeStores, map]);
 
   // 마커 업데이트 함수
   const updateMarkers = useCallback(() => {
@@ -194,17 +199,17 @@ const RentalLocationPage = () => {
   }, [selectedStoreId]);
 
   useEffect(() => {
-    if (storeListRes && storeListRes.length > 0 && showInitialCard) {
-      const randomIndex = Math.floor(Math.random() * storeListRes.length);
-      const randomStore = storeListRes[randomIndex].id;
+    if (activeStores.length > 0 && showInitialCard) {
+      const randomIndex = Math.floor(Math.random() * activeStores.length);
+      const randomStore = activeStores[randomIndex].id;
       setSelectedStoreId(randomStore);
       setShowInitialCard(false);
     }
-  }, [storeListRes, showInitialCard]);
+  }, [activeStores, showInitialCard]);
 
   useEffect(() => {
-    if (userPosition && storeListRes && storeListRes.length > 0) {
-      const distances = storeListRes.map((store) =>
+    if (userPosition && activeStores.length > 0) {
+      const distances = activeStores.map((store) =>
         getDistanceFromLatLonInKm(
           userPosition.lat,
           userPosition.lng,
@@ -216,10 +221,10 @@ const RentalLocationPage = () => {
       const minDistanceIndex = distances.indexOf(Math.min(...distances));
 
       if (!showInitialCard) {
-        setSelectedStoreId(storeListRes[minDistanceIndex].id);
+        setSelectedStoreId(activeStores[minDistanceIndex].id);
       }
     }
-  }, [userPosition, storeListRes, showInitialCard]);
+  }, [userPosition, activeStores, showInitialCard]);
 
   useEffect(() => {
     getUserPosition().then(
@@ -230,11 +235,11 @@ const RentalLocationPage = () => {
   }, []);
 
   useEffect(() => {
-    if (storeListRes && storeListRes.length > 0) {
+    if (activeStores.length > 0) {
       let selectedStore;
 
       if (userPosition) {
-        const distances = storeListRes.map((store) =>
+        const distances = activeStores.map((store) =>
           getDistanceFromLatLonInKm(
             userPosition.lat,
             userPosition.lng,
@@ -245,15 +250,15 @@ const RentalLocationPage = () => {
 
         const minDistanceIndex = distances.indexOf(Math.min(...distances));
 
-        selectedStore = storeListRes[minDistanceIndex];
+        selectedStore = activeStores[minDistanceIndex];
       } else {
-        const randomIndex = Math.floor(Math.random() * storeListRes.length);
-        selectedStore = storeListRes[randomIndex];
+        const randomIndex = Math.floor(Math.random() * activeStores.length);
+        selectedStore = activeStores[randomIndex];
       }
 
       setSelectedStoreId(selectedStore.id);
     }
-  }, [storeListRes, userPosition]);
+  }, [activeStores, userPosition]);
 
   return (
     <>
