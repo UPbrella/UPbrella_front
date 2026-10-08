@@ -95,7 +95,7 @@ initSentry();
 trackVisitOnce();
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement, sentryRootOptions).render(
-  <BrowserRouter future={{ v7_startTransition: true }}>
+  <BrowserRouter>
     <Suspense>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={theme}>
