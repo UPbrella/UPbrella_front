@@ -1,0 +1,62 @@
+name: Release Note
+
+# release 머지 시 이전 릴리즈 이후 PR을 모아 GitHub Release 생성
+# 버전: [feat] PR 있으면 minor, 없으면 patch (예: v1.2.0 → v1.3.0 / v1.2.1)
+on:
+  push:
+    branches: ["release"]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          LAST=$(gh release view --json tagName -q .tagName)
+
+          # 범위 내 커밋에 연결된 PR 중 develop 등으로 머지된 것만 (release PR 제외)
+          PRS=$(for sha in $(git rev-list "$LAST..HEAD"); do
+            gh api "repos/$REPO/commits/$sha/pulls" -q '.[] | select(.base.ref != "release" and .merged_at != null) | .number'
+          done | sort -un)
+
+          if [ -z "$PRS" ]; then
+            echo "새 PR 없음 → 릴리즈 생략"
+            exit 0
+          fi
+
+          FEAT=""; FIX=""; ETC=""
+          for n in $PRS; do
+            TITLE=$(gh pr view "$n" --json title -q .title)
+            LINE="- $TITLE (#$n)"$'\n'
+            case "$(echo "$TITLE" | tr 'A-Z' 'a-z' | sed -E 's/^[[:space:]]*\[?//')" in
+              feat*) FEAT+="$LINE" ;;
+              fix*) FIX+="$LINE" ;;
+              *) ETC+="$LINE" ;;
+            esac
+          done
+
+          IFS=. read -r MAJOR MINOR PATCH <<< "${LAST#v}"
+          if [ -n "$FEAT" ]; then
+            VERSION="$MAJOR.$((MINOR + 1)).0"
+          else
+            VERSION="$MAJOR.$MINOR.$((PATCH + 1))"
+          fi
+
+          {
+            [ -n "$FEAT" ] && printf '## 🌐 새로운 기능\n%s\n' "$FEAT"
+            [ -n "$FIX" ] && printf '## 🐛 버그 수정\n%s\n' "$FIX"
+            [ -n "$ETC" ] && printf '## 🔧 기타\n%s\n' "$ETC"
+            printf '**Full Changelog**: https://github.com/%s/compare/%s...v%s\n' "$REPO" "$LAST" "$VERSION"
+          } > notes.md
+
+          gh release create "v$VERSION" --target "$GITHUB_SHA" --title "Release $VERSION" --notes-file notes.md
