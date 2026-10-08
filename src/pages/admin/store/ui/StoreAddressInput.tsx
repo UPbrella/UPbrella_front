@@ -59,7 +59,7 @@ const StoreAddressInput = ({ storeData, onChangeStoreData, setStoreData }: TProp
     });
 
     setMap(_map);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // biome-ignore lint/correctness/useExhaustiveDependencies: naver 로드 시에만 지도를 생성
   }, [naver]);
 
   useEffect(() => {

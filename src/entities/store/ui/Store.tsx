@@ -50,8 +50,7 @@ const Store = ({
         }
       }
     }
-    // 분류 선택 변경시에만 작동
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // biome-ignore lint/correctness/useExhaustiveDependencies: 분류 선택 변경시에만 작동
   }, [selectedClassificationName]);
 
   return (

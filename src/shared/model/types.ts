@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { DAY_OF_WEEK } from "@/shared/constants/date";
 import { AxiosError } from "axios";
 import type { ComponentType, LazyExoticComponent } from "react";

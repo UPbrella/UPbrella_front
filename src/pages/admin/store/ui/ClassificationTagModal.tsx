@@ -65,7 +65,7 @@ const ClassificationTagModal = ({
       }));
     });
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // biome-ignore lint/correctness/useExhaustiveDependencies: naver·지도 엘리먼트 준비 시에만 지도를 생성
   }, [naver, mapElement.current]);
 
   return (

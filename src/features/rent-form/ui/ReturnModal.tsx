@@ -47,10 +47,10 @@ const ReturnModal = ({
           label: t("return.modal.refundAccount"),
           value: `${bank} ${accountNumber}`,
         },
-      } satisfies Record<
+      }) satisfies Record<
         keyof Omit<ReturnModalProps, "accountNumber" | "setIsOpenModal" | "onClickPatchBtn">,
         { label: string; value: string | number }
-      >),
+      >,
     [t, classificationName, rentStoreName, umbrellaUuid, elapsedDay, bank, accountNumber]
   );
 
