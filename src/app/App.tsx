@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import { MainLayout } from "@/app/layouts";
 import { AdminWrapper } from "@/app/layouts";
@@ -21,53 +22,59 @@ function App() {
       <SeoMetaTag />
       <PWAUpdatePrompt />
       <div className="bg-cover">
-        <Routes>
-          {BASIC_ROUTES.map((route) => {
-            return <Route key={route.name} path={route.path()} element={<route.component />} />;
-          })}
-
-          <Route element={<BackgroundLayout />}>
-            <>
-              {BACKGROUND_IMAGE_ROUTES.map((route) => {
-                return <Route key={route.name} path={route.path()} element={<route.component />} />;
-              })}
-              <Route path="/*" element={<NotFound />} />
-            </>
-          </Route>
-
-          <Route element={<MainLayout />}>
-            <>
-              {LAYOUT_ROUTES.map((route) => {
-                return <Route key={route.name} path={route.path()} element={<route.component />} />;
-              })}
-              <Route path="/*" element={<NotFound />} />
-            </>
-          </Route>
-
-          <Route element={<MainLayout />}>
-            <Route element={<AdminRoutes />}>
-              {ADMIN_ROUTES.map((route) => {
-                return (
-                  <Route
-                    key={route.name}
-                    path={route.path()}
-                    element={
-                      <AdminWrapper>
-                        <route.component />
-                      </AdminWrapper>
-                    }
-                  />
-                );
-              })}
-            </Route>
-          </Route>
-
-          <Route element={<PrivateRoutes />}>
-            {NOT_LAYOUT_ROUTES.map((route) => {
+        <Suspense fallback={null}>
+          <Routes>
+            {BASIC_ROUTES.map((route) => {
               return <Route key={route.name} path={route.path()} element={<route.component />} />;
             })}
-          </Route>
-        </Routes>
+
+            <Route element={<BackgroundLayout />}>
+              <>
+                {BACKGROUND_IMAGE_ROUTES.map((route) => {
+                  return (
+                    <Route key={route.name} path={route.path()} element={<route.component />} />
+                  );
+                })}
+                <Route path="/*" element={<NotFound />} />
+              </>
+            </Route>
+
+            <Route element={<MainLayout />}>
+              <>
+                {LAYOUT_ROUTES.map((route) => {
+                  return (
+                    <Route key={route.name} path={route.path()} element={<route.component />} />
+                  );
+                })}
+                <Route path="/*" element={<NotFound />} />
+              </>
+            </Route>
+
+            <Route element={<MainLayout />}>
+              <Route element={<AdminRoutes />}>
+                {ADMIN_ROUTES.map((route) => {
+                  return (
+                    <Route
+                      key={route.name}
+                      path={route.path()}
+                      element={
+                        <AdminWrapper>
+                          <route.component />
+                        </AdminWrapper>
+                      }
+                    />
+                  );
+                })}
+              </Route>
+            </Route>
+
+            <Route element={<PrivateRoutes />}>
+              {NOT_LAYOUT_ROUTES.map((route) => {
+                return <Route key={route.name} path={route.path()} element={<route.component />} />;
+              })}
+            </Route>
+          </Routes>
+        </Suspense>
       </div>
     </>
   );

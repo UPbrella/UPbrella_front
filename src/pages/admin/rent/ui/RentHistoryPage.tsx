@@ -78,9 +78,9 @@ const RentHistoryPage = () => {
     page,
     size: rows,
   });
-  const { mutate: mutateUpdatePayment, isLoading: isUpdatingPayment } = usePatchPayment();
-  const { mutate: mutateUpdateRefund, isLoading: isUpdatingRefund } = usePatchRefund();
-  const { mutate: mutateDeleteAccount, isLoading: isDeletingAccount } = useDeleteAccount();
+  const { mutate: mutateUpdatePayment, isPending: isUpdatingPayment } = usePatchPayment();
+  const { mutate: mutateUpdateRefund, isPending: isUpdatingRefund } = usePatchRefund();
+  const { mutate: mutateDeleteAccount, isPending: isDeletingAccount } = useDeleteAccount();
 
   const onTogglePayment = (historyId: number) => {
     mutateUpdatePayment(historyId, {

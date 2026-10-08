@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import toast from "react-hot-toast";
 import { Button, Divider, Input, Typography } from "@mui/material";
 import { Column } from "primereact/column";
@@ -34,9 +33,9 @@ const UserAdminPage = () => {
     isError: isBlackUsersError,
   } = useGetBlackUsers();
 
-  const { mutate: mutateDeleteUser, isLoading: isDeletingUser } = useDeleteUsers();
-  const { mutate: mutateDeleteBlackUser, isLoading: isDeletingBlackUser } = useDeleteBlackUsers();
-  const { mutate: mutateAdminUser, isLoading: isPatchingAdminUser } = usePatchAdminUsers();
+  const { mutate: mutateDeleteUser, isPending: isDeletingUser } = useDeleteUsers();
+  const { mutate: mutateDeleteBlackUser, isPending: isDeletingBlackUser } = useDeleteBlackUsers();
+  const { mutate: mutateAdminUser, isPending: isPatchingAdminUser } = usePatchAdminUsers();
 
   useEffect(() => {
     if (userRes) {
@@ -205,6 +204,7 @@ const UserAdminPage = () => {
                             onChange={(e) =>
                               onChangeAdminStatus({
                                 index: rowIndex,
+                                // biome-ignore lint/style/noNonNullAssertion: InputSwitch onChange는 항상 value를 전달함
                                 value: e.value!,
                               })
                             }

@@ -1,7 +1,7 @@
 import { TStoreListAll, TSubClassification } from "@/entities/store/model/types";
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import DefaultImg from "@/shared/assets/Story/section4-1.jpeg";
+import DefaultImg from "@/shared/assets/Story/section4-1.webp";
 import { LAYOUT_ROUTES_URL } from "@/app/router/routes";
 
 type TStoreProps = {
@@ -50,8 +50,7 @@ const Store = ({
         }
       }
     }
-    // 분류 선택 변경시에만 작동
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // biome-ignore lint/correctness/useExhaustiveDependencies: 분류 선택 변경시에만 작동
   }, [selectedClassificationName]);
 
   return (
@@ -59,7 +58,9 @@ const Store = ({
       {storeList.map((store, index) => (
         <div key={index}>
           <div
-            ref={(el) => (classificationRefs.current[index] = el)}
+            ref={(el) => {
+              classificationRefs.current[index] = el;
+            }}
             className="mt-8 mb-16 font-bold text-24"
           >
             {classifications

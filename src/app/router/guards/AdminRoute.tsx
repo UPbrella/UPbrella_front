@@ -13,8 +13,9 @@ const AdminRoutes = () => {
   const navigate = useNavigate();
 
   useLayoutEffect(() => {
-    if (!isMockMode && (isError || (data && !data.data.data.adminStatus)))
-      return navigate(BASIC_ROUTES_URL.forbidden.path(), { replace: true });
+    if (!isMockMode && (isError || (data && !data.data.data.adminStatus))) {
+      navigate(BASIC_ROUTES_URL.forbidden.path(), { replace: true });
+    }
   }, [data, isError, navigate]);
 
   if (!isMockMode && isLoading) {

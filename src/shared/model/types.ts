@@ -1,11 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { DAY_OF_WEEK } from "@/shared/constants/date";
 import { AxiosError } from "axios";
+import type { ComponentType, LazyExoticComponent } from "react";
 
 export type TRoute = {
   name: string;
   path: (params?: any) => string;
-  component: () => JSX.Element;
+  component: ComponentType | LazyExoticComponent<ComponentType>;
 };
 
 export type TApiResponse<T> = {

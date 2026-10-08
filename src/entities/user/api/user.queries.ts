@@ -8,19 +8,26 @@ import {
   type TRentHistoriesRes,
 } from "./user-api";
 import { $axios } from "@/shared/api";
-import { loginState, redirectUrl } from "@/features/auth";
+import { useAuthStore } from "@/features/auth";
 import { BACKGROUND_IMAGE_ROUTES_URL } from "@/app/router/routes";
 import { BASIC_ROUTES_URL } from "@/app/router/routes";
 import type { TUserRes } from "../model/types";
 import type { TApiResponse, TCustomError } from "@/shared/model/types";
 import type { TInputs, TSocialUserSession } from "@/features/auth/model/signup-types";
 import { getErrorMessage } from "@/shared/api/error";
+import { track } from "@/shared/lib/analytics";
 import i18n from "@/shared/lib/i18n";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  keepPreviousData,
+  queryOptions,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import dayjs from "dayjs";
+import { useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
 
 const USER_QUERY_KEYS = {
   userStatus: () => ["userStatus"],
@@ -37,10 +44,10 @@ const USER_QUERY_KEYS = {
 
 // 업브렐라 로그인
 const useUpbrellaLogin = () => {
-  const path = useRecoilValue(redirectUrl);
+  const path = useAuthStore((s) => s.redirectUrl);
   const { refetch: getUserStatus } = useGetUserStatus();
   const navigate = useNavigate();
-  const setIsLogin = useSetRecoilState(loginState);
+  const setIsLogin = useAuthStore((s) => s.setIsLogin);
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -53,6 +60,7 @@ const useUpbrellaLogin = () => {
           queryClient.invalidateQueries();
           navigate(path);
           setIsLogin(true);
+          track("complete_login", { method: "social" });
           return;
         }
 
@@ -63,7 +71,7 @@ const useUpbrellaLogin = () => {
     onError: (err: TCustomError) => {
       if (err.response?.data.code === 400) {
         // signup
-        queryClient.invalidateQueries(USER_QUERY_KEYS.socialSession());
+        queryClient.invalidateQueries({ queryKey: USER_QUERY_KEYS.socialSession() });
         navigate(BACKGROUND_IMAGE_ROUTES_URL.signup.path());
         return;
       }
@@ -82,7 +90,7 @@ export const useKakaoLogin = () => {
   const code = new URL(window.location.href).searchParams.get("code");
   const { mutate: upbrellaLogin } = useUpbrellaLogin();
   const navigate = useNavigate();
-  const setIsLogin = useSetRecoilState(loginState);
+  const setIsLogin = useAuthStore((s) => s.setIsLogin);
 
   return useMutation({
     mutationFn: async () => await $axios.post("/users/oauth/login", { code }),
@@ -117,18 +125,19 @@ export const useAppleLogin = () => {
 
 // 회원가입
 export const useUpbrellaSignUp = () => {
-  const path = useRecoilValue(redirectUrl);
+  const path = useAuthStore((s) => s.redirectUrl);
   const navigate = useNavigate();
-  const setIsLogin = useSetRecoilState(loginState);
+  const setIsLogin = useAuthStore((s) => s.setIsLogin);
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (inputs: TInputs) => await $axios.post("/users/join", { ...inputs }),
     onSuccess: () => {
       setIsLogin(true);
+      track("complete_login", { method: "signup" });
       navigate(path);
       toast.success(i18n.t("toast.success.signupComplete"));
-      queryClient.invalidateQueries(USER_QUERY_KEYS.userStatus());
+      queryClient.invalidateQueries({ queryKey: USER_QUERY_KEYS.userStatus() });
       return;
     },
     onError: (err: TCustomError) => {
@@ -139,24 +148,31 @@ export const useUpbrellaSignUp = () => {
   });
 };
 
-// 유저 정보 확인
-export const useGetUserStatus = () => {
-  const setIsLogin = useSetRecoilState(loginState);
+export const userStatusQuery = queryOptions({
+  queryKey: USER_QUERY_KEYS.userStatus(),
+  queryFn: async () => await $axios.get<TApiResponse<TUserRes>>("/users/loggedIn"),
+  retry: 0,
+});
 
-  return useQuery({
-    queryKey: USER_QUERY_KEYS.userStatus(),
-    queryFn: async () => await $axios.get<TApiResponse<TUserRes>>("/users/loggedIn"),
-    retry: 0,
-    keepPreviousData: true,
-    onError: () => {
-      setIsLogin(false);
-    },
-  });
+// 유저 정보 확인. 세션 만료(에러) 시 로그인 상태 해제
+export const useGetUserStatus = () => {
+  const setIsLogin = useAuthStore((s) => s.setIsLogin);
+  const query = useQuery({ ...userStatusQuery, placeholderData: keepPreviousData });
+
+  useEffect(() => {
+    if (!query.isError) {
+      return;
+    }
+
+    setIsLogin(false);
+  }, [query.isError, setIsLogin]);
+
+  return query;
 };
 
 // 로그아웃
 export const useLogout = () => {
-  const setRedirectUrl = useSetRecoilState(redirectUrl);
+  const setRedirectUrl = useAuthStore((s) => s.setRedirectUrl);
   const navigate = useNavigate();
 
   const queryClient = useQueryClient();
@@ -164,7 +180,7 @@ export const useLogout = () => {
     mutationFn: async () => await $axios.post("/users/logout"),
     onSuccess: () => {
       toast.success(i18n.t("toast.success.logoutComplete"));
-      queryClient.invalidateQueries([...USER_QUERY_KEYS.userStatus()]);
+      queryClient.invalidateQueries({ queryKey: [...USER_QUERY_KEYS.userStatus()] });
       navigate(BASIC_ROUTES_URL.root.path());
       setRedirectUrl("/");
     },
@@ -223,7 +239,7 @@ export const useDeleteUsers = () => {
   return useMutation({
     mutationFn: (userId: number) => deleteUsers(userId),
     onSuccess: () => {
-      queryClient.invalidateQueries(USER_QUERY_KEYS.users());
+      queryClient.invalidateQueries({ queryKey: USER_QUERY_KEYS.users() });
       toast.success(i18n.t("toast.success.blacklistRegistered"));
     },
   });
@@ -242,7 +258,7 @@ export const useDeleteBlackUsers = () => {
   return useMutation({
     mutationFn: (blackUserId: number) => deleteBlackUsers(blackUserId),
     onSuccess: () => {
-      queryClient.invalidateQueries([...USER_QUERY_KEYS.blackUsers()]);
+      queryClient.invalidateQueries({ queryKey: [...USER_QUERY_KEYS.blackUsers()] });
       toast.success(i18n.t("toast.success.withdrawn"));
     },
   });

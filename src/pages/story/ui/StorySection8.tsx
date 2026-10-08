@@ -38,7 +38,7 @@ const StorySection8 = () => {
 };
 
 const CssSectionBg = styled.section`
-  background-image: url("/assets/section8_bg.png");
+  background-image: url("/assets/section8_bg.webp");
   background-repeat: no-repeat;
   background-size: cover;
 `;

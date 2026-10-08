@@ -56,8 +56,8 @@ const UmbrellaModal = ({
 
   // server
   const queryClient = useQueryClient();
-  const { mutate: postMutate, isLoading: isPostMutating } = usePostUmbrellas();
-  const { mutate: patchMutate, isLoading: isPatchMutating } = usePatchUmbrellas();
+  const { mutate: postMutate, isPending: isPostMutating } = usePostUmbrellas();
+  const { mutate: patchMutate, isPending: isPatchMutating } = usePatchUmbrellas();
 
   const storeFilter = storeId === 0 ? undefined : storeId;
 
@@ -106,17 +106,19 @@ const UmbrellaModal = ({
           onSuccess: () => {
             handleClose();
             Promise.all([
-              queryClient.invalidateQueries(
-                UMBRELLAS_QUERY_KEYS.getUmbrellas({
+              queryClient.invalidateQueries({
+                queryKey: UMBRELLAS_QUERY_KEYS.getUmbrellas({
                   page: paginationParams.page,
                   size: paginationParams.size,
                   storeId: 0,
-                })
-              ),
-              queryClient.invalidateQueries(UMBRELLAS_QUERY_KEYS.getUmbrellas(paginationParams)),
-              queryClient.invalidateQueries(
-                UMBRELLAS_QUERY_KEYS.getUmbrellasStatistics(storeFilter)
-              ),
+                }),
+              }),
+              queryClient.invalidateQueries({
+                queryKey: UMBRELLAS_QUERY_KEYS.getUmbrellas(paginationParams),
+              }),
+              queryClient.invalidateQueries({
+                queryKey: UMBRELLAS_QUERY_KEYS.getUmbrellasStatistics(storeFilter),
+              }),
             ]);
           },
         }
@@ -139,15 +141,19 @@ const UmbrellaModal = ({
         onSuccess: () => {
           handleClose();
           Promise.all([
-            queryClient.invalidateQueries(
-              UMBRELLAS_QUERY_KEYS.getUmbrellas({
+            queryClient.invalidateQueries({
+              queryKey: UMBRELLAS_QUERY_KEYS.getUmbrellas({
                 page: paginationParams.page,
                 size: paginationParams.size,
                 storeId: 0,
-              })
-            ),
-            queryClient.invalidateQueries(UMBRELLAS_QUERY_KEYS.getUmbrellas(paginationParams)),
-            queryClient.invalidateQueries(UMBRELLAS_QUERY_KEYS.getUmbrellasStatistics(storeFilter)),
+              }),
+            }),
+            queryClient.invalidateQueries({
+              queryKey: UMBRELLAS_QUERY_KEYS.getUmbrellas(paginationParams),
+            }),
+            queryClient.invalidateQueries({
+              queryKey: UMBRELLAS_QUERY_KEYS.getUmbrellasStatistics(storeFilter),
+            }),
           ]);
         },
       }

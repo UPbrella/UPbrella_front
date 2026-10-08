@@ -28,7 +28,7 @@ export const useNaverMap = (
 
     mapCreated.current = true;
     setMap(mapInstance);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // biome-ignore lint/correctness/useExhaustiveDependencies: ref·naver 준비 시에만 지도를 생성
   }, [ref, naver]);
 
   // 대분류 변경 등으로 center가 바뀌면 지도 중심 이동

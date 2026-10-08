@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 type MypageModalProps = {
   children: JSX.Element;
   width: string;

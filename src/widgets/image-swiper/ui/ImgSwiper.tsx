@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "@/widgets/image-swiper/ui/ImgSwiper/styles.css";
-import DefaultImg from "@/shared/assets/Story/section4-1.jpeg";
+import DefaultImg from "@/shared/assets/Story/section4-1.webp";
 
 type TImgSwiper = {
   images: Array<string>;

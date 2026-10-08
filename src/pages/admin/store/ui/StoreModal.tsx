@@ -26,7 +26,8 @@ type TProps = {
 
 const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TProps) => {
   const { t } = useTranslation();
-  const { kakao } = window;
+  // react-daum-postcode 4가 Window.kakao를 우편번호 전용 타입으로 선언해 지도 SDK(maps) 타입이 없다.
+  const { kakao } = window as unknown as { kakao: any };
 
   // client
   const [isDirty, setIsDirty] = useState(false);
@@ -34,9 +35,9 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
 
   // server
   const queryClient = useQueryClient();
-  const { mutate: createStore } = useMutation(postStores);
-  const { mutate: updateStore } = useMutation(patchStores);
-  const { mutate: removeStore } = useMutation(deleteStores);
+  const { mutate: createStore } = useMutation({ mutationFn: postStores });
+  const { mutate: updateStore } = useMutation({ mutationFn: patchStores });
+  const { mutate: removeStore } = useMutation({ mutationFn: deleteStores });
 
   useEffect(() => {
     if (selectedStore) {
@@ -109,10 +110,10 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
         {
           onSuccess: () => {
             toast.success(t("admin.store.toast.editSuccess"));
-            queryClient.invalidateQueries([...STORE_QUERY_KEYS.stores()]);
-            queryClient.invalidateQueries([
-              ...STORE_QUERY_KEYS.storeBusinessHours(selectedStoreId),
-            ]);
+            queryClient.invalidateQueries({ queryKey: [...STORE_QUERY_KEYS.stores()] });
+            queryClient.invalidateQueries({
+              queryKey: [...STORE_QUERY_KEYS.storeBusinessHours(selectedStoreId)],
+            });
             onCloseModal();
             return;
           },
@@ -128,7 +129,7 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
     createStore(storeData, {
       onSuccess: () => {
         toast.success(t("admin.store.toast.createSuccess"));
-        queryClient.invalidateQueries([...STORE_QUERY_KEYS.stores()]);
+        queryClient.invalidateQueries({ queryKey: [...STORE_QUERY_KEYS.stores()] });
         onCloseModal();
         return;
       },
@@ -146,7 +147,7 @@ const StoreModal = ({ isOpen, onCloseModal, selectedStore, selectedStoreId }: TP
       removeStore(selectedStoreId, {
         onSuccess: () => {
           toast.success(t("admin.store.toast.deleteSuccess"));
-          queryClient.invalidateQueries(["stores"]);
+          queryClient.invalidateQueries({ queryKey: ["stores"] });
           onCloseModal();
           return;
         },

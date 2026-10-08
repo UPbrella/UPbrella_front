@@ -10,6 +10,7 @@ import { useStoreSelection } from "@/pages/rental-location/lib/useStoreSelection
 import ClassificationsButtons from "@/pages/rental-location/ui/ClassificationsButtons";
 import { DEFAULT_COORDINATE } from "@/shared/constants/map";
 import { useUserGeolocation } from "@/shared/hooks/useUserGeolocation";
+import { track } from "@/shared/lib/analytics";
 import BottomSheet from "@/shared/ui/BottomSheet";
 import SeoMetaTag from "@/shared/ui/SeoMetaTag";
 import { useMapMarkers } from "@/widgets/naver-map/lib/useMapMarkers";
@@ -19,7 +20,7 @@ import "@/widgets/naver-map/styles/markerLabel.css";
 import Map from "@/widgets/naver-map/ui/Map";
 import MapBtn from "@/widgets/naver-map/ui/MapBtn";
 import { CircularProgress } from "@mui/material";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 // 대여소 위치 페이지 — 커스텀 훅으로 로직을 분리하여 조합만 담당
@@ -72,9 +73,15 @@ const RentalLocationPage = () => {
     (storeId: number) => {
       setSelectedStoreId(storeId);
       setIsBottomOpen(true);
+      track("view_store_detail", { store_id: storeId });
     },
     [setSelectedStoreId]
   );
+
+  // 페이지 진입 시 지도 조회 이벤트
+  useEffect(() => {
+    track("view_map");
+  }, []);
 
   // 커스텀 훅: 클러스터/마커 생성·제거·이벤트 일괄 관리
   useMapMarkers(map, activeStores, selectedStoreId, handleStoreSelect);

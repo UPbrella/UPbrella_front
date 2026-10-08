@@ -1,10 +1,10 @@
 import LoginTemplate from "@/features/auth/ui/LoginTemplate";
-import { loginState, redirectUrl } from "@/features/auth";
+import { useAuthStore } from "@/features/auth";
 import SeoMetaTag from "@/shared/ui/SeoMetaTag";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
 import { $axios } from "@/shared/api";
+import { track } from "@/shared/lib/analytics";
 import { toast } from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
@@ -16,7 +16,8 @@ interface NavigatorStandalone extends Navigator {
 const LoginPage = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const [isLogin, setIsLogin] = useRecoilState<boolean>(loginState);
+  const isLogin = useAuthStore((s) => s.isLogin);
+  const setIsLogin = useAuthStore((s) => s.setIsLogin);
   const queryClient = useQueryClient();
   const Rest_api_key = import.meta.env.VITE_KAKAO_LOGIN_REST_API_KEY; //REST API KEY
   const redirect_uri = `${window.location.origin}/auth`; //Redirect URI
@@ -26,13 +27,17 @@ const LoginPage = () => {
     import.meta.env.VITE_APPLE_REDIRECT_URI || `${import.meta.env.VITE_API_URL}/auth/apple`; // Apple Redirect URI (백엔드 API)
 
   // TODO - 로그인 리다이렉트
-  const path = useRecoilValue(redirectUrl);
+  const path = useAuthStore((s) => s.redirectUrl);
 
   useEffect(() => {
     if (isLogin) {
       navigate(path);
     }
   }, [path, isLogin, navigate]);
+
+  useEffect(() => {
+    track("view_login");
+  }, []);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -55,6 +60,7 @@ const LoginPage = () => {
         .post("/users/login")
         .then(() => {
           setIsLogin(true);
+          track("complete_login", { method: "apple" });
           queryClient.invalidateQueries();
           toast.success(t("toast.success.appleLogin"));
           navigate(path);

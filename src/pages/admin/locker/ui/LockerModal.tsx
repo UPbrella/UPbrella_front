@@ -35,9 +35,9 @@ const LockerModal = ({ isOpen, handleClose, storesListRes, selectedLocker }: TPr
     value: id,
   }));
 
-  const { mutate: postMutateLocker, isLoading: isPostMutating } = usePostLockers();
-  const { mutate: patchMutateLocker, isLoading: isPatchMutating } = usePatchLockers();
-  const { mutate: deleteMutateLocker, isLoading: isDeleteMutating } = useDeleteLockers();
+  const { mutate: postMutateLocker, isPending: isPostMutating } = usePostLockers();
+  const { mutate: patchMutateLocker, isPending: isPatchMutating } = usePatchLockers();
+  const { mutate: deleteMutateLocker, isPending: isDeleteMutating } = useDeleteLockers();
 
   const onClickCreateBtn = () => {
     if (!storeId || !secretKey) {

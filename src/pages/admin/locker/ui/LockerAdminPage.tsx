@@ -19,12 +19,12 @@ const LockerAdminPage = () => {
   // server
   const {
     data: storesListRes,
-    isLoading: isStoresLoading,
+    isPending: isStoresLoading,
     isError: isStoresError,
   } = useGetStores();
   const {
     data: lockersListRes,
-    isLoading: isLockersLoading,
+    isPending: isLockersLoading,
     isError: isLockersError,
   } = useGetLockers();
 

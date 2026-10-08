@@ -1,3 +1,10 @@
-@tailwind base;
+/* primereact 10 테마는 @layer primereact 안에 있어, layer 밖의 Tailwind preflight가
+   테두리·버튼 배경을 덮어씀 → preflight를 primereact보다 앞선 layer로 넣는다 */
+@layer tailwind-base, primereact;
+
+@layer tailwind-base {
+  @tailwind base;
+}
+
 @tailwind components;
 @tailwind utilities;

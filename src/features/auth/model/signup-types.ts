@@ -26,7 +26,7 @@ export type SignUpNotRequiredFormProps = {
   setIsBottomSheetOpen: (value: boolean) => void;
   setBank: (value: string) => void;
   handleClose: () => void;
-  bankRef: React.RefObject<HTMLInputElement>;
+  bankRef: React.RefObject<HTMLInputElement | null>;
   onAccountNumberChange?: (value: string) => void;
 };
 

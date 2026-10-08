@@ -7,7 +7,7 @@ type SignUpFormInputBankNameProps = {
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onClick: () => void;
-  bankRef: React.RefObject<HTMLInputElement>;
+  bankRef: React.RefObject<HTMLInputElement | null>;
 };
 
 const SignUpFormInputBankName = ({

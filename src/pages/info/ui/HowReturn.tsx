@@ -1,5 +1,5 @@
 import InformTitle from "@/shared/ui/InformTitle";
-import rental_step1 from "@/shared/assets/Rental/rental_step1.png";
+import rental_step1 from "@/shared/assets/Rental/rental_step1.webp";
 import rental_step3 from "@/shared/assets/Rental/rental_step3.png";
 import return_step2 from "@/shared/assets/Return/return_step2.png";
 import return_step3 from "@/shared/assets/Return/return_step3.png";
