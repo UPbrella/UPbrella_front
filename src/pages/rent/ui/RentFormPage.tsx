@@ -17,6 +17,7 @@ import { useAuthStore } from "@/features/auth";
 import { userStatusQuery } from "@/entities/user/api/user.queries";
 import { TCustomError } from "@/shared/model/types";
 import { getErrorMessage } from "@/shared/api/error";
+import { track } from "@/shared/lib/analytics";
 import { formatPhoneNumber, getPhoneNumberError, isValidPhoneNumber } from "@/shared/lib/utils";
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { ChangeEvent, useEffect, useState } from "react";
@@ -126,6 +127,7 @@ const RentPage = () => {
         },
         onSuccess: ({ data }) => {
           setIsOpenDepositModal(false);
+          track("rent_complete", { umbrella_id: umbrellaId });
 
           if (data) {
             setLockNumber(data.password.toString());

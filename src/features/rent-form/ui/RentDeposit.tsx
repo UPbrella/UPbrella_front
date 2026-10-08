@@ -1,12 +1,20 @@
 import { BANK_NAME, ACCOUNT_NUMBER, ACCOUNT_NAME } from "@/shared/constants/account";
+import { track } from "@/shared/lib/analytics";
+import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 
 const RentDeposit = () => {
   const { t } = useTranslation();
 
+  // 보증금 안내 노출 시 결제(보증금) 조회 이벤트
+  useEffect(() => {
+    track("view_payment");
+  }, []);
+
   const copyAccountToClipboard = () => {
     navigator.clipboard.writeText(BANK_NAME + " " + ACCOUNT_NUMBER);
+    track("copy_account");
     toast.success(t("toast.success.accountCopy"));
   };
 
