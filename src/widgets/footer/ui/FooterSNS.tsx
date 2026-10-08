@@ -1,4 +1,4 @@
-import instagram from "@/shared/assets/instagram.png";
+import instagram from "@/shared/assets/instagram.webp";
 import message from "@/shared/assets/message.svg";
 
 const FooterSns = () => {
