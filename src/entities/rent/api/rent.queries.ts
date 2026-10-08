@@ -5,7 +5,7 @@ import {
   patchHistoriesRefund,
 } from "./rent-api";
 import type { TRentHistoriesParams } from "../model/types";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const RENT_QUERY_KEYS = {
   rentHistories: () => ["rent-histories"],
@@ -13,7 +13,7 @@ const RENT_QUERY_KEYS = {
 
 export const useRentHistories = (params: TRentHistoriesParams) => {
   return useQuery({
-    keepPreviousData: true,
+    placeholderData: keepPreviousData,
     queryKey: [...RENT_QUERY_KEYS.rentHistories(), { params }],
     queryFn: () => getRentHistories(params),
     select: (res) => {
@@ -45,7 +45,7 @@ export const usePatchPayment = () => {
   return useMutation({
     mutationFn: (historyId: number) => patchHistoriesPayment(historyId),
     onSuccess: () => {
-      queryClient.invalidateQueries(RENT_QUERY_KEYS.rentHistories());
+      queryClient.invalidateQueries({ queryKey: RENT_QUERY_KEYS.rentHistories() });
     },
   });
 };
@@ -55,7 +55,7 @@ export const usePatchRefund = () => {
   return useMutation({
     mutationFn: (historyId: number) => patchHistoriesRefund(historyId),
     onSuccess: () => {
-      queryClient.invalidateQueries(RENT_QUERY_KEYS.rentHistories());
+      queryClient.invalidateQueries({ queryKey: RENT_QUERY_KEYS.rentHistories() });
     },
   });
 };
@@ -65,7 +65,7 @@ export const useDeleteAccount = () => {
   return useMutation({
     mutationFn: (historyId: number) => deleteHistoriesAccount(historyId),
     onSuccess: () => {
-      queryClient.invalidateQueries(RENT_QUERY_KEYS.rentHistories());
+      queryClient.invalidateQueries({ queryKey: RENT_QUERY_KEYS.rentHistories() });
     },
   });
 };

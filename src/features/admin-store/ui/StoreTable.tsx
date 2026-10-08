@@ -23,8 +23,8 @@ const StoreTable = ({ storesRes, onClickStoreRow }: TProps) => {
   const { isOpen, handleOpen, handleClose } = useModalStatus();
   const [selectedStore, setSelectedStore] = useState<TStoreTableData>();
 
-  const { mutate: mutateStoreActive, isLoading: isMutatingStoreActive } = usePatchStoreActive();
-  const { mutate: mutateStoreInactive, isLoading: isMutatingStoreInactive } =
+  const { mutate: mutateStoreActive, isPending: isMutatingStoreActive } = usePatchStoreActive();
+  const { mutate: mutateStoreInactive, isPending: isMutatingStoreInactive } =
     usePatchStoreInactive();
 
   const filterStoreTableData = storesRes.map((storeRes) => filterStoreTableView(storeRes));

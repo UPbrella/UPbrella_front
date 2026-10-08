@@ -28,7 +28,7 @@ export const usePostLockers = () => {
     },
     onSuccess: () => {
       toast.success(i18n.t("admin.locker.toast.createSuccess"));
-      queryClient.invalidateQueries(LOCKER_QUERY_KEYS.all);
+      queryClient.invalidateQueries({ queryKey: LOCKER_QUERY_KEYS.all });
     },
   });
 };
@@ -44,7 +44,7 @@ export const usePatchLockers = () => {
     },
     onSuccess: () => {
       toast.success(i18n.t("admin.locker.toast.editSuccess"));
-      queryClient.invalidateQueries(LOCKER_QUERY_KEYS.all);
+      queryClient.invalidateQueries({ queryKey: LOCKER_QUERY_KEYS.all });
     },
   });
 };
@@ -60,7 +60,7 @@ export const useDeleteLockers = () => {
     },
     onSuccess: () => {
       toast.success(i18n.t("admin.locker.toast.deleteSuccess"));
-      queryClient.invalidateQueries(LOCKER_QUERY_KEYS.all);
+      queryClient.invalidateQueries({ queryKey: LOCKER_QUERY_KEYS.all });
     },
   });
 };

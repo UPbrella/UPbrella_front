@@ -1,6 +1,6 @@
 import i18n from "@/shared/lib/i18n";
 import toast from "react-hot-toast";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useMutation, useQuery } from "@tanstack/react-query";
 import {
   deleteUmbrellas,
   getUmbrellas,
@@ -25,7 +25,7 @@ export const useGetUmbrellas = (params: TUmbrellasStoreGetParams) => {
   const { page, storeId, size } = params;
 
   return useQuery({
-    keepPreviousData: true,
+    placeholderData: keepPreviousData,
     queryKey: UMBRELLAS_QUERY_KEYS.getUmbrellas(params),
     queryFn: () => {
       // 전체
@@ -43,7 +43,7 @@ export const useGetUmbrellas = (params: TUmbrellasStoreGetParams) => {
 
 export const useGetUmbrellasStatistics = (storeId: number) => {
   return useQuery({
-    keepPreviousData: true,
+    placeholderData: keepPreviousData,
     queryKey: UMBRELLAS_QUERY_KEYS.getUmbrellasStatistics(storeId),
     queryFn: () => {
       // 전체

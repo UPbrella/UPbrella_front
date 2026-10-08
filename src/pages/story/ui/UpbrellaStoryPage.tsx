@@ -46,18 +46,30 @@ const UpbrellaStoryPage = () => {
             <StorySection2 />
 
             {/* section3 */}
-            <div ref={(el) => (scrollRef.current[0] = el)}>
+            <div
+              ref={(el) => {
+                scrollRef.current[0] = el;
+              }}
+            >
               <StorySection3 />
             </div>
           </FixWidthWrapper>
 
           {/* section4 */}
-          <div ref={(el) => (scrollRef.current[1] = el)}>
+          <div
+            ref={(el) => {
+              scrollRef.current[1] = el;
+            }}
+          >
             <StorySection4 />
           </div>
 
           {/* section5 */}
-          <div ref={(el) => (scrollRef.current[2] = el)}>
+          <div
+            ref={(el) => {
+              scrollRef.current[2] = el;
+            }}
+          >
             <StorySection5 />
           </div>
 

@@ -15,10 +15,10 @@ type TProps = {
 
 const MypageLayout = ({ renderChildren }: TProps) => {
   const { t } = useTranslation();
-  const { data, isLoading, isError } = useGetRentHistories();
+  const { data, isPending, isError } = useGetRentHistories();
   const navigate = useNavigate();
 
-  if (isLoading)
+  if (isPending)
     return (
       <div className="m-auto">
         <EmptyArea text={t("mypage.loading")} />

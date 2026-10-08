@@ -102,7 +102,7 @@ export const usePatchStoreActive = () => {
 
   return useMutation({
     mutationFn: patchStoreActive,
-    onSuccess: () => queryClient.invalidateQueries([...STORE_QUERY_KEYS.stores()]),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: [...STORE_QUERY_KEYS.stores()] }),
     onError: () => {
       toast.error(i18n.t("admin.store.toast.imageRequired"));
     },
@@ -114,7 +114,7 @@ export const usePatchStoreInactive = () => {
 
   return useMutation({
     mutationFn: patchStoreInactive,
-    onSuccess: () => queryClient.invalidateQueries([...STORE_QUERY_KEYS.stores()]),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: [...STORE_QUERY_KEYS.stores()] }),
     onError: () => {
       toast.error(i18n.t("toast.error.serverErrorShort"));
     },

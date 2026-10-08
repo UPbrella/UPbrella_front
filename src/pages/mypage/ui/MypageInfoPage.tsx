@@ -4,13 +4,14 @@ import MypageModalTwoBtnChildren from "@/pages/mypage/ui/MypageModalTwoBtnChildr
 import MypageInfoCard from "@/pages/mypage/ui/MypageInfoCard";
 import MypageLayout from "@/pages/mypage/ui/MypageLayout";
 import { $axios } from "@/shared/api";
-import { loginInfo, loginState } from "@/features/auth";
+import { useAuthStore } from "@/features/auth";
+import { userStatusQuery } from "@/entities/user/api/user.queries";
 import { BASIC_ROUTES_URL } from "@/app/router/routes";
 import { TInfos } from "@/entities/user/model/types";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState, useRecoilValueLoadable } from "recoil";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
 const MypageInfoPage = () => {
@@ -22,33 +23,34 @@ const MypageInfoPage = () => {
   });
   const [isDeleted, setIsDeleted] = useState<boolean>(false);
   const [isDeleteAllowed, setIsDeleteAllowed] = useState<boolean>(true);
-  const [, setIsLogin] = useRecoilState<boolean>(loginState);
-  const loginInfoValue = useRecoilValueLoadable(loginInfo);
+  const setIsLogin = useAuthStore((s) => s.setIsLogin);
+  const { data: userStatus, status } = useQuery(userStatusQuery);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     const getInfos = async () => {
-      switch (loginInfoValue.state) {
-        case "hasValue": {
+      switch (status) {
+        case "success": {
+          const userInfo = userStatus.data.data;
           const data = {
-            name: loginInfoValue.contents.name,
-            phoneNumber: loginInfoValue.contents.phoneNumber ?? "",
-            email: loginInfoValue.contents.email,
+            name: userInfo.name,
+            phoneNumber: userInfo.phoneNumber ?? "",
+            email: userInfo.email,
           };
           setInfos({ ...data });
           break;
         }
-        case "loading":
+        case "pending":
           return;
-        case "hasError":
+        case "error":
           toast.error(t("toast.error.sessionExpired"));
           navigate(BASIC_ROUTES_URL.root.path());
           return;
       }
     };
     getInfos();
-  }, [loginInfoValue.contents, loginInfoValue.state, navigate, t]);
+  }, [status, userStatus, navigate, t]);
   const handleDeleteUser = async () => {
     try {
       await $axios.get("/users/loggedIn/umbrella", { withCredentials: true });

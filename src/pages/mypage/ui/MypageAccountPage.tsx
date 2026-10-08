@@ -4,14 +4,14 @@ import MypageModalTwoBtnChildren from "@/pages/mypage/ui/MypageModalTwoBtnChildr
 import MypageAccountCard from "@/pages/mypage/ui/MypageAccountCard";
 import MypageLayout from "@/pages/mypage/ui/MypageLayout";
 import { $axios } from "@/shared/api";
-import { loginInfo } from "@/features/auth";
+import { userStatusQuery } from "@/entities/user/api/user.queries";
 import { BASIC_ROUTES_URL } from "@/app/router/routes";
 import { TAccountPageInputs, TAccountPageStatus } from "@/entities/user/model/types";
 import { validateNumber } from "@/shared/lib/utils";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useRecoilValueLoadable } from "recoil";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
 const MypageAccountPage = () => {
@@ -29,7 +29,7 @@ const MypageAccountPage = () => {
     isRegistered: false,
   });
 
-  const loginInfoValue = useRecoilValueLoadable(loginInfo);
+  const { data: userStatus, status: queryStatus } = useQuery(userStatusQuery);
   const bankInput = useRef<HTMLInputElement>(null);
 
   const navigate = useNavigate();
@@ -38,12 +38,13 @@ const MypageAccountPage = () => {
 
   useEffect(() => {
     const getBankAccountInfo = async () => {
-      switch (loginInfoValue.state) {
-        case "hasValue":
-          if (loginInfoValue.contents.bank) {
+      switch (queryStatus) {
+        case "success": {
+          const userInfo = userStatus.data.data;
+          if (userInfo.bank) {
             const data = {
-              ["bank"]: loginInfoValue.contents.bank,
-              ["accountNumber"]: loginInfoValue.contents.accountNumber ?? "",
+              ["bank"]: userInfo.bank,
+              ["accountNumber"]: userInfo.accountNumber ?? "",
             };
             setInputs({ ...data });
             setHasBankAccountInfo(true);
@@ -51,9 +52,10 @@ const MypageAccountPage = () => {
             setHasBankAccountInfo(false);
           }
           break;
-        case "loading":
+        }
+        case "pending":
           return;
-        case "hasError":
+        case "error":
           toast.error(t("toast.error.sessionExpired"));
           navigate(BASIC_ROUTES_URL.root.path());
           return;
@@ -61,7 +63,7 @@ const MypageAccountPage = () => {
     };
 
     getBankAccountInfo();
-  }, [loginInfoValue.state, loginInfoValue.contents, navigate, t]);
+  }, [queryStatus, userStatus, navigate, t]);
   const handleInputValue = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 

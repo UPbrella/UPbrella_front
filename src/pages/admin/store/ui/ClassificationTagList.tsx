@@ -20,8 +20,8 @@ const ClassificationTagList = () => {
   // server
   const queryClient = useQueryClient();
   const { data: classificationsRes } = useGetClassifications();
-  const { mutate: createMutate } = useMutation(postClassification);
-  const { mutate: deleteMutate } = useMutation(deleteClassification);
+  const { mutate: createMutate } = useMutation({ mutationFn: postClassification });
+  const { mutate: deleteMutate } = useMutation({ mutationFn: deleteClassification });
 
   const onClickSaveBtn = () => {
     if (!tagData.name || !tagData.latitude || !tagData.longitude) {
@@ -36,7 +36,7 @@ const ClassificationTagList = () => {
       },
       onSuccess: () => {
         toast.success(t("admin.store.tag.createSuccess"));
-        queryClient.invalidateQueries(["classifications"]);
+        queryClient.invalidateQueries({ queryKey: ["classifications"] });
         handleClose();
         return;
       },
@@ -52,7 +52,7 @@ const ClassificationTagList = () => {
         },
         onSuccess: () => {
           toast.success(t("admin.store.tag.deleteSuccess"));
-          queryClient.invalidateQueries(["classifications"]);
+          queryClient.invalidateQueries({ queryKey: ["classifications"] });
           return;
         },
       });

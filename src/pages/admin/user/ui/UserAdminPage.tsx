@@ -33,9 +33,9 @@ const UserAdminPage = () => {
     isError: isBlackUsersError,
   } = useGetBlackUsers();
 
-  const { mutate: mutateDeleteUser, isLoading: isDeletingUser } = useDeleteUsers();
-  const { mutate: mutateDeleteBlackUser, isLoading: isDeletingBlackUser } = useDeleteBlackUsers();
-  const { mutate: mutateAdminUser, isLoading: isPatchingAdminUser } = usePatchAdminUsers();
+  const { mutate: mutateDeleteUser, isPending: isDeletingUser } = useDeleteUsers();
+  const { mutate: mutateDeleteBlackUser, isPending: isDeletingBlackUser } = useDeleteBlackUsers();
+  const { mutate: mutateAdminUser, isPending: isPatchingAdminUser } = usePatchAdminUsers();
 
   useEffect(() => {
     if (userRes) {
