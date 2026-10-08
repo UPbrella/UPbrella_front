@@ -18,7 +18,7 @@ const RentModalStorageIssue = ({
 }: RentModalStorageIssueProps) => {
   const { t } = useTranslation();
   const [countInput, setCountInput] = useState("");
-  const { mutate, isLoading } = usePatchRentLockerCount();
+  const { mutate, isPending: isLoading } = usePatchRentLockerCount();
 
   const isNumberValid = () => {
     return countInput.length === 4 && /^\d+$/.test(countInput);

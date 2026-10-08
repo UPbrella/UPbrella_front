@@ -37,7 +37,7 @@ const ContactPage = () => {
 
   const form = useRef<HTMLFormElement>(null);
 
-  const sendEmail = async (e: React.FocusEvent<HTMLFormElement>) => {
+  const sendEmail = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (isActive && form.current) {

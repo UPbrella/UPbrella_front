@@ -10,17 +10,10 @@ import { Suspense } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { Global, css } from "@emotion/react";
-import { RecoilRoot } from "recoil";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastPosition, Toaster } from "react-hot-toast";
 import { HelmetProvider } from "react-helmet-async";
 import { isMobile } from "react-device-detect";
-
-declare global {
-  interface Window {
-    kakao: any;
-  }
-}
 
 const globalStyles = css`
   * {
@@ -98,18 +91,16 @@ const toastProps = {
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <BrowserRouter future={{ v7_startTransition: true }}>
-    <RecoilRoot>
-      <Suspense>
-        <QueryClientProvider client={queryClient}>
-          <ThemeProvider theme={theme}>
-            <HelmetProvider>
-              <Toaster position={toastProps.position} toastOptions={toastProps.options} />
-              <Global styles={globalStyles} />
-              <App />
-            </HelmetProvider>
-          </ThemeProvider>
-        </QueryClientProvider>
-      </Suspense>
-    </RecoilRoot>
+    <Suspense>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider theme={theme}>
+          <HelmetProvider>
+            <Toaster position={toastProps.position} toastOptions={toastProps.options} />
+            <Global styles={globalStyles} />
+            <App />
+          </HelmetProvider>
+        </ThemeProvider>
+      </QueryClientProvider>
+    </Suspense>
   </BrowserRouter>
 );

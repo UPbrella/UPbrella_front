@@ -16,16 +16,16 @@ import {
   useGetReturnFormLockData,
   useGetReturnUmbrella,
 } from "@/features/rent-form/api/form.queries";
-import { loginInfo, redirectUrl } from "@/features/auth";
+import { useAuthStore } from "@/features/auth";
+import { userStatusQuery } from "@/entities/user/api/user.queries";
 import { TCustomError } from "@/shared/model/types";
 import { getErrorMessage } from "@/shared/api/error";
 import { formatPhoneNumber } from "@/shared/lib/utils";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useLocation } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
 import { useTranslation } from "react-i18next";
 
 const ReturnPage = () => {
@@ -45,7 +45,8 @@ const ReturnPage = () => {
   const signatureFromQuery = new URLSearchParams(location.search).get("signature");
   const signature = signatureFromQuery ? signatureFromQuery : "";
 
-  const userInfo = useRecoilValue(loginInfo);
+  const { data: userStatus } = useSuspenseQuery(userStatusQuery);
+  const userInfo = userStatus.data.data;
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -60,7 +61,7 @@ const ReturnPage = () => {
 
   const [subError, setSubError] = useState("");
 
-  const setRedirectUrl = useSetRecoilState(redirectUrl);
+  const setRedirectUrl = useAuthStore((s) => s.setRedirectUrl);
 
   useEffect(() => {
     setRedirectUrl("/");
@@ -90,7 +91,7 @@ const ReturnPage = () => {
     error: getReturnFormErrorMsg,
   } = useGetReturnFormData(returnStoreId);
 
-  const { mutate: updateRent } = useMutation(patchReturn);
+  const { mutate: updateRent } = useMutation({ mutationFn: patchReturn });
 
   useEffect(() => {
     if (formData) {

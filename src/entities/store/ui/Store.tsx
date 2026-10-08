@@ -58,7 +58,9 @@ const Store = ({
       {storeList.map((store, index) => (
         <div key={index}>
           <div
-            ref={(el) => (classificationRefs.current[index] = el)}
+            ref={(el) => {
+              classificationRefs.current[index] = el;
+            }}
             className="mt-8 mb-16 font-bold text-24"
           >
             {classifications

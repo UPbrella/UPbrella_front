@@ -1,4 +1,4 @@
-import react from "@vitejs/plugin-react-swc";
+import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
 
 // index.html의 %VITE_*% 치환은 Vite 기본 기능이라 별도 플러그인이 필요 없다.

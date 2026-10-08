@@ -13,7 +13,7 @@ type SignUpInputAccountBoxProps = {
   accountNumber: string;
   onChangeValue?: (e: ChangeEvent<HTMLInputElement>) => void;
   onClick: () => void;
-  bankRef: React.RefObject<HTMLInputElement>;
+  bankRef: React.RefObject<HTMLInputElement | null>;
 };
 
 const SignUpInputAccountBox = ({

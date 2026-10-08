@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { loginState, redirectUrl } from "@/features/auth";
+import { useAuthStore } from "@/features/auth";
 import { useAppleLogin } from "@/entities/user/api/user.queries";
 import { useTranslation } from "react-i18next";
 
@@ -9,10 +8,10 @@ import { useTranslation } from "react-i18next";
 const AppleLoginRedirect = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const [isLogin] = useRecoilState<boolean>(loginState);
+  const isLogin = useAuthStore((s) => s.isLogin);
 
   const { mutate: appleLogin } = useAppleLogin();
-  const path = useRecoilValue(redirectUrl);
+  const path = useAuthStore((s) => s.redirectUrl);
 
   useEffect(() => {
     appleLogin();

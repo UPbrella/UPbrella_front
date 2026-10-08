@@ -11,7 +11,7 @@ type MypageAccountCardProps = {
   accountNumber: string;
   onChangeValue: (e: ChangeEvent<HTMLInputElement>) => void;
   onClickBankArrow: () => void;
-  bankRef: React.RefObject<HTMLInputElement>;
+  bankRef: React.RefObject<HTMLInputElement | null>;
   isOpenModal: boolean;
   isBottomSheetOpen: boolean;
   setIsBottomSheetOpen: (value: boolean) => void;

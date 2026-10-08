@@ -1,16 +1,15 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { loginState, redirectUrl } from "@/features/auth";
+import { useAuthStore } from "@/features/auth";
 import { useKakaoLogin } from "@/entities/user/api/user.queries";
 
 // kakao login redirect page
 const LoginRedirect = () => {
   const navigate = useNavigate();
-  const [isLogin] = useRecoilState<boolean>(loginState);
+  const isLogin = useAuthStore((s) => s.isLogin);
 
   const { mutate: kakaoLogin } = useKakaoLogin();
-  const path = useRecoilValue(redirectUrl);
+  const path = useAuthStore((s) => s.redirectUrl);
 
   useEffect(() => {
     kakaoLogin();

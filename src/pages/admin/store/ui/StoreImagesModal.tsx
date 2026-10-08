@@ -25,8 +25,12 @@ type TProps = {
 const StoreImagesModal = ({ isOpen, onCloseModal, selectedStore }: TProps) => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
-  const { mutate: saveMutate, isLoading: isSaveLoading } = useMutation(postStoreImage);
-  const { mutate: removeMutate, isLoading: isRemoveLoading } = useMutation(deleteStoreImage);
+  const { mutate: saveMutate, isPending: isSaveLoading } = useMutation({
+    mutationFn: postStoreImage,
+  });
+  const { mutate: removeMutate, isPending: isRemoveLoading } = useMutation({
+    mutationFn: deleteStoreImage,
+  });
   const { data: imagesRes, isLoading, isError } = useGetStoreImages(selectedStore.id);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -49,7 +53,9 @@ const StoreImagesModal = ({ isOpen, onCloseModal, selectedStore }: TProps) => {
       { storeId: selectedStore.id, imageFile: formData },
       {
         onSuccess: () => {
-          queryClient.invalidateQueries([...STORE_QUERY_KEYS.storeImages(selectedStore.id)]);
+          queryClient.invalidateQueries({
+            queryKey: [...STORE_QUERY_KEYS.storeImages(selectedStore.id)],
+          });
           toast.success(t("admin.store.image.uploadSuccess"));
           return;
         },
@@ -65,7 +71,9 @@ const StoreImagesModal = ({ isOpen, onCloseModal, selectedStore }: TProps) => {
     if (window.confirm(t("admin.common.deleteConfirm"))) {
       removeMutate(imageId, {
         onSuccess: () => {
-          queryClient.invalidateQueries([...STORE_QUERY_KEYS.storeImages(selectedStore.id)]);
+          queryClient.invalidateQueries({
+            queryKey: [...STORE_QUERY_KEYS.storeImages(selectedStore.id)],
+          });
           toast.success(t("admin.store.image.deleteSuccess"));
           return;
         },

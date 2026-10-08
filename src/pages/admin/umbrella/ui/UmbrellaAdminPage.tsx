@@ -48,7 +48,7 @@ const UmbrellaAdminPage = () => {
   // server
   const queryClient = useQueryClient();
   const { data: storeRes, isLoading: isStoreLoading } = useGetStores();
-  const { mutate: deleteMutate, isLoading: isDeleteMutating } = useDeleteUmbrellas();
+  const { mutate: deleteMutate, isPending: isDeleteMutating } = useDeleteUmbrellas();
   const { data: umbrellaRes, isFetching: isUmbrellasLoading } = useGetUmbrellas(paginationParams);
   const { data: umbrellaStatistics, isFetching: isStatisticsLoading } = useGetUmbrellasStatistics(
     IsAllStore ? 0 : storeFilter
@@ -74,8 +74,12 @@ const UmbrellaAdminPage = () => {
       deleteMutate(umbrellaId, {
         onSuccess: () => {
           Promise.all([
-            queryClient.invalidateQueries(UMBRELLAS_QUERY_KEYS.getUmbrellas(paginationParams)),
-            queryClient.invalidateQueries(UMBRELLAS_QUERY_KEYS.getUmbrellasStatistics(storeId)),
+            queryClient.invalidateQueries({
+              queryKey: UMBRELLAS_QUERY_KEYS.getUmbrellas(paginationParams),
+            }),
+            queryClient.invalidateQueries({
+              queryKey: UMBRELLAS_QUERY_KEYS.getUmbrellasStatistics(storeId),
+            }),
           ]);
         },
         onError: (err) => {

@@ -21,8 +21,8 @@ const SubClassificationTagList = () => {
   // server
   const queryClient = useQueryClient();
   const { data: subClassificationsRes } = useGetSubClassifications();
-  const { mutate: createMutate } = useMutation(postSubClassification);
-  const { mutate: deleteMutate } = useMutation(deleteSubClassification);
+  const { mutate: createMutate } = useMutation({ mutationFn: postSubClassification });
+  const { mutate: deleteMutate } = useMutation({ mutationFn: deleteSubClassification });
 
   const onClickSaveBtn = () => {
     if (!tagData.name) {
@@ -37,7 +37,7 @@ const SubClassificationTagList = () => {
       },
       onSuccess: () => {
         toast.success(t("admin.store.tag.createSuccess"));
-        queryClient.invalidateQueries(["subClassifications"]);
+        queryClient.invalidateQueries({ queryKey: ["subClassifications"] });
         handleClose();
         return;
       },
@@ -53,7 +53,7 @@ const SubClassificationTagList = () => {
         },
         onSuccess: () => {
           toast.success(t("admin.store.tag.deleteSuccess"));
-          queryClient.invalidateQueries(["subClassifications"]);
+          queryClient.invalidateQueries({ queryKey: ["subClassifications"] });
           return;
         },
       });

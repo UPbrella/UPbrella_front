@@ -13,15 +13,15 @@ import FormLocationMolecules from "@/features/rent-form/ui/FormLocationMolecules
 import FormModal from "@/features/rent-form/ui/FormModal";
 import { HeaderContainer } from "@/widgets/header/ui/HeaderContainer";
 import { useGetRentFormData, useGetReturnUmbrella } from "@/features/rent-form/api/form.queries";
-import { loginInfo, redirectUrl } from "@/features/auth";
+import { useAuthStore } from "@/features/auth";
+import { userStatusQuery } from "@/entities/user/api/user.queries";
 import { TCustomError } from "@/shared/model/types";
 import { getErrorMessage } from "@/shared/api/error";
 import { formatPhoneNumber, getPhoneNumberError, isValidPhoneNumber } from "@/shared/lib/utils";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { ChangeEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
 import { useTranslation } from "react-i18next";
 
 const RentPage = () => {
@@ -31,7 +31,8 @@ const RentPage = () => {
   const { id } = useParams();
   const umbrellaId = id ? parseInt(id, 10) : 0;
 
-  const userInfo = useRecoilValue(loginInfo);
+  const { data: userStatus } = useSuspenseQuery(userStatusQuery);
+  const userInfo = userStatus.data.data;
 
   // 대여폼
   const [name, setName] = useState("");
@@ -54,9 +55,9 @@ const RentPage = () => {
   // hook
   const { data, isError, isLoading: rentFormDataLoading } = useGetRentFormData(umbrellaId);
   const { data: umbrellaData, isLoading: umbrellaDataLoading } = useGetReturnUmbrella();
-  const { mutate: createMutate } = useMutation(postRent);
+  const { mutate: createMutate } = useMutation({ mutationFn: postRent });
 
-  const setRedirectUrl = useSetRecoilState(redirectUrl);
+  const setRedirectUrl = useAuthStore((s) => s.setRedirectUrl);
 
   useEffect(() => {
     setRedirectUrl("/");

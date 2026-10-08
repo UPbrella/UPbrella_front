@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 type FormModalProps = {
   children: JSX.Element;
   height: string; // 모달이 width는 동일한데 height는 달라 prop으로 받았습니다

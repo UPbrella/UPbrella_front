@@ -1,8 +1,7 @@
 import { useGetUserStatus } from "@/entities/user";
-import { redirectUrl } from "@/features/auth";
+import { useAuthStore } from "@/features/auth";
 import React, { useEffect } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
 
 const isMockMode = import.meta.env.VITE_MOCK_MODE === "true";
 
@@ -11,7 +10,7 @@ const PrivateRoutes: React.FC = () => {
   const { isLoading, isError } = useGetUserStatus();
 
   const path = pathname + search;
-  const setRedirectUrl = useSetRecoilState(redirectUrl);
+  const setRedirectUrl = useAuthStore((s) => s.setRedirectUrl);
 
   useEffect(() => {
     if (!isMockMode && isError) {

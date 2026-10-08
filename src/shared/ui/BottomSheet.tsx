@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, type JSX } from "react";
 import Sheet, { SheetRef } from "react-modal-sheet";
 
 type BottomSheetProps = {
@@ -16,7 +16,7 @@ const BottomSheet = ({
   snapPoints,
   _className,
 }: BottomSheetProps) => {
-  const ref = useRef<SheetRef>();
+  const ref = useRef<SheetRef>(undefined);
   const snapTo = (i: number) => ref.current?.snapTo(i);
   const mountKeyRef = useRef(0);
   const prevOpenRef = useRef(false);

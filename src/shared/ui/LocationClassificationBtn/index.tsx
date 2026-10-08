@@ -65,7 +65,9 @@ const LocationClassificationBtn = ({
         currentStoreClassification.map((item, index) => (
           <button
             key={item.id}
-            ref={(el) => (buttonsRef.current[index] = el)}
+            ref={(el) => {
+              buttonsRef.current[index] = el;
+            }}
             className={`${
               activeIndex === index
                 ? "text-primary-500 border-primary-500"
