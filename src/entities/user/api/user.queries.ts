@@ -15,6 +15,7 @@ import type { TUserRes } from "../model/types";
 import type { TApiResponse, TCustomError } from "@/shared/model/types";
 import type { TInputs, TSocialUserSession } from "@/features/auth/model/signup-types";
 import { getErrorMessage } from "@/shared/api/error";
+import { track } from "@/shared/lib/analytics";
 import i18n from "@/shared/lib/i18n";
 import {
   keepPreviousData,
@@ -59,6 +60,7 @@ const useUpbrellaLogin = () => {
           queryClient.invalidateQueries();
           navigate(path);
           setIsLogin(true);
+          track("complete_login", { method: "social" });
           return;
         }
 
@@ -132,6 +134,7 @@ export const useUpbrellaSignUp = () => {
     mutationFn: async (inputs: TInputs) => await $axios.post("/users/join", { ...inputs }),
     onSuccess: () => {
       setIsLogin(true);
+      track("complete_login", { method: "signup" });
       navigate(path);
       toast.success(i18n.t("toast.success.signupComplete"));
       queryClient.invalidateQueries({ queryKey: USER_QUERY_KEYS.userStatus() });

@@ -14,6 +14,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastPosition, Toaster } from "react-hot-toast";
 import { HelmetProvider } from "react-helmet-async";
 import { isMobile } from "react-device-detect";
+import { trackVisitOnce } from "@/shared/lib/analytics";
+import { initSentry, sentryRootOptions } from "@/shared/lib/sentry";
 
 const globalStyles = css`
   * {
@@ -89,7 +91,10 @@ const toastProps = {
   },
 };
 
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+initSentry();
+trackVisitOnce();
+
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement, sentryRootOptions).render(
   <BrowserRouter future={{ v7_startTransition: true }}>
     <Suspense>
       <QueryClientProvider client={queryClient}>

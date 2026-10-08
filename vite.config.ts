@@ -1,8 +1,12 @@
 import react from "@vitejs/plugin-react";
+import { sentryVitePlugin } from "@sentry/vite-plugin";
 import { VitePWA } from "vite-plugin-pwa";
 
 // index.html의 %VITE_*% 치환은 Vite 기본 기능이라 별도 플러그인이 필요 없다.
 export default () => {
+  // CI/Vercel 빌드에서만 소스맵 업로드 (로컬 개발은 토큰 없음 → 플러그인 비활성)
+  const hasSentryAuthToken = Boolean(process.env.SENTRY_AUTH_TOKEN);
+
   return {
     resolve: {
       // tsconfig paths(@/*)를 Vite 8 내장 기능으로 처리 (vite-tsconfig-paths 불필요, TS 7 peer 충돌 회피)
@@ -75,7 +79,22 @@ export default () => {
           enabled: false, // Enable in dev if you want to test SW
         },
       }),
+      ...(hasSentryAuthToken
+        ? [
+            sentryVitePlugin({
+              org: process.env.SENTRY_ORG,
+              project: process.env.SENTRY_PROJECT,
+              authToken: process.env.SENTRY_AUTH_TOKEN,
+              sourcemaps: {
+                filesToDeleteAfterUpload: ["./dist/**/*.map"],
+              },
+            }),
+          ]
+        : []),
     ],
+    build: {
+      sourcemap: hasSentryAuthToken ? "hidden" : undefined,
+    },
     server: {
       port: 3000,
       proxy: {

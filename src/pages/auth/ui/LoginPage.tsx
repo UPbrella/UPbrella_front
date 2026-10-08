@@ -4,6 +4,7 @@ import SeoMetaTag from "@/shared/ui/SeoMetaTag";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { $axios } from "@/shared/api";
+import { track } from "@/shared/lib/analytics";
 import { toast } from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
@@ -35,6 +36,10 @@ const LoginPage = () => {
   }, [path, isLogin, navigate]);
 
   useEffect(() => {
+    track("view_login");
+  }, []);
+
+  useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const appleSuccess = urlParams.get("apple");
     const error = urlParams.get("error");
@@ -55,6 +60,7 @@ const LoginPage = () => {
         .post("/users/login")
         .then(() => {
           setIsLogin(true);
+          track("complete_login", { method: "apple" });
           queryClient.invalidateQueries();
           toast.success(t("toast.success.appleLogin"));
           navigate(path);
