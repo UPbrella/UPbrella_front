@@ -1,34 +1,37 @@
+import { lazy } from "react";
 import type { TRoute } from "@/shared/model/types";
 
-import UmbrellaFeedBackPage from "@/pages/admin/feedback/ui/UmbrellaFeedBackPage";
-import LockerAdminPage from "@/pages/admin/locker/ui/LockerAdminPage";
-import RentHistoryPage from "@/pages/admin/rent/ui/RentHistoryPage";
-import StoreManagePage from "@/pages/admin/store/ui/StoreManagePage";
-import UmbrellaAdminPage from "@/pages/admin/umbrella/ui/UmbrellaAdminPage";
-import UserAdminPage from "@/pages/admin/user/ui/UserAdminPage";
-
-import RentalLocationPage from "@/pages/rental-location/ui/RentalLocationPage";
-import RentalOfficePage from "@/pages/rental-office/ui/RentalOfficePage";
-import OfficeDetailPage from "@/pages/rental-office/ui/OfficeDetailPage";
-import MypageRentPage from "@/pages/mypage/ui/MypageRentPage";
-import MypageAccountPage from "@/pages/mypage/ui/MypageAccountPage";
-import MypageInfoPage from "@/pages/mypage/ui/MypageInfoPage";
-import MypageContactPage from "@/pages/mypage/ui/MypageContactPage";
-import TermsOfService from "@/pages/tos/ui/TermsOfService";
-import PrivacyPolicy from "@/pages/pp/ui/PrivacyPolicy";
-
-import RentPage from "@/pages/rent/ui/RentFormPage";
-import ReturnPage from "@/pages/return/ui/ReturnFormPage";
-
-import LoginPage from "@/pages/auth/ui/LoginPage";
-import LoginRedirect from "@/pages/auth/ui/LoginRedirectPage";
-import AppleLoginRedirect from "@/pages/auth/ui/AppleLoginRedirectPage";
-import SignUpPage from "@/pages/auth/ui/SignUpPage";
-
-import InfoPage from "@/pages/info/ui/InfoPage";
-import ContactPage from "@/pages/contact/ui/ContactPage";
-import ForbiddenPage from "@/pages/forbidden/ui/ForbiddenPage";
+// 랜딩은 첫 화면이라 정적 import, 나머지는 방문 시 로드
 import UpbrellaStoryPage from "@/pages/story/ui/UpbrellaStoryPage";
+
+const UmbrellaFeedBackPage = lazy(() => import("@/pages/admin/feedback/ui/UmbrellaFeedBackPage"));
+const LockerAdminPage = lazy(() => import("@/pages/admin/locker/ui/LockerAdminPage"));
+const RentHistoryPage = lazy(() => import("@/pages/admin/rent/ui/RentHistoryPage"));
+const StoreManagePage = lazy(() => import("@/pages/admin/store/ui/StoreManagePage"));
+const UmbrellaAdminPage = lazy(() => import("@/pages/admin/umbrella/ui/UmbrellaAdminPage"));
+const UserAdminPage = lazy(() => import("@/pages/admin/user/ui/UserAdminPage"));
+
+const RentalLocationPage = lazy(() => import("@/pages/rental-location/ui/RentalLocationPage"));
+const RentalOfficePage = lazy(() => import("@/pages/rental-office/ui/RentalOfficePage"));
+const OfficeDetailPage = lazy(() => import("@/pages/rental-office/ui/OfficeDetailPage"));
+const MypageRentPage = lazy(() => import("@/pages/mypage/ui/MypageRentPage"));
+const MypageAccountPage = lazy(() => import("@/pages/mypage/ui/MypageAccountPage"));
+const MypageInfoPage = lazy(() => import("@/pages/mypage/ui/MypageInfoPage"));
+const MypageContactPage = lazy(() => import("@/pages/mypage/ui/MypageContactPage"));
+const TermsOfService = lazy(() => import("@/pages/tos/ui/TermsOfService"));
+const PrivacyPolicy = lazy(() => import("@/pages/pp/ui/PrivacyPolicy"));
+
+const RentPage = lazy(() => import("@/pages/rent/ui/RentFormPage"));
+const ReturnPage = lazy(() => import("@/pages/return/ui/ReturnFormPage"));
+
+const LoginPage = lazy(() => import("@/pages/auth/ui/LoginPage"));
+const LoginRedirect = lazy(() => import("@/pages/auth/ui/LoginRedirectPage"));
+const AppleLoginRedirect = lazy(() => import("@/pages/auth/ui/AppleLoginRedirectPage"));
+const SignUpPage = lazy(() => import("@/pages/auth/ui/SignUpPage"));
+
+const InfoPage = lazy(() => import("@/pages/info/ui/InfoPage"));
+const ContactPage = lazy(() => import("@/pages/contact/ui/ContactPage"));
+const ForbiddenPage = lazy(() => import("@/pages/forbidden/ui/ForbiddenPage"));
 
 // Admin routes
 export const ADMIN_ROUTES_URL = {

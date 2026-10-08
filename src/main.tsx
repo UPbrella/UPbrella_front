@@ -46,6 +46,25 @@ const theme = createTheme({
   },
 });
 
+// 배포로 이전 청크 해시가 사라지면 lazy import가 실패 → 새로고침으로 최신 index.html 로드
+// 짧은 시간 내 재시도만 막는 루프 가드. 이후 배포가 또 발생해도 탭이 영구히 막히지 않도록
+// "새로고침 여부" 대신 "새로고침 시각"을 저장한다.
+const CHUNK_RELOAD_FLAG = "upbrella-chunk-reload";
+const CHUNK_RELOAD_WINDOW_MS = 10_000;
+
+window.addEventListener("vite:preloadError", (event) => {
+  const lastReloadedAt = Number(sessionStorage.getItem(CHUNK_RELOAD_FLAG));
+  const withinGuardWindow = Date.now() - lastReloadedAt < CHUNK_RELOAD_WINDOW_MS;
+
+  if (withinGuardWindow) {
+    return;
+  }
+
+  sessionStorage.setItem(CHUNK_RELOAD_FLAG, String(Date.now()));
+  event.preventDefault();
+  window.location.reload();
+});
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -79,7 +98,7 @@ const toastProps = {
 };
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <BrowserRouter>
+  <BrowserRouter future={{ v7_startTransition: true }}>
     <RecoilRoot>
       <Suspense>
         <QueryClientProvider client={queryClient}>

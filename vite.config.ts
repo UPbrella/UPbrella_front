@@ -25,7 +25,8 @@ export default ({ mode }) => {
         includeAssets: ["icons/*.png"],
         manifest: false, // Use existing manifest.json
         workbox: {
-          globPatterns: ["**/*.{js,css,html,ico,png,svg,woff,woff2}"],
+          // 이미지는 runtimeCaching(image-cache)이 방문 시 캐시 → precache는 앱 셸만. woff2만으로 충분(지원 브라우저 전체 커버)해 woff는 뺀다
+          globPatterns: ["**/*.{js,css,html,ico,woff2}"],
           maximumFileSizeToCacheInBytes: 3 * 1024 * 1024, // 3MB
           runtimeCaching: [
             {

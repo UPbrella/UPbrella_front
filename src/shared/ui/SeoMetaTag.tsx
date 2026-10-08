@@ -10,7 +10,7 @@ type TProps = {
 };
 
 const STATIC_DEFAULTS = {
-  imgSrc: "https://upbrella.co.kr/assets/section3-af1c1a5c.png",
+  imgSrc: "https://upbrella.co.kr/og-image.png",
   url: "https://upbrella.co.kr/",
 } satisfies Pick<TProps, "imgSrc" | "url">;
 

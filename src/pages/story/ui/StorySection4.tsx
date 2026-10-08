@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
-import sectionImg1 from "@/shared/assets/Story/section4-1.jpeg";
-import sectionImg2 from "@/shared/assets/Story/section4-2.jpeg";
-import sectionImg3 from "@/shared/assets/Story/section4-3.jpeg";
-import sectionImg4 from "@/shared/assets/Story/section4-4.jpeg";
+import sectionImg1 from "@/shared/assets/Story/section4-1.webp";
+import sectionImg2 from "@/shared/assets/Story/section4-2.webp";
+import sectionImg3 from "@/shared/assets/Story/section4-3.webp";
+import sectionImg4 from "@/shared/assets/Story/section4-4.webp";
 import { SectionBullet } from "@/pages/story/ui/SectionBullet";
 import { useTranslation } from "react-i18next";
 

@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
 import { HeaderContainer } from "@/widgets/header";
 
@@ -7,7 +8,9 @@ const MainLayout = () => {
       <HeaderContainer />
 
       <div className="max-w-[1440px] mx-auto px-20 xl:px-40 w-full flex flex-col flex-1">
-        <Outlet />
+        <Suspense fallback={null}>
+          <Outlet />
+        </Suspense>
       </div>
     </div>
   );

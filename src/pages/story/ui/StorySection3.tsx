@@ -1,4 +1,4 @@
-import umbrellaImg from "@/shared/assets/Story/section3.png";
+import umbrellaImg from "@/shared/assets/Story/section3.webp";
 import { SectionBullet } from "@/pages/story/ui/SectionBullet";
 import { useTranslation } from "react-i18next";
 

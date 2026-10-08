@@ -1,7 +1,7 @@
 import { TStoreListAll, TSubClassification } from "@/entities/store/model/types";
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import DefaultImg from "@/shared/assets/Story/section4-1.jpeg";
+import DefaultImg from "@/shared/assets/Story/section4-1.webp";
 import { LAYOUT_ROUTES_URL } from "@/app/router/routes";
 
 type TStoreProps = {
