@@ -7,9 +7,10 @@ export type TFunnelEvent =
   | "view_login"
   | "complete_login"
   | "view_payment"
-  | "copy_account";
+  | "copy_account"
+  | "rent_complete";
 
-const VISIT_TRACKED_KEY = "upbrella-visit-tracked";
+const SESSION_KEY_PREFIX = "upbrella-tracked:";
 
 export const track = (event: TFunnelEvent, params?: Record<string, string | number | boolean>) => {
   if (typeof window.gtag !== "function") {
@@ -21,12 +22,20 @@ export const track = (event: TFunnelEvent, params?: Record<string, string | numb
   window.gtag("event", event, eventParams);
 };
 
-// 세션당 최초 1회만 visit 이벤트 발생
-export const trackVisitOnce = () => {
-  if (sessionStorage.getItem(VISIT_TRACKED_KEY)) {
+// 같은 key는 세션당 1회만 전송 (예: 로그인 후 같은 페이지로 돌아와도 중복 집계 X)
+export const trackOnce = (
+  key: string,
+  event: TFunnelEvent,
+  params?: Record<string, string | number | boolean>
+) => {
+  const storageKey = SESSION_KEY_PREFIX + key;
+
+  if (sessionStorage.getItem(storageKey)) {
     return;
   }
 
-  sessionStorage.setItem(VISIT_TRACKED_KEY, "true");
-  track("visit");
+  sessionStorage.setItem(storageKey, "true");
+  track(event, params);
 };
+
+export const trackVisitOnce = () => trackOnce("visit", "visit");

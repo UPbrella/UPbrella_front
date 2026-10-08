@@ -121,7 +121,7 @@ export const LAYOUT_ROUTES_URL = {
 export const LAYOUT_ROUTES: TRoute[] = Object.values(LAYOUT_ROUTES_URL);
 
 // Not layout routes (no header/footer, behind auth)
-const NOT_LAYOUT_ROUTES_URL = {
+export const NOT_LAYOUT_ROUTES_URL = {
   rent: {
     name: "routes.notLayout.rentForm",
     path: (id = ":id") => `/rent/form/${id}`,

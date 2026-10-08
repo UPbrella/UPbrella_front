@@ -127,6 +127,7 @@ const RentPage = () => {
         },
         onSuccess: ({ data }) => {
           setIsOpenDepositModal(false);
+          track("rent_complete", { umbrella_id: umbrellaId });
 
           if (data) {
             setLockNumber(data.password.toString());
@@ -141,7 +142,6 @@ const RentPage = () => {
   };
 
   const handleOpenDepositModal = () => {
-    track("click_rent", { umbrella_id: umbrellaId });
     setIsOpenDepositModal(true);
   };
 
