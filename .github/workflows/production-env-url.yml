@@ -1,0 +1,21 @@
+name: Production Environment URL
+
+# Vercel이 남기는 Production deployment URL은 배포별 고유 주소(*.vercel.app)
+# → 성공 시 상태를 하나 더 남겨 GitHub Environments 링크를 운영 도메인으로 표시
+on:
+  deployment_status:
+
+jobs:
+  set-url:
+    if: github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'Production'
+    runs-on: ubuntu-latest
+    permissions:
+      deployments: write
+    steps:
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api -X POST "repos/${{ github.repository }}/deployments/${{ github.event.deployment.id }}/statuses" \
+            -f state=success \
+            -f environment_url=https://upbrella.co.kr \
+            -f log_url="${{ github.event.deployment_status.target_url }}"
