@@ -21,10 +21,10 @@
     "noFallthroughCasesInSwitch": true,
 
     /* Path */
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
-    }
+      "@/*": ["./src/*"]
+    },
+    "types": ["node", "navermaps"]
   },
   "include": ["src"],
   "exclude": ["node_modules"],

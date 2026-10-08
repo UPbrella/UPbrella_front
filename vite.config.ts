@@ -1,24 +1,15 @@
-import { loadEnv } from "vite";
 import react from "@vitejs/plugin-react-swc";
-import tsconfigPaths from "vite-tsconfig-paths";
-import { createHtmlPlugin } from "vite-plugin-html";
 import { VitePWA } from "vite-plugin-pwa";
 
-export default ({ mode }) => {
-  const env = loadEnv(mode, process.cwd());
+// index.html의 %VITE_*% 치환은 Vite 기본 기능이라 별도 플러그인이 필요 없다.
+export default () => {
   return {
+    resolve: {
+      // tsconfig paths(@/*)를 Vite 8 내장 기능으로 처리 (vite-tsconfig-paths 불필요, TS 7 peer 충돌 회피)
+      tsconfigPaths: true,
+    },
     plugins: [
       react(),
-      tsconfigPaths(),
-      createHtmlPlugin({
-        minify: true,
-        inject: {
-          data: {
-            kakaoKey: env.VITE_KAKAO_MAP_API_KEY,
-            naverKey: env.VITE_NAVER_MAP_API_KEY,
-          },
-        },
-      }),
       VitePWA({
         registerType: "autoUpdate",
         injectRegister: "auto",
@@ -94,6 +85,11 @@ export default ({ mode }) => {
           rewrite: (path) => path.replace(/^\/api/, ""),
         },
       },
+    },
+    // Vite 8 CJS interop 변경으로 @mui/icons-material 등 CJS default import가
+    // 객체로 들어와 렌더가 깨짐 → 이전 동작 유지
+    legacy: {
+      inconsistentCjsInterop: true,
     },
   };
 };
