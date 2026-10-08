@@ -120,6 +120,6 @@ export const useMapMarkers = (
   // 선택 매장 변경 시 마커 스타일 갱신 (ref로 최신 값 참조)
   useEffect(() => {
     renderMarkers();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // biome-ignore lint/correctness/useExhaustiveDependencies: 선택된 매장 변경 시에만 마커를 다시 그림
   }, [selectedStoreId]);
 };

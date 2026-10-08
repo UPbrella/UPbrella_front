@@ -29,7 +29,7 @@ const NaverDirectionBtn = ({ elon, elat, address }: TNaverDirectionBtn) => {
         } else {
           naverMapURL = `http://map.naver.com/index.nhn?slng=${longitude}&slat=${latitude}&stext=${currentLocationLabel}&elng=${elon}&elat=${elat}&etext=${encodedAddress}&menu=route&pathType=1`;
         }
-      } catch (error) {
+      } catch (_error) {
         if (isMobile) {
           naverMapURL = `nmap://route/walk?dlat=${elat}&dlng=${elon}&dname=${encodedAddress}&appname=com.example.myapp`;
         } else {
