@@ -73,7 +73,8 @@ export default () => {
             },
           ],
           navigateFallback: "/index.html",
-          navigateFallbackDenylist: [/^\/api/],
+          // 확장자 있는 경로(og-image.png, robots.txt 등)는 SPA로 돌리지 않고 실제 파일을 받게 한다
+          navigateFallbackDenylist: [/^\/api/, /\/[^/]+\.[^/]+$/],
         },
         devOptions: {
           enabled: false, // Enable in dev if you want to test SW
