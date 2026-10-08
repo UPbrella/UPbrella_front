@@ -39,7 +39,7 @@ export default () => {
               },
             },
             {
-              urlPattern: /^https:\/\/.*\.map\.naver\.com\/.*/i,
+              urlPattern: /^https:\/\/[^/]+\.map\.naver\.com\/.*/i,
               handler: "CacheFirst",
               options: {
                 cacheName: "naver-map-cache",
