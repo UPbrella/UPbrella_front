@@ -32,6 +32,7 @@ const SignUpPage = lazy(() => import("@/pages/auth/ui/SignUpPage"));
 const InfoPage = lazy(() => import("@/pages/info/ui/InfoPage"));
 const ContactPage = lazy(() => import("@/pages/contact/ui/ContactPage"));
 const ForbiddenPage = lazy(() => import("@/pages/forbidden/ui/ForbiddenPage"));
+const QrScanPage = lazy(() => import("@/pages/qr-scan/ui/QrScanPage"));
 
 // Admin routes
 export const ADMIN_ROUTES_URL = {
@@ -71,6 +72,11 @@ export const ADMIN_ROUTES: TRoute[] = Object.values(ADMIN_ROUTES_URL);
 
 // Layout routes (with header/footer)
 export const LAYOUT_ROUTES_URL = {
+  qrScan: {
+    name: "routes.layout.qrScan",
+    path: () => "/qr-scan",
+    component: QrScanPage,
+  },
   rentalLocation: {
     name: "routes.layout.rentalLocation",
     path: () => "/rentalLocation",

@@ -35,6 +35,7 @@
     "i18next": "^26.4.2",
     "primeicons": "^6.0.1",
     "primereact": "^10.9.9",
+    "qr-scanner": "1.4.2",
     "qrcode.react": "^4.2.0",
     "qs": "^6.16.0",
     "react": "^19.3.0",
