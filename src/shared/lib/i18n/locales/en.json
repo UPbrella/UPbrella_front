@@ -412,5 +412,19 @@
   "story.history.2025.11.0": "Expansion of Off-Campus Partner Locations (Cafe Space)",
   "story.history.2025.11.1": "Participated in 2025-2 Street Booth Event",
   "story.history.2025.12.0": "Official Launch of the UPbrella Application on Google Play Store and App Store",
-  "story.history.2025.12.1": "Distribution of 5th Edition Umbrellas"
+  "story.history.2025.12.1": "Distribution of 5th Edition Umbrellas",
+  "common.mobile.qrScan": "Rent with QR scan",
+  "qrScan.title": "Scan QR",
+  "qrScan.desc": "Align the QR code on the umbrella in the frame.",
+  "qrScan.confirm": "Rent umbrella #{{id}}?",
+  "qrScan.rent": "Rent",
+  "qrScan.rescan": "Scan again",
+  "qrScan.invalid": "This is not an UPbrella umbrella QR code.",
+  "qrScan.error": "Unable to open the camera. Please check camera permission.",
+  "qrScan.retry": "Try again",
+  "routes.layout.qrScan": "QR Scan",
+  "qrScan.guide.iosApp": "Turn on Camera in iPhone Settings > upbrella.",
+  "qrScan.guide.ios": "Tap aA in the address bar > Website Settings > allow Camera.",
+  "qrScan.guide.android": "Allow upbrella.co.kr in Chrome Settings > Site settings > Camera.",
+  "qrScan.guide.desktop": "Allow Camera from the site info (lock) icon in the address bar."
 }
