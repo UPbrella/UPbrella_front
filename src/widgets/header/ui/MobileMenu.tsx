@@ -12,6 +12,13 @@ import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
+// QR 스캔은 휴대폰 전용이라 데스크탑 헤더(headerNavItems)엔 없고, 모바일 메뉴에만 '대여소 위치' 다음에 끼움
+const QR_SCAN_ITEM = {
+  nameKey: "common.mobile.qrScan",
+  path: LAYOUT_ROUTES_URL.qrScan.path(),
+  isAdmin: false,
+} as const;
+
 type TMenu = {
   userRes: TUserRes | null;
   setMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -21,6 +28,11 @@ const MobileMenu: React.FC<TMenu> = ({ userRes, setMenuOpen }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { mutate } = useLogout();
+
+  // HeaderContainer와 순환 import라 모듈 최상단에서 headerNavItems를 읽으면 초기화 전 접근 에러 → 렌더 시점에 계산
+  const mobileNavItems = headerNavItems.flatMap((item) =>
+    item.path === LAYOUT_ROUTES_URL.rentalLocation.path() ? [item, QR_SCAN_ITEM] : [item]
+  );
 
   const onClickLogout = () => {
     mutate();
@@ -87,7 +99,7 @@ const MobileMenu: React.FC<TMenu> = ({ userRes, setMenuOpen }) => {
               </button>
             </div>
           )}
-          {headerNavItems.map(({ nameKey, path, isAdmin }) => {
+          {mobileNavItems.map(({ nameKey, path, isAdmin }) => {
             // admin menu hide
             if (isAdmin) {
               if (!userRes || (userRes && !userRes.adminStatus)) return;
