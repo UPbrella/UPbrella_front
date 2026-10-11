@@ -2,29 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import QrScanner from "qr-scanner";
-import { NOT_LAYOUT_ROUTES_URL } from "@/app/router/routes";
-
-// 우산 QR 예: https://upbrella.co.kr/rent/form/3 → 3
-const RENT_PATH = /^\/rent\/form\/(\d+)$/;
-const QR_HOST = "upbrella.co.kr";
-
-const parseUmbrellaId = (data: string) => {
-  try {
-    const { hostname, pathname } = new URL(data);
-    const isOurHost =
-      hostname === QR_HOST ||
-      hostname.endsWith(`.${QR_HOST}`) ||
-      hostname === window.location.hostname;
-
-    if (!isOurHost) {
-      return null;
-    }
-
-    return pathname.match(RENT_PATH)?.[1] ?? null;
-  } catch {
-    return null;
-  }
-};
+import { parseQr, type TScanned } from "@/pages/qr-scan/model/parseQr";
 
 // 권한 허용 위치가 기기마다 달라 안내 문구를 나눔. iOS 앱 WebView는 UA에 PWAShell이 붙음
 const cameraGuideKey = () => {
@@ -48,12 +26,12 @@ const QrScanPage = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const scannerRef = useRef<QrScanner | null>(null);
 
-  const [umbrellaId, setUmbrellaId] = useState<string | null>(null);
+  const [scanned, setScanned] = useState<TScanned | null>(null);
   const [isInvalid, setIsInvalid] = useState(false);
   const [hasError, setHasError] = useState(false);
 
   const start = useCallback(async () => {
-    setUmbrellaId(null);
+    setScanned(null);
     setIsInvalid(false);
     setHasError(false);
 
@@ -65,7 +43,7 @@ const QrScanPage = () => {
     }
   }, []);
 
-  // 화면 진입 시 바로 카메라 시작. 우산 QR이 아니면 안내만 띄우고 계속 스캔
+  // 화면 진입 시 바로 카메라 시작. 업브렐라 QR이 아니면 안내만 띄우고 계속 스캔
   useEffect(() => {
     if (!videoRef.current) {
       return;
@@ -74,15 +52,15 @@ const QrScanPage = () => {
     scannerRef.current = new QrScanner(
       videoRef.current,
       ({ data }) => {
-        const id = parseUmbrellaId(data);
+        const result = parseQr(data, window.location.hostname);
 
-        if (!id) {
+        if (!result) {
           setIsInvalid(true);
           return;
         }
 
         scannerRef.current?.stop();
-        setUmbrellaId(id);
+        setScanned(result);
       },
       { preferredCamera: "environment", highlightScanRegion: true, returnDetailedScanResult: true }
     );
@@ -121,14 +99,16 @@ const QrScanPage = () => {
         )}
       </div>
 
-      {isInvalid && !umbrellaId && (
+      {isInvalid && !scanned && (
         <p className="text-center text-primary-600 text-14">{t("qrScan.invalid")}</p>
       )}
 
-      {umbrellaId && (
+      {scanned && (
         <div className="flex flex-col gap-[12px] p-20 rounded-20 bg-primary-200">
           <p className="font-semibold text-center text-gray-700 text-16">
-            {t("qrScan.confirm", { id: umbrellaId })}
+            {scanned.kind === "rent"
+              ? t("qrScan.confirm", { id: scanned.umbrellaId })
+              : t("qrScan.returnConfirm")}
           </p>
           <div className="flex gap-[8px]">
             <button
@@ -141,9 +121,9 @@ const QrScanPage = () => {
             <button
               type="button"
               className="flex-1 py-12 font-semibold text-white rounded-8 bg-primary-500 text-15"
-              onClick={() => navigate(NOT_LAYOUT_ROUTES_URL.rent.path(umbrellaId))}
+              onClick={() => navigate(scanned.path)}
             >
-              {t("qrScan.rent")}
+              {scanned.kind === "rent" ? t("qrScan.rent") : t("qrScan.return")}
             </button>
           </div>
         </div>
