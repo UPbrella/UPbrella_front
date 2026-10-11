@@ -20,6 +20,20 @@ const cameraGuideKey = () => {
   return "qrScan.guide.desktop";
 };
 
+// 인식 순간 프레임을 이미지로 남김. stop()이 스트림을 끊으면 video가 검게 변해서 정지 화면으로 대신 보여줌
+const captureFrame = (video: HTMLVideoElement) => {
+  if (!video.videoWidth) {
+    return "";
+  }
+
+  const canvas = document.createElement("canvas");
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  canvas.getContext("2d")?.drawImage(video, 0, 0);
+
+  return canvas.toDataURL("image/jpeg", 0.8);
+};
+
 const QrScanPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -29,9 +43,11 @@ const QrScanPage = () => {
   const [scanned, setScanned] = useState<TScanned | null>(null);
   const [isInvalid, setIsInvalid] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [frozenFrame, setFrozenFrame] = useState("");
 
   const start = useCallback(async () => {
     setScanned(null);
+    setFrozenFrame("");
     setIsInvalid(false);
     setHasError(false);
 
@@ -59,6 +75,9 @@ const QrScanPage = () => {
           return;
         }
 
+        if (videoRef.current) {
+          setFrozenFrame(captureFrame(videoRef.current));
+        }
         scannerRef.current?.stop();
         setScanned(result);
       },
@@ -82,6 +101,10 @@ const QrScanPage = () => {
 
       <div className="overflow-hidden relative bg-black rounded-20 aspect-square">
         <video ref={videoRef} className="object-cover w-full h-full" muted playsInline />
+
+        {frozenFrame && (
+          <img src={frozenFrame} alt="" className="object-cover absolute inset-0 w-full h-full" />
+        )}
 
         {hasError && (
           <div className="flex absolute inset-0 flex-col gap-[12px] justify-center items-center p-24 text-center text-white bg-black">
