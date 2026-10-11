@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import { detectPlatform } from "./platform.ts";
+import { detectPlatform, getPlatform } from "./platform.ts";
 
 const IOS_APP_UA =
   "Mozilla/5.0 (iPhone; CPU iPhone OS 26_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5 Mobile/15E148 Safari/604.1 PWAShell";
@@ -26,4 +26,20 @@ test("TWA referrer는 첫 진입에만 있어서 저장값으로 유지", () => 
 test("그 외 브라우저는 web", () => {
   assert.equal(detectPlatform(IOS_SAFARI_UA, "", null), "web");
   assert.equal(detectPlatform(ANDROID_CHROME_UA, "https://www.google.com/", null), "web");
+});
+
+test("저장소 접근이 막힌 환경(비공개 모드 등)에서도 예외 없이 판별", () => {
+  const throwing = () => {
+    throw new Error("SecurityError");
+  };
+  Object.assign(globalThis, {
+    document: { referrer: "" },
+    sessionStorage: { getItem: throwing, setItem: throwing },
+  });
+  Object.defineProperty(globalThis, "navigator", {
+    value: { userAgent: IOS_APP_UA },
+    configurable: true,
+  });
+
+  assert.equal(getPlatform(), "ios_app");
 });

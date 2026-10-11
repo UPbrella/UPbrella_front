@@ -117,14 +117,18 @@ const QrScanPage = () => {
       { preferredCamera: "environment", highlightScanRegion: true, returnDetailedScanResult: true }
     );
 
+    // 카메라가 켜지기 전에 떠나면 qr-scanner가 start()를 성공으로 끝내서, 화면을 떠난 뒤엔 집계하지 않음
+    let isMounted = true;
+
     track("view_qr_scan");
     start().then((isReady) => {
-      if (isReady) {
+      if (isMounted && isReady) {
         track("qr_camera_ready");
       }
     });
 
     return () => {
+      isMounted = false;
       scannerRef.current?.destroy();
       scannerRef.current = null;
     };
