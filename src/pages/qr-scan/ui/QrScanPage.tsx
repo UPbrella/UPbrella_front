@@ -3,12 +3,15 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import QrScanner from "qr-scanner";
 import { parseQr, type TScanned } from "@/pages/qr-scan/model/parseQr";
+import { track, trackOnce } from "@/shared/lib/analytics";
+import { getPlatform } from "@/shared/lib/platform";
+import { reportError } from "@/shared/lib/sentry";
 
-// 권한 허용 위치가 기기마다 달라 안내 문구를 나눔. iOS 앱 WebView는 UA에 PWAShell이 붙음
+// 권한 허용 위치가 기기마다 달라 안내 문구를 나눔
 const cameraGuideKey = () => {
   const ua = navigator.userAgent;
 
-  if (ua.includes("PWAShell")) {
+  if (getPlatform() === "ios_app") {
     return "qrScan.guide.iosApp";
   }
   if (/iPhone|iPad|iPod/.test(ua)) {
@@ -34,6 +37,17 @@ const captureFrame = (video: HTMLVideoElement) => {
   return canvas.toDataURL("image/jpeg", 0.8);
 };
 
+// qr-scanner가 원인 없이 "Camera not found."만 던져서, 권한 상태로 거부/카메라 없음을 추정
+// 예: denied → 권한 거부, granted → 카메라 없음·사용 중, unsupported → Permissions API 미지원
+const cameraPermission = async () => {
+  try {
+    const { state } = await navigator.permissions.query({ name: "camera" as PermissionName });
+    return state;
+  } catch {
+    return "unsupported";
+  }
+};
+
 const QrScanPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -54,8 +68,21 @@ const QrScanPage = () => {
     // qr-scanner는 권한 거부·카메라 없음을 구분하지 않고 "Camera not found."만 던짐 → 원인 대신 허용 방법 안내
     try {
       await scannerRef.current?.start();
-    } catch {
+      return true;
+    } catch (error) {
       setHasError(true);
+
+      const permission = await cameraPermission();
+      track("qr_camera_error", { permission });
+      reportError(
+        new Error(`QR camera: ${error instanceof Error ? error.message : String(error)}`),
+        {
+          feature: "qr_scan",
+          camera_permission: permission,
+          secure_context: String(window.isSecureContext),
+        }
+      );
+      return false;
     }
   }, []);
 
@@ -72,8 +99,14 @@ const QrScanPage = () => {
 
         if (!result) {
           setIsInvalid(true);
+          trackOnce("qr_scan_invalid", "qr_scan_invalid");
           return;
         }
+
+        track("qr_scan_success", {
+          kind: result.kind,
+          ...(result.kind === "rent" ? { umbrella_id: Number(result.umbrellaId) } : {}),
+        });
 
         if (videoRef.current) {
           setFrozenFrame(captureFrame(videoRef.current));
@@ -84,7 +117,12 @@ const QrScanPage = () => {
       { preferredCamera: "environment", highlightScanRegion: true, returnDetailedScanResult: true }
     );
 
-    start();
+    track("view_qr_scan");
+    start().then((isReady) => {
+      if (isReady) {
+        track("qr_camera_ready");
+      }
+    });
 
     return () => {
       scannerRef.current?.destroy();
@@ -144,7 +182,10 @@ const QrScanPage = () => {
             <button
               type="button"
               className="flex-1 py-12 font-semibold text-white rounded-8 bg-primary-500 text-15"
-              onClick={() => navigate(scanned.path)}
+              onClick={() => {
+                track("qr_confirm", { kind: scanned.kind });
+                navigate(scanned.path);
+              }}
             >
               {scanned.kind === "rent" ? t("qrScan.rent") : t("qrScan.return")}
             </button>
