@@ -428,5 +428,9 @@
   "qrScan.guide.android": "Allow upbrella.co.kr in Chrome Settings > Site settings > Camera.",
   "qrScan.guide.desktop": "Allow Camera from the site info (lock) icon in the address bar.",
   "qrScan.returnConfirm": "Return your umbrella?",
-  "qrScan.return": "Return"
+  "qrScan.return": "Return",
+  "common.nav.scan": "Scan QR",
+  "common.nav.stamp": "Stamp Tour",
+  "admin.menu.banners": "Banners",
+  "admin.menu.campaign": "Stamp Tour"
 }

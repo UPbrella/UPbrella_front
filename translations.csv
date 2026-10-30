@@ -647,3 +647,7 @@ qrScan.guide.android,Chrome 설정 > 사이트 설정 > 카메라에서 upbrella
 qrScan.guide.desktop,주소창의 사이트 정보(자물쇠) 아이콘에서 카메라를 허용해 주세요.,Allow Camera from the site info (lock) icon in the address bar.,,
 qrScan.returnConfirm,우산을 반납할까요?,Return your umbrella?,,
 qrScan.return,반납하기,Return,,
+common.nav.scan,QR 스캔,Scan QR,,
+common.nav.stamp,스탬프 투어,Stamp Tour,,
+admin.menu.banners,배너 관리,Banners,,
+admin.menu.campaign,스탬프 투어,Stamp Tour,,

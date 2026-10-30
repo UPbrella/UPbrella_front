@@ -34,8 +34,18 @@ const ContactPage = lazy(() => import("@/pages/contact/ui/ContactPage"));
 const ForbiddenPage = lazy(() => import("@/pages/forbidden/ui/ForbiddenPage"));
 const QrScanPage = lazy(() => import("@/pages/qr-scan/ui/QrScanPage"));
 
+const CampaignPage = lazy(() => import("@/pages/campaign/CampaignPage"));
+const AdminBannerPage = lazy(() => import("@/pages/campaign/AdminBannerPage"));
+const AdminCampaignPage = lazy(() => import("@/pages/campaign/AdminCampaignPage"));
+
 // Admin routes
 export const ADMIN_ROUTES_URL = {
+  banners: { name: "admin.menu.banners", path: () => "/admin/banners", component: AdminBannerPage },
+  campaign: {
+    name: "admin.menu.campaign",
+    path: () => "/admin/campaign",
+    component: AdminCampaignPage,
+  },
   rent: {
     name: "admin.menu.rent",
     path: () => "/admin/rent-history",
@@ -128,6 +138,7 @@ export const LAYOUT_ROUTES: TRoute[] = Object.values(LAYOUT_ROUTES_URL);
 
 // Not layout routes (no header/footer, behind auth)
 export const NOT_LAYOUT_ROUTES_URL = {
+  stamp: { name: "common.nav.stamp", path: () => "/stamp", component: CampaignPage },
   rent: {
     name: "routes.notLayout.rentForm",
     path: (id = ":id") => `/rent/form/${id}`,
