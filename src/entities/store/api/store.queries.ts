@@ -28,6 +28,7 @@ export const useGetStores = () => {
     queryKey: [...STORE_QUERY_KEYS.stores()],
     queryFn: () => getStores(),
     select: (res) => res.data.stores,
+    refetchInterval: 30000,
   });
 };
 
@@ -54,6 +55,7 @@ export const useGetClassificationsStore = (classificationId: number) => {
     queryFn: () => getClassificationsStore(classificationId),
     select: (res) => res.data.stores,
     enabled: !!classificationId,
+    refetchInterval: 30000,
   });
 };
 
@@ -64,6 +66,7 @@ export const useGetStoreDetail = (storeId: number) => {
     queryFn: () => getStoreDetail(storeId),
     enabled: !!storeId, // storeId가 null이면 쿼리 비활성화
     select: (res) => res.data,
+    refetchInterval: 30000,
   });
 };
 
@@ -73,6 +76,7 @@ export const useGetStoreList = () => {
     queryKey: [...STORE_QUERY_KEYS.storeList()],
     queryFn: () => getStoreList(),
     select: (res) => res.data.storesByClassification,
+    refetchInterval: 30000,
   });
 };
 

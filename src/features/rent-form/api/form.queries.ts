@@ -12,7 +12,7 @@ import toast from "react-hot-toast";
 
 export const useGetRentFormData = (umbrellaId: number) => {
   return useQuery({
-    queryKey: ["rentFormData"],
+    queryKey: ["rentFormData", umbrellaId],
     queryFn: () => getRentFormData(umbrellaId),
     select: (res) => res.data,
     retry: 0,
@@ -21,7 +21,7 @@ export const useGetRentFormData = (umbrellaId: number) => {
 
 export const useGetReturnFormData = (storeId: number) => {
   return useQuery({
-    queryKey: ["returnFormData"],
+    queryKey: ["returnFormData", storeId],
     queryFn: () => getReturnFormData(storeId),
     select: (res) => res.data,
     retry: 0,
@@ -30,7 +30,7 @@ export const useGetReturnFormData = (storeId: number) => {
 
 export const useGetReturnFormLockData = (storeId: number, salt: string, signature: string) => {
   return useQuery({
-    queryKey: ["returnFormLockData"],
+    queryKey: ["returnFormLockData", storeId, salt, signature],
     queryFn: () => getReturnFormLockData(storeId, salt, signature),
     select: (res) => res.data,
     retry: 0,

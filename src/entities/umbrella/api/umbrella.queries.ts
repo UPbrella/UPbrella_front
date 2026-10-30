@@ -38,6 +38,7 @@ export const useGetUmbrellas = (params: TUmbrellasStoreGetParams) => {
     },
     select: (res) => res.data.umbrellaResponsePage,
     enabled: !!size,
+    refetchInterval: 30000,
   });
 };
 
@@ -59,6 +60,7 @@ export const useGetUmbrellasStatistics = (storeId: number) => {
       missingRate: (Math.ceil(res.data.missingRate * 100) / 100).toFixed(2),
     }),
     retry: 0,
+    refetchInterval: 30000,
   });
 };
 

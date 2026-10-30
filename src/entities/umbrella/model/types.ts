@@ -1,3 +1,5 @@
+export type TUmbrellaStatus = "AVAILABLE" | "RENTED" | "UNLOCATED" | "LOST";
+
 // get
 export type TUmbrellaRes = {
   id: number;
@@ -6,6 +8,7 @@ export type TUmbrellaRes = {
   uuid: number;
   rentable: boolean;
   etc: string | null;
+  status?: TUmbrellaStatus;
 };
 
 export type TUmbrellaStatisticsRes = {
@@ -14,6 +17,8 @@ export type TUmbrellaStatisticsRes = {
   rentableUmbrellaCount: number; // 대여 가능 우산
   rentedUmbrellaCount: number; // 대여 중인 우산
   missingUmbrellaCount: number; // 분실 우산
+  unlocatedUmbrellaCount: number;
+  lostUmbrellaCount: number;
   missingRate: number; //  분실률
 };
 
@@ -30,7 +35,7 @@ export type TUmbrellasStoreGetParams = {
 export type TUmbrellasPostReq = Omit<TUmbrellaRes, "id" | "historyId">;
 
 // patch
-export type TUmbrellaPatchReq = TUmbrellasPostReq & { missed: boolean };
+export type TUmbrellaPatchReq = TUmbrellasPostReq;
 
 export type TUmbrellasPatchParams = {
   umbrellaId: number;

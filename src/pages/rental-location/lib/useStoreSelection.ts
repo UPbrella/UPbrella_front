@@ -1,5 +1,5 @@
 import { getDistanceFromLatLonInKm } from "@/entities/store/lib/location-utils";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type SelectableStore = {
   id: number;
@@ -29,23 +29,27 @@ const pickRandomStoreId = (stores: SelectableStore[]): number => {
  * 매장 선택 로직 훅
  * - 유저 위치가 있으면 가장 가까운 매장 자동 선택
  * - 없으면 랜덤 매장 선택
- * - stores나 userPosition이 바뀔 때마다 재계산
+ * - 목록 갱신 시 현재 선택을 유지하고, 지역이나 유저 위치가 바뀌면 재계산
  */
 export const useStoreSelection = (
   stores: SelectableStore[],
   userPosition: { lat: number; lng: number } | null
 ) => {
   const [selectedStoreId, setSelectedStoreId] = useState<number>();
+  const previousPosition = useRef(userPosition);
 
-  // stores 또는 유저 위치 변경 시 최적 매장 자동 선택
+  // 재고 갱신으로 목록이 바뀌어도 보고 있던 매장을 유지한다.
   useEffect(() => {
     if (stores.length === 0) return;
 
-    const storeId = userPosition
-      ? findNearestStoreId(stores, userPosition)
-      : pickRandomStoreId(stores);
-
-    setSelectedStoreId(storeId);
+    const positionChanged =
+      previousPosition.current?.lat !== userPosition?.lat ||
+      previousPosition.current?.lng !== userPosition?.lng;
+    previousPosition.current = userPosition;
+    setSelectedStoreId((current) => {
+      if (!positionChanged && stores.some((store) => store.id === current)) return current;
+      return userPosition ? findNearestStoreId(stores, userPosition) : pickRandomStoreId(stores);
+    });
   }, [stores, userPosition]);
 
   return { selectedStoreId, setSelectedStoreId };
