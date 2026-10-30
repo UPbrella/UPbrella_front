@@ -570,6 +570,10 @@
   "admin.rent.excelFileName": "대여_반납_조회_",
   "admin.umbrella.excelFileName": "{{storeName}}_우산_조회",
   "admin.umbrella.form.etcPlaceholder": "기타 사항을 작성해주세요.",
+  "admin.umbrella.col.unknownCount": "위치 미확인",
+  "admin.umbrella.col.lostCount": "분실",
+  "admin.umbrella.col.status": "재고 상태",
+  "admin.umbrella.unavailableStore": "지점 정보 없음",
   "rent.modal.afterQuotedStore": "에서",
   "rent.modal.afterQuotedUmbrellaRent": "번 우산을 빌릴까요?",
   "return.modal.afterQuotedStore": "에서",
@@ -646,9 +650,5 @@
   "qrScan.guide.android": "Chrome 설정 > 사이트 설정 > 카메라에서 upbrella.co.kr을 허용해 주세요.",
   "qrScan.guide.desktop": "주소창의 사이트 정보(자물쇠) 아이콘에서 카메라를 허용해 주세요.",
   "qrScan.returnConfirm": "우산을 반납할까요?",
-  "qrScan.return": "반납하기",
-  "admin.umbrella.col.unknownCount": "위치 미확인",
-  "admin.umbrella.col.lostCount": "분실",
-  "admin.umbrella.col.status": "재고 상태",
-  "admin.umbrella.unavailableStore": "지점 정보 없음"
+  "qrScan.return": "반납하기"
 }
