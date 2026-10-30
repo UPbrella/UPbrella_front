@@ -1,3 +1,4 @@
+import DevelopmentLogin from "@/pages/campaign/DevelopmentLogin";
 import LoginTemplate from "@/features/auth/ui/LoginTemplate";
 import { useAuthStore } from "@/features/auth";
 import SeoMetaTag from "@/shared/ui/SeoMetaTag";
@@ -103,6 +104,8 @@ const LoginPage = () => {
       window.location.href = appleURL;
     }
   };
+
+  if (import.meta.env.VITE_DEV_LOGIN === "true") return <DevelopmentLogin />;
 
   return (
     <>
