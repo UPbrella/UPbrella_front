@@ -1,4 +1,4 @@
-import { loadEnv } from "vite";
+import { loadEnv, type HtmlTagDescriptor } from "vite";
 import react from "@vitejs/plugin-react";
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 import { VitePWA } from "vite-plugin-pwa";
@@ -21,27 +21,45 @@ export default ({ mode }: { mode: string }) => {
         name: "upbrella-optional-integrations",
         transformIndexHtml: {
           order: "pre" as const,
-          handler(html: string) {
+          handler() {
+            const tags: HtmlTagDescriptor[] = [];
             const measurementId = env.VITE_GA_MEASUREMENT_ID ?? "G-EERPMHC989";
-            const ga = /^G-[A-Z0-9]+$/.test(measurementId)
-              ? `<script async src="https://www.googletagmanager.com/gtag/js?id=${measurementId}"></script>
-                 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","${measurementId}");</script>`
-              : "";
-            let result = html.replace(
-              /<!-- Google tag[\s\S]*?<\/script>\s*<script>[\s\S]*?<\/script>/,
-              ga
-            );
-            if (!env.VITE_NAVER_MAP_API_KEY)
-              result = result.replace(
-                /<script\b[^>]*src="[^"]*oapi\.map\.naver\.com[^"]*"[^>]*>\s*<\/script>/g,
-                ""
+            if (/^G-[A-Z0-9]+$/.test(measurementId)) {
+              tags.push(
+                {
+                  tag: "script",
+                  injectTo: "head",
+                  children: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config",${JSON.stringify(measurementId)});`,
+                },
+                {
+                  tag: "script",
+                  injectTo: "head",
+                  attrs: {
+                    async: true,
+                    src: `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`,
+                  },
+                }
               );
-            if (!env.VITE_KAKAO_MAP_API_KEY)
-              result = result.replace(
-                /<script\b[^>]*src="[^"]*dapi\.kakao\.com[^"]*"[^>]*>\s*<\/script>/g,
-                ""
-              );
-            return result;
+            }
+            if (env.VITE_NAVER_MAP_API_KEY)
+              tags.push({
+                tag: "script",
+                injectTo: "head",
+                attrs: {
+                  type: "text/javascript",
+                  src: `https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${encodeURIComponent(env.VITE_NAVER_MAP_API_KEY)}`,
+                },
+              });
+            if (env.VITE_KAKAO_MAP_API_KEY)
+              tags.push({
+                tag: "script",
+                injectTo: "head",
+                attrs: {
+                  type: "text/javascript",
+                  src: `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${encodeURIComponent(env.VITE_KAKAO_MAP_API_KEY)}&libraries=services`,
+                },
+              });
+            return tags;
           },
         },
       },
