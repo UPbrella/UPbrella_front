@@ -37,7 +37,7 @@
     "primereact": "^10.9.9",
     "qr-scanner": "1.4.2",
     "qrcode.react": "^4.2.0",
-    "qs": "^6.16.0",
+    "qs": "^6.16.1",
     "react": "^19.3.0",
     "react-daum-postcode": "^4.0.0",
     "react-device-detect": "^2.2.3",
