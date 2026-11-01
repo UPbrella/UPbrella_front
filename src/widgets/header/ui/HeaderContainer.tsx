@@ -25,6 +25,8 @@ type THeaderProps = {
 };
 
 export const headerNavItems = [
+  { nameKey: "common.nav.scan", path: "/qr-scan", isAdmin: false },
+  { nameKey: "common.nav.stamp", path: "/stamp", isAdmin: false },
   {
     nameKey: "common.nav.story",
     path: BASIC_ROUTES_URL.story.path(),
