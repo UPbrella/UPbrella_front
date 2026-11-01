@@ -29,11 +29,14 @@ const RentalOfficePage = () => {
 
   // default card 스토어
   useEffect(() => {
-    if (storeListRes && storeListRes.length > 0) {
-      const randomIndex = Math.floor(Math.random() * storeListRes.length);
-      const randomStore = storeListRes[randomIndex].stores;
-      setSelectedStoreId(randomStore[0].id);
-    }
+    const availableGroups = storeListRes?.filter((group) => group.stores.length > 0);
+    if (!availableGroups?.length) return;
+    setSelectedStoreId((current) => {
+      if (availableGroups.some((group) => group.stores.some((store) => store.id === current)))
+        return current;
+      const randomIndex = Math.floor(Math.random() * availableGroups.length);
+      return availableGroups[randomIndex].stores[0].id;
+    });
   }, [storeListRes]);
 
   return (

@@ -1,3 +1,4 @@
+import InventoryReconcile from "./InventoryReconcile";
 import SelectBox from "@/shared/ui/SelectBox";
 import { CssDataTable } from "@/shared/ui/DataTable";
 import UmbrellaModal from "@/pages/admin/umbrella/ui/UmbrellaModal";
@@ -33,6 +34,7 @@ const UmbrellaAdminPage = () => {
   const [storeFilter, setStoreFilter] = useState<"all" | number>("all");
   const {
     onPageChange,
+    resetPage,
     pageState: { first, page, rows: size },
   } = usePaginator({
     rows: 10,
@@ -92,6 +94,7 @@ const UmbrellaAdminPage = () => {
 
   return (
     <div className="flex flex-col gap-8 mb-24">
+      <InventoryReconcile />
       <div className="flex items-center gap-16 w-500 md:w-auto md:gap-4 md:flex-col md:items-start">
         {/* filter */}
         <div>
@@ -111,6 +114,7 @@ const UmbrellaAdminPage = () => {
             onChange={(_, value) => {
               const _value = value as "all" | number;
               setStoreFilter(_value);
+              resetPage();
             }}
           />
         </div>
@@ -177,7 +181,7 @@ const UmbrellaAdminPage = () => {
               }}
             >
               {Object.keys(UMBRELLA_TABLE).map((key) => {
-                const field = key as keyof TUmbrellaRes;
+                const field = key as keyof typeof UMBRELLA_TABLE;
                 return (
                   <Column
                     key={field}
@@ -185,10 +189,20 @@ const UmbrellaAdminPage = () => {
                     field={field}
                     style={{ minWidth: "150px" }}
                     body={(data: TUmbrellaRes) => {
+                      if (field === "status")
+                        return (
+                          {
+                            AVAILABLE: "대여 가능",
+                            RENTED: "대여 중",
+                            UNLOCATED: "위치 미확인",
+                            LOST: "분실",
+                          } as Record<string, string>
+                        )[data.status || (data.rentable ? "AVAILABLE" : "RENTED")];
                       if (field === "storeMetaId") {
-                        return `${storeRes.find((e) => e.id === data[field])?.name} (${
-                          data[field]
-                        })`;
+                        const storeName =
+                          storeRes.find((e) => e.id === data[field])?.name ??
+                          t("admin.umbrella.unavailableStore");
+                        return `${storeName} (${data[field]})`;
                       }
 
                       if (field === "historyId" || field === "etc") {

@@ -64,6 +64,7 @@ const RentHistoryPage = () => {
   const { t } = useTranslation();
   const {
     onPageChange,
+    resetPage,
     pageState: { first, page, rows },
   } = usePaginator({
     rows: 10,
@@ -72,9 +73,11 @@ const RentHistoryPage = () => {
   // client
   const [filterRefunded, setFilterRefunded] = useState<TRefundedStatus>("all");
 
+  const [overdue, setOverdue] = useState(false);
   // server
   const { data: rentHistoriesRes, isLoading: isLoadingHistories } = useRentHistories({
     refunded: filterRefunded,
+    overdue,
     page,
     size: rows,
   });
@@ -131,13 +134,29 @@ const RentHistoryPage = () => {
             onChange={(_, value) => {
               const _value = value as TRefundedStatus;
               setFilterRefunded(_value);
+              resetPage();
             }}
           />
         </div>
 
+        <label>
+          <input
+            type="checkbox"
+            checked={overdue}
+            onChange={(e) => {
+              setOverdue(e.target.checked);
+              resetPage();
+            }}
+          />{" "}
+          14일 이상 미반납
+        </label>
         <div>
           {rentHistoriesRes && (
-            <RentHistoryExcelButton historiesCount={rentHistoriesRes.countOfAllHistories} />
+            <RentHistoryExcelButton
+              historiesCount={rentHistoriesRes.countOfAllHistories}
+              refunded={filterRefunded}
+              overdue={overdue}
+            />
           )}
         </div>
       </div>
@@ -234,11 +253,20 @@ const RentHistoryPage = () => {
 
 export default RentHistoryPage;
 
-const RentHistoryExcelButton = ({ historiesCount }: { historiesCount: number }) => {
+const RentHistoryExcelButton = ({
+  historiesCount,
+  refunded,
+  overdue,
+}: {
+  historiesCount: number;
+  refunded: TRefundedStatus;
+  overdue: boolean;
+}) => {
   const { t } = useTranslation();
   const { data: rentHistoriesRes, isLoading } = useRentHistories({
-    refunded: "all",
-    size: historiesCount,
+    refunded,
+    overdue,
+    size: Math.max(1, historiesCount),
   });
 
   const onClickExcelBtn = () => {

@@ -12,14 +12,7 @@ import logo from "@/shared/assets/main_logo.svg";
 import { TCustomError } from "@/shared/model/types";
 import CustomModal from "@/shared/ui/Modal";
 import SelectBox from "@/shared/ui/SelectBox";
-import {
-  Button,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  TextField,
-  TextareaAutosize,
-} from "@mui/material";
+import { Button, TextField, TextareaAutosize } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
 import { QRCodeCanvas } from "qrcode.react";
 import { useState } from "react";
@@ -52,7 +45,9 @@ const UmbrellaModal = ({
   const [isReadOnly, setIsReadOnly] = useState(!!umbrellaRes);
   const [isDirty, setIsDirty] = useState(false);
   const [umbrellaData, setUmbrellaData] = useState(convertUmbrellaData(umbrellaRes));
-  const QR_CODE_URL = `${window.location.origin}/rent/form/${umbrellaRes?.id}`;
+  const QR_CODE_URL = `${window.location.origin}${import.meta.env.BASE_URL}rent/form/${
+    umbrellaRes?.id
+  }`;
 
   // server
   const queryClient = useQueryClient();
@@ -93,9 +88,9 @@ const UmbrellaModal = ({
           data: {
             storeMetaId: umbrellaData.storeMetaId,
             uuid: umbrellaData.uuid,
-            rentable: umbrellaData.rentable,
+            rentable: umbrellaData.status === "AVAILABLE",
             etc: umbrellaData.etc,
-            missed: umbrellaData.missed,
+            status: umbrellaData.status ?? "AVAILABLE",
           },
         },
         {
@@ -130,7 +125,8 @@ const UmbrellaModal = ({
       {
         storeMetaId: umbrellaData.storeMetaId,
         uuid: umbrellaData.uuid,
-        rentable: umbrellaData.rentable,
+        rentable: umbrellaData.status === "AVAILABLE",
+        status: umbrellaData.status ?? "AVAILABLE",
         etc: umbrellaData.etc,
       },
       {
@@ -257,59 +253,23 @@ const UmbrellaModal = ({
           </div>
         </StoreFormWrapper>
 
-        <StoreFormWrapper label={t("admin.umbrella.form.rentable")} isRequired={!isReadOnly}>
-          <div>
-            {isReadOnly ? (
-              <>
-                {umbrellaData.rentable
-                  ? t("admin.umbrella.form.rentableYes")
-                  : t("admin.umbrella.form.rentableNo")}
-              </>
-            ) : (
-              <RadioGroup
-                value={umbrellaData.rentable}
-                name="rentable"
-                onChange={(e) => {
-                  const { name, value } = e.target;
-                  onChangeData(name, value);
-                }}
-              >
-                <div>
-                  <FormControlLabel
-                    value={true}
-                    control={<Radio />}
-                    label={t("admin.umbrella.form.rentableYes")}
-                  />
-                  <FormControlLabel
-                    value={false}
-                    control={<Radio />}
-                    label={t("admin.umbrella.form.rentableNo")}
-                  />
-                </div>
-              </RadioGroup>
-            )}
-          </div>
+        <StoreFormWrapper label={t("admin.umbrella.col.status")} isRequired={!isReadOnly}>
+          <SelectBox
+            label={t("admin.umbrella.col.status")}
+            value={umbrellaData.status ?? "AVAILABLE"}
+            name="status"
+            disabled={isReadOnly}
+            onChange={(name, value) => {
+              if (value !== null) onChangeData(name, value);
+            }}
+            menuItems={[
+              { value: "AVAILABLE", label: "대여 가능" },
+              { value: "RENTED", label: "대여 중" },
+              { value: "UNLOCATED", label: "위치 미확인" },
+              { value: "LOST", label: "분실" },
+            ]}
+          />
         </StoreFormWrapper>
-
-        {!isReadOnly && umbrellaRes && (
-          <StoreFormWrapper label={t("admin.umbrella.form.missing")}>
-            <div>
-              <RadioGroup
-                value={umbrellaData.missed}
-                name="missed"
-                onChange={(e) => {
-                  const { name, value } = e.target;
-                  onChangeData(name, value === "true" ? true : false);
-                }}
-              >
-                <div>
-                  <FormControlLabel value={true} control={<Radio />} label="O" />
-                  <FormControlLabel value={false} control={<Radio />} label="X" />
-                </div>
-              </RadioGroup>
-            </div>
-          </StoreFormWrapper>
-        )}
 
         <StoreFormWrapper label={t("admin.umbrella.form.etc")}>
           <div>

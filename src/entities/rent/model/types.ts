@@ -23,6 +23,7 @@ export type TRentHistoriesRes = {
 };
 
 export type TRentHistoriesParams = {
+  overdue?: boolean;
   refunded: TRefundedStatus; // 환급 여부 정렬, 없으면 모두
   page?: number;
   size?: number;

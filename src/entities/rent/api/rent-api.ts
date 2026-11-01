@@ -10,7 +10,7 @@ const API = {
 } as const;
 
 // 우산 대여 기록 전체 조회
-export const getRentHistories = async ({ refunded, page, size }: TRentHistoriesParams) => {
+export const getRentHistories = async ({ refunded, overdue, page, size }: TRentHistoriesParams) => {
   const _refunded = (() => {
     if (refunded === "all") {
       return undefined;
@@ -28,6 +28,7 @@ export const getRentHistories = async ({ refunded, page, size }: TRentHistoriesP
   const res = await $axios.get<TApiResponse<TRentHistoriesRes>>(API.RENT_HISTORY(), {
     params: {
       refunded: _refunded,
+      overdue,
       page,
       size,
     },
