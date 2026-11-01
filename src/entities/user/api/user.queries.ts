@@ -157,15 +157,12 @@ export const userStatusQuery = queryOptions({
 // 유저 정보 확인. 세션 만료(에러) 시 로그인 상태 해제
 export const useGetUserStatus = () => {
   const setIsLogin = useAuthStore((s) => s.setIsLogin);
-  const query = useQuery({ ...userStatusQuery, placeholderData: keepPreviousData });
+  const query = useQuery({ ...userStatusQuery, staleTime: 0 });
 
   useEffect(() => {
-    if (!query.isError) {
-      return;
-    }
-
-    setIsLogin(false);
-  }, [query.isError, setIsLogin]);
+    if (query.isSuccess) setIsLogin(true);
+    if (query.isError) setIsLogin(false);
+  }, [query.isError, query.isSuccess, setIsLogin]);
 
   return query;
 };
@@ -173,12 +170,15 @@ export const useGetUserStatus = () => {
 // 로그아웃
 export const useLogout = () => {
   const setRedirectUrl = useAuthStore((s) => s.setRedirectUrl);
+  const setIsLogin = useAuthStore((s) => s.setIsLogin);
   const navigate = useNavigate();
 
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async () => await $axios.post("/users/logout"),
     onSuccess: () => {
+      setIsLogin(false);
+      queryClient.clear();
       toast.success(i18n.t("toast.success.logoutComplete"));
       queryClient.invalidateQueries({ queryKey: [...USER_QUERY_KEYS.userStatus()] });
       navigate(BASIC_ROUTES_URL.root.path());
@@ -197,12 +197,8 @@ export const useGetRentHistories = () => {
     select: (res): TRentHistoriesRes[] =>
       res.data.histories.map((e) => ({
         ...e,
-        rentedAt: e.rentedAt
-          ? dayjs(e.rentedAt).add(9, "h").format("YYYY-MM-DD HH:mm:ss")
-          : e.rentedAt,
-        returnAt: e.returnAt
-          ? dayjs(e.returnAt).add(9, "h").format("YYYY-MM-DD HH:mm:ss")
-          : e.returnAt,
+        rentedAt: e.rentedAt ? dayjs(e.rentedAt).format("YYYY-MM-DD HH:mm:ss") : e.rentedAt,
+        returnAt: e.returnAt ? dayjs(e.returnAt).format("YYYY-MM-DD HH:mm:ss") : e.returnAt,
       })),
   });
 };

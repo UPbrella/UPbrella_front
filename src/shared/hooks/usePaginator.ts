@@ -24,5 +24,9 @@ export const usePaginator = ({
     });
   };
 
-  return { pageState, onPageChange };
+  return {
+    pageState,
+    onPageChange,
+    resetPage: () => setPageState((p) => ({ ...p, first: 0, page: 0 })),
+  };
 };

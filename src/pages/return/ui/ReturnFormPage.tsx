@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { patchReturn } from "@/features/rent-form/api/form-api";
 import BottomSheet from "@/shared/ui/BottomSheet";
 import BankContent from "@/features/rent-form/ui/BankContent";
@@ -30,6 +31,7 @@ import { useTranslation } from "react-i18next";
 
 const ReturnPage = () => {
   const { t } = useTranslation();
+  const queryClient = useQueryClient();
   // 반납전(false), 반납후(true)
   const [isReturn, setIsReturn] = useState(false);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
@@ -175,6 +177,7 @@ const ReturnPage = () => {
           return;
         },
         onSuccess: () => {
+          queryClient.invalidateQueries();
           setIsReturn(true);
           toast.success(t("toast.success.returnComplete"));
           return;

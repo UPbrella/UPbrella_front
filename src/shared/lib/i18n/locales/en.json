@@ -432,5 +432,9 @@
   "qrScan.returnConfirm": "Return your umbrella?",
   "qrScan.return": "Return",
   "admin.menu.banners": "Banners",
-  "admin.menu.campaign": "Stamp Tour"
+  "admin.menu.campaign": "Stamp Tour",
+  "admin.umbrella.col.unknownCount": "Unlocated",
+  "admin.umbrella.col.lostCount": "Lost",
+  "admin.umbrella.col.status": "Inventory status",
+  "admin.umbrella.unavailableStore": "Store unavailable"
 }

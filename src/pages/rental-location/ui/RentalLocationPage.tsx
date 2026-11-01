@@ -40,7 +40,7 @@ const RentalLocationPage = () => {
   const effectiveClassification = selectedClassification ?? classificationsRes?.[0];
 
   // 선택된 대분류의 협업지점 목록 조회
-  const { data: storeListRes, isFetching } = useGetClassificationsStore(
+  const { data: storeListRes, isPending: isStoresLoading } = useGetClassificationsStore(
     effectiveClassification?.id ?? 0
   );
 
@@ -101,7 +101,7 @@ const RentalLocationPage = () => {
           </div>
 
           <div className="flex relative flex-1 justify-center rounded-20 max-w-640 xl:max-w-full">
-            {(isFetching || isLoading) && (
+            {(isStoresLoading || isLoading) && (
               <div className="absolute w-full h-full z-[101] bg-gray-50 bg-opacity-40 flex justify-center items-center">
                 <CircularProgress
                   size={70}
@@ -122,9 +122,11 @@ const RentalLocationPage = () => {
                 />
               )}
             </div>
-            <div className="absolute top-0 right-7 z-10 pt-86">
-              <MapBtn map={map} setIsLoading={setIsLoading} />
-            </div>
+            {map && (
+              <div className="absolute top-0 right-7 z-10 pt-86">
+                <MapBtn map={map} setIsLoading={setIsLoading} />
+              </div>
+            )}
             {isBottomOpen && mapWidth && storeDetail && (
               <BottomSheet
                 isBottomSheetOpen={isBottomOpen}

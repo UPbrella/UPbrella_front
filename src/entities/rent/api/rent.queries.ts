@@ -20,7 +20,7 @@ export const useRentHistories = (params: TRentHistoriesParams) => {
       return {
         ...res.data,
         rentalHistoryResponsePage: res.data.rentalHistoryResponsePage.map((e) => {
-          const isReturned = !!e.rentAt;
+          const isReturned = !!e.returnAt;
           const returnData = {
             refundCompleted: isReturned ? e.refundCompleted : null,
             bank: isReturned ? e.bank : null,
