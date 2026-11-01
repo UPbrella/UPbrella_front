@@ -1,3 +1,4 @@
+import QuickNavigation from "@/pages/campaign/QuickNavigation";
 import { Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import { MainLayout } from "@/app/layouts";
@@ -76,6 +77,7 @@ function App() {
           </Routes>
         </Suspense>
       </div>
+      <QuickNavigation />
     </>
   );
 }

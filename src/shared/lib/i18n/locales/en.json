@@ -8,6 +8,8 @@
   "common.nav.userName": "{{name}}",
   "common.nav.mypage": "My Page",
   "common.nav.logout": "Logout",
+  "common.nav.scan": "Scan QR",
+  "common.nav.stamp": "Stamp Tour",
   "common.mobile.greeting": "Welcome to UPbrella!",
   "common.mobile.mypage": "My Page",
   "common.mobile.login": "Login",
@@ -430,5 +432,11 @@
   "qrScan.returnConfirm": "Return your umbrella?",
   "qrScan.return": "Return",
   "qrScan.photo": "Read QR from photo",
-  "qrScan.photoError": "Could not read a QR from this photo. Please choose another image."
+  "qrScan.photoError": "Could not read a QR from this photo. Please choose another image.",
+  "admin.menu.banners": "Banners",
+  "admin.menu.campaign": "Stamp Tour",
+  "admin.umbrella.col.unknownCount": "Unlocated",
+  "admin.umbrella.col.lostCount": "Lost",
+  "admin.umbrella.col.status": "Inventory status",
+  "admin.umbrella.unavailableStore": "Store unavailable"
 }

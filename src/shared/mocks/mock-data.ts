@@ -312,6 +312,8 @@ export const mockUmbrellaStatistics = wrap({
   totalUmbrellaCount: 50,
   rentableUmbrellaCount: 38,
   rentedUmbrellaCount: 10,
+  unlocatedUmbrellaCount: 0,
+  lostUmbrellaCount: 0,
   missingUmbrellaCount: 2,
   missingRate: 4.0,
 } satisfies TUmbrellaStatisticsRes);

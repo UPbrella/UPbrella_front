@@ -1,3 +1,5 @@
+import Banners from "@/pages/campaign/Banners";
+import { useLocation } from "react-router-dom";
 import { createContext, useEffect, useRef, useState } from "react";
 import { FixWidthWrapper } from "@/shared/ui/FixWidthWrapper";
 import { HeaderContainer } from "@/widgets/header/ui/HeaderContainer";
@@ -18,6 +20,7 @@ export const SectionBulletContext = createContext<{
 } | null>(null);
 
 const UpbrellaStoryPage = () => {
+  const { pathname } = useLocation();
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollRef = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -35,6 +38,7 @@ const UpbrellaStoryPage = () => {
     <div className="bg-white">
       {/* header */}
       <HeaderContainer />
+      {pathname === "/" && <Banners />}
 
       <SectionBulletContext.Provider value={{ activeIndex, setActiveIndex }}>
         <main className="break-keep">

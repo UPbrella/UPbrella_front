@@ -12,6 +12,8 @@ export const UMBRELLA_STATISTICS_TABLE: Record<
   keyof TUmbrellaStatisticsRes,
   { labelKey: TI18nKey; width?: string }
 > = {
+  unlocatedUmbrellaCount: { labelKey: "admin.umbrella.col.unknownCount" },
+  lostUmbrellaCount: { labelKey: "admin.umbrella.col.lostCount" },
   totalRentCount: { labelKey: "admin.umbrella.col.totalRent" },
   totalUmbrellaCount: { labelKey: "admin.umbrella.col.totalCount" },
   rentableUmbrellaCount: { labelKey: "admin.umbrella.col.rentableCount" },
@@ -21,6 +23,7 @@ export const UMBRELLA_STATISTICS_TABLE: Record<
 };
 
 export const UMBRELLA_TABLE: Record<keyof TUmbrellaRes, { labelKey: TI18nKey; width?: string }> = {
+  status: { labelKey: "admin.umbrella.col.status" },
   id: { labelKey: "admin.umbrella.col.id" },
   uuid: { labelKey: "admin.umbrella.col.uuid" },
   historyId: { labelKey: "admin.umbrella.col.historyId" },
@@ -36,7 +39,7 @@ export const convertUmbrellaData = (res?: TUmbrellaRes) => {
       storeMetaId: res.storeMetaId,
       uuid: res.uuid,
       rentable: res.rentable,
-      missed: false,
+      status: res.status ?? (res.rentable ? "AVAILABLE" : "RENTED"),
       etc: res.etc,
     } satisfies TUmbrellaPatchReq & { id: number };
   }
@@ -45,6 +48,7 @@ export const convertUmbrellaData = (res?: TUmbrellaRes) => {
     storeMetaId: null,
     uuid: null,
     rentable: true,
+    status: "AVAILABLE",
     etc: "",
   } satisfies TUmbrellaState;
 };

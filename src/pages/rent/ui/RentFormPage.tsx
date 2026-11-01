@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { postRent } from "@/features/rent-form/api/form-api";
 import FormBasic from "@/features/rent-form/ui/FormBasic";
 import FormButton from "@/features/rent-form/ui/FormButton";
@@ -27,6 +28,7 @@ import { useTranslation } from "react-i18next";
 
 const RentPage = () => {
   const { t } = useTranslation();
+  const queryClient = useQueryClient();
   // 대여 전(false), 대여 후(true)
   const [isRent, setIsRent] = useState(false);
   const { id } = useParams();
@@ -126,6 +128,7 @@ const RentPage = () => {
           return;
         },
         onSuccess: ({ data }) => {
+          queryClient.invalidateQueries();
           setIsOpenDepositModal(false);
           track("rent_complete", { umbrella_id: umbrellaId });
 
