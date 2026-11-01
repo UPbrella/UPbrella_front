@@ -178,9 +178,8 @@ export const useLogout = () => {
     mutationFn: async () => await $axios.post("/users/logout"),
     onSuccess: () => {
       setIsLogin(false);
-      queryClient.clear();
+      queryClient.resetQueries();
       toast.success(i18n.t("toast.success.logoutComplete"));
-      queryClient.invalidateQueries({ queryKey: [...USER_QUERY_KEYS.userStatus()] });
       navigate(BASIC_ROUTES_URL.root.path());
       setRedirectUrl("/");
     },

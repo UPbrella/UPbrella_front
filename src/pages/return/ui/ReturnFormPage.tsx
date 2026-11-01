@@ -1,4 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
+import { invalidateStock } from "@/features/rent-form/lib/stock-queries";
 import { patchReturn } from "@/features/rent-form/api/form-api";
 import BottomSheet from "@/shared/ui/BottomSheet";
 import BankContent from "@/features/rent-form/ui/BankContent";
@@ -177,7 +178,7 @@ const ReturnPage = () => {
           return;
         },
         onSuccess: () => {
-          queryClient.invalidateQueries();
+          invalidateStock(queryClient);
           setIsReturn(true);
           toast.success(t("toast.success.returnComplete"));
           return;
