@@ -25,7 +25,7 @@ const StorySection1 = () => {
 };
 
 const CssSectionBg = styled.section`
-  background-image: url("/assets/main_section1_bg.png");
+  background-image: url("${import.meta.env.BASE_URL}assets/main_section1_bg.png");
   background-repeat: no-repeat;
   background-size: cover;
 `;

@@ -655,3 +655,5 @@ qrScan.guide.android,Chrome 설정 > 사이트 설정 > 카메라에서 upbrella
 qrScan.guide.desktop,주소창의 사이트 정보(자물쇠) 아이콘에서 카메라를 허용해 주세요.,Allow Camera from the site info (lock) icon in the address bar.,,
 qrScan.returnConfirm,우산을 반납할까요?,Return your umbrella?,,
 qrScan.return,반납하기,Return,,
+qrScan.photo,사진에서 QR 읽기,Read QR from photo,,
+qrScan.photoError,사진에서 QR을 읽지 못했습니다. 다른 사진을 선택해 주세요.,Could not read a QR from this photo. Please choose another image.,,

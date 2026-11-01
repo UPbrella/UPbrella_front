@@ -654,5 +654,7 @@
   "qrScan.guide.android": "Chrome 설정 > 사이트 설정 > 카메라에서 upbrella.co.kr을 허용해 주세요.",
   "qrScan.guide.desktop": "주소창의 사이트 정보(자물쇠) 아이콘에서 카메라를 허용해 주세요.",
   "qrScan.returnConfirm": "우산을 반납할까요?",
-  "qrScan.return": "반납하기"
+  "qrScan.return": "반납하기",
+  "qrScan.photo": "사진에서 QR 읽기",
+  "qrScan.photoError": "사진에서 QR을 읽지 못했습니다. 다른 사진을 선택해 주세요."
 }

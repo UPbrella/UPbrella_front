@@ -82,6 +82,7 @@ export const ADMIN_ROUTES: TRoute[] = Object.values(ADMIN_ROUTES_URL);
 
 // Layout routes (with header/footer)
 export const LAYOUT_ROUTES_URL = {
+  scan: { name: "routes.layout.qrScan", path: () => "/scan", component: QrScanPage },
   qrScan: {
     name: "routes.layout.qrScan",
     path: () => "/qr-scan",

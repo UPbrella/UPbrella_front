@@ -431,6 +431,8 @@
   "qrScan.guide.desktop": "Allow Camera from the site info (lock) icon in the address bar.",
   "qrScan.returnConfirm": "Return your umbrella?",
   "qrScan.return": "Return",
+  "qrScan.photo": "Read QR from photo",
+  "qrScan.photoError": "Could not read a QR from this photo. Please choose another image.",
   "admin.menu.banners": "Banners",
   "admin.menu.campaign": "Stamp Tour",
   "admin.umbrella.col.unknownCount": "Unlocated",

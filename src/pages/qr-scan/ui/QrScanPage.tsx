@@ -53,6 +53,9 @@ const QrScanPage = () => {
   const navigate = useNavigate();
   const videoRef = useRef<HTMLVideoElement>(null);
   const scannerRef = useRef<QrScanner | null>(null);
+  const photoState = useRef({ mounted: true, url: "" });
+  const [photoBusy, setPhotoBusy] = useState(false);
+  const [photoError, setPhotoError] = useState(false);
 
   const [scanned, setScanned] = useState<TScanned | null>(null);
   const [isInvalid, setIsInvalid] = useState(false);
@@ -95,7 +98,7 @@ const QrScanPage = () => {
     scannerRef.current = new QrScanner(
       videoRef.current,
       ({ data }) => {
-        const result = parseQr(data, window.location.hostname);
+        const result = parseQr(data, window.location.hostname, import.meta.env.BASE_URL);
 
         if (!result) {
           setIsInvalid(true);
@@ -119,6 +122,7 @@ const QrScanPage = () => {
 
     // 카메라가 켜지기 전에 떠나면 qr-scanner가 start()를 성공으로 끝내서, 화면을 떠난 뒤엔 집계하지 않음
     let isMounted = true;
+    photoState.current.mounted = true;
 
     track("view_qr_scan");
     start().then((isReady) => {
@@ -129,10 +133,40 @@ const QrScanPage = () => {
 
     return () => {
       isMounted = false;
+      photoState.current.mounted = false;
+      if (photoState.current.url) URL.revokeObjectURL(photoState.current.url);
       scannerRef.current?.destroy();
       scannerRef.current = null;
     };
   }, [start]);
+
+  const scanPhoto = async (file?: File) => {
+    if (!file) return;
+    setScanned(null);
+    setPhotoBusy(true);
+    setPhotoError(false);
+    setIsInvalid(false);
+    try {
+      const { data } = await QrScanner.scanImage(file, { returnDetailedScanResult: true });
+      if (!photoState.current.mounted) return;
+      const result = parseQr(data, window.location.hostname, import.meta.env.BASE_URL);
+      if (!result) {
+        setIsInvalid(true);
+        return;
+      }
+      scannerRef.current?.stop();
+      if (photoState.current.url) URL.revokeObjectURL(photoState.current.url);
+      photoState.current.url = URL.createObjectURL(file);
+      setFrozenFrame(photoState.current.url);
+      setHasError(false);
+      setScanned(result);
+      track("qr_scan_success", { kind: result.kind, source: "photo" });
+    } catch {
+      if (photoState.current.mounted) setPhotoError(true);
+    } finally {
+      if (photoState.current.mounted) setPhotoBusy(false);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-[16px] mx-auto py-24 w-full max-w-[480px]">
@@ -163,6 +197,20 @@ const QrScanPage = () => {
           </div>
         )}
       </div>
+
+      <label className="flex flex-col gap-8 text-14">
+        {t("qrScan.photo")}
+        <input
+          type="file"
+          accept="image/*"
+          disabled={photoBusy}
+          onChange={(event) => {
+            scanPhoto(event.target.files?.[0]);
+            event.target.value = "";
+          }}
+        />
+      </label>
+      {photoError && <p role="alert">{t("qrScan.photoError")}</p>}
 
       {isInvalid && !scanned && (
         <p className="text-center text-primary-600 text-14">{t("qrScan.invalid")}</p>

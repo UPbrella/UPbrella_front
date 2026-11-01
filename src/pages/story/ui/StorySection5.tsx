@@ -20,7 +20,7 @@ const StorySection5 = () => {
 };
 
 const CssSectionBg = styled.section`
-  background-image: url("/assets/section5_bg.webp");
+  background-image: url("${import.meta.env.BASE_URL}assets/section5_bg.webp");
   background-repeat: no-repeat;
   background-size: cover;
 `;

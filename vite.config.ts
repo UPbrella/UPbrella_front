@@ -1,18 +1,68 @@
+import { loadEnv, type HtmlTagDescriptor } from "vite";
 import react from "@vitejs/plugin-react";
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 import { VitePWA } from "vite-plugin-pwa";
 
 // index.html의 %VITE_*% 치환은 Vite 기본 기능이라 별도 플러그인이 필요 없다.
-export default () => {
+export default ({ mode }: { mode: string }) => {
+  const env = loadEnv(mode, process.cwd());
+  const base = env.VITE_BASE_PATH || "/";
   // CI/Vercel 빌드에서만 소스맵 업로드 (로컬 개발은 토큰 없음 → 플러그인 비활성)
   const hasSentryAuthToken = Boolean(process.env.SENTRY_AUTH_TOKEN);
 
   return {
+    base,
     resolve: {
       // tsconfig paths(@/*)를 Vite 8 내장 기능으로 처리 (vite-tsconfig-paths 불필요, TS 7 peer 충돌 회피)
       tsconfigPaths: true,
     },
     plugins: [
+      {
+        name: "upbrella-optional-integrations",
+        transformIndexHtml: {
+          order: "pre" as const,
+          handler() {
+            const tags: HtmlTagDescriptor[] = [];
+            const measurementId = env.VITE_GA_MEASUREMENT_ID ?? "G-EERPMHC989";
+            if (/^G-[A-Z0-9]+$/.test(measurementId)) {
+              tags.push(
+                {
+                  tag: "script",
+                  injectTo: "head",
+                  children: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config",${JSON.stringify(measurementId)});`,
+                },
+                {
+                  tag: "script",
+                  injectTo: "head",
+                  attrs: {
+                    async: true,
+                    src: `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`,
+                  },
+                }
+              );
+            }
+            if (env.VITE_NAVER_MAP_API_KEY)
+              tags.push({
+                tag: "script",
+                injectTo: "head",
+                attrs: {
+                  type: "text/javascript",
+                  src: `https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${encodeURIComponent(env.VITE_NAVER_MAP_API_KEY)}`,
+                },
+              });
+            if (env.VITE_KAKAO_MAP_API_KEY)
+              tags.push({
+                tag: "script",
+                injectTo: "head",
+                attrs: {
+                  type: "text/javascript",
+                  src: `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${encodeURIComponent(env.VITE_KAKAO_MAP_API_KEY)}&libraries=services`,
+                },
+              });
+            return tags;
+          },
+        },
+      },
       react(),
       VitePWA({
         registerType: "autoUpdate",
@@ -26,17 +76,7 @@ export default () => {
           runtimeCaching: [
             {
               urlPattern: /^https:\/\/api\.upbrella\.co\.kr\/.*/i,
-              handler: "NetworkFirst",
-              options: {
-                cacheName: "api-cache",
-                expiration: {
-                  maxEntries: 100,
-                  maxAgeSeconds: 60 * 60, // 1 hour
-                },
-                cacheableResponse: {
-                  statuses: [0, 200],
-                },
-              },
+              handler: "NetworkOnly",
             },
             {
               urlPattern: /^https:\/\/[^/]+\.map\.naver\.com\/.*/i,
@@ -72,9 +112,9 @@ export default () => {
               },
             },
           ],
-          navigateFallback: "/index.html",
+          navigateFallback: `${base}index.html`,
           // 확장자 있는 경로(og-image.png, robots.txt 등)는 SPA로 돌리지 않고 실제 파일을 받게 한다
-          navigateFallbackDenylist: [/^\/api/, /\/[^/]+\.[^/]+$/],
+          navigateFallbackDenylist: [/^\/api/, /^\/upbrella-dev\/api(?:\/|$)/, /\/[^/]+\.[^/]+$/],
         },
         devOptions: {
           enabled: false, // Enable in dev if you want to test SW

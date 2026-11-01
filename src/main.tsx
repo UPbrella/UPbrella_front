@@ -96,7 +96,7 @@ setPlatformProperty();
 trackVisitOnce();
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement, sentryRootOptions).render(
-  <BrowserRouter>
+  <BrowserRouter basename={import.meta.env.BASE_URL}>
     <Suspense>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={theme}>

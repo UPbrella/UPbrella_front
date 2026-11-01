@@ -9,3 +9,9 @@ declare module "swiper/css/navigation";
 interface Window {
   gtag?: (...args: unknown[]) => void;
 }
+
+interface ImportMetaEnv {
+  readonly VITE_BASE_PATH?: string;
+  readonly VITE_DEV_LOGIN?: string;
+  readonly VITE_GA_MEASUREMENT_ID?: string;
+}

@@ -11,9 +11,14 @@ export type TScanned =
   | { kind: "return"; path: string };
 
 // currentHost: 로컬·터널에서 어드민이 만든 QR도 받기 위해 현재 페이지 호스트 허용
-export const parseQr = (data: string, currentHost: string): TScanned | null => {
+export const parseQr = (data: string, currentHost: string, base = "/"): TScanned | null => {
   try {
-    const { hostname, pathname, search, searchParams } = new URL(data);
+    const { hostname, pathname: originalPath, search, searchParams } = new URL(data);
+    const prefix = base.replace(/\/$/, "");
+    const pathname =
+      prefix && originalPath.startsWith(`${prefix}/`)
+        ? originalPath.slice(prefix.length)
+        : originalPath;
     const isOurHost =
       hostname === QR_HOST || hostname.endsWith(`.${QR_HOST}`) || hostname === currentHost;
 
