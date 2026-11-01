@@ -23,6 +23,7 @@ export default function Banners() {
     queryFn: async () => (await $axios.get<TApiResponse<Banner[]>>("/banners")).data.data,
     staleTime: 0,
     refetchInterval: 60000,
+    retry: false,
   });
   if (!data?.length) return null;
   return (

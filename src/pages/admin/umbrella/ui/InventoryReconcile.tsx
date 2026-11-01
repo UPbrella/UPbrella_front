@@ -26,7 +26,10 @@ export default function InventoryReconcile() {
       .split(/[\s,]+/)
       .filter(Boolean)
       .map(Number);
-    if (verifiedUmbrellaIds.some((n) => !Number.isSafeInteger(n) || n <= 0)) {
+    if (
+      verifiedUmbrellaIds.length === 0 ||
+      verifiedUmbrellaIds.some((n) => !Number.isSafeInteger(n) || n <= 0)
+    ) {
       toast.error("우산 고유번호를 입력해 주세요.");
       return;
     }

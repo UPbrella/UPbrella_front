@@ -1,4 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
+import { invalidateStock } from "@/features/rent-form/lib/stock-queries";
 import { postRent } from "@/features/rent-form/api/form-api";
 import FormBasic from "@/features/rent-form/ui/FormBasic";
 import FormButton from "@/features/rent-form/ui/FormButton";
@@ -128,7 +129,7 @@ const RentPage = () => {
           return;
         },
         onSuccess: ({ data }) => {
-          queryClient.invalidateQueries();
+          invalidateStock(queryClient);
           setIsOpenDepositModal(false);
           track("rent_complete", { umbrella_id: umbrellaId });
 
